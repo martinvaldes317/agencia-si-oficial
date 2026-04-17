@@ -1,5 +1,32 @@
+# OS
 .DS_Store
+**/.DS_Store
+Thumbs.db
+
+# Dependencies
 node_modules/
+**/node_modules/
+
+# Environment
 .env
-.claude/
+**/.env
+.env.local
+.env.*.local
+
+# Builds
+dist/
+build/
+.next/
+
+# Logs
 *.log
+logs/
+
+# Claude
+.claude/
+
+# Uploads (archivos de clientes, no versionar)
+web-express-app/server/uploads/files/
+
+# Prisma local dev
+web-express-app/server/.prisma/
