@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model ContactLead {
+  id        Int      @id @default(autoincrement())
+  name      String
+  company   String?
+  budget    String?
+  status    String   @default("nuevo")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Client {
+  id        Int          @id @default(autoincrement())
+  email     String       @unique
+  password  String
+  name      String
+  company   String?
+  phone     String?
+  plan      String?
+  active    Boolean      @default(true)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  metrics   Metric[]
+  payments  Payment[]
+  meetings  Meeting[]
+  files     ClientFile[]
+  tickets   Ticket[]
+  tasks     Task[]
+}
+
+model Metric {
+  id          Int      @id @default(autoincrement())
+  clientId    Int
+  client      Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  date        DateTime
+  platform    String
+  impressions Int      @default(0)
+  clicks      Int      @default(0)
+  spend       Float    @default(0)
+  conversions Int      @default(0)
+  revenue     Float    @default(0)
+  ctr         Float    @default(0)
+  cpc         Float    @default(0)
+  roas        Float    @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Payment {
+  id          Int       @id @default(autoincrement())
+  clientId    Int
+  client      Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  amount      Float
+  currency    String    @default("CLP")
+  status      String    @default("pendiente")
+  description String?
+  invoiceUrl  String?
+  dueDate     DateTime?
+  paidAt      DateTime?
+  createdAt   DateTime  @default(now())
+}
+
+model Meeting {
+  id          Int      @id @default(autoincrement())
+  clientId    Int
+  client      Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  date        DateTime
+  duration    Int      @default(60)
+  meetLink    String?
+  status      String   @default("programada")
+  createdAt   DateTime @default(now())
+}
+
+model ClientFile {
+  id           Int      @id @default(autoincrement())
+  clientId     Int
+  client       Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  filename     String
+  originalName String
+  category     String   @default("general")
+  size         Int
+  mimeType     String
+  createdAt    DateTime @default(now())
+}
+
+model Ticket {
+  id        Int             @id @default(autoincrement())
+  clientId  Int
+  client    Client          @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  subject   String
+  status    String          @default("abierto")
+  priority  String          @default("normal")
+  messages  TicketMessage[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model Task {
+  id          Int       @id @default(autoincrement())
+  clientId    Int
+  client      Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  title       String
+  detail      String?
+  priority    String    @default("normal")
+  dueDate     DateTime?
+  done        Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model TicketMessage {
+  id        Int      @id @default(autoincrement())
+  ticketId  Int
+  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  content   String
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

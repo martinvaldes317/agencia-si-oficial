@@ -1,0 +1,19 @@
+{
+  "businessName": "Test Company",
+  "city": "Santiago",
+  "address": "Calle Falsa 123",
+  "phone": "123456789",
+  "whatsapp": "123456789",
+  "email": "test@example.com",
+  "socials": "",
+  "hasDomain": "",
+  "brandColorPrimary": "#000000",
+  "brandColorsText": "",
+  "products": "Venta de productos de alta calidad para todos los clientes interesados en mejorar su vida diaria con soluciones innovadoras y eficaces.",
+  "about": "",
+  "mission": "",
+  "vision": "",
+  "visualStyle": "creativo",
+  "logoName": "",
+  "photosPreviews": []
+}

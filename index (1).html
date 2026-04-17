@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+
+  <title>Agencia SI | Ads + IA para conseguir más clientes</title>
+  <meta name="description"
+    content="Agencia SI: asesoría 1:1 en Meta Ads y Google Ads con integración de IA. Control total de métricas, foco en rentabilidad y resultados medibles en Chile." />
+  <meta name="robots" content="index,follow" />
+  <link rel="icon" href="favicon.ico" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Agencia SI | Ads + IA para conseguir más clientes" />
+  <meta property="og:description"
+    content="Asesoría 1:1 en Ads + IA. Transparencia, control total de métricas y foco en rentabilidad." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_CL" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .glass {
+      background: rgba(0, 0, 0, .92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    ::selection {
+      background: #fff;
+      color: #000;
+    }
+
+    /* Equipo: micro toque consultora */
+    .leader-card:hover .leader-ghost {
+      opacity: .22;
+      transform: translateY(-2px);
+    }
+  </style>
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Agencia SI",
+    "url":"",
+    "email":"contacto@agenciasi.cl",
+    "telephone":"+56932930812",
+    "areaServed":"CL"
+  }
+  </script>
+</head>
+
+<body class="bg-black text-white antialiased overflow-x-hidden">
+  <!-- NAV -->
+  <header id="top" class="fixed inset-x-0 top-0 z-50 transition-all duration-300">
+    <nav id="navbar" class="w-full py-6 bg-transparent">
+      <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between">
+        <a href="#home" class="flex items-center gap-2 group">
+          <div
+            class="w-7 h-7 md:w-8 md:h-8 bg-white flex items-center justify-center rounded-sm transition-transform group-hover:scale-110">
+            <span class="text-black font-bold text-lg md:text-xl italic">SI</span>
+          </div>
+          <span
+            class="text-white font-bold tracking-tighter text-lg md:text-xl underline decoration-white/20 underline-offset-4 uppercase">
+            Agencia SI
+          </span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-8">
+          <a class="navlink text-[10px] uppercase tracking-[0.2em] text-gray-400 hover:text-white pb-1"
+            href="#home">Inicio</a>
+          <a class="navlink text-[10px] uppercase tracking-[0.2em] text-gray-400 hover:text-white pb-1"
+            href="#ads-ia">Ads + IA <span class="ml-1 text-[8px] align-top text-white">★</span></a>
+          <a class="navlink text-[10px] uppercase tracking-[0.2em] text-gray-400 hover:text-white pb-1"
+            href="#services">Servicios</a>
+          <a class="navlink text-[10px] uppercase tracking-[0.2em] text-gray-400 hover:text-white pb-1"
+            href="#cases">Casos</a>
+          <a class="navlink text-[10px] uppercase tracking-[0.2em] text-gray-400 hover:text-white pb-1"
+            href="#about">Equipo</a>
+          <a class="navlink text-[10px] uppercase tracking-[0.2em] text-gray-400 hover:text-white pb-1 text-blue-400"
+            href="web-express.html">Pack Express</a>
+          <a class="navlink text-[10px] uppercase tracking-[0.2em] text-gray-400 hover:text-white pb-1"
+            href="#contact">Contacto</a>
+
+          <a href="#contact"
+            class="bg-white text-black px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-gray-200 transition-all active:scale-95">
+            Agendar Asesoría
+          </a>
+        </div>
+
+        <button id="menuBtn" class="md:hidden text-white p-2" aria-label="Abrir menú">
+          <i data-lucide="menu" class="w-7 h-7"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="mobileWrap"
+        class="fixed inset-0 top-[68px] bg-black z-40 md:hidden opacity-0 translate-x-full pointer-events-none transition-all duration-300">
+        <div class="flex flex-col h-full px-8 py-12 gap-8 overflow-y-auto bg-gradient-to-b from-black to-zinc-900">
+          <a class="mobilelink text-2xl uppercase tracking-[0.15em] text-left border-b border-white/5 pb-5 text-white/80 hover:text-white"
+            href="#home">Inicio</a>
+          <a class="mobilelink text-2xl uppercase tracking-[0.15em] text-left border-b border-white/5 pb-5 text-white/80 hover:text-white"
+            href="#ads-ia">Ads + IA</a>
+          <a class="mobilelink text-2xl uppercase tracking-[0.15em] text-left border-b border-white/5 pb-5 text-white/80 hover:text-white"
+            href="#services">Servicios</a>
+          <a class="mobilelink text-2xl uppercase tracking-[0.15em] text-left border-b border-white/5 pb-5 text-white/80 hover:text-white"
+            href="#cases">Casos</a>
+          <a class="mobilelink text-2xl uppercase tracking-[0.15em] text-left border-b border-white/5 pb-5 text-white/80 hover:text-white"
+            href="#about">Equipo</a>
+          <a class="mobilelink text-2xl uppercase tracking-[0.15em] text-left border-b border-white/5 pb-5 text-blue-400 hover:text-blue-300 font-bold"
+            href="web-express.html">Pack Express</a>
+          <a class="mobilelink text-2xl uppercase tracking-[0.15em] text-left border-b border-white/5 pb-5 text-white/80 hover:text-white"
+            href="#contact">Contacto</a>
+
+          <a href="#contact"
+            class="w-full bg-white text-black py-5 text-sm font-bold uppercase tracking-[0.2em] mt-4 text-center">
+            Agendar Diagnóstico
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <main id="home" class="bg-black text-white">
+    <section class="relative min-h-screen flex items-center px-4 md:px-6 overflow-hidden">
+      <div class="absolute inset-0 opacity-20 pointer-events-none">
+        <div
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] md:w-[820px] h-[320px] md:h-[820px] bg-gradient-to-r from-zinc-500 to-transparent rounded-full blur-[90px] md:blur-[130px]">
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto w-full relative z-10 pt-24">
+        <div class="max-w-4xl">
+          <p class="text-[10px] md:text-xs uppercase tracking-[0.35em] font-bold text-white/50 mb-6">
+            Consultoría estratégica de crecimiento
+          </p>
+
+          <h1 class="text-5xl sm:text-6xl md:text-8xl font-light tracking-tighter leading-[1] mb-8">
+            Consigue más clientes con <br />
+            <span class="italic font-normal text-zinc-400">publicidad inteligente.</span>
+          </h1>
+
+          <p class="text-lg md:text-2xl text-zinc-400 font-light max-w-2xl mb-12 leading-relaxed">
+            En <span class="text-white font-medium">Agencia SI</span> implementamos contigo Meta Ads y Google Ads,
+            integramos IA y te enseñamos a controlar cada peso invertido.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 md:gap-6">
+            <a href="#contact"
+              class="bg-white text-black px-10 py-5 font-bold uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform flex items-center justify-center gap-3">
+              Agendar asesoría estratégica
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+            <a href="#ads-ia"
+              class="border border-white/20 hover:border-white px-10 py-5 font-bold uppercase tracking-widest text-xs md:text-sm transition-all text-center">
+              Ver cómo funciona
+            </a>
+          </div>
+
+          <div class="mt-10 flex flex-wrap gap-3 text-[10px] uppercase tracking-[0.25em] text-white/40">
+            <span class="border border-white/10 px-4 py-2">Cuentas propias</span>
+            <span class="border border-white/10 px-4 py-2">Métricas claras</span>
+            <span class="border border-white/10 px-4 py-2">Acompañamiento 1:1</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REALIDAD -->
+    <section class="py-24 md:py-32 px-4 md:px-6 bg-white text-black">
+      <div class="max-w-7xl mx-auto">
+        <div class="mb-10 md:mb-16">
+          <p class="text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold mb-4 text-zinc-500">La realidad del
+            mercado</p>
+          <h2 class="text-3xl md:text-5xl font-light tracking-tight max-w-3xl leading-[1.15]">
+            Muchas empresas queman capital en publicidad sin entender sus métricas ni obtener resultados predecibles.
+          </h2>
+        </div>
+
+        <div class="bg-zinc-50 p-8 md:p-12 border-l-4 border-black">
+          <h3 class="text-xl md:text-2xl font-bold mb-6 italic underline decoration-zinc-200">El fin de la gestión
+            ciega.</h3>
+
+          <p class="text-base md:text-lg text-zinc-600 leading-relaxed mb-8">
+            No gestionamos campañas “por ti” para entregarte reportes que nadie lee.
+            Trabajamos <strong>contigo</strong> para convertir la publicidad en un sistema de adquisición que tú
+            controlas.
+          </p>
+
+          <div class="grid sm:grid-cols-2 gap-8">
+            <div class="flex gap-4">
+              <div class="mt-1 shrink-0 text-black"><i data-lucide="target" class="w-6 h-6"></i></div>
+              <div>
+                <h4 class="font-bold uppercase tracking-tighter mb-1 text-sm">Adquisición real</h4>
+                <p class="text-xs text-zinc-500 font-medium">Enfoque en rentabilidad neta.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="mt-1 shrink-0 text-black"><i data-lucide="lock" class="w-6 h-6"></i></div>
+              <div>
+                <h4 class="font-bold uppercase tracking-tighter mb-1 text-sm">Control total</h4>
+                <p class="text-xs text-zinc-500 font-medium">Transparencia absoluta en cuentas propias.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-10 flex flex-wrap gap-3">
+            <span class="text-[9px] uppercase tracking-[0.2em] font-bold bg-black text-white px-4 py-1.5">Metodología
+              SI</span>
+            <span
+              class="text-[9px] uppercase tracking-[0.2em] font-bold bg-white text-black px-4 py-1.5 border border-black/10">Ads
+              + IA</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADS IA -->
+    <section id="ads-ia" class="bg-white text-black pt-24 md:pt-32 pb-16 md:pb-24 px-4 md:px-6">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-12 md:gap-20 mb-20 md:mb-32 items-center">
+          <div class="order-2 lg:order-1">
+            <h2 class="text-4xl md:text-7xl font-light tracking-tighter leading-tight mb-8">
+              Ads + IA: <br /><span class="italic">Publicidad sin incertidumbre.</span>
+            </h2>
+            <p class="text-lg md:text-2xl text-zinc-600 font-light mb-12 leading-relaxed">
+              Acompañamiento experto para resolver los dolores reales: conversiones, control, atribución y decisiones
+              con datos.
+            </p>
+
+            <div class="space-y-4">
+              <div
+                class="flex items-center gap-4 py-4 border-b border-zinc-100 italic font-medium text-sm md:text-base">
+                <i data-lucide="x" class="w-5 h-5 text-red-600"></i>
+                <span>Campañas que no convierten</span>
+              </div>
+              <div
+                class="flex items-center gap-4 py-4 border-b border-zinc-100 italic font-medium text-sm md:text-base">
+                <i data-lucide="x" class="w-5 h-5 text-red-600"></i>
+                <span>Agencias poco transparentes</span>
+              </div>
+              <div
+                class="flex items-center gap-4 py-4 border-b border-zinc-100 italic font-medium text-sm md:text-base">
+                <i data-lucide="x" class="w-5 h-5 text-red-600"></i>
+                <span>Leads de baja calidad</span>
+              </div>
+              <div
+                class="flex items-center gap-4 py-4 border-b border-zinc-100 italic font-medium text-sm md:text-base">
+                <i data-lucide="x" class="w-5 h-5 text-red-600"></i>
+                <span>Falta total de control de métricas</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-1 lg:order-2">
+            <div
+              class="aspect-square sm:aspect-[4/5] bg-zinc-100 relative border border-zinc-200 p-8 flex flex-col justify-end overflow-hidden group">
+              <div
+                class="absolute top-6 right-6 text-black/10 font-bold text-xl uppercase tracking-widest group-hover:text-black/20 transition-colors italic">
+                AGENCIA SI
+              </div>
+
+              <div class="relative z-10">
+                <h3
+                  class="text-6xl md:text-8xl font-black text-black/5 absolute -top-12 -left-4 pointer-events-none uppercase italic">
+                  Impacto</h3>
+                <div
+                  class="bg-white p-6 md:p-8 shadow-2xl border border-zinc-50 transform group-hover:-translate-y-2 transition-transform duration-500">
+                  <p class="text-[10px] uppercase tracking-widest text-zinc-400 mb-2 font-bold">La promesa SI</p>
+                  <h4 class="text-base md:text-xl font-bold leading-snug">
+                    Te acompañamos a generar clientes y decidir con datos reales. Sin humo.
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-20 md:mb-32 grid lg:grid-cols-2 gap-16 md:gap-20">
+          <div>
+            <p class="text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold mb-4 text-zinc-500">Filtro de entrada
+            </p>
+            <h3 class="text-3xl md:text-5xl font-light tracking-tight leading-[1.15] mb-6">Perfil de cliente ideal</h3>
+
+            <p class="text-zinc-600 mb-8 text-base">
+              Metodología intensiva y selectiva. Trabajamos con empresas que buscan control, claridad y retorno.
+            </p>
+
+            <ul class="grid grid-cols-1 gap-4 mb-10">
+              <li class="flex items-start gap-3"><span
+                  class="w-1.5 h-1.5 bg-black rounded-full mt-2.5 shrink-0"></span><span
+                  class="text-lg font-light tracking-tight italic leading-snug">Empresas B2B con ticket alto</span></li>
+              <li class="flex items-start gap-3"><span
+                  class="w-1.5 h-1.5 bg-black rounded-full mt-2.5 shrink-0"></span><span
+                  class="text-lg font-light tracking-tight italic leading-snug">Inmobiliario e inversión</span></li>
+              <li class="flex items-start gap-3"><span
+                  class="w-1.5 h-1.5 bg-black rounded-full mt-2.5 shrink-0"></span><span
+                  class="text-lg font-light tracking-tight italic leading-snug">Salud privada y clínicas
+                  especializadas</span></li>
+              <li class="flex items-start gap-3"><span
+                  class="w-1.5 h-1.5 bg-black rounded-full mt-2.5 shrink-0"></span><span
+                  class="text-lg font-light tracking-tight italic leading-snug">Servicios profesionales y
+                  consultoría</span></li>
+              <li class="flex items-start gap-3"><span
+                  class="w-1.5 h-1.5 bg-black rounded-full mt-2.5 shrink-0"></span><span
+                  class="text-lg font-light tracking-tight italic leading-snug">Inversión activa recomendada: desde
+                  $500.000 CLP/mes</span></li>
+            </ul>
+
+            <div class="flex items-center gap-3 py-4 px-5 bg-zinc-50 border-l-2 border-black inline-flex">
+              <i data-lucide="map-pin" class="w-5 h-5"></i>
+              <span class="text-xs font-bold uppercase tracking-[0.1em]">Cobertura nacional: todo Chile</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-center">
+            <div class="bg-zinc-50 p-8 md:p-14 text-center w-full border border-zinc-200 relative overflow-hidden">
+              <p class="text-[10px] uppercase tracking-widest text-zinc-400 mb-4 font-bold">Asesoría estratégica</p>
+              <h3 class="text-2xl md:text-4xl font-light mb-6 italic leading-snug">"Acompañamiento 1:1 enfocado en
+                resultados."</h3>
+              <p class="text-sm text-zinc-500 mb-10 font-light italic">Si buscas el mayor retorno, hablemos.</p>
+              <a href="#contact"
+                class="w-full sm:w-auto bg-black text-white px-10 py-5 font-bold uppercase tracking-widest text-xs md:text-sm hover:bg-zinc-800 transition-all inline-flex items-center justify-center gap-3 mx-auto shadow-xl">
+                Solicitar diagnóstico <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="bg-zinc-50 text-black pt-24 md:pt-32 pb-20 md:pb-32 px-4 md:px-6">
+      <div class="max-w-7xl mx-auto">
+        <p class="text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold mb-4 text-zinc-500">Ecosistema digital</p>
+        <h3 class="text-3xl md:text-5xl font-light tracking-tight max-w-3xl leading-[1.15] mb-12">
+          Sistemas de alto rendimiento para empresas que no aceptan lo genérico.
+        </h3>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-white p-8 border border-zinc-100 hover:shadow-2xl transition-all flex flex-col h-full group">
+            <div class="mb-8 text-black transition-transform group-hover:rotate-6 shrink-0"><i data-lucide="code-2"
+                class="w-8 h-8"></i></div>
+            <h4 class="text-lg font-bold mb-4 uppercase tracking-widest leading-tight">Web High-End</h4>
+            <p class="text-zinc-500 mb-8 font-light text-sm flex-grow leading-relaxed">Desarrollo profesional, rápido,
+              estable y orientado a conversión.</p>
+            <div class="pt-6 border-t border-zinc-50">
+              <p class="text-[9px] uppercase tracking-widest font-bold text-zinc-400 mb-2 italic font-mono">Desde
+                $249.990 CLP</p>
+              <a href="#contact"
+                class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-zinc-400 transition-colors">Solicitar
+                info</a>
+            </div>
+          </div>
+
+          <div class="bg-white p-8 border border-zinc-100 hover:shadow-2xl transition-all flex flex-col h-full group">
+            <div class="mb-8 text-black transition-transform group-hover:rotate-6 shrink-0"><i data-lucide="globe"
+                class="w-8 h-8"></i></div>
+            <h4 class="text-lg font-bold mb-4 uppercase tracking-widest leading-tight">WordPress Pro</h4>
+            <p class="text-zinc-500 mb-8 font-light text-sm flex-grow leading-relaxed">SEO + performance + control total
+              de contenidos.</p>
+            <div class="pt-6 border-t border-zinc-50">
+              <p class="text-[9px] uppercase tracking-widest font-bold text-zinc-400 mb-2 italic font-mono">Desde
+                $399.990 CLP</p>
+              <a href="#contact"
+                class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-zinc-400 transition-colors">Solicitar
+                info</a>
+            </div>
+          </div>
+
+          <div class="bg-white p-8 border border-zinc-100 hover:shadow-2xl transition-all flex flex-col h-full group">
+            <div class="mb-8 text-black transition-transform group-hover:rotate-6 shrink-0"><i
+                data-lucide="brain-circuit" class="w-8 h-8"></i></div>
+            <h4 class="text-lg font-bold mb-4 uppercase tracking-widest leading-tight">Ecosistemas IA</h4>
+            <p class="text-zinc-500 mb-8 font-light text-sm flex-grow leading-relaxed">Automatizaciones, CRM y flujos
+              con IA para acelerar ventas.</p>
+            <div class="pt-6 border-t border-zinc-50">
+              <p class="text-[9px] uppercase tracking-widest font-bold text-zinc-400 mb-2 italic font-mono">Presupuesto
+                SI</p>
+              <a href="#contact"
+                class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-zinc-400 transition-colors">Solicitar
+                info</a>
+            </div>
+          </div>
+
+          <div class="bg-white p-8 border border-zinc-100 hover:shadow-2xl transition-all flex flex-col h-full group">
+            <div class="mb-8 text-black transition-transform group-hover:rotate-6 shrink-0"><i data-lucide="palette"
+                class="w-8 h-8"></i></div>
+            <h4 class="text-lg font-bold mb-4 uppercase tracking-widest leading-tight">Branding Autoridad</h4>
+            <p class="text-zinc-500 mb-8 font-light text-sm flex-grow leading-relaxed">Identidad corporativa diseñada
+              para atraer alto ticket.</p>
+            <div class="pt-6 border-t border-zinc-50">
+              <p class="text-[9px] uppercase tracking-widest font-bold text-zinc-400 mb-2 italic font-mono">Presupuesto
+                SI</p>
+              <a href="#contact"
+                class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-zinc-400 transition-colors">Solicitar
+                info</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASES -->
+    <section id="cases" class="bg-white text-black pt-24 md:pt-32 pb-20 md:pb-32 px-4 md:px-6">
+      <div class="max-w-7xl mx-auto">
+        <p class="text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold mb-4 text-zinc-500">Resultados reales</p>
+        <h3 class="text-3xl md:text-5xl font-light tracking-tight leading-[1.15] mb-12">
+          Casos que respaldan nuestra metodología estratégica.
+        </h3>
+
+        <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+          <div class="group border border-zinc-100 p-10 md:p-12 hover:border-black transition-all bg-zinc-50/50">
+            <div class="mb-8 flex flex-col sm:flex-row justify-between items-start gap-4">
+              <div>
+                <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400 mb-2">Turismo & Hospitality</p>
+                <h4 class="text-3xl font-bold tracking-tighter">Complejo Turístico Fernandois</h4>
+              </div>
+              <div
+                class="flex items-center gap-2 text-black font-bold bg-white px-4 py-2 shadow-sm border border-zinc-50 italic">
+                <i data-lucide="trending-up" class="w-5 h-5"></i>
+                <span class="text-xl md:text-2xl font-light whitespace-nowrap">+140% Reservas</span>
+              </div>
+            </div>
+            <p class="text-zinc-600 font-light leading-relaxed mb-8 text-lg italic">
+              "Ads con segmentación y optimización para capturar demanda nacional y reducir dependencia de OTAs."
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <span class="text-[9px] uppercase tracking-[0.2em] font-bold bg-black text-white px-4 py-1.5">Estrategia
+                SI</span>
+              <span class="text-[9px] uppercase tracking-[0.2em] font-bold bg-black text-white px-4 py-1.5">Ads +
+                IA</span>
+            </div>
+          </div>
+
+          <div class="group border border-zinc-100 p-10 md:p-12 hover:border-black transition-all bg-zinc-50/50">
+            <div class="mb-8 flex flex-col sm:flex-row justify-between items-start gap-4">
+              <div>
+                <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400 mb-2">Wellness & Salud</p>
+                <h4 class="text-3xl font-bold tracking-tighter">Pilates Magnolia</h4>
+              </div>
+              <div
+                class="flex items-center gap-2 text-black font-bold bg-white px-4 py-2 shadow-sm border border-zinc-50 italic">
+                <i data-lucide="trending-up" class="w-5 h-5"></i>
+                <span class="text-xl md:text-2xl font-light whitespace-nowrap">-45% CPA</span>
+              </div>
+            </div>
+            <p class="text-zinc-600 font-light leading-relaxed mb-8 text-lg italic">
+              "Optimización de campañas y mejora del embudo con foco en calidad de lead."
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <span class="text-[9px] uppercase tracking-[0.2em] font-bold bg-black text-white px-4 py-1.5">Estrategia
+                SI</span>
+              <span class="text-[9px] uppercase tracking-[0.2em] font-bold bg-black text-white px-4 py-1.5">Meta
+                Ads</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT / TEAM (ACTUALIZADO: MARTÍN + LAURA + FABIO) -->
+    <section id="about" class="bg-white text-black pt-24 md:pt-32 pb-20 md:pb-32 px-4 md:px-6">
+      <div class="max-w-7xl mx-auto">
+        <p class="text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold mb-4 text-zinc-500">Leadership</p>
+        <h3 class="text-3xl md:text-5xl font-light tracking-tight leading-[1.15] mb-12">
+          Equipo estratégico enfocado en crecimiento, performance y ejecución.
+        </h3>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12">
+          <!-- MARTÍN -->
+          <article class="leader-card group">
+            <div
+              class="aspect-[3/4] bg-zinc-100 mb-8 relative overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+              <div
+                class="leader-ghost absolute inset-0 flex items-center justify-center opacity-10 transition-all duration-500">
+                <i data-lucide="code-2" class="w-12 h-12"></i>
+              </div>
+              <div class="absolute bottom-0 left-0 p-8">
+                <h4 class="text-4xl font-bold tracking-tighter text-black/10 group-hover:text-black transition-colors">
+                  MARTÍN
+                </h4>
+              </div>
+            </div>
+
+            <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400 mb-3">
+              Founder & Digital Growth Strategist
+            </p>
+            <h4 class="text-xl font-bold mb-4 tracking-tight">
+              MARTÍN NICOLÁS VALDÉS CERNA
+            </h4>
+            <p class="text-zinc-500 text-sm font-light leading-relaxed">
+              Diseña la estrategia de crecimiento, integra tecnología y construye sistemas de adquisición predecibles
+              para empresas que buscan escalar.
+            </p>
+          </article>
+
+          <!-- LAURA -->
+          <article class="leader-card group">
+            <div
+              class="aspect-[3/4] bg-zinc-100 mb-8 relative overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+              <div
+                class="leader-ghost absolute inset-0 flex items-center justify-center opacity-10 transition-all duration-500">
+                <i data-lucide="sparkles" class="w-12 h-12"></i>
+              </div>
+              <div class="absolute bottom-0 left-0 p-8">
+                <h4 class="text-4xl font-bold tracking-tighter text-black/10 group-hover:text-black transition-colors">
+                  LAURA
+                </h4>
+              </div>
+            </div>
+
+            <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400 mb-3">
+              Creative Director & Ads Strategist
+            </p>
+            <h4 class="text-xl font-bold mb-4 tracking-tight">
+              LAURA RODRÍGUEZ
+            </h4>
+            <p class="text-zinc-500 text-sm font-light leading-relaxed">
+              Dirige la narrativa visual y la optimización creativa para convertir campañas publicitarias en motores
+              sostenibles de generación de clientes.
+            </p>
+          </article>
+
+          <!-- FABIO -->
+          <article class="leader-card group">
+            <div
+              class="aspect-[3/4] bg-zinc-100 mb-8 relative overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+              <div
+                class="leader-ghost absolute inset-0 flex items-center justify-center opacity-10 transition-all duration-500">
+                <i data-lucide="video" class="w-12 h-12"></i>
+              </div>
+              <div class="absolute bottom-0 left-0 p-8">
+                <h4 class="text-4xl font-bold tracking-tighter text-black/10 group-hover:text-black transition-colors">
+                  FABIO
+                </h4>
+              </div>
+            </div>
+
+            <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400 mb-3">
+              Head of Audiovisual & Content Strategy
+            </p>
+            <h4 class="text-xl font-bold mb-4 tracking-tight">
+              FABIO CONTRERAS
+            </h4>
+            <p class="text-zinc-500 text-sm font-light leading-relaxed">
+              Produce activos audiovisuales de alto impacto diseñados para captar atención, fortalecer marca y acelerar
+              la conversión.
+            </p>
+          </article>
+        </div>
+
+        <div class="mt-24 border-t border-zinc-100 pt-20 grid lg:grid-cols-2 gap-14 items-center">
+          <div>
+            <h4 class="text-4xl md:text-5xl font-light tracking-tighter mb-8 leading-tight italic">Nuestra visión:</h4>
+            <p class="text-2xl md:text-3xl text-zinc-400 font-light leading-relaxed">
+              "Eliminar la fricción entre tecnología de vanguardia y resultados comerciales reales."
+            </p>
+          </div>
+
+          <div class="bg-black text-white p-12 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10 rotate-12">
+              <i data-lucide="brain-circuit" class="w-20 h-20"></i>
+            </div>
+            <h5
+              class="text-[10px] uppercase tracking-widest mb-6 font-bold text-zinc-500 italic underline underline-offset-8 decoration-white/20">
+              Agencia SI
+            </h5>
+            <p class="text-lg font-light leading-relaxed text-zinc-300">
+              Combinamos estrategia, performance y contenido para construir un sistema comercial con métricas claras y
+              control total.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="bg-black text-white min-h-screen pt-32 md:pt-40 pb-20 px-4 md:px-6">
+      <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20">
+        <div>
+          <h3 class="text-5xl md:text-7xl font-light tracking-tighter mb-8 leading-[0.9]">
+            Hablemos de <br /><span class="italic text-zinc-500">crecimiento.</span>
+          </h3>
+          <p class="text-lg md:text-xl text-zinc-400 font-light mb-12 leading-relaxed max-w-lg">
+            No es una reunión de ventas. Es un diagnóstico estratégico inicial bajo el sello de
+            <span class="text-white font-medium underline decoration-zinc-700"> Agencia SI</span>.
+          </p>
+
+          <div class="space-y-8 md:space-y-12">
+            <div class="flex gap-4 items-center bg-zinc-900/50 p-4 border border-zinc-800 rounded-sm inline-flex">
+              <i data-lucide="map-pin" class="w-5 h-5 text-white/60"></i>
+              <p class="text-xs font-bold uppercase tracking-widest">Ejecución en todo Chile</p>
+            </div>
+
+            <a class="flex gap-6 items-center group" href="https://wa.me/56932930812" target="_blank" rel="noopener">
+              <div
+                class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center shrink-0 group-hover:border-white transition-colors">
+                <i data-lucide="message-square" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-1">WhatsApp directo</p>
+                <p class="text-lg font-bold">+56 9 3293 0812</p>
+              </div>
+            </a>
+
+            <a class="flex gap-6 items-center group" href="mailto:contacto@agenciasi.cl">
+              <div
+                class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center shrink-0 group-hover:border-white transition-colors">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-1">Estrategia & consultoría
+                </p>
+                <p class="text-lg font-bold">contacto@agenciasi.cl</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="bg-white text-black p-8 md:p-16 shadow-2xl rounded-sm">
+          <form class="space-y-6 md:space-y-8"
+            onsubmit="event.preventDefault(); alert('Listo. Conecta este formulario a Formspree o a tu backend para recibir los leads.');">
+            <div>
+              <label class="text-[9px] uppercase tracking-[0.2em] font-bold mb-3 block text-zinc-400">Nombre
+                completo</label>
+              <input type="text" required placeholder="Juan Pérez"
+                class="w-full border-b border-zinc-200 py-3 focus:outline-none focus:border-black transition-colors text-lg font-light" />
+            </div>
+
+            <div>
+              <label class="text-[9px] uppercase tracking-[0.2em] font-bold mb-3 block text-zinc-400">Empresa / Sitio
+                web</label>
+              <input type="text" placeholder="tuempresa.cl"
+                class="w-full border-b border-zinc-200 py-3 focus:outline-none focus:border-black transition-colors text-lg font-light" />
+            </div>
+
+            <div>
+              <label class="text-[9px] uppercase tracking-[0.2em] font-bold mb-3 block text-zinc-400">Inversión Ads
+                estimada</label>
+              <select
+                class="w-full border-b border-zinc-200 py-3 bg-transparent focus:outline-none focus:border-black text-lg font-light cursor-pointer">
+                <option>$500.000 - $1.500.000 CLP</option>
+                <option>$1.500.000 - $5.000.000 CLP</option>
+                <option>$5.000.000+ CLP</option>
+              </select>
+            </div>
+
+            <button
+              class="w-full bg-black text-white py-5 md:py-6 mt-8 font-bold uppercase tracking-[0.3em] text-xs md:text-sm hover:bg-zinc-800 transition-all shadow-xl">
+              Agendar diagnóstico
+            </button>
+
+            <p class="text-[9px] text-zinc-400 text-center uppercase tracking-widest mt-6 italic font-bold">
+              Respuesta en menos de 12 horas.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black text-white py-16 md:py-24 px-4 md:px-6 border-t border-white/5">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-16">
+        <div class="max-w-xs">
+          <div class="flex items-center gap-2 mb-8">
+            <div class="w-6 h-6 bg-white flex items-center justify-center rounded-sm">
+              <span class="text-black font-bold text-sm italic">SI</span>
+            </div>
+            <span
+              class="text-white font-bold tracking-tighter text-xl underline decoration-white/20 underline-offset-4 uppercase">Agencia
+              SI</span>
+          </div>
+          <p class="text-zinc-500 text-sm font-light leading-relaxed">
+            Consultora estratégica de crecimiento con integración de IA. Arquitectura digital de alto rendimiento y
+            resultados medibles.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-12 md:gap-24 w-full md:w-auto">
+          <div>
+            <h6 class="text-[10px] uppercase tracking-widest font-bold text-zinc-500 mb-8">Navegación</h6>
+            <ul class="space-y-4 text-xs md:text-sm font-light text-zinc-400">
+              <li><a class="hover:text-white" href="#ads-ia">Ads + IA</a></li>
+              <li><a class="hover:text-white" href="#services">Servicios</a></li>
+              <li><a class="hover:text-white" href="#about">Equipo</a></li>
+            </ul>
+          </div>
+          <div>
+            <h6 class="text-[10px] uppercase tracking-widest font-bold text-zinc-500 mb-8">Contacto</h6>
+            <ul class="space-y-4 text-xs md:text-sm font-light text-zinc-400">
+              <li>Chile</li>
+              <li class="italic"><a class="hover:text-white"
+                  href="mailto:contacto@agenciasi.cl">contacto@agenciasi.cl</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="max-w-7xl mx-auto mt-20 pt-10 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-6 text-[9px] uppercase tracking-[0.3em] text-zinc-600 font-bold text-center">
+        <p>© 2026 AGENCIA SI - ESTRATEGIA & CRECIMIENTO</p>
+        <p class="flex items-center gap-2 underline decoration-zinc-800">
+          <i data-lucide="map-pin" class="w-3 h-3"></i> COBERTURA EN TODO CHILE
+        </p>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Render icons
+    lucide.createIcons();
+
+    // Navbar glass on scroll
+    const navbar = document.getElementById('navbar');
+    const onScroll = () => {
+      const y = window.scrollY || 0;
+      if (y > 20) {
+        navbar.classList.add('glass', 'py-4');
+        navbar.classList.remove('py-6', 'bg-transparent');
+      } else {
+        navbar.classList.remove('glass', 'py-4');
+        navbar.classList.add('py-6');
+      }
+    };
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileWrap = document.getElementById('mobileWrap');
+    let open = false;
+
+    function setMenu(state) {
+      open = state;
+      if (open) {
+        mobileWrap.classList.remove('opacity-0', 'translate-x-full', 'pointer-events-none');
+        mobileWrap.classList.add('opacity-100', 'translate-x-0');
+        menuBtn.innerHTML = '<i data-lucide="x" class="w-7 h-7"></i>';
+      } else {
+        mobileWrap.classList.add('opacity-0', 'translate-x-full', 'pointer-events-none');
+        mobileWrap.classList.remove('opacity-100', 'translate-x-0');
+        menuBtn.innerHTML = '<i data-lucide="menu" class="w-7 h-7"></i>';
+      }
+      lucide.createIcons();
+    }
+
+    menuBtn.addEventListener('click', () => setMenu(!open));
+    document.querySelectorAll('.mobilelink').forEach(a => a.addEventListener('click', () => setMenu(false)));
+
+    // Active link highlight
+    const sections = ['home', 'ads-ia', 'services', 'cases', 'about', 'contact'].map(id => document.getElementById(id));
+    const navlinks = document.querySelectorAll('.navlink');
+
+    const setActive = () => {
+      const scrollPos = window.scrollY + 140;
+      let current = 'home';
+      sections.forEach(sec => {
+        if (!sec) return;
+        if (sec.offsetTop <= scrollPos) current = sec.id;
+      });
+      navlinks.forEach(a => {
+        const href = a.getAttribute('href') || '';
+        const id = href.replace('#', '');
+        if (id === current) {
+          a.classList.add('text-white', 'font-bold', 'border-b', 'border-white/40');
+          a.classList.remove('text-gray-400');
+        } else {
+          a.classList.remove('text-white', 'font-bold', 'border-b', 'border-white/40');
+          a.classList.add('text-gray-400');
+        }
+      });
+    };
+    window.addEventListener('scroll', setActive);
+    setActive();
+  </script>
+</body>
+
+</html>
