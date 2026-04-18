@@ -17,6 +17,7 @@ const T = {
     white: '#FFFFFF',
     border: '#E8E8F0',
 }
+const YELLOW = '#FACC15'
 
 // ── Primitives ────────────────────────────────────────────────────────────────
 const Label = ({ children, color = T.blue }) => (
@@ -58,39 +59,64 @@ const H2 = ({ children, className = '', style = {} }) => (
 )
 
 // ── SEO Diagnostic Modal ──────────────────────────────────────────────────────
+const YELLOW = '#FACC15'
+
+const YellowBtn = ({ children, onClick, disabled = false }) => (
+    <button type="button" onClick={onClick} disabled={disabled}
+        className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold tracking-wide transition-all active:scale-[0.98]"
+        style={{
+            background: disabled ? T.border : YELLOW,
+            color: disabled ? T.gray : T.blue,
+            cursor: disabled ? 'not-allowed' : 'pointer',
+            fontFamily: 'Poppins, sans-serif',
+        }}>
+        {children}
+    </button>
+)
+
 const SeoDiagnosticModal = ({ onClose }) => {
     const [step, setStep] = useState(0)
     const [status, setStatus] = useState('')
-    const [data, setData] = useState({
+    const [focused, setFocused] = useState({})
+    const [formData, setFormData] = useState({
         name: '', email: '', phone: '', company: '',
         website: '', industry: '', timeOnline: '', monthlyVisits: '', currentSeo: '', geoTarget: '',
         goal: '', budget: '', competitors: '',
     })
 
-    const set = (k, v) => setData(p => ({ ...p, [k]: v }))
+    const set = (k, v) => setFormData(p => ({ ...p, [k]: v }))
+    const focusOn  = k => setFocused(f => ({ ...f, [k]: true }))
+    const focusOff = k => setFocused(f => ({ ...f, [k]: false }))
 
     const steps = [
-        { title: 'Datos de contacto', sub: 'Para enviarte el diagnóstico personalizado' },
-        { title: 'Tu sitio web actual', sub: 'Situación digital de tu empresa hoy' },
-        { title: 'Objetivos SEO', sub: 'Qué quieres lograr con posicionamiento orgánico' },
+        { title: 'Datos de contacto',  sub: 'Para enviarte el diagnóstico personalizado' },
+        { title: 'Tu sitio web',        sub: 'Situación digital actual de tu empresa' },
+        { title: 'Objetivos SEO',       sub: 'Qué quieres lograr con posicionamiento orgánico' },
     ]
 
     const canNext = [
-        !!(data.name && data.email && data.phone),
-        !!(data.industry && data.geoTarget),
-        !!(data.goal && data.budget),
+        !!(formData.name && formData.email && formData.phone),
+        !!(formData.industry && formData.geoTarget),
+        !!(formData.goal && formData.budget),
     ]
 
     const submit = async () => {
+        if (!canNext[2] || status === 'sending') return
         setStatus('sending')
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/seo-diagnostic`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
             })
             setStatus(res.ok ? 'success' : 'error')
         } catch { setStatus('error') }
     }
+
+    const bStyle = k => ({
+        borderBottom: `2px solid ${focused[k] ? T.blue : T.border}`,
+        color: T.black,
+    })
 
     const IField = ({ label, required, children }) => (
         <div>
@@ -101,23 +127,25 @@ const SeoDiagnosticModal = ({ onClose }) => {
         </div>
     )
 
-    const iStyle = { borderBottom: `2px solid ${T.border}`, color: T.black }
-    const iCls = 'w-full py-3 bg-transparent text-sm focus:outline-none placeholder:opacity-30'
-    const iFocus = e => e.target.style.borderBottomColor = T.blue
-    const iBlur = e => e.target.style.borderBottomColor = T.border
-
     const Inp = ({ k, type = 'text', placeholder = '', required = false }) => (
         <input type={type} required={required} placeholder={placeholder}
-            value={data[k]} onChange={e => set(k, e.target.value)}
-            className={iCls} style={iStyle} onFocus={iFocus} onBlur={iBlur} />
+            value={formData[k]}
+            onChange={e => set(k, e.target.value)}
+            onFocus={() => focusOn(k)}
+            onBlur={() => focusOff(k)}
+            className="w-full py-3 bg-transparent text-sm focus:outline-none placeholder:opacity-30 transition-colors"
+            style={bStyle(k)} />
     )
 
     const Sel = ({ k, opts }) => (
-        <select value={data[k]} onChange={e => set(k, e.target.value)}
-            className="w-full py-3 bg-white text-sm focus:outline-none cursor-pointer"
-            style={{ ...iStyle, color: data[k] ? T.black : T.gray }}>
+        <select value={formData[k]}
+            onChange={e => set(k, e.target.value)}
+            onFocus={() => focusOn(k)}
+            onBlur={() => focusOff(k)}
+            className="w-full py-3 bg-white text-sm focus:outline-none cursor-pointer transition-colors"
+            style={bStyle(k)}>
             <option value="">Selecciona una opción</option>
-            {opts.map(o => <option key={o}>{o}</option>)}
+            {opts.map(o => <option key={o} value={o}>{o}</option>)}
         </select>
     )
 
@@ -141,20 +169,21 @@ const SeoDiagnosticModal = ({ onClose }) => {
                             </h3>
                             <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.55)' }}>{steps[step].sub}</p>
                         </div>
-                        <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-white/20 transition-colors mt-0.5 ml-3">
+                        <button type="button" onClick={onClose} className="p-1.5 rounded-lg transition-colors ml-3"
+                            style={{ background: 'rgba(255,255,255,0.15)' }}>
                             <X size={17} color="white" />
                         </button>
                     </div>
-                    {/* Steps */}
+                    {/* Step dots */}
                     <div className="flex items-center gap-2">
                         {steps.map((_, i) => (
                             <div key={i} className="flex items-center gap-2">
                                 <div className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-all"
-                                    style={{ background: i <= step ? '#fff' : 'rgba(255,255,255,0.2)', color: i <= step ? T.blue : 'rgba(255,255,255,0.4)' }}>
+                                    style={{ background: i <= step ? YELLOW : 'rgba(255,255,255,0.2)', color: i <= step ? T.blue : 'rgba(255,255,255,0.4)' }}>
                                     {i < step ? '✓' : i + 1}
                                 </div>
                                 {i < steps.length - 1 && (
-                                    <div className="w-10 h-0.5 rounded-full" style={{ background: i < step ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.2)' }} />
+                                    <div className="w-10 h-0.5 rounded-full" style={{ background: i < step ? YELLOW : 'rgba(255,255,255,0.2)' }} />
                                 )}
                             </div>
                         ))}
@@ -171,9 +200,9 @@ const SeoDiagnosticModal = ({ onClose }) => {
                             </div>
                             <h3 className="text-xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>¡Diagnóstico recibido!</h3>
                             <p className="text-sm mb-6" style={{ color: T.gray }}>
-                                Analizaremos tu sitio y te contactaremos en menos de 24 horas con tu diagnóstico personalizado.
+                                Te contactaremos en menos de 24 horas con tu diagnóstico personalizado.
                             </p>
-                            <PrimaryBtn onClick={onClose}>Cerrar</PrimaryBtn>
+                            <YellowBtn onClick={onClose}>Cerrar</YellowBtn>
                         </div>
                     ) : (
                         <>
@@ -184,7 +213,6 @@ const SeoDiagnosticModal = ({ onClose }) => {
                                     <IField label="Teléfono / WhatsApp" required><Inp k="phone" type="tel" placeholder="+56 9 XXXX XXXX" required /></IField>
                                     <IField label="Empresa o marca"><Inp k="company" placeholder="Nombre de tu empresa" /></IField>
                                 </>}
-
                                 {step === 1 && <>
                                     <IField label="URL de tu sitio web"><Inp k="website" placeholder="www.tuempresa.cl" /></IField>
                                     <IField label="Industria / sector" required>
@@ -203,39 +231,39 @@ const SeoDiagnosticModal = ({ onClose }) => {
                                         <Sel k="geoTarget" opts={['Local (mi ciudad/región)', 'Nacional (Chile)', 'Latinoamérica', 'Internacional']} />
                                     </IField>
                                 </>}
-
                                 {step === 2 && <>
                                     <IField label="Objetivo principal con SEO" required>
                                         <Sel k="goal" opts={['Aparecer en primeros resultados de Google', 'Conseguir más leads o consultas', 'Aumentar ventas directas', 'Mejorar visibilidad de marca', 'Reducir dependencia de publicidad pagada']} />
                                     </IField>
-                                    <IField label="Presupuesto mensual estimado para SEO" required>
+                                    <IField label="Presupuesto mensual estimado" required>
                                         <Sel k="budget" opts={['No tengo definido', '$50.000 – $150.000 CLP/mes', '$150.000 – $300.000 CLP/mes', '$300.000 – $600.000 CLP/mes', 'Más de $600.000 CLP/mes']} />
                                     </IField>
                                     <IField label="Competidores que conoces (opcional)">
-                                        <textarea value={data.competitors} onChange={e => set('competitors', e.target.value)}
+                                        <textarea value={formData.competitors}
+                                            onChange={e => set('competitors', e.target.value)}
+                                            onFocus={() => focusOn('competitors')}
+                                            onBlur={() => focusOff('competitors')}
                                             placeholder="Ej: empresa1.cl, empresa2.cl..." rows={3}
-                                            className="w-full py-3 bg-transparent text-sm focus:outline-none placeholder:opacity-30 resize-none"
-                                            style={iStyle} onFocus={iFocus} onBlur={iBlur} />
+                                            className="w-full py-3 bg-transparent text-sm focus:outline-none placeholder:opacity-30 resize-none transition-colors"
+                                            style={bStyle('competitors')} />
                                     </IField>
                                 </>}
                             </div>
 
                             <div className="flex items-center justify-between mt-7 pt-5" style={{ borderTop: `1px solid ${T.border}` }}>
                                 {step > 0
-                                    ? <button onClick={() => setStep(s => s - 1)}
+                                    ? <button type="button" onClick={() => setStep(s => s - 1)}
                                         className="text-sm font-semibold hover:opacity-60 transition-opacity"
                                         style={{ color: T.gray }}>← Volver</button>
                                     : <div />}
 
                                 {step < 2
-                                    ? <PrimaryBtn onClick={() => canNext[step] && setStep(s => s + 1)}
-                                        className={!canNext[step] ? 'opacity-40 pointer-events-none' : ''}>
+                                    ? <YellowBtn onClick={() => setStep(s => s + 1)} disabled={!canNext[step]}>
                                         Continuar <ArrowRight size={14} />
-                                    </PrimaryBtn>
-                                    : <PrimaryBtn onClick={submit}
-                                        className={(!canNext[2] || status === 'sending') ? 'opacity-40 pointer-events-none' : ''}>
+                                      </YellowBtn>
+                                    : <YellowBtn onClick={submit} disabled={!canNext[2] || status === 'sending'}>
                                         {status === 'sending' ? 'Enviando...' : 'Solicitar diagnóstico →'}
-                                    </PrimaryBtn>}
+                                      </YellowBtn>}
                             </div>
 
                             {status === 'error' && (
@@ -829,11 +857,17 @@ export default function Home() {
                                     </li>
                                 ))}
                             </ul>
-                            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-                                <PrimaryBtn onClick={() => setShowSeoModal(true)} className="px-8 py-4 text-base">
+                            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center flex-wrap">
+                                <button type="button" onClick={() => setShowSeoModal(true)}
+                                    className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-[14px] font-bold tracking-wide transition-all hover:opacity-90 active:scale-[0.98]"
+                                    style={{ background: YELLOW, color: T.blue, fontFamily: 'Poppins, sans-serif' }}>
                                     <Search size={15} /> Quiero mi diagnóstico gratuito
-                                </PrimaryBtn>
-                                <p className="text-xs" style={{ color: '#555' }}>Sin spam · Respuesta en &lt; 24 horas</p>
+                                </button>
+                                <Link to="/diagnostico-seo"
+                                    className="text-sm font-semibold transition-opacity hover:opacity-60"
+                                    style={{ color: '#666' }}>
+                                    Ver página completa →
+                                </Link>
                             </div>
                         </div>
 
@@ -864,9 +898,9 @@ export default function Home() {
                                             </div>
                                         </div>
                                     ))}
-                                    <button onClick={() => setShowSeoModal(true)}
-                                        className="w-full mt-4 py-3 rounded-xl text-sm font-bold transition-opacity hover:opacity-90"
-                                        style={{ background: T.blue, color: '#fff' }}>
+                                    <button type="button" onClick={() => setShowSeoModal(true)}
+                                        className="w-full mt-4 py-3 rounded-xl text-sm font-bold transition-all hover:opacity-90"
+                                        style={{ background: YELLOW, color: T.blue, fontFamily: 'Poppins, sans-serif' }}>
                                         Desbloquear mi reporte →
                                     </button>
                                 </div>

@@ -8,6 +8,7 @@ import DigitalizationLanding from './components/DigitalizationLanding'
 import AdminDashboard from './components/AdminDashboard'
 import ClientStatus from './components/ClientStatus'
 import ClientManagement from './components/admin/ClientManagement'
+import DiagnosticoSEO from './components/DiagnosticoSEO'
 
 // Portal
 import PortalLogin from './components/portal/PortalLogin'
@@ -37,6 +38,7 @@ function App() {
           <Route path="/digitalizacion-express/wizard" element={<Wizard />} />
           <Route path="/status/:orderId" element={<ClientStatus />} />
           <Route path="/pack-express" element={<Wizard />} />
+          <Route path="/diagnostico-seo" element={<DiagnosticoSEO />} />
 
           {/* Admin */}
           <Route path="/admin/si" element={<AdminDashboard />} />
