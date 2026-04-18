@@ -32,11 +32,26 @@ app.use('/api/portal', require('./routes/portal'));
 // Submit contact form (Leads)
 app.post('/api/contact', async (req, res) => {
   try {
-    const { name, company, budget } = req.body;
-    const newLead = await prisma.contactLead.create({ data: { name, company, budget } });
+    const { name, email, phone, company, budget } = req.body;
+    const newLead = await prisma.contactLead.create({ data: { name, email, phone, company, budget, type: 'cotizacion' } });
     res.status(200).json({ success: true, message: 'Lead saved successfully', lead: newLead });
   } catch (error) {
     console.error('Error saving lead:', error);
+    res.status(500).json({ success: false, message: 'Error saving to database' });
+  }
+});
+
+// Submit SEO diagnostic form
+app.post('/api/seo-diagnostic', async (req, res) => {
+  try {
+    const { name, email, phone, company, website, industry, timeOnline, monthlyVisits, currentSeo, geoTarget, goal, budget, competitors } = req.body;
+    const message = JSON.stringify({ industry, timeOnline, monthlyVisits, currentSeo, geoTarget, goal, competitors });
+    const newLead = await prisma.contactLead.create({
+      data: { name, email, phone, company, website, budget, message, type: 'diagnostico_seo' }
+    });
+    res.status(200).json({ success: true, message: 'Diagnóstico recibido', lead: newLead });
+  } catch (error) {
+    console.error('Error saving SEO diagnostic:', error);
     res.status(500).json({ success: false, message: 'Error saving to database' });
   }
 });

@@ -5,7 +5,7 @@ import {
     Menu, X, BrainCircuit, Code2, Globe, Palette,
     TrendingUp, Sparkles, Video, MapPin, MessageSquare, Mail,
     ArrowRight, LogIn, Camera, Mic, ShoppingCart, CheckCircle2,
-    BarChart3, Users, Zap, Shield
+    BarChart3, Users, Zap, Shield, Search
 } from 'lucide-react'
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
@@ -56,6 +56,200 @@ const H2 = ({ children, className = '', style = {} }) => (
         {children}
     </h2>
 )
+
+// ── SEO Diagnostic Modal ──────────────────────────────────────────────────────
+const SeoDiagnosticModal = ({ onClose }) => {
+    const [step, setStep] = useState(0)
+    const [status, setStatus] = useState('')
+    const [data, setData] = useState({
+        name: '', email: '', phone: '', company: '',
+        website: '', industry: '', timeOnline: '', monthlyVisits: '', currentSeo: '', geoTarget: '',
+        goal: '', budget: '', competitors: '',
+    })
+
+    const set = (k, v) => setData(p => ({ ...p, [k]: v }))
+
+    const steps = [
+        { title: 'Datos de contacto', sub: 'Para enviarte el diagnóstico personalizado' },
+        { title: 'Tu sitio web actual', sub: 'Situación digital de tu empresa hoy' },
+        { title: 'Objetivos SEO', sub: 'Qué quieres lograr con posicionamiento orgánico' },
+    ]
+
+    const canNext = [
+        !!(data.name && data.email && data.phone),
+        !!(data.industry && data.geoTarget),
+        !!(data.goal && data.budget),
+    ]
+
+    const submit = async () => {
+        setStatus('sending')
+        try {
+            const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/seo-diagnostic`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            setStatus(res.ok ? 'success' : 'error')
+        } catch { setStatus('error') }
+    }
+
+    const IField = ({ label, required, children }) => (
+        <div>
+            <label className="text-[11px] font-bold uppercase tracking-widest block mb-2" style={{ color: T.gray }}>
+                {label}{required && <span style={{ color: T.blue }}> *</span>}
+            </label>
+            {children}
+        </div>
+    )
+
+    const iStyle = { borderBottom: `2px solid ${T.border}`, color: T.black }
+    const iCls = 'w-full py-3 bg-transparent text-sm focus:outline-none placeholder:opacity-30'
+    const iFocus = e => e.target.style.borderBottomColor = T.blue
+    const iBlur = e => e.target.style.borderBottomColor = T.border
+
+    const Inp = ({ k, type = 'text', placeholder = '', required = false }) => (
+        <input type={type} required={required} placeholder={placeholder}
+            value={data[k]} onChange={e => set(k, e.target.value)}
+            className={iCls} style={iStyle} onFocus={iFocus} onBlur={iBlur} />
+    )
+
+    const Sel = ({ k, opts }) => (
+        <select value={data[k]} onChange={e => set(k, e.target.value)}
+            className="w-full py-3 bg-white text-sm focus:outline-none cursor-pointer"
+            style={{ ...iStyle, color: data[k] ? T.black : T.gray }}>
+            <option value="">Selecciona una opción</option>
+            {opts.map(o => <option key={o}>{o}</option>)}
+        </select>
+    )
+
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+            style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(6px)' }}
+            onClick={e => e.target === e.currentTarget && onClose()}>
+            <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden"
+                style={{ maxHeight: '92vh', overflowY: 'auto' }}>
+
+                {/* Header */}
+                <div className="px-7 pt-7 pb-6" style={{ background: T.blue }}>
+                    <div className="flex items-start justify-between mb-5">
+                        <div>
+                            <div className="flex items-center gap-2 mb-1">
+                                <Search size={13} color="rgba(255,255,255,0.6)" />
+                                <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.6)' }}>Diagnóstico SEO Gratuito</span>
+                            </div>
+                            <h3 className="text-xl font-bold text-white" style={{ fontFamily: 'Playfair Display, serif' }}>
+                                {steps[step].title}
+                            </h3>
+                            <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.55)' }}>{steps[step].sub}</p>
+                        </div>
+                        <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-white/20 transition-colors mt-0.5 ml-3">
+                            <X size={17} color="white" />
+                        </button>
+                    </div>
+                    {/* Steps */}
+                    <div className="flex items-center gap-2">
+                        {steps.map((_, i) => (
+                            <div key={i} className="flex items-center gap-2">
+                                <div className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-all"
+                                    style={{ background: i <= step ? '#fff' : 'rgba(255,255,255,0.2)', color: i <= step ? T.blue : 'rgba(255,255,255,0.4)' }}>
+                                    {i < step ? '✓' : i + 1}
+                                </div>
+                                {i < steps.length - 1 && (
+                                    <div className="w-10 h-0.5 rounded-full" style={{ background: i < step ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.2)' }} />
+                                )}
+                            </div>
+                        ))}
+                        <span className="text-[10px] ml-1" style={{ color: 'rgba(255,255,255,0.4)' }}>{step + 1} / {steps.length}</span>
+                    </div>
+                </div>
+
+                {/* Body */}
+                <div className="px-7 py-7">
+                    {status === 'success' ? (
+                        <div className="text-center py-8">
+                            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5" style={{ background: '#f0fdf4' }}>
+                                <CheckCircle2 size={30} style={{ color: '#16a34a' }} />
+                            </div>
+                            <h3 className="text-xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>¡Diagnóstico recibido!</h3>
+                            <p className="text-sm mb-6" style={{ color: T.gray }}>
+                                Analizaremos tu sitio y te contactaremos en menos de 24 horas con tu diagnóstico personalizado.
+                            </p>
+                            <PrimaryBtn onClick={onClose}>Cerrar</PrimaryBtn>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="space-y-5">
+                                {step === 0 && <>
+                                    <IField label="Nombre completo" required><Inp k="name" placeholder="Juan Pérez" required /></IField>
+                                    <IField label="Correo electrónico" required><Inp k="email" type="email" placeholder="tu@empresa.cl" required /></IField>
+                                    <IField label="Teléfono / WhatsApp" required><Inp k="phone" type="tel" placeholder="+56 9 XXXX XXXX" required /></IField>
+                                    <IField label="Empresa o marca"><Inp k="company" placeholder="Nombre de tu empresa" /></IField>
+                                </>}
+
+                                {step === 1 && <>
+                                    <IField label="URL de tu sitio web"><Inp k="website" placeholder="www.tuempresa.cl" /></IField>
+                                    <IField label="Industria / sector" required>
+                                        <Sel k="industry" opts={['Salud y bienestar', 'E-commerce / Tienda online', 'Servicios profesionales', 'Turismo y hotelería', 'Inmobiliario', 'Restaurantes y gastronomía', 'Educación', 'Tecnología', 'Construcción', 'Otro']} />
+                                    </IField>
+                                    <IField label="¿Cuánto tiempo lleva tu sitio online?">
+                                        <Sel k="timeOnline" opts={['No tengo sitio web aún', 'Menos de 1 año', '1 a 3 años', 'Más de 3 años']} />
+                                    </IField>
+                                    <IField label="Visitas mensuales aproximadas">
+                                        <Sel k="monthlyVisits" opts={['No sé / Sin acceso a datos', 'Menos de 500', '500 – 2.000', '2.000 – 10.000', 'Más de 10.000']} />
+                                    </IField>
+                                    <IField label="¿Tienen estrategia SEO actualmente?">
+                                        <Sel k="currentSeo" opts={['No, nunca he trabajado el SEO', 'Algo básico pero informal', 'Sí, alguien lo gestiona', 'Lo gestiono yo mismo', 'No sé']} />
+                                    </IField>
+                                    <IField label="Zona geográfica objetivo" required>
+                                        <Sel k="geoTarget" opts={['Local (mi ciudad/región)', 'Nacional (Chile)', 'Latinoamérica', 'Internacional']} />
+                                    </IField>
+                                </>}
+
+                                {step === 2 && <>
+                                    <IField label="Objetivo principal con SEO" required>
+                                        <Sel k="goal" opts={['Aparecer en primeros resultados de Google', 'Conseguir más leads o consultas', 'Aumentar ventas directas', 'Mejorar visibilidad de marca', 'Reducir dependencia de publicidad pagada']} />
+                                    </IField>
+                                    <IField label="Presupuesto mensual estimado para SEO" required>
+                                        <Sel k="budget" opts={['No tengo definido', '$50.000 – $150.000 CLP/mes', '$150.000 – $300.000 CLP/mes', '$300.000 – $600.000 CLP/mes', 'Más de $600.000 CLP/mes']} />
+                                    </IField>
+                                    <IField label="Competidores que conoces (opcional)">
+                                        <textarea value={data.competitors} onChange={e => set('competitors', e.target.value)}
+                                            placeholder="Ej: empresa1.cl, empresa2.cl..." rows={3}
+                                            className="w-full py-3 bg-transparent text-sm focus:outline-none placeholder:opacity-30 resize-none"
+                                            style={iStyle} onFocus={iFocus} onBlur={iBlur} />
+                                    </IField>
+                                </>}
+                            </div>
+
+                            <div className="flex items-center justify-between mt-7 pt-5" style={{ borderTop: `1px solid ${T.border}` }}>
+                                {step > 0
+                                    ? <button onClick={() => setStep(s => s - 1)}
+                                        className="text-sm font-semibold hover:opacity-60 transition-opacity"
+                                        style={{ color: T.gray }}>← Volver</button>
+                                    : <div />}
+
+                                {step < 2
+                                    ? <PrimaryBtn onClick={() => canNext[step] && setStep(s => s + 1)}
+                                        className={!canNext[step] ? 'opacity-40 pointer-events-none' : ''}>
+                                        Continuar <ArrowRight size={14} />
+                                    </PrimaryBtn>
+                                    : <PrimaryBtn onClick={submit}
+                                        className={(!canNext[2] || status === 'sending') ? 'opacity-40 pointer-events-none' : ''}>
+                                        {status === 'sending' ? 'Enviando...' : 'Solicitar diagnóstico →'}
+                                    </PrimaryBtn>}
+                            </div>
+
+                            {status === 'error' && (
+                                <p className="text-xs text-center mt-3 font-semibold" style={{ color: '#ef4444' }}>
+                                    Error al enviar. Contáctanos por WhatsApp.
+                                </p>
+                            )}
+                        </>
+                    )}
+                </div>
+            </div>
+        </div>
+    )
+}
 
 // ── Navbar ────────────────────────────────────────────────────────────────────
 const Navbar = () => {
@@ -200,6 +394,7 @@ const Footer = () => (
 export default function Home() {
     const [form, setForm] = useState({ name: '', company: '', budget: '$500.000 - $1.500.000 CLP' })
     const [status, setStatus] = useState('')
+    const [showSeoModal, setShowSeoModal] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -217,6 +412,7 @@ export default function Home() {
 
     return (
         <div className="antialiased overflow-x-hidden" style={{ background: T.white, color: T.black, fontFamily: 'Poppins, sans-serif' }}>
+            {showSeoModal && <SeoDiagnosticModal onClose={() => setShowSeoModal(false)} />}
             <Helmet>
                 <title>AgenciaSi | Meta Ads, Google Ads e IA para empresas en Chile</title>
                 <meta name="description" content="AgenciaSi: asesoría 1:1 en Meta Ads y Google Ads con integración de IA. Control total de métricas, foco en rentabilidad y resultados medibles en Chile." />
@@ -598,6 +794,84 @@ export default function Home() {
                     <div className="text-center">
                         <p className="text-sm mb-4" style={{ color: T.gray }}>¿Quieres resultados similares para tu empresa?</p>
                         <PrimaryBtn href="#contact">Solicitar diagnóstico gratuito</PrimaryBtn>
+                    </div>
+                </div>
+            </section>
+
+            {/* ═══ SEO DIAGNÓSTICO CTA ════════════════════════════════════════ */}
+            <section style={{ background: T.black }}>
+                <div className="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-28">
+                    <div className="grid lg:grid-cols-5 gap-12 items-center">
+                        <div className="lg:col-span-3">
+                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-7"
+                                style={{ background: T.blue + '20', border: `1px solid ${T.blue}35` }}>
+                                <Search size={13} style={{ color: T.blue }} />
+                                <span className="text-[11px] font-bold tracking-wide" style={{ color: T.blue }}>Diagnóstico SEO Gratuito</span>
+                            </div>
+                            <h2 className="font-bold leading-[1.1] text-white mb-5"
+                                style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
+                                ¿Tu sitio aparece cuando tus clientes{' '}
+                                <em className="font-normal" style={{ color: T.blue }}>te buscan en Google?</em>
+                            </h2>
+                            <p className="text-base leading-relaxed mb-8" style={{ color: '#888' }}>
+                                Analizamos tu posicionamiento orgánico actual, identificamos lo que estás perdiendo y te entregamos un plan de acción concreto. Sin costo, sin compromiso.
+                            </p>
+                            <ul className="space-y-3.5 mb-10">
+                                {[
+                                    { icon: Search,    text: 'Análisis de posicionamiento orgánico actual' },
+                                    { icon: BarChart3, text: 'Palabras clave con mayor potencial para tu industria' },
+                                    { icon: Zap,       text: 'Plan de acción personalizado y accionable' },
+                                    { icon: Shield,    text: '100% gratuito, sin compromiso de contratación' },
+                                ].map(({ icon: Icon, text }) => (
+                                    <li key={text} className="flex items-center gap-3 text-sm" style={{ color: '#999' }}>
+                                        <Icon size={15} style={{ color: T.blue, flexShrink: 0 }} />
+                                        {text}
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                                <PrimaryBtn onClick={() => setShowSeoModal(true)} className="px-8 py-4 text-base">
+                                    <Search size={15} /> Quiero mi diagnóstico gratuito
+                                </PrimaryBtn>
+                                <p className="text-xs" style={{ color: '#555' }}>Sin spam · Respuesta en &lt; 24 horas</p>
+                            </div>
+                        </div>
+
+                        {/* Reporte "bloqueado" */}
+                        <div className="hidden lg:block lg:col-span-2">
+                            <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid #1c1c1c' }}>
+                                <div className="px-5 py-4 flex items-center justify-between" style={{ background: '#111' }}>
+                                    <div className="flex items-center gap-2">
+                                        <Search size={13} style={{ color: T.blue }} />
+                                        <span className="text-xs font-semibold" style={{ color: '#555' }}>Reporte SEO</span>
+                                    </div>
+                                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full" style={{ background: T.blue + '25', color: T.blue }}>Gratuito</span>
+                                </div>
+                                <div className="p-5" style={{ background: '#0d0d0d' }}>
+                                    {[
+                                        'Posición promedio en Google',
+                                        'Palabras clave indexadas',
+                                        'Errores técnicos detectados',
+                                        'Oportunidades de crecimiento',
+                                        'Score de autoridad de dominio',
+                                        'Análisis vs. competidores',
+                                    ].map((item) => (
+                                        <div key={item} className="flex items-center justify-between py-2.5" style={{ borderBottom: '1px solid #181818' }}>
+                                            <span className="text-xs" style={{ color: '#555' }}>{item}</span>
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-14 h-1.5 rounded-full" style={{ background: '#1a1a1a' }} />
+                                                <span className="text-[11px] font-bold" style={{ color: '#333' }}>—</span>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    <button onClick={() => setShowSeoModal(true)}
+                                        className="w-full mt-4 py-3 rounded-xl text-sm font-bold transition-opacity hover:opacity-90"
+                                        style={{ background: T.blue, color: '#fff' }}>
+                                        Desbloquear mi reporte →
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
