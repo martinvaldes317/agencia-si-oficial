@@ -72,30 +72,40 @@ const YellowBtn = ({ children, onClick, disabled = false }) => (
     </button>
 )
 
+const SEO_OPTS = {
+    industry:      ['Salud y bienestar', 'E-commerce / Tienda online', 'Servicios profesionales', 'Turismo y hotelería', 'Inmobiliario', 'Restaurantes y gastronomía', 'Educación', 'Tecnología', 'Construcción', 'Otro'],
+    timeOnline:    ['No tengo sitio web aún', 'Menos de 1 año', '1 a 3 años', 'Más de 3 años'],
+    monthlyVisits: ['No sé / Sin acceso a datos', 'Menos de 500', '500 – 2.000', '2.000 – 10.000', 'Más de 10.000'],
+    currentSeo:    ['No, nunca he trabajado el SEO', 'Algo básico pero informal', 'Sí, alguien lo gestiona', 'Lo gestiono yo mismo', 'No sé'],
+    geoTarget:     ['Local (mi ciudad/región)', 'Nacional (Chile)', 'Latinoamérica', 'Internacional'],
+    goal:          ['Aparecer en primeros resultados de Google', 'Conseguir más leads o consultas', 'Aumentar ventas directas', 'Mejorar visibilidad de marca', 'Reducir dependencia de publicidad pagada'],
+    budget:        ['No tengo definido', '$50.000 – $150.000 CLP/mes', '$150.000 – $300.000 CLP/mes', '$300.000 – $600.000 CLP/mes', 'Más de $600.000 CLP/mes'],
+}
+
+const MODAL_STEPS = [
+    { title: 'Datos de contacto',  sub: 'Para enviarte el diagnóstico personalizado' },
+    { title: 'Tu sitio web',        sub: 'Situación digital actual de tu empresa' },
+    { title: 'Objetivos SEO',       sub: 'Qué quieres lograr con posicionamiento orgánico' },
+]
+
+const SEO_INITIAL = { name: '', email: '', phone: '', company: '', website: '', industry: '', timeOnline: '', monthlyVisits: '', currentSeo: '', geoTarget: '', goal: '', budget: '', competitors: '' }
+
 const SeoDiagnosticModal = ({ onClose }) => {
-    const [step, setStep] = useState(0)
+    const [step, setStep]     = useState(0)
     const [status, setStatus] = useState('')
-    const [focused, setFocused] = useState({})
-    const [formData, setFormData] = useState({
-        name: '', email: '', phone: '', company: '',
-        website: '', industry: '', timeOnline: '', monthlyVisits: '', currentSeo: '', geoTarget: '',
-        goal: '', budget: '', competitors: '',
-    })
+    const [fd, setFd]         = useState(SEO_INITIAL)
 
-    const set = (k, v) => setFormData(p => ({ ...p, [k]: v }))
-    const focusOn  = k => setFocused(f => ({ ...f, [k]: true }))
-    const focusOff = k => setFocused(f => ({ ...f, [k]: false }))
+    const set = k => e => setFd(p => ({ ...p, [k]: e.target.value }))
+    const onFocus = e => { e.target.style.borderBottomColor = T.blue }
+    const onBlur  = e => { e.target.style.borderBottomColor = T.border }
 
-    const steps = [
-        { title: 'Datos de contacto',  sub: 'Para enviarte el diagnóstico personalizado' },
-        { title: 'Tu sitio web',        sub: 'Situación digital actual de tu empresa' },
-        { title: 'Objetivos SEO',       sub: 'Qué quieres lograr con posicionamiento orgánico' },
-    ]
+    const iBase = { width: '100%', padding: '12px 0', background: 'transparent', border: 'none', borderBottom: `2px solid ${T.border}`, outline: 'none', fontSize: '13px', color: T.black, fontFamily: 'Poppins, sans-serif', transition: 'border-color 0.2s' }
+    const sBase = { ...iBase, background: 'white', cursor: 'pointer' }
 
     const canNext = [
-        !!(formData.name && formData.email && formData.phone),
-        !!(formData.industry && formData.geoTarget),
-        !!(formData.goal && formData.budget),
+        !!(fd.name.trim() && fd.email.trim() && fd.phone.trim()),
+        !!(fd.industry && fd.geoTarget),
+        !!(fd.goal && fd.budget),
     ]
 
     const submit = async () => {
@@ -103,169 +113,104 @@ const SeoDiagnosticModal = ({ onClose }) => {
         setStatus('sending')
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/seo-diagnostic`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(fd),
             })
             setStatus(res.ok ? 'success' : 'error')
         } catch { setStatus('error') }
     }
 
-    const bStyle = k => ({
-        borderBottom: `2px solid ${focused[k] ? T.blue : T.border}`,
-        color: T.black,
-    })
-
-    const IField = ({ label, required, children }) => (
-        <div>
-            <label className="text-[11px] font-bold uppercase tracking-widest block mb-2" style={{ color: T.gray }}>
-                {label}{required && <span style={{ color: T.blue }}> *</span>}
-            </label>
-            {children}
-        </div>
-    )
-
-    const Inp = ({ k, type = 'text', placeholder = '', required = false }) => (
-        <input type={type} required={required} placeholder={placeholder}
-            value={formData[k]}
-            onChange={e => set(k, e.target.value)}
-            onFocus={() => focusOn(k)}
-            onBlur={() => focusOff(k)}
-            className="w-full py-3 bg-transparent text-sm focus:outline-none placeholder:opacity-30 transition-colors"
-            style={bStyle(k)} />
-    )
-
-    const Sel = ({ k, opts }) => (
-        <select value={formData[k]}
-            onChange={e => set(k, e.target.value)}
-            onFocus={() => focusOn(k)}
-            onBlur={() => focusOff(k)}
-            className="w-full py-3 bg-white text-sm focus:outline-none cursor-pointer transition-colors"
-            style={bStyle(k)}>
-            <option value="">Selecciona una opción</option>
-            {opts.map(o => <option key={o} value={o}>{o}</option>)}
-        </select>
+    const FL = ({ label, req }) => (
+        <label style={{ display: 'block', marginBottom: '6px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: T.gray }}>
+            {label}{req && <span style={{ color: T.blue }}> *</span>}
+        </label>
     )
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4"
             style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(6px)' }}
             onClick={e => e.target === e.currentTarget && onClose()}>
-            <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden"
+            <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl"
                 style={{ maxHeight: '92vh', overflowY: 'auto' }}>
 
                 {/* Header */}
-                <div className="px-7 pt-7 pb-6" style={{ background: T.blue }}>
-                    <div className="flex items-start justify-between mb-5">
+                <div style={{ padding: '24px 28px 20px', background: T.blue }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '18px' }}>
                         <div>
-                            <div className="flex items-center gap-2 mb-1">
-                                <Search size={13} color="rgba(255,255,255,0.6)" />
-                                <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.6)' }}>Diagnóstico SEO Gratuito</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+                                <Search size={12} color="rgba(255,255,255,0.6)" />
+                                <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.6)' }}>Diagnóstico SEO Gratuito</span>
                             </div>
-                            <h3 className="text-xl font-bold text-white" style={{ fontFamily: 'Playfair Display, serif' }}>
-                                {steps[step].title}
-                            </h3>
-                            <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.55)' }}>{steps[step].sub}</p>
+                            <h3 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: '20px', color: '#fff', margin: 0 }}>{MODAL_STEPS[step].title}</h3>
+                            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', margin: '2px 0 0' }}>{MODAL_STEPS[step].sub}</p>
                         </div>
-                        <button type="button" onClick={onClose} className="p-1.5 rounded-lg transition-colors ml-3"
-                            style={{ background: 'rgba(255,255,255,0.15)' }}>
-                            <X size={17} color="white" />
+                        <button type="button" onClick={onClose}
+                            style={{ padding: '6px', borderRadius: '8px', background: 'rgba(255,255,255,0.15)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '12px' }}>
+                            <X size={16} color="white" />
                         </button>
                     </div>
-                    {/* Step dots */}
-                    <div className="flex items-center gap-2">
-                        {steps.map((_, i) => (
-                            <div key={i} className="flex items-center gap-2">
-                                <div className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-all"
-                                    style={{ background: i <= step ? YELLOW : 'rgba(255,255,255,0.2)', color: i <= step ? T.blue : 'rgba(255,255,255,0.4)' }}>
+                    {/* Steps */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        {MODAL_STEPS.map((_, i) => (
+                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <div style={{ width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 700, background: i <= step ? YELLOW : 'rgba(255,255,255,0.2)', color: i <= step ? T.blue : 'rgba(255,255,255,0.4)', transition: 'all 0.2s' }}>
                                     {i < step ? '✓' : i + 1}
                                 </div>
-                                {i < steps.length - 1 && (
-                                    <div className="w-10 h-0.5 rounded-full" style={{ background: i < step ? YELLOW : 'rgba(255,255,255,0.2)' }} />
+                                {i < MODAL_STEPS.length - 1 && (
+                                    <div style={{ width: '36px', height: '2px', borderRadius: '99px', background: i < step ? YELLOW : 'rgba(255,255,255,0.2)' }} />
                                 )}
                             </div>
                         ))}
-                        <span className="text-[10px] ml-1" style={{ color: 'rgba(255,255,255,0.4)' }}>{step + 1} / {steps.length}</span>
+                        <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginLeft: '4px' }}>{step + 1} / {MODAL_STEPS.length}</span>
                     </div>
                 </div>
 
                 {/* Body */}
-                <div className="px-7 py-7">
+                <div style={{ padding: '28px' }}>
                     {status === 'success' ? (
-                        <div className="text-center py-8">
-                            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5" style={{ background: '#f0fdf4' }}>
-                                <CheckCircle2 size={30} style={{ color: '#16a34a' }} />
+                        <div style={{ textAlign: 'center', padding: '32px 0' }}>
+                            <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                                <CheckCircle2 size={28} style={{ color: '#16a34a' }} />
                             </div>
-                            <h3 className="text-xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>¡Diagnóstico recibido!</h3>
-                            <p className="text-sm mb-6" style={{ color: T.gray }}>
-                                Te contactaremos en menos de 24 horas con tu diagnóstico personalizado.
-                            </p>
+                            <h3 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: '20px', color: T.black, margin: '0 0 8px' }}>¡Diagnóstico recibido!</h3>
+                            <p style={{ fontSize: '13px', color: T.gray, margin: '0 0 24px', lineHeight: 1.6 }}>Te contactaremos en menos de 24 horas con tu diagnóstico personalizado.</p>
                             <YellowBtn onClick={onClose}>Cerrar</YellowBtn>
                         </div>
                     ) : (
                         <>
-                            <div className="space-y-5">
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                                 {step === 0 && <>
-                                    <IField label="Nombre completo" required><Inp k="name" placeholder="Juan Pérez" required /></IField>
-                                    <IField label="Correo electrónico" required><Inp k="email" type="email" placeholder="tu@empresa.cl" required /></IField>
-                                    <IField label="Teléfono / WhatsApp" required><Inp k="phone" type="tel" placeholder="+56 9 XXXX XXXX" required /></IField>
-                                    <IField label="Empresa o marca"><Inp k="company" placeholder="Nombre de tu empresa" /></IField>
+                                    <div><FL label="Nombre completo" req /><input type="text" placeholder="Juan Pérez" value={fd.name} onChange={set('name')} onFocus={onFocus} onBlur={onBlur} style={iBase} autoComplete="name" /></div>
+                                    <div><FL label="Correo electrónico" req /><input type="email" placeholder="tu@empresa.cl" value={fd.email} onChange={set('email')} onFocus={onFocus} onBlur={onBlur} style={iBase} autoComplete="email" /></div>
+                                    <div><FL label="Teléfono / WhatsApp" req /><input type="tel" placeholder="+56 9 XXXX XXXX" value={fd.phone} onChange={set('phone')} onFocus={onFocus} onBlur={onBlur} style={iBase} autoComplete="tel" /></div>
+                                    <div><FL label="Empresa o marca" /><input type="text" placeholder="Nombre de tu empresa" value={fd.company} onChange={set('company')} onFocus={onFocus} onBlur={onBlur} style={iBase} autoComplete="organization" /></div>
                                 </>}
                                 {step === 1 && <>
-                                    <IField label="URL de tu sitio web"><Inp k="website" placeholder="www.tuempresa.cl" /></IField>
-                                    <IField label="Industria / sector" required>
-                                        <Sel k="industry" opts={['Salud y bienestar', 'E-commerce / Tienda online', 'Servicios profesionales', 'Turismo y hotelería', 'Inmobiliario', 'Restaurantes y gastronomía', 'Educación', 'Tecnología', 'Construcción', 'Otro']} />
-                                    </IField>
-                                    <IField label="¿Cuánto tiempo lleva tu sitio online?">
-                                        <Sel k="timeOnline" opts={['No tengo sitio web aún', 'Menos de 1 año', '1 a 3 años', 'Más de 3 años']} />
-                                    </IField>
-                                    <IField label="Visitas mensuales aproximadas">
-                                        <Sel k="monthlyVisits" opts={['No sé / Sin acceso a datos', 'Menos de 500', '500 – 2.000', '2.000 – 10.000', 'Más de 10.000']} />
-                                    </IField>
-                                    <IField label="¿Tienen estrategia SEO actualmente?">
-                                        <Sel k="currentSeo" opts={['No, nunca he trabajado el SEO', 'Algo básico pero informal', 'Sí, alguien lo gestiona', 'Lo gestiono yo mismo', 'No sé']} />
-                                    </IField>
-                                    <IField label="Zona geográfica objetivo" required>
-                                        <Sel k="geoTarget" opts={['Local (mi ciudad/región)', 'Nacional (Chile)', 'Latinoamérica', 'Internacional']} />
-                                    </IField>
+                                    <div><FL label="URL de tu sitio web" /><input type="url" placeholder="https://www.tuempresa.cl" value={fd.website} onChange={set('website')} onFocus={onFocus} onBlur={onBlur} style={iBase} autoComplete="url" /></div>
+                                    <div><FL label="Industria / sector" req /><select value={fd.industry} onChange={set('industry')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.industry.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
+                                    <div><FL label="¿Cuánto tiempo lleva tu sitio online?" /><select value={fd.timeOnline} onChange={set('timeOnline')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.timeOnline.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
+                                    <div><FL label="Visitas mensuales aproximadas" /><select value={fd.monthlyVisits} onChange={set('monthlyVisits')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.monthlyVisits.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
+                                    <div><FL label="¿Tienen estrategia SEO actualmente?" /><select value={fd.currentSeo} onChange={set('currentSeo')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.currentSeo.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
+                                    <div><FL label="Zona geográfica objetivo" req /><select value={fd.geoTarget} onChange={set('geoTarget')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.geoTarget.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
                                 </>}
                                 {step === 2 && <>
-                                    <IField label="Objetivo principal con SEO" required>
-                                        <Sel k="goal" opts={['Aparecer en primeros resultados de Google', 'Conseguir más leads o consultas', 'Aumentar ventas directas', 'Mejorar visibilidad de marca', 'Reducir dependencia de publicidad pagada']} />
-                                    </IField>
-                                    <IField label="Presupuesto mensual estimado" required>
-                                        <Sel k="budget" opts={['No tengo definido', '$50.000 – $150.000 CLP/mes', '$150.000 – $300.000 CLP/mes', '$300.000 – $600.000 CLP/mes', 'Más de $600.000 CLP/mes']} />
-                                    </IField>
-                                    <IField label="Competidores que conoces (opcional)">
-                                        <textarea value={formData.competitors}
-                                            onChange={e => set('competitors', e.target.value)}
-                                            onFocus={() => focusOn('competitors')}
-                                            onBlur={() => focusOff('competitors')}
-                                            placeholder="Ej: empresa1.cl, empresa2.cl..." rows={3}
-                                            className="w-full py-3 bg-transparent text-sm focus:outline-none placeholder:opacity-30 resize-none transition-colors"
-                                            style={bStyle('competitors')} />
-                                    </IField>
+                                    <div><FL label="Objetivo principal con SEO" req /><select value={fd.goal} onChange={set('goal')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.goal.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
+                                    <div><FL label="Presupuesto mensual estimado" req /><select value={fd.budget} onChange={set('budget')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.budget.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
+                                    <div><FL label="Competidores que conoces (opcional)" /><textarea placeholder="Ej: empresa1.cl, empresa2.cl..." value={fd.competitors} onChange={set('competitors')} onFocus={onFocus} onBlur={onBlur} rows={3} style={{ ...iBase, resize: 'none', lineHeight: 1.6 }} /></div>
                                 </>}
                             </div>
 
-                            <div className="flex items-center justify-between mt-7 pt-5" style={{ borderTop: `1px solid ${T.border}` }}>
+                            <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                 {step > 0
-                                    ? <button type="button" onClick={() => setStep(s => s - 1)}
-                                        className="text-sm font-semibold hover:opacity-60 transition-opacity"
-                                        style={{ color: T.gray }}>← Volver</button>
+                                    ? <button type="button" onClick={() => setStep(s => s - 1)} style={{ fontSize: '13px', fontWeight: 600, color: T.gray, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Poppins, sans-serif' }}>← Volver</button>
                                     : <div />}
-
                                 {step < 2
-                                    ? <YellowBtn onClick={() => setStep(s => s + 1)} disabled={!canNext[step]}>
-                                        Continuar <ArrowRight size={14} />
-                                      </YellowBtn>
-                                    : <YellowBtn onClick={submit} disabled={!canNext[2] || status === 'sending'}>
-                                        {status === 'sending' ? 'Enviando...' : 'Solicitar diagnóstico →'}
-                                      </YellowBtn>}
+                                    ? <YellowBtn onClick={() => canNext[step] && setStep(s => s + 1)} disabled={!canNext[step]}>Continuar <ArrowRight size={14} /></YellowBtn>
+                                    : <YellowBtn onClick={submit} disabled={!canNext[2] || status === 'sending'}>{status === 'sending' ? 'Enviando...' : 'Solicitar diagnóstico →'}</YellowBtn>}
                             </div>
 
                             {status === 'error' && (
-                                <p className="text-xs text-center mt-3 font-semibold" style={{ color: '#ef4444' }}>
+                                <p style={{ fontSize: '12px', textAlign: 'center', marginTop: '10px', fontWeight: 600, color: '#ef4444' }}>
                                     Error al enviar. Contáctanos por WhatsApp.
                                 </p>
                             )}
