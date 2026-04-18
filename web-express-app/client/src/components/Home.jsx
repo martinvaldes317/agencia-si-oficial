@@ -59,8 +59,6 @@ const H2 = ({ children, className = '', style = {} }) => (
 )
 
 // ── SEO Diagnostic Modal ──────────────────────────────────────────────────────
-const YELLOW = '#FACC15'
-
 const YellowBtn = ({ children, onClick, disabled = false }) => (
     <button type="button" onClick={onClick} disabled={disabled}
         className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold tracking-wide transition-all active:scale-[0.98]"
