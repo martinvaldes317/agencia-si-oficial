@@ -825,21 +825,21 @@ export default function Home() {
             </section>
 
             {/* ═══ SEO DIAGNÓSTICO CTA ════════════════════════════════════════ */}
-            <section style={{ background: T.black }}>
+            <section style={{ background: T.blue }}>
                 <div className="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-28">
                     <div className="grid lg:grid-cols-5 gap-12 items-center">
                         <div className="lg:col-span-3">
                             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-7"
-                                style={{ background: T.blue + '20', border: `1px solid ${T.blue}35` }}>
-                                <Search size={13} style={{ color: T.blue }} />
-                                <span className="text-[11px] font-bold tracking-wide" style={{ color: T.blue }}>Diagnóstico SEO Gratuito</span>
+                                style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)' }}>
+                                <Search size={13} color="#fff" />
+                                <span className="text-[11px] font-bold tracking-wide text-white">Diagnóstico SEO Gratuito</span>
                             </div>
-                            <h2 className="font-bold leading-[1.1] text-white mb-5"
-                                style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
+                            <h2 className="font-bold leading-[1.1] mb-5"
+                                style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(2rem, 4vw, 3.2rem)', color: '#fff' }}>
                                 ¿Tu sitio aparece cuando tus clientes{' '}
-                                <em className="font-normal" style={{ color: T.blue }}>te buscan en Google?</em>
+                                <em className="font-normal" style={{ color: YELLOW }}>te buscan en Google?</em>
                             </h2>
-                            <p className="text-base leading-relaxed mb-8" style={{ color: '#888' }}>
+                            <p className="text-base leading-relaxed mb-8" style={{ color: 'rgba(255,255,255,0.75)' }}>
                                 Analizamos tu posicionamiento orgánico actual, identificamos lo que estás perdiendo y te entregamos un plan de acción concreto. Sin costo, sin compromiso.
                             </p>
                             <ul className="space-y-3.5 mb-10">
@@ -849,8 +849,8 @@ export default function Home() {
                                     { icon: Zap,       text: 'Plan de acción personalizado y accionable' },
                                     { icon: Shield,    text: '100% gratuito, sin compromiso de contratación' },
                                 ].map(({ icon: Icon, text }) => (
-                                    <li key={text} className="flex items-center gap-3 text-sm" style={{ color: '#999' }}>
-                                        <Icon size={15} style={{ color: T.blue, flexShrink: 0 }} />
+                                    <li key={text} className="flex items-center gap-3 text-sm" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                                        <Icon size={15} color={YELLOW} style={{ flexShrink: 0 }} />
                                         {text}
                                     </li>
                                 ))}
@@ -862,8 +862,8 @@ export default function Home() {
                                     <Search size={15} /> Quiero mi diagnóstico gratuito
                                 </button>
                                 <Link to="/diagnostico-seo"
-                                    className="text-sm font-semibold transition-opacity hover:opacity-60"
-                                    style={{ color: '#666' }}>
+                                    className="text-sm font-semibold transition-opacity hover:opacity-80"
+                                    style={{ color: 'rgba(255,255,255,0.6)' }}>
                                     Ver página completa →
                                 </Link>
                             </div>
@@ -871,15 +871,16 @@ export default function Home() {
 
                         {/* Reporte "bloqueado" */}
                         <div className="hidden lg:block lg:col-span-2">
-                            <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid #1c1c1c' }}>
-                                <div className="px-5 py-4 flex items-center justify-between" style={{ background: '#111' }}>
+                            <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.2)' }}>
+                                <div className="px-5 py-4 flex items-center justify-between" style={{ background: 'rgba(0,0,0,0.2)' }}>
                                     <div className="flex items-center gap-2">
-                                        <Search size={13} style={{ color: T.blue }} />
-                                        <span className="text-xs font-semibold" style={{ color: '#555' }}>Reporte SEO</span>
+                                        <Search size={13} color={YELLOW} />
+                                        <span className="text-xs font-semibold text-white opacity-70">Reporte SEO</span>
                                     </div>
-                                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full" style={{ background: T.blue + '25', color: T.blue }}>Gratuito</span>
+                                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full"
+                                        style={{ background: YELLOW, color: T.blue }}>Gratuito</span>
                                 </div>
-                                <div className="p-5" style={{ background: '#0d0d0d' }}>
+                                <div className="p-5" style={{ background: 'rgba(0,0,0,0.15)' }}>
                                     {[
                                         'Posición promedio en Google',
                                         'Palabras clave indexadas',
@@ -888,11 +889,12 @@ export default function Home() {
                                         'Score de autoridad de dominio',
                                         'Análisis vs. competidores',
                                     ].map((item) => (
-                                        <div key={item} className="flex items-center justify-between py-2.5" style={{ borderBottom: '1px solid #181818' }}>
-                                            <span className="text-xs" style={{ color: '#555' }}>{item}</span>
+                                        <div key={item} className="flex items-center justify-between py-2.5"
+                                            style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                                            <span className="text-xs text-white opacity-60">{item}</span>
                                             <div className="flex items-center gap-2">
-                                                <div className="w-14 h-1.5 rounded-full" style={{ background: '#1a1a1a' }} />
-                                                <span className="text-[11px] font-bold" style={{ color: '#333' }}>—</span>
+                                                <div className="w-14 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.15)' }} />
+                                                <span className="text-[11px] font-bold" style={{ color: 'rgba(255,255,255,0.25)' }}>—</span>
                                             </div>
                                         </div>
                                     ))}
