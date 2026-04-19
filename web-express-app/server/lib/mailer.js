@@ -129,4 +129,50 @@ function fileUploaded({ clientName, fileName, category }) {
   `);
 }
 
-module.exports = { send, meetingScheduled, paymentCreated, ticketReply, fileUploaded };
+function newContact({ name, email, phone, company, budget }) {
+  return base(`
+    <p class="title">📩 Nuevo contacto / cotización</p>
+    <p class="subtitle">Alguien llenó el formulario de contacto en el sitio.</p>
+    <div class="card">
+      <div class="row"><span class="label">Nombre</span><span class="value">${name || '—'}</span></div>
+      <div class="row"><span class="label">Email</span><span class="value">${email || '—'}</span></div>
+      <div class="row"><span class="label">Teléfono</span><span class="value">${phone || '—'}</span></div>
+      <div class="row"><span class="label">Empresa</span><span class="value">${company || '—'}</span></div>
+      <div class="row"><span class="label">Presupuesto</span><span class="value">${budget || '—'}</span></div>
+    </div>
+  `);
+}
+
+function newSeoDiagnostic({ name, email, phone, company, website, budget, industry, goal }) {
+  return base(`
+    <p class="title">🔍 Nuevo diagnóstico SEO solicitado</p>
+    <p class="subtitle">Alguien completó el formulario de diagnóstico SEO.</p>
+    <div class="card">
+      <div class="row"><span class="label">Nombre</span><span class="value">${name || '—'}</span></div>
+      <div class="row"><span class="label">Email</span><span class="value">${email || '—'}</span></div>
+      <div class="row"><span class="label">Teléfono</span><span class="value">${phone || '—'}</span></div>
+      <div class="row"><span class="label">Empresa</span><span class="value">${company || '—'}</span></div>
+      <div class="row"><span class="label">Sitio web</span><span class="value">${website || '—'}</span></div>
+      <div class="row"><span class="label">Industria</span><span class="value">${industry || '—'}</span></div>
+      <div class="row"><span class="label">Objetivo</span><span class="value">${goal || '—'}</span></div>
+      <div class="row"><span class="label">Presupuesto</span><span class="value">${budget || '—'}</span></div>
+    </div>
+  `);
+}
+
+function newOrder({ orderId, name, email, phone, service, plan }) {
+  return base(`
+    <p class="title">🛒 Nuevo pedido recibido</p>
+    <p class="subtitle">Se completó el wizard de pedido en el sitio.</p>
+    <div class="card">
+      <div class="row"><span class="label">ID Pedido</span><span class="value" style="color:#6ee7b7;font-weight:700">${orderId}</span></div>
+      <div class="row"><span class="label">Nombre</span><span class="value">${name || '—'}</span></div>
+      <div class="row"><span class="label">Email</span><span class="value">${email || '—'}</span></div>
+      <div class="row"><span class="label">Teléfono</span><span class="value">${phone || '—'}</span></div>
+      <div class="row"><span class="label">Servicio</span><span class="value">${service || '—'}</span></div>
+      <div class="row"><span class="label">Plan</span><span class="value">${plan || '—'}</span></div>
+    </div>
+  `);
+}
+
+module.exports = { send, meetingScheduled, paymentCreated, ticketReply, fileUploaded, newContact, newSeoDiagnostic, newOrder };

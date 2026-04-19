@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
 const prisma = require('./lib/prisma');
+const mailer = require('./lib/mailer');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -34,6 +35,7 @@ app.post('/api/contact', async (req, res) => {
   try {
     const { name, email, phone, company, budget } = req.body;
     const newLead = await prisma.contactLead.create({ data: { name, email, phone, company, budget, type: 'cotizacion' } });
+    mailer.send({ to: 'contacto@agenciasi.cl', subject: `Nuevo contacto: ${name}`, html: mailer.newContact({ name, email, phone, company, budget }) });
     res.status(200).json({ success: true, message: 'Lead saved successfully', lead: newLead });
   } catch (error) {
     console.error('Error saving lead:', error);
@@ -49,6 +51,7 @@ app.post('/api/seo-diagnostic', async (req, res) => {
     const newLead = await prisma.contactLead.create({
       data: { name, email, phone, company, website, budget, message, type: 'diagnostico_seo' }
     });
+    mailer.send({ to: 'contacto@agenciasi.cl', subject: `Nuevo diagnóstico SEO: ${name}`, html: mailer.newSeoDiagnostic({ name, email, phone, company, website, budget, industry, goal }) });
     res.status(200).json({ success: true, message: 'Diagnóstico recibido', lead: newLead });
   } catch (error) {
     console.error('Error saving SEO diagnostic:', error);
@@ -66,6 +69,7 @@ app.post('/api/submit-order', (req, res) => {
     orderData.createdAt = new Date().toISOString();
     const filePath = path.join(__dirname, 'uploads', `${orderId}.json`);
     fs.writeFileSync(filePath, JSON.stringify(orderData, null, 2));
+    mailer.send({ to: 'contacto@agenciasi.cl', subject: `Nuevo pedido: ${orderId}`, html: mailer.newOrder({ orderId, name: orderData.name, email: orderData.email, phone: orderData.phone, service: orderData.service, plan: orderData.plan }) });
     res.status(200).json({ success: true, message: 'Order received', orderId });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Internal Server Error' });
