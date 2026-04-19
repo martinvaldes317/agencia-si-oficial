@@ -32,7 +32,7 @@ const services = [
     {
         icon: Code2,
         label: 'Desarrollo Web Express',
-        sub: 'Tu sitio en 7 días, desde $249.990',
+        sub: 'Tu sitio en 7 días, desde $129.990',
         to: '/digitalizacion-express',
         variant: 'primary',
     },

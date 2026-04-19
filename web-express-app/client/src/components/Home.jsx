@@ -655,7 +655,7 @@ export default function Home() {
                     {/* Service grid */}
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                         {[
-                            { icon: Code2,        title: 'Desarrollo Web',      desc: 'Sitios profesionales, rápidos y orientados a conversión. Sin templates.',    price: 'Desde $249.990',   color: '#7F77DD' },
+                            { icon: Code2,        title: 'Desarrollo Web',      desc: 'Sitios profesionales, rápidos y orientados a conversión. Sin templates.',    price: 'Desde $129.990',   color: '#7F77DD' },
                             { icon: Globe,        title: 'WordPress Pro',        desc: 'SEO técnico avanzado, plugins a medida y velocidad optimizada.',             price: 'Desde $399.990',   color: '#7F77DD' },
                             { icon: BrainCircuit, title: 'Ecosistemas IA',       desc: 'Automatizaciones, CRM y flujos con IA para acelerar ventas.',               price: 'Cotizar',          color: T.blue   },
                             { icon: Palette,      title: 'Branding Autoridad',   desc: 'Identidad corporativa para posicionarte y atraer alto ticket.',             price: 'Cotizar',          color: T.blue   },
