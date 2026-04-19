@@ -27,7 +27,7 @@ const services = [
         label: 'Diagnóstico SEO Gratuito',
         sub: 'Descubre dónde estás en Google',
         to: '/diagnostico-seo',
-        variant: 'yellow',
+        variant: 'white',
     },
     {
         icon: Code2,
@@ -103,8 +103,9 @@ const BtnLink = ({ item }) => {
     }
 
     const styles = {
-        primary: { ...base, background: T.blue, color: T.white, border: 'none' },
-        yellow:  { ...base, background: T.yellow, color: T.blue, border: 'none' },
+        primary: { ...base, background: T.blue,   color: T.white, border: 'none' },
+        yellow:  { ...base, background: T.yellow,  color: T.blue,  border: 'none' },
+        white:   { ...base, background: T.white,   color: T.black, border: 'none' },
         outline: { ...base, background: 'rgba(255,255,255,0.06)', color: T.white, border: '1px solid rgba(255,255,255,0.12)' },
     }
 
@@ -117,9 +118,10 @@ const BtnLink = ({ item }) => {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 background: item.variant === 'primary' ? 'rgba(255,255,255,0.15)'
                           : item.variant === 'yellow'  ? 'rgba(45,43,181,0.15)'
+                          : item.variant === 'white'   ? 'rgba(0,0,0,0.08)'
                           : 'rgba(255,255,255,0.1)',
             }}>
-                <item.icon size={18} color={item.variant === 'yellow' ? T.blue : T.white} />
+                <item.icon size={18} color={item.variant === 'yellow' || item.variant === 'white' ? T.blue : T.white} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{ margin: 0, fontWeight: 700, fontSize: '14px', lineHeight: 1.2 }}>{item.label}</p>
@@ -152,10 +154,8 @@ export default function Links() {
 
                 {/* Profile */}
                 <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-                    <div style={{ width: '80px', height: '80px', borderRadius: '50%', margin: '0 auto 16px', padding: '3px', background: `linear-gradient(135deg, ${T.blue}, ${T.yellow})` }}>
-                        <div style={{ width: '100%', height: '100%', borderRadius: '50%', background: '#0f0f1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: '36px', width: 'auto' }} />
-                        </div>
+                    <div style={{ margin: '0 auto 16px', display: 'flex', justifyContent: 'center' }}>
+                        <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: '48px', width: 'auto' }} />
                     </div>
                     <h1 style={{ color: T.white, fontWeight: 800, fontSize: '20px', margin: '0 0 4px', letterSpacing: '-0.01em' }}>AgenciaSi</h1>
                     <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '13px', margin: '0 0 6px' }}>
@@ -181,7 +181,7 @@ export default function Links() {
                     <Link to="/diagnostico-seo" style={{
                         display: 'inline-flex', alignItems: 'center', gap: '8px',
                         padding: '11px 24px', borderRadius: '99px',
-                        background: T.yellow, color: T.blue,
+                        background: T.white, color: T.black,
                         fontWeight: 700, fontSize: '13px', textDecoration: 'none',
                     }}>
                         Solicitar gratis <ArrowRight size={14} />
