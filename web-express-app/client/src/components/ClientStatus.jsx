@@ -18,7 +18,7 @@ export default function ClientStatus() {
 
     const fetchOrder = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/orders/${orderId}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/orders/${orderId}`);
             if (!response.ok) {
                 setError(true);
                 setLoading(false);

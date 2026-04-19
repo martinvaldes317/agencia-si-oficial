@@ -20,7 +20,7 @@ export default function AdminDashboard() {
 
     const fetchOrders = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/orders');
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/orders`);
             const data = await response.json();
             if (data.success) {
                 setOrders(data.orders);
@@ -34,7 +34,7 @@ export default function AdminDashboard() {
 
     const updateStatus = async (orderId, newStatus) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/orders/${orderId}/status`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/orders/${orderId}/status`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: newStatus })
