@@ -38,8 +38,8 @@ app.post('/api/contact', async (req, res) => {
     mailer.send({ to: 'contacto@agenciasi.cl', subject: `Nuevo contacto: ${name}`, html: mailer.newContact({ name, email, phone, company, budget }) });
     res.status(200).json({ success: true, message: 'Lead saved successfully', lead: newLead });
   } catch (error) {
-    console.error('Error saving lead:', error);
-    res.status(500).json({ success: false, message: 'Error saving to database' });
+    console.error('Error saving lead:', error.message, error.code);
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
