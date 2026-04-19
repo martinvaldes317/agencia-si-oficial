@@ -9,7 +9,6 @@ RUN npm ci --omit=dev
 
 COPY . .
 RUN npx prisma generate
-RUN npx prisma db push --accept-data-loss
 
 EXPOSE 3000
-CMD ["node", "index.js"]
+CMD ["sh", "-c", "npx prisma db push --accept-data-loss && node index.js"]
