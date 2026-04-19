@@ -9,6 +9,7 @@ import AdminDashboard from './components/AdminDashboard'
 import ClientStatus from './components/ClientStatus'
 import ClientManagement from './components/admin/ClientManagement'
 import DiagnosticoSEO from './components/DiagnosticoSEO'
+import Links from './components/Links'
 
 // Portal
 import PortalLogin from './components/portal/PortalLogin'
@@ -39,6 +40,7 @@ function App() {
           <Route path="/status/:orderId" element={<ClientStatus />} />
           <Route path="/pack-express" element={<Wizard />} />
           <Route path="/diagnostico-seo" element={<DiagnosticoSEO />} />
+          <Route path="/links" element={<Links />} />
 
           {/* Admin */}
           <Route path="/admin/si" element={<AdminDashboard />} />
