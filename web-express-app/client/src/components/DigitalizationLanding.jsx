@@ -22,17 +22,18 @@ export default function DigitalizationLanding() {
 
             {/* Premium Header */}
             <header className="fixed w-full top-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/5">
-                <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <Link to="/" className="p-2 hover:bg-white/10 rounded-full transition-colors group">
-                            <ArrowLeft className="w-5 h-5 text-zinc-500 group-hover:text-white transition-colors" />
+                <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                        <Link to="/" className="p-2 hover:bg-white/10 rounded-full transition-colors group shrink-0">
+                            <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 text-zinc-500 group-hover:text-white transition-colors" />
                         </Link>
-                        <Link to="/" className="border-l pl-4 border-white/10 group">
-                            <img src="/logo-dark.png" alt="AgenciaSi" className="h-8 w-auto transition-opacity group-hover:opacity-70" />
+                        <Link to="/" className="border-l pl-3 md:pl-4 border-white/10 group shrink-0">
+                            <img src="/logo-dark.png" alt="AgenciaSi" className="h-7 md:h-8 w-auto transition-opacity group-hover:opacity-70" style={{ display: 'block' }} />
                         </Link>
                     </div>
-                    <Link to="/digitalizacion-express/wizard" className="bg-white text-black px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-all active:scale-95">
-                        Comenzar Ahora
+                    <Link to="/digitalizacion-express/wizard" className="shrink-0 bg-white text-black px-4 md:px-6 py-2 md:py-2.5 text-[9px] md:text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-all active:scale-95 whitespace-nowrap">
+                        Comenzar
+                        <span className="hidden md:inline"> Ahora</span>
                     </Link>
                 </div>
             </header>
