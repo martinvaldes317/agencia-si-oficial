@@ -260,6 +260,11 @@ const Navbar = () => {
                                 {l.label}
                             </a>
                         ))}
+                        <Link to="/digitalizacion-express"
+                            className="text-[12px] font-bold px-3.5 py-1.5 rounded-full transition-all hover:opacity-80"
+                            style={{ background: T.blue + '12', color: T.blue, fontFamily: 'Poppins, sans-serif' }}>
+                            Web Express
+                        </Link>
                     </div>
 
                     <div className="hidden md:flex items-center gap-3">
