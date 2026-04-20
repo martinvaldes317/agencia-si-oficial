@@ -1,15 +1,5 @@
-const nodemailer = require('nodemailer');
-
-const transporter = nodemailer.createTransport({
-  host:   process.env.SMTP_HOST   || 'smtp.gmail.com',
-  port:   Number(process.env.SMTP_PORT || 587),
-  secure: false,
-  family: 4,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 function base(content) {
   return `<!DOCTYPE html>
@@ -54,13 +44,13 @@ function base(content) {
 }
 
 async function send({ to, subject, html }) {
-  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    console.log(`[Mailer] Sin credenciales SMTP — email no enviado a ${to}: ${subject}`);
+  if (!process.env.RESEND_API_KEY) {
+    console.log(`[Mailer] Sin RESEND_API_KEY — email no enviado a ${to}: ${subject}`);
     return;
   }
   try {
-    await transporter.sendMail({
-      from: `"AgenciaSi" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+    await resend.emails.send({
+      from: 'AgenciaSi <contacto@agenciasi.cl>',
       to,
       subject,
       html,
