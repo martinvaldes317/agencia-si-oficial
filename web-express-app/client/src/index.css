@@ -46,7 +46,7 @@
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -54,8 +54,20 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
+    background: #2D2BB5;
+    border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1e1c9e;
+}
+
+/* WhatsApp tooltip animation */
+@keyframes fadeInOut {
+    0%   { opacity: 0; transform: translateY(6px); }
+    15%  { opacity: 1; transform: translateY(0); }
+    75%  { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-4px); }
 }
 
 ::-webkit-scrollbar-thumb:hover {
