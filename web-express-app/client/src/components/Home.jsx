@@ -376,7 +376,7 @@ export default function Home() {
 
     useEffect(() => {
         const show = setTimeout(() => setShowWaTooltip(true), 5000)
-        const hide = setTimeout(() => setShowWaTooltip(false), 8000)
+        const hide = setTimeout(() => setShowWaTooltip(false), 15000)
         return () => { clearTimeout(show); clearTimeout(hide) }
     }, [])
     const { executeRecaptcha } = useGoogleReCaptcha()
@@ -402,40 +402,13 @@ export default function Home() {
             {showSeoModal && <SeoDiagnosticModal onClose={() => setShowSeoModal(false)} />}
 
             {/* WhatsApp floating button */}
-            <div className="fixed bottom-8 left-8 z-50 flex items-center gap-4" style={{ pointerEvents: 'none' }}>
-                {/* Tooltip */}
-                <div style={{
-                    pointerEvents: showWaTooltip ? 'auto' : 'none',
-                    opacity: showWaTooltip ? 1 : 0,
-                    transform: showWaTooltip ? 'translateX(0) scale(1)' : 'translateX(-12px) scale(0.95)',
-                    transition: 'opacity 0.4s cubic-bezier(0.16,1,0.3,1), transform 0.4s cubic-bezier(0.16,1,0.3,1)',
-                    background: '#fff',
-                    border: `1.5px solid ${T.border}`,
-                    borderRadius: '14px',
-                    padding: '10px 18px',
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.10)',
-                    whiteSpace: 'nowrap',
-                    order: 1,
-                }}>
-                    <p style={{ fontSize: '13px', fontWeight: 700, color: T.black, margin: 0 }}>¿Hablamos?</p>
-                    <p style={{ fontSize: '12px', color: T.gray, margin: '2px 0 0', fontWeight: 400 }}>Respuesta inmediata</p>
-                </div>
-
+            <div className="fixed bottom-8 left-6 z-50 flex items-center gap-3" style={{ pointerEvents: 'none' }}>
                 {/* Button */}
                 <a href="https://wa.me/56932930812?text=Hola%2C%20me%20interesa%20saber%20m%C3%A1s%20sobre%20sus%20servicios"
                     target="_blank" rel="noopener noreferrer"
-                    style={{ pointerEvents: 'auto', order: 2, flexShrink: 0, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {/* Pulse rings */}
-                    <span style={{
-                        position: 'absolute', inset: 0, borderRadius: '50%',
-                        background: '#25D366', opacity: 0.25,
-                        animation: 'waPulse 2.5s ease-out infinite',
-                    }} />
-                    <span style={{
-                        position: 'absolute', inset: 0, borderRadius: '50%',
-                        background: '#25D366', opacity: 0.15,
-                        animation: 'waPulse 2.5s ease-out infinite 0.6s',
-                    }} />
+                    style={{ pointerEvents: 'auto', flexShrink: 0, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#25D366', opacity: 0.25, animation: 'waPulse 2.5s ease-out infinite' }} />
+                    <span style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#25D366', opacity: 0.15, animation: 'waPulse 2.5s ease-out infinite 0.6s' }} />
                     <span style={{
                         width: 56, height: 56, borderRadius: '50%',
                         background: 'linear-gradient(135deg, #25D366, #1da851)',
@@ -452,6 +425,30 @@ export default function Home() {
                         </svg>
                     </span>
                 </a>
+
+                {/* Tooltip — al lado derecho del botón */}
+                <div style={{
+                    pointerEvents: showWaTooltip ? 'auto' : 'none',
+                    opacity: showWaTooltip ? 1 : 0,
+                    transform: showWaTooltip ? 'translateX(0) scale(1)' : 'translateX(-8px) scale(0.96)',
+                    transition: 'opacity 0.45s cubic-bezier(0.16,1,0.3,1), transform 0.45s cubic-bezier(0.16,1,0.3,1)',
+                    background: '#fff',
+                    border: `1.5px solid ${T.border}`,
+                    borderRadius: '14px',
+                    padding: '10px 16px',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.10)',
+                    whiteSpace: 'nowrap',
+                    position: 'relative',
+                }}>
+                    {/* Arrow izquierda */}
+                    <span style={{
+                        position: 'absolute', left: -7, top: '50%', transform: 'translateY(-50%) rotate(45deg)',
+                        width: 12, height: 12, background: '#fff',
+                        border: `1.5px solid ${T.border}`, borderRight: 'none', borderTop: 'none',
+                    }} />
+                    <p style={{ fontSize: '13px', fontWeight: 700, color: T.black, margin: 0 }}>¿Hablamos?</p>
+                    <p style={{ fontSize: '12px', color: T.gray, margin: '2px 0 0', fontWeight: 400 }}>Respuesta inmediata</p>
+                </div>
             </div>
             <Helmet>
                 <title>AgenciaSi | Meta Ads, Google Ads e IA para empresas en Chile</title>
