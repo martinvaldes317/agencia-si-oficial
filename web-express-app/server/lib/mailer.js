@@ -120,7 +120,7 @@ function fileUploaded({ clientName, fileName, category }) {
   `);
 }
 
-function newContact({ name, email, phone, company, budget }) {
+function newContact({ name, email, phone, company, budget, message }) {
   return base(`
     <p class="title">📩 Nuevo contacto / cotización</p>
     <p class="subtitle">Alguien llenó el formulario de contacto en el sitio.</p>
@@ -130,6 +130,7 @@ function newContact({ name, email, phone, company, budget }) {
       <div class="row"><span class="label">Teléfono</span><span class="value">${phone || '—'}</span></div>
       <div class="row"><span class="label">Empresa</span><span class="value">${company || '—'}</span></div>
       <div class="row"><span class="label">Presupuesto</span><span class="value">${budget || '—'}</span></div>
+      ${message ? `<div class="row"><span class="label">Comentarios</span><span class="value">${message}</span></div>` : ''}
     </div>
   `);
 }

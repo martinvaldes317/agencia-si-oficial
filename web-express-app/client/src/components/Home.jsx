@@ -368,7 +368,7 @@ const Footer = () => (
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function Home() {
-    const [form, setForm] = useState({ name: '', company: '', budget: '$500.000 - $1.500.000 CLP' })
+    const [form, setForm] = useState({ name: '', company: '', phone: '', email: '', message: '', budget: '$500.000 - $1.500.000 CLP' })
     const [status, setStatus] = useState('')
     const [showSeoModal, setShowSeoModal] = useState(false)
 
@@ -382,7 +382,7 @@ export default function Home() {
                 body: JSON.stringify(form)
             })
             setStatus(res.ok ? 'success' : 'error')
-            if (res.ok) setForm({ name: '', company: '', budget: '$500.000 - $1.500.000 CLP' })
+            if (res.ok) setForm({ name: '', company: '', phone: '', email: '', message: '', budget: '$500.000 - $1.500.000 CLP' })
         } catch { setStatus('error') }
     }
 
@@ -1000,6 +1000,8 @@ export default function Home() {
                             <form className="space-y-6" onSubmit={handleSubmit}>
                                 {[
                                     { label: 'Nombre completo', key: 'name', type: 'text', placeholder: 'Juan Pérez', required: true },
+                                    { label: 'Correo electrónico', key: 'email', type: 'email', placeholder: 'juan@tuempresa.cl', required: true },
+                                    { label: 'Teléfono o celular', key: 'phone', type: 'tel', placeholder: '+56 9 1234 5678', required: false },
                                     { label: 'Empresa o sitio web', key: 'company', type: 'text', placeholder: 'tuempresa.cl', required: false },
                                 ].map(({ label, key, type, placeholder, required }) => (
                                     <div key={key}>
@@ -1026,6 +1028,18 @@ export default function Home() {
                                         <option>$1.500.000 - $5.000.000 CLP</option>
                                         <option>$5.000.000+ CLP</option>
                                     </select>
+                                </div>
+
+                                <div>
+                                    <label className="text-[11px] font-bold uppercase tracking-widest block mb-2" style={{ color: T.gray }}>
+                                        Detalles adicionales
+                                    </label>
+                                    <textarea rows={3} placeholder="Cuéntanos más sobre tu negocio o qué necesitas..."
+                                        className="w-full py-3 bg-transparent text-base focus:outline-none transition-colors placeholder:opacity-30 resize-none"
+                                        style={{ borderBottom: `2px solid ${T.border}`, color: T.black }}
+                                        onFocus={e => e.target.style.borderBottomColor = T.blue}
+                                        onBlur={e => e.target.style.borderBottomColor = T.border}
+                                        value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} />
                                 </div>
 
                                 <PrimaryBtn onClick={handleSubmit} className="w-full py-4 text-base mt-2">

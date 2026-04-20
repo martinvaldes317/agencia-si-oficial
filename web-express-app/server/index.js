@@ -33,9 +33,9 @@ app.use('/api/portal', require('./routes/portal'));
 // Submit contact form (Leads)
 app.post('/api/contact', async (req, res) => {
   try {
-    const { name, email, phone, company, budget } = req.body;
-    const newLead = await prisma.contactLead.create({ data: { name, email, phone, company, budget, type: 'cotizacion' } });
-    mailer.send({ to: 'contacto@agenciasi.cl', subject: `Nuevo contacto: ${name}`, html: mailer.newContact({ name, email, phone, company, budget }) });
+    const { name, email, phone, company, budget, message } = req.body;
+    const newLead = await prisma.contactLead.create({ data: { name, email, phone, company, budget, message, type: 'cotizacion' } });
+    mailer.send({ to: 'contacto@agenciasi.cl', subject: `Nuevo contacto: ${name}`, html: mailer.newContact({ name, email, phone, company, budget, message }) });
     res.status(200).json({ success: true, message: 'Lead saved successfully', lead: newLead });
   } catch (error) {
     console.error('Error saving lead:', error.message, error.code);
