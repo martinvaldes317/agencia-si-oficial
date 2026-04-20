@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react'
-import ReCAPTCHA from 'react-google-recaptcha'
+import { useState, useEffect, useCallback } from 'react'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
@@ -372,12 +372,12 @@ export default function Home() {
     const [form, setForm] = useState({ name: '', company: '', phone: '', email: '', message: '', budget: '$500.000 - $1.500.000 CLP' })
     const [status, setStatus] = useState('')
     const [showSeoModal, setShowSeoModal] = useState(false)
-    const recaptchaRef = useRef(null)
+    const { executeRecaptcha } = useGoogleReCaptcha()
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = useCallback(async (e) => {
         e.preventDefault()
-        const token = recaptchaRef.current?.getValue()
-        if (!token) { setStatus('captcha'); return }
+        if (!executeRecaptcha) return
+        const token = await executeRecaptcha('contact_form')
         setStatus('sending')
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/contact`, {
@@ -386,14 +386,9 @@ export default function Home() {
                 body: JSON.stringify({ ...form, recaptchaToken: token })
             })
             setStatus(res.ok ? 'success' : 'error')
-            if (res.ok) {
-                setForm({ name: '', company: '', phone: '', email: '', message: '', budget: '$500.000 - $1.500.000 CLP' })
-                recaptchaRef.current?.reset()
-            } else {
-                recaptchaRef.current?.reset()
-            }
-        } catch { setStatus('error'); recaptchaRef.current?.reset() }
-    }
+            if (res.ok) setForm({ name: '', company: '', phone: '', email: '', message: '', budget: '$500.000 - $1.500.000 CLP' })
+        } catch { setStatus('error') }
+    }, [executeRecaptcha, form])
 
     return (
         <div className="antialiased overflow-x-hidden" style={{ background: T.white, color: T.black, fontFamily: 'Poppins, sans-serif' }}>
@@ -1008,9 +1003,9 @@ export default function Home() {
 
                             <form className="space-y-6" onSubmit={handleSubmit}>
                                 {[
-                                    { label: 'Nombre completo', key: 'name', type: 'text', placeholder: 'Juan Pérez', required: true },
-                                    { label: 'Correo electrónico', key: 'email', type: 'email', placeholder: 'juan@tuempresa.cl', required: true },
-                                    { label: 'Teléfono o celular', key: 'phone', type: 'tel', placeholder: '+56 9 1234 5678', required: false },
+                                    { label: 'Nombre completo *', key: 'name', type: 'text', placeholder: 'Juan Pérez', required: true },
+                                    { label: 'Correo electrónico *', key: 'email', type: 'email', placeholder: 'juan@tuempresa.cl', required: true },
+                                    { label: 'Teléfono o celular *', key: 'phone', type: 'tel', placeholder: '+56 9 1234 5678', required: true },
                                     { label: 'Empresa o sitio web', key: 'company', type: 'text', placeholder: 'tuempresa.cl', required: false },
                                 ].map(({ label, key, type, placeholder, required }) => (
                                     <div key={key}>
@@ -1051,11 +1046,6 @@ export default function Home() {
                                         value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} />
                                 </div>
 
-                                <ReCAPTCHA
-                                    ref={recaptchaRef}
-                                    sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LfsOsAsAAAAANfZA6vzm5Xl2XvqXETywb1eVNf7'}
-                                />
-
                                 <PrimaryBtn onClick={handleSubmit} className="w-full py-4 text-base mt-2">
                                     {status === 'sending' ? 'Enviando...' : 'Solicitar cotización gratuita'}
                                 </PrimaryBtn>
@@ -1064,11 +1054,6 @@ export default function Home() {
                                     <div className="flex items-center gap-2 text-sm font-semibold p-4 rounded-xl" style={{ background: '#f0fdf4', color: '#16a34a' }}>
                                         <CheckCircle2 size={16} /> ¡Mensaje enviado! Te contactamos pronto.
                                     </div>
-                                )}
-                                {status === 'captcha' && (
-                                    <p className="text-sm font-semibold text-center" style={{ color: '#ef4444' }}>
-                                        Por favor completa el captcha antes de enviar.
-                                    </p>
                                 )}
                                 {status === 'error' && (
                                     <p className="text-sm font-semibold text-center" style={{ color: '#ef4444' }}>
