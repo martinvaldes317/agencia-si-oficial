@@ -1,0 +1,7 @@
+{
+  "name": "agencia-si-oficial",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo 'Static files already built in web-express-app/dist'"
+  }
+}
