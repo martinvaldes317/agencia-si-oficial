@@ -33,7 +33,12 @@ app.use('/api/portal', require('./routes/portal'));
 // Submit contact form (Leads)
 app.post('/api/contact', async (req, res) => {
   try {
-    const { name, email, phone, company, budget, message } = req.body;
+    const { name, email, phone, company, budget, message, recaptchaToken } = req.body;
+    if (process.env.RECAPTCHA_SECRET) {
+      const verify = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${recaptchaToken}`, { method: 'POST' });
+      const { success } = await verify.json();
+      if (!success) return res.status(400).json({ success: false, message: 'Captcha inválido' });
+    }
     const newLead = await prisma.contactLead.create({ data: { name, email, phone, company, budget, message, type: 'cotizacion' } });
     mailer.send({ to: 'contacto@agenciasi.cl', subject: `Nuevo contacto: ${name}`, html: mailer.newContact({ name, email, phone, company, budget, message }) });
     res.status(200).json({ success: true, message: 'Lead saved successfully', lead: newLead });

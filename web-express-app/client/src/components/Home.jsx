@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
@@ -371,19 +372,27 @@ export default function Home() {
     const [form, setForm] = useState({ name: '', company: '', phone: '', email: '', message: '', budget: '$500.000 - $1.500.000 CLP' })
     const [status, setStatus] = useState('')
     const [showSeoModal, setShowSeoModal] = useState(false)
+    const recaptchaRef = useRef(null)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        const token = recaptchaRef.current?.getValue()
+        if (!token) { setStatus('captcha'); return }
         setStatus('sending')
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/contact`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(form)
+                body: JSON.stringify({ ...form, recaptchaToken: token })
             })
             setStatus(res.ok ? 'success' : 'error')
-            if (res.ok) setForm({ name: '', company: '', phone: '', email: '', message: '', budget: '$500.000 - $1.500.000 CLP' })
-        } catch { setStatus('error') }
+            if (res.ok) {
+                setForm({ name: '', company: '', phone: '', email: '', message: '', budget: '$500.000 - $1.500.000 CLP' })
+                recaptchaRef.current?.reset()
+            } else {
+                recaptchaRef.current?.reset()
+            }
+        } catch { setStatus('error'); recaptchaRef.current?.reset() }
     }
 
     return (
@@ -1042,6 +1051,11 @@ export default function Home() {
                                         value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} />
                                 </div>
 
+                                <ReCAPTCHA
+                                    ref={recaptchaRef}
+                                    sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LfsOsAsAAAAANfZA6vzm5Xl2XvqXETywb1eVNf7'}
+                                />
+
                                 <PrimaryBtn onClick={handleSubmit} className="w-full py-4 text-base mt-2">
                                     {status === 'sending' ? 'Enviando...' : 'Solicitar cotización gratuita'}
                                 </PrimaryBtn>
@@ -1050,6 +1064,11 @@ export default function Home() {
                                     <div className="flex items-center gap-2 text-sm font-semibold p-4 rounded-xl" style={{ background: '#f0fdf4', color: '#16a34a' }}>
                                         <CheckCircle2 size={16} /> ¡Mensaje enviado! Te contactamos pronto.
                                     </div>
+                                )}
+                                {status === 'captcha' && (
+                                    <p className="text-sm font-semibold text-center" style={{ color: '#ef4444' }}>
+                                        Por favor completa el captcha antes de enviar.
+                                    </p>
                                 )}
                                 {status === 'error' && (
                                     <p className="text-sm font-semibold text-center" style={{ color: '#ef4444' }}>
