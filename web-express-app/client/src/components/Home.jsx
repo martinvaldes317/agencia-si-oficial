@@ -402,22 +402,55 @@ export default function Home() {
             {showSeoModal && <SeoDiagnosticModal onClose={() => setShowSeoModal(false)} />}
 
             {/* WhatsApp floating button */}
-            <div className="fixed bottom-6 left-6 z-50 flex items-end gap-3">
-                {showWaTooltip && (
-                    <div className="mb-1 px-4 py-2 rounded-xl text-sm font-semibold text-white shadow-xl animate-fade-in"
-                        style={{ background: T.blue, whiteSpace: 'nowrap', animation: 'fadeInOut 3s ease forwards' }}>
-                        💬 Contacto directo
-                        <div className="absolute -bottom-1.5 left-5 w-3 h-3 rotate-45" style={{ background: T.blue }} />
-                    </div>
-                )}
+            <div className="fixed bottom-8 left-8 z-50 flex items-center gap-4" style={{ pointerEvents: 'none' }}>
+                {/* Tooltip */}
+                <div style={{
+                    pointerEvents: showWaTooltip ? 'auto' : 'none',
+                    opacity: showWaTooltip ? 1 : 0,
+                    transform: showWaTooltip ? 'translateX(0) scale(1)' : 'translateX(-12px) scale(0.95)',
+                    transition: 'opacity 0.4s cubic-bezier(0.16,1,0.3,1), transform 0.4s cubic-bezier(0.16,1,0.3,1)',
+                    background: '#fff',
+                    border: `1.5px solid ${T.border}`,
+                    borderRadius: '14px',
+                    padding: '10px 18px',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.10)',
+                    whiteSpace: 'nowrap',
+                    order: 1,
+                }}>
+                    <p style={{ fontSize: '13px', fontWeight: 700, color: T.black, margin: 0 }}>¿Hablamos?</p>
+                    <p style={{ fontSize: '12px', color: T.gray, margin: '2px 0 0', fontWeight: 400 }}>Respuesta inmediata</p>
+                </div>
+
+                {/* Button */}
                 <a href="https://wa.me/56932930812?text=Hola%2C%20me%20interesa%20saber%20m%C3%A1s%20sobre%20sus%20servicios"
                     target="_blank" rel="noopener noreferrer"
-                    className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-transform hover:scale-110"
-                    style={{ background: '#25D366', flexShrink: 0 }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="white">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.856L.057 23.215a.75.75 0 0 0 .916.916l5.36-1.477A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.502-5.241-1.381l-.375-.217-3.884 1.07 1.07-3.884-.217-.375A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
-                    </svg>
+                    style={{ pointerEvents: 'auto', order: 2, flexShrink: 0, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {/* Pulse rings */}
+                    <span style={{
+                        position: 'absolute', inset: 0, borderRadius: '50%',
+                        background: '#25D366', opacity: 0.25,
+                        animation: 'waPulse 2.5s ease-out infinite',
+                    }} />
+                    <span style={{
+                        position: 'absolute', inset: 0, borderRadius: '50%',
+                        background: '#25D366', opacity: 0.15,
+                        animation: 'waPulse 2.5s ease-out infinite 0.6s',
+                    }} />
+                    <span style={{
+                        width: 56, height: 56, borderRadius: '50%',
+                        background: 'linear-gradient(135deg, #25D366, #1da851)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        boxShadow: '0 4px 20px rgba(37,211,102,0.45)',
+                        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                        position: 'relative',
+                    }}
+                        onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.1)'; e.currentTarget.style.boxShadow = '0 6px 28px rgba(37,211,102,0.6)' }}
+                        onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(37,211,102,0.45)' }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="white">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.856L.057 23.215a.75.75 0 0 0 .916.916l5.36-1.477A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.502-5.241-1.381l-.375-.217-3.884 1.07 1.07-3.884-.217-.375A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+                        </svg>
+                    </span>
                 </a>
             </div>
             <Helmet>
