@@ -51,7 +51,7 @@ async function send({ to, subject, html }) {
   try {
     await resend.emails.send({
       from: 'AgenciaSi <contacto@agenciasi.cl>',
-      to,
+      to: process.env.NOTIFY_EMAIL || to,
       subject,
       html,
     });
