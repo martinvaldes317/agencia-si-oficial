@@ -29,18 +29,33 @@ const upload = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } });
 // ── Stats ─────────────────────────────────────────────────────────────────────
 router.get('/stats', authenticateAdmin, async (req, res) => {
   try {
-    const [metrics, payments, clients] = await Promise.all([
-      prisma.metric.findMany({ select: { spend: true, revenue: true, conversions: true, roas: true } }),
-      prisma.payment.findMany({ select: { amount: true, status: true } }),
-      prisma.client.count()
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth   = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+    const in30days     = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+    const [payments, clientesActivos, clientesTotal, renovaciones] = await Promise.all([
+      prisma.payment.findMany({ select: { amount: true, status: true, paidAt: true, dueDate: true } }),
+      prisma.client.count({ where: { active: true } }),
+      prisma.client.count(),
+      prisma.clientService.count({
+        where: { type: 'anual', active: true, renewalDate: { gte: now, lte: in30days } }
+      }),
     ]);
-    const totalSpend       = metrics.reduce((s, m) => s + m.spend, 0);
-    const totalRevenue     = metrics.reduce((s, m) => s + m.revenue, 0);
-    const totalConversions = metrics.reduce((s, m) => s + m.conversions, 0);
-    const avgRoas          = metrics.length ? metrics.reduce((s, m) => s + m.roas, 0) / metrics.length : 0;
-    const cobrado          = payments.filter(p => p.status === 'pagado').reduce((s, p) => s + p.amount, 0);
-    const pendiente        = payments.filter(p => p.status === 'pendiente').reduce((s, p) => s + p.amount, 0);
-    res.json({ success: true, stats: { totalSpend, totalRevenue, totalConversions, avgRoas, cobrado, pendiente, clients } });
+
+    const ingresosEsteMes = payments
+      .filter(p => p.status === 'pagado' && p.paidAt && p.paidAt >= startOfMonth && p.paidAt <= endOfMonth)
+      .reduce((s, p) => s + p.amount, 0);
+
+    const pendiente = payments
+      .filter(p => p.status === 'pendiente')
+      .reduce((s, p) => s + p.amount, 0);
+
+    const cobradoTotal = payments
+      .filter(p => p.status === 'pagado')
+      .reduce((s, p) => s + p.amount, 0);
+
+    res.json({ success: true, stats: { ingresosEsteMes, pendiente, cobradoTotal, clientesActivos, clientesTotal, renovaciones } });
   } catch (e) { err(res, e, 'stats'); }
 });
 

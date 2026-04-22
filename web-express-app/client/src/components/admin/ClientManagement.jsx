@@ -1113,12 +1113,36 @@ export default function ClientManagement() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { label: 'Inversión en Ads', value: stats ? `$${Math.round(stats.totalSpend).toLocaleString('es-CL')}` : '—', icon: BarChart2, sub: 'total acumulado' },
-            { label: 'Ingresos generados', value: stats ? `$${Math.round(stats.totalRevenue).toLocaleString('es-CL')}` : '—', icon: TrendingUp, sub: stats ? `ROAS ${stats.avgRoas.toFixed(1)}x` : '' },
-            { label: 'Cobrado agencia', value: stats ? `$${Math.round(stats.cobrado).toLocaleString('es-CL')}` : '—', icon: DollarSign, sub: stats && stats.pendiente > 0 ? `$${Math.round(stats.pendiente).toLocaleString('es-CL')} pendiente` : 'sin pendientes' },
-            { label: 'Clientes activos', value: `${clients.filter(c => c.active).length} / ${clients.length}`, icon: Users, sub: `${stats?.totalConversions ?? 0} conversiones` },
-          ].map(({ label, value, icon: Icon, sub }) => (
-            <div key={label} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+            {
+              label: 'Ingresos este mes',
+              value: stats ? `$${Math.round(stats.ingresosEsteMes).toLocaleString('es-CL')}` : '—',
+              icon: TrendingUp,
+              sub: stats ? `$${Math.round(stats.cobradoTotal).toLocaleString('es-CL')} total histórico` : '',
+              highlight: stats && stats.ingresosEsteMes > 0,
+            },
+            {
+              label: 'Por cobrar',
+              value: stats ? `$${Math.round(stats.pendiente).toLocaleString('es-CL')}` : '—',
+              icon: CreditCard,
+              sub: stats && stats.pendiente > 0 ? 'pagos pendientes' : 'sin pendientes',
+              highlight: false,
+            },
+            {
+              label: 'Clientes activos',
+              value: stats ? `${stats.clientesActivos} / ${stats.clientesTotal}` : `${clients.filter(c => c.active).length} / ${clients.length}`,
+              icon: Users,
+              sub: 'activos / total',
+              highlight: false,
+            },
+            {
+              label: 'Renovaciones (30d)',
+              value: stats ? String(stats.renovaciones) : '—',
+              icon: Bell,
+              sub: stats && stats.renovaciones > 0 ? 'servicios por vencer' : 'todo al día',
+              highlight: stats && stats.renovaciones > 0,
+            },
+          ].map(({ label, value, icon: Icon, sub, highlight }) => (
+            <div key={label} className={`bg-zinc-900 border rounded-xl p-4 ${highlight ? 'border-zinc-600' : 'border-zinc-800'}`}>
               <div className="flex items-center justify-between mb-2">
                 <p className="text-zinc-500 text-xs">{label}</p>
                 <Icon size={14} className="text-zinc-600" />
