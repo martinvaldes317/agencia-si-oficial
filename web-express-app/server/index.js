@@ -45,6 +45,11 @@ async function runMigrations() {
   await addCol('Client', 'hostingRenewal',  'DATETIME(3) NULL');
   await addCol('Client', 'domainRenewal',   'DATETIME(3) NULL');
   await addCol('Client', 'serviceNotes',    'LONGTEXT NULL');
+  await addCol('Client', 'monthlyFee',         'DOUBLE NULL');
+  await addCol('Client', 'hostingCost',        'DOUBLE NULL');
+  await addCol('Client', 'domainCost',         'DOUBLE NULL');
+  await addCol('Client', 'domainPaidByClient', 'TINYINT(1) NOT NULL DEFAULT 0');
+  await addCol('Client', 'activeServices',     'VARCHAR(500) NULL');
 
   // AdminConfig table
   await createTable(`CREATE TABLE IF NOT EXISTS AdminConfig (

@@ -49,7 +49,7 @@ router.get('/', authenticateAdmin, async (req, res) => {
   try {
     const clients = await prisma.client.findMany({
       orderBy: { createdAt: 'desc' },
-      select: { id: true, name: true, email: true, company: true, phone: true, plan: true, active: true, createdAt: true, hostingRenewal: true, domainRenewal: true, domainName: true }
+      select: { id: true, name: true, email: true, company: true, phone: true, plan: true, active: true, createdAt: true, hostingRenewal: true, domainRenewal: true, domainName: true, monthlyFee: true, hostingCost: true, domainCost: true, domainPaidByClient: true, activeServices: true }
     });
     res.json({ success: true, clients });
   } catch (e) { err(res, e, 'list'); }
@@ -114,7 +114,7 @@ router.get('/:id', authenticateAdmin, async (req, res) => {
 // ── Update client ─────────────────────────────────────────────────────────────
 router.patch('/:id', authenticateAdmin, async (req, res) => {
   try {
-    const { name, email, company, phone, plan, active, password, domainName, hostingProvider, hostingRenewal, domainRenewal, serviceNotes } = req.body;
+    const { name, email, company, phone, plan, active, password, domainName, hostingProvider, hostingRenewal, domainRenewal, serviceNotes, monthlyFee, hostingCost, domainCost, domainPaidByClient, activeServices } = req.body;
     const data = {};
     if (name !== undefined)           data.name = name;
     if (email !== undefined)          data.email = email;
@@ -128,6 +128,11 @@ router.patch('/:id', authenticateAdmin, async (req, res) => {
     if (hostingRenewal)               data.hostingRenewal = new Date(hostingRenewal);
     if (domainRenewal)                data.domainRenewal = new Date(domainRenewal);
     if (password)                     data.password = await bcrypt.hash(password, 10);
+    if (monthlyFee !== undefined)         data.monthlyFee = monthlyFee;
+    if (hostingCost !== undefined)        data.hostingCost = hostingCost;
+    if (domainCost !== undefined)         data.domainCost = domainCost;
+    if (domainPaidByClient !== undefined) data.domainPaidByClient = domainPaidByClient;
+    if (activeServices !== undefined)     data.activeServices = activeServices;
     const client = await prisma.client.update({ where: { id: Number(req.params.id) }, data });
     const { password: _, ...clientData } = client;
     res.json({ success: true, client: clientData });

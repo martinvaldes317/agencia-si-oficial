@@ -36,6 +36,11 @@ model Client {
   hostingRenewal   DateTime?
   domainRenewal    DateTime?
   serviceNotes     String?      @db.Text
+  monthlyFee         Float?
+  hostingCost        Float?
+  domainCost         Float?
+  domainPaidByClient Boolean      @default(false)
+  activeServices     String?
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
   metrics          Metric[]

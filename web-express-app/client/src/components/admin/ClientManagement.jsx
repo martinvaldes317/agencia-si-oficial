@@ -437,72 +437,149 @@ function TasksTab({ clientId, tasks, onRefresh, authFetch }) {
 }
 
 function ServicesTab({ client, onRefresh, authFetch }) {
+  const serviceOptions = [
+    { id: 'meta_ads', label: 'Meta Ads' },
+    { id: 'google_ads', label: 'Google Ads' },
+    { id: 'web', label: 'Sitio Web' },
+    { id: 'wordpress', label: 'WordPress Pro' },
+    { id: 'ecommerce', label: 'E-commerce' },
+    { id: 'seo', label: 'SEO' },
+    { id: 'social', label: 'Redes Sociales' },
+    { id: 'ia', label: 'Ecosistema IA' },
+    { id: 'branding', label: 'Branding' },
+  ]
+
+  const parseServices = (str) => str ? str.split(',').filter(Boolean) : []
+
   const [form, setForm] = useState({
+    activeServices: parseServices(client.activeServices),
+    monthlyFee: client.monthlyFee || '',
     domainName: client.domainName || '',
     hostingProvider: client.hostingProvider || '',
+    hostingCost: client.hostingCost || '',
     hostingRenewal: client.hostingRenewal ? client.hostingRenewal.slice(0, 10) : '',
+    domainCost: client.domainCost || '',
     domainRenewal: client.domainRenewal ? client.domainRenewal.slice(0, 10) : '',
+    domainPaidByClient: client.domainPaidByClient || false,
     serviceNotes: client.serviceNotes || '',
   })
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
-  const f = k => e => setForm(p => ({ ...p, [k]: e.target.value }))
+  const [saveError, setSaveError] = useState('')
 
-  const submit = async (e) => {
-    e.preventDefault()
-    setSaving(true)
-    await authFetch(`/api/clients/${client.id}`, { method: 'PATCH', body: JSON.stringify(form) })
-    await onRefresh()
-    setSaving(false)
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2000)
+  const toggleService = (id) => {
+    setForm(p => ({
+      ...p,
+      activeServices: p.activeServices.includes(id)
+        ? p.activeServices.filter(s => s !== id)
+        : [...p.activeServices, id]
+    }))
   }
+
+  const f = k => e => setForm(p => ({ ...p, [k]: e.target.value }))
 
   const daysUntil = (dateStr) => {
     if (!dateStr) return null
-    const diff = Math.ceil((new Date(dateStr) - new Date()) / (1000 * 60 * 60 * 24))
-    return diff
+    return Math.ceil((new Date(dateStr) - new Date()) / (1000 * 60 * 60 * 24))
   }
 
   const RenewalBadge = ({ dateStr, label }) => {
     const days = daysUntil(dateStr)
     if (days === null) return null
     const color = days < 0 ? '#ef4444' : days <= 30 ? '#f59e0b' : '#22c55e'
-    const text = days < 0 ? `Venció hace ${Math.abs(days)} días` : days === 0 ? 'Vence hoy' : `Vence en ${days} días`
-    return (
-      <div className="flex items-center gap-2 mt-1">
-        <span style={{ background: color + '22', color, border: `1px solid ${color}44` }}
-          className="text-xs px-2 py-0.5 rounded-full font-semibold">{label}: {text}</span>
-      </div>
-    )
+    const text = days < 0 ? `Venció hace ${Math.abs(days)}d` : days === 0 ? 'Vence hoy' : `${days}d`
+    return <span style={{ background: color + '22', color, border: `1px solid ${color}44` }} className="text-xs px-2 py-0.5 rounded-full font-semibold ml-2">{label}: {text}</span>
   }
 
+  const submit = async (e) => {
+    e.preventDefault()
+    setSaving(true); setSaveError('')
+    const payload = {
+      ...form,
+      activeServices: form.activeServices.join(','),
+      monthlyFee: form.monthlyFee ? Number(form.monthlyFee) : null,
+      hostingCost: form.hostingCost ? Number(form.hostingCost) : null,
+      domainCost: form.domainCost ? Number(form.domainCost) : null,
+    }
+    const r = await authFetch(`/api/clients/${client.id}`, { method: 'PATCH', body: JSON.stringify(payload) })
+    const d = await r.json()
+    setSaving(false)
+    if (d.success) { await onRefresh(); setSaved(true); setTimeout(() => setSaved(false), 2000) }
+    else setSaveError(d.message || 'Error al guardar')
+  }
+
+  const hasWeb = form.activeServices.some(s => ['web', 'wordpress', 'ecommerce'].includes(s))
+
   return (
-    <form onSubmit={submit} className="space-y-5">
-      <div className="grid grid-cols-2 gap-4">
-        <Field label="Nombre de dominio">
-          <input value={form.domainName} onChange={f('domainName')} className={inputCls} placeholder="agenciasi.cl" />
-        </Field>
-        <Field label="Proveedor de hosting">
-          <input value={form.hostingProvider} onChange={f('hostingProvider')} className={inputCls} placeholder="Hostinger, AWS, etc." />
-        </Field>
-        <div>
-          <Field label="Renovación hosting">
-            <input type="date" value={form.hostingRenewal} onChange={f('hostingRenewal')} className={inputCls} />
-          </Field>
-          <RenewalBadge dateStr={form.hostingRenewal} label="Hosting" />
-        </div>
-        <div>
-          <Field label="Renovación dominio">
-            <input type="date" value={form.domainRenewal} onChange={f('domainRenewal')} className={inputCls} />
-          </Field>
-          <RenewalBadge dateStr={form.domainRenewal} label="Dominio" />
+    <form onSubmit={submit} className="space-y-6">
+      {/* Servicios activos */}
+      <div>
+        <p className="text-xs text-zinc-400 uppercase tracking-wider mb-3">Servicios contratados</p>
+        <div className="flex flex-wrap gap-2">
+          {serviceOptions.map(({ id, label }) => (
+            <button key={id} type="button" onClick={() => toggleService(id)}
+              className={`text-xs px-3 py-1.5 rounded-full border transition-all font-medium ${
+                form.activeServices.includes(id)
+                  ? 'bg-white text-black border-white'
+                  : 'bg-transparent text-zinc-400 border-zinc-700 hover:border-zinc-500'
+              }`}>{label}</button>
+          ))}
         </div>
       </div>
-      <Field label="Notas de servicio">
-        <textarea value={form.serviceNotes} onChange={f('serviceNotes')} rows={4}
-          className={`${inputCls} resize-none`} placeholder="Plan contratado, accesos, detalles técnicos..." />
+
+      {/* Tarifa mensual */}
+      <Field label="Tarifa mensual (CLP)">
+        <input type="number" value={form.monthlyFee} onChange={f('monthlyFee')} className={inputCls} placeholder="Ej: 150000" />
       </Field>
+
+      {/* Hosting — solo si tiene servicio web */}
+      {hasWeb && (
+        <div className="bg-zinc-800 rounded-xl p-4 space-y-4">
+          <p className="text-xs text-zinc-400 uppercase tracking-wider">Hosting</p>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Proveedor">
+              <input value={form.hostingProvider} onChange={f('hostingProvider')} className={inputCls} placeholder="Hostinger, AWS..." />
+            </Field>
+            <Field label="Costo anual (CLP)">
+              <input type="number" value={form.hostingCost} onChange={f('hostingCost')} className={inputCls} placeholder="0" />
+            </Field>
+          </div>
+          <Field label={<span className="flex items-center gap-1">Renovación {form.hostingRenewal && <RenewalBadge dateStr={form.hostingRenewal} label="Hosting" />}</span>}>
+            <input type="date" value={form.hostingRenewal} onChange={f('hostingRenewal')} className={inputCls} />
+          </Field>
+        </div>
+      )}
+
+      {/* Dominio */}
+      <div className="bg-zinc-800 rounded-xl p-4 space-y-4">
+        <p className="text-xs text-zinc-400 uppercase tracking-wider">Dominio</p>
+        <div className="grid grid-cols-2 gap-3">
+          <Field label="Nombre de dominio">
+            <input value={form.domainName} onChange={f('domainName')} className={inputCls} placeholder="empresa.cl" />
+          </Field>
+          <Field label="Costo anual (CLP)">
+            <input type="number" value={form.domainCost} onChange={f('domainCost')} className={inputCls} placeholder="0" />
+          </Field>
+        </div>
+        <Field label={<span className="flex items-center gap-1">Renovación {form.domainRenewal && <RenewalBadge dateStr={form.domainRenewal} label="Dominio" />}</span>}>
+          <input type="date" value={form.domainRenewal} onChange={f('domainRenewal')} className={inputCls} />
+        </Field>
+        <label className="flex items-center gap-3 cursor-pointer">
+          <div onClick={() => setForm(p => ({ ...p, domainPaidByClient: !p.domainPaidByClient }))}
+            className={`w-10 h-5 rounded-full transition-colors relative flex-shrink-0 ${form.domainPaidByClient ? 'bg-white' : 'bg-zinc-600'}`}>
+            <span className={`absolute top-0.5 w-4 h-4 bg-black rounded-full transition-transform ${form.domainPaidByClient ? 'translate-x-5' : 'translate-x-0.5'}`} />
+          </div>
+          <span className="text-sm text-zinc-300">El cliente paga el dominio directamente</span>
+        </label>
+      </div>
+
+      {/* Notas */}
+      <Field label="Notas internas">
+        <textarea value={form.serviceNotes} onChange={f('serviceNotes')} rows={3}
+          className={`${inputCls} resize-none`} placeholder="Accesos, credenciales, detalles del contrato..." />
+      </Field>
+
+      {saveError && <p className="text-red-400 text-sm">{saveError}</p>}
       <button type="submit" disabled={saving}
         className="w-full bg-white text-black py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
         {saving ? <Loader size={16} className="animate-spin" /> : saved ? '✓ Guardado' : 'Guardar cambios'}
@@ -600,6 +677,8 @@ export default function ClientManagement() {
   const [forgotSent, setForgotSent] = useState(false)
   const [forgotLoading, setForgotLoading] = useState(false)
   const [forgotError, setForgotError] = useState('')
+  const [clientLoading, setClientLoading] = useState(false)
+  const [clientError, setClientError] = useState('')
 
   const [newClient, setNewClient] = useState({ name: '', email: '', company: '', phone: '', plan: 'ads' })
   const [creating, setCreating] = useState(false)
@@ -623,11 +702,17 @@ export default function ClientManagement() {
   }
 
   const fetchClient = async (id) => {
+    setClientLoading(true)
+    setClientError('')
     try {
       const r = await adminFetch(`/api/clients/${id}`)
       const d = await r.json()
       if (d.success) setSelected(d.client)
-    } catch { }
+      else setClientError(d.message || 'Error al cargar cliente')
+    } catch (e) {
+      setClientError('Error de conexión: ' + e.message)
+    }
+    setClientLoading(false)
   }
 
   useEffect(() => {
@@ -909,6 +994,16 @@ export default function ClientManagement() {
                 </div>
               </button>
             ))}
+          </div>
+        )}
+        {clientLoading && (
+          <div className="fixed inset-0 bg-black/60 z-40 flex items-center justify-center">
+            <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          </div>
+        )}
+        {clientError && (
+          <div className="bg-red-950 border border-red-800 text-red-400 text-sm px-4 py-3 rounded-xl mt-4">
+            Error: {clientError} — <button onClick={() => setClientError('')} className="underline">Cerrar</button>
           </div>
         )}
       </div>
