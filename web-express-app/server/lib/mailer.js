@@ -188,4 +188,19 @@ function clientNotification({ clientName, type, subject, message }) {
   `);
 }
 
-module.exports = { send, meetingScheduled, paymentCreated, ticketReply, fileUploaded, newContact, newSeoDiagnostic, newOrder, clientNotification };
+function adminPasswordReset({ resetLink }) {
+  return base(`
+    <p class="title">🔐 Restablecer contraseña de administrador</p>
+    <p class="subtitle">Recibiste este correo porque solicitaste restablecer la contraseña del panel de AgenciaSi.</p>
+    <div class="card">
+      <div style="color:#ddd;font-size:14px;line-height:1.7">
+        Haz clic en el botón de abajo para crear una nueva contraseña.<br>
+        <span style="color:#666;font-size:12px">Este enlace es válido por <strong style="color:#999">1 hora</strong> y solo puede usarse una vez.</span>
+      </div>
+    </div>
+    <a href="${resetLink}" class="btn">Restablecer contraseña</a>
+    <p style="color:#444;font-size:12px;margin-top:16px;text-align:center">Si no solicitaste este cambio, puedes ignorar este correo.</p>
+  `);
+}
+
+module.exports = { send, meetingScheduled, paymentCreated, ticketReply, fileUploaded, newContact, newSeoDiagnostic, newOrder, clientNotification, adminPasswordReset };

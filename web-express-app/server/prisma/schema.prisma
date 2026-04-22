@@ -135,3 +135,18 @@ model TicketMessage {
   isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
 }
+
+model AdminConfig {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value String @db.Text
+}
+
+model PasswordReset {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  type      String   @default("admin")
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

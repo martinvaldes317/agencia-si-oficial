@@ -8,6 +8,7 @@ import DigitalizationLanding from './components/DigitalizationLanding'
 import AdminDashboard from './components/AdminDashboard'
 import ClientStatus from './components/ClientStatus'
 import ClientManagement from './components/admin/ClientManagement'
+import ResetAdminPassword from './components/admin/ResetAdminPassword'
 import DiagnosticoSEO from './components/DiagnosticoSEO'
 import Links from './components/Links'
 
@@ -45,6 +46,7 @@ function App() {
           {/* Admin */}
           <Route path="/admin/si" element={<AdminDashboard />} />
           <Route path="/admin/clientes" element={<ClientManagement />} />
+          <Route path="/admin/reset-password" element={<ResetAdminPassword />} />
 
           {/* Client portal */}
           <Route path="/portal" element={<PortalLogin />} />

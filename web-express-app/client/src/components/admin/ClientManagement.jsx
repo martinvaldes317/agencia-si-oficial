@@ -596,6 +596,8 @@ export default function ClientManagement() {
   const [adminPwd, setAdminPwd] = useState('')
   const [loginError, setLoginError] = useState('')
   const [showPwd, setShowPwd] = useState(false)
+  const [forgotSent, setForgotSent] = useState(false)
+  const [forgotLoading, setForgotLoading] = useState(false)
 
   const [newClient, setNewClient] = useState({ name: '', email: '', password: '', company: '', phone: '', plan: 'ads' })
   const [creating, setCreating] = useState(false)
@@ -689,7 +691,23 @@ export default function ClientManagement() {
             <button type="submit" className="w-full bg-white text-black py-2.5 rounded-lg font-semibold text-sm hover:bg-zinc-100 transition-colors">Entrar</button>
           </form>
         </div>
-        <button onClick={() => navigate('/admin/si')} className="block text-center text-zinc-600 hover:text-zinc-400 text-xs mt-4 transition-colors">← Volver al panel de pedidos</button>
+        {forgotSent ? (
+          <p className="text-center text-green-400 text-sm mt-4">✓ Te enviamos un enlace a contacto@agenciasi.cl</p>
+        ) : (
+          <button
+            onClick={async () => {
+              setForgotLoading(true)
+              await fetch(`${API}/api/auth/admin/forgot-password`, { method: 'POST' })
+              setForgotSent(true)
+              setForgotLoading(false)
+            }}
+            disabled={forgotLoading}
+            className="block w-full text-center text-zinc-600 hover:text-zinc-400 text-xs mt-4 transition-colors disabled:opacity-50"
+          >
+            {forgotLoading ? 'Enviando...' : '¿Olvidaste tu contraseña?'}
+          </button>
+        )}
+        <button onClick={() => navigate('/admin/si')} className="block text-center text-zinc-600 hover:text-zinc-400 text-xs mt-2 transition-colors">← Volver al panel de pedidos</button>
       </div>
     </div>
   )

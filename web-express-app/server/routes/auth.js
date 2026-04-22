@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const { JWT_SECRET } = require('../middleware/auth');
 const prisma = require('../lib/prisma');
+const mailer = require('../lib/mailer');
 
 // Client login
 router.post('/login', async (req, res) => {
@@ -28,18 +30,78 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Admin login
+// Admin login — checks DB override first, then env var
 router.post('/admin/login', async (req, res) => {
   try {
     const { password } = req.body;
-    const adminPassword = process.env.ADMIN_PASSWORD || 'agencia-si-admin-2024';
-    if (password !== adminPassword) {
-      return res.status(401).json({ success: false, message: 'Contraseña incorrecta' });
+    const configRow = await prisma.adminConfig.findUnique({ where: { key: 'admin_password' } });
+
+    let valid = false;
+    if (configRow) {
+      valid = await bcrypt.compare(password, configRow.value);
+    } else {
+      valid = password === (process.env.ADMIN_PASSWORD || 'agencia-si-admin-2024');
     }
+
+    if (!valid) return res.status(401).json({ success: false, message: 'Contraseña incorrecta' });
     const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '7d' });
     res.json({ success: true, token });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error del servidor' });
+  }
+});
+
+// Admin forgot password — sends reset link to ADMIN_EMAIL
+router.post('/admin/forgot-password', async (req, res) => {
+  try {
+    const token = crypto.randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+    await prisma.passwordReset.create({ data: { token, type: 'admin', expiresAt } });
+
+    const adminEmail = process.env.ADMIN_EMAIL || 'contacto@agenciasi.cl';
+    const siteUrl = process.env.SITE_URL || 'https://agenciasi.cl';
+    const resetLink = `${siteUrl}/admin/reset-password?token=${token}`;
+
+    await mailer.send({
+      to: adminEmail,
+      subject: 'Restablece tu contraseña de administrador — AgenciaSi',
+      html: mailer.adminPasswordReset({ resetLink }),
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Error al enviar el correo' });
+  }
+});
+
+// Admin reset password — verifies token and saves new password
+router.post('/admin/reset-password', async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    if (!token || !newPassword || newPassword.length < 6) {
+      return res.status(400).json({ success: false, message: 'Datos inválidos' });
+    }
+
+    const reset = await prisma.passwordReset.findUnique({ where: { token } });
+    if (!reset || reset.used || reset.type !== 'admin' || reset.expiresAt < new Date()) {
+      return res.status(400).json({ success: false, message: 'El enlace no es válido o ya expiró' });
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await prisma.adminConfig.upsert({
+      where: { key: 'admin_password' },
+      update: { value: hashed },
+      create: { key: 'admin_password', value: hashed },
+    });
+
+    await prisma.passwordReset.update({ where: { token }, data: { used: true } });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Error al restablecer la contraseña' });
   }
 });
 
