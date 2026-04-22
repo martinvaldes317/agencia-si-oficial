@@ -1114,31 +1114,31 @@ export default function ClientManagement() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
             {
-              label: 'Ingresos este mes',
-              value: stats ? `$${Math.round(stats.ingresosEsteMes).toLocaleString('es-CL')}` : '—',
+              label: 'Facturación mensual',
+              value: stats ? `$${Math.round(stats.facturacionMensual).toLocaleString('es-CL')}` : '—',
               icon: TrendingUp,
-              sub: stats ? `$${Math.round(stats.cobradoTotal).toLocaleString('es-CL')} total histórico` : '',
-              highlight: stats && stats.ingresosEsteMes > 0,
+              sub: 'suma de servicios mensuales activos',
+              highlight: stats && stats.facturacionMensual > 0,
+            },
+            {
+              label: 'Costos anuales',
+              value: stats ? `$${Math.round(stats.costosAnuales).toLocaleString('es-CL')}` : '—',
+              icon: BarChart2,
+              sub: 'hosting + dominio + otros anuales',
+              highlight: false,
             },
             {
               label: 'Por cobrar',
               value: stats ? `$${Math.round(stats.pendiente).toLocaleString('es-CL')}` : '—',
               icon: CreditCard,
               sub: stats && stats.pendiente > 0 ? 'pagos pendientes' : 'sin pendientes',
-              highlight: false,
+              highlight: stats && stats.pendiente > 0,
             },
             {
               label: 'Clientes activos',
               value: stats ? `${stats.clientesActivos} / ${stats.clientesTotal}` : `${clients.filter(c => c.active).length} / ${clients.length}`,
               icon: Users,
-              sub: 'activos / total',
-              highlight: false,
-            },
-            {
-              label: 'Renovaciones (30d)',
-              value: stats ? String(stats.renovaciones) : '—',
-              icon: Bell,
-              sub: stats && stats.renovaciones > 0 ? 'servicios por vencer' : 'todo al día',
+              sub: stats && stats.renovaciones > 0 ? `⚠ ${stats.renovaciones} renovación${stats.renovaciones > 1 ? 'es' : ''} próxima${stats.renovaciones > 1 ? 's' : ''}` : 'todo al día',
               highlight: stats && stats.renovaciones > 0,
             },
           ].map(({ label, value, icon: Icon, sub, highlight }) => (
@@ -1148,7 +1148,7 @@ export default function ClientManagement() {
                 <Icon size={14} className="text-zinc-600" />
               </div>
               <p className="text-white text-xl font-bold">{value}</p>
-              {sub && <p className="text-zinc-600 text-xs mt-1">{sub}</p>}
+              {sub && <p className={`text-xs mt-1 ${highlight && label === 'Clientes activos' ? 'text-amber-500' : 'text-zinc-600'}`}>{sub}</p>}
             </div>
           ))}
         </div>
