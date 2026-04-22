@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
 const { JWT_SECRET } = require('../middleware/auth');
 const prisma = require('../lib/prisma');
 const mailer = require('../lib/mailer');
@@ -51,17 +50,13 @@ router.post('/admin/login', async (req, res) => {
   }
 });
 
-// Admin forgot password — sends reset link to ADMIN_EMAIL
+// Admin forgot password — sends signed JWT reset link (no DB needed)
 router.post('/admin/forgot-password', async (req, res) => {
   try {
-    const token = crypto.randomBytes(32).toString('hex');
-    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
-
-    await prisma.passwordReset.create({ data: { token, type: 'admin', expiresAt } });
-
-    const adminEmail = process.env.ADMIN_EMAIL || 'contacto@agenciasi.cl';
+    const resetToken = jwt.sign({ role: 'admin_reset' }, JWT_SECRET, { expiresIn: '1h' });
     const siteUrl = process.env.SITE_URL || 'https://agenciasi.cl';
-    const resetLink = `${siteUrl}/admin/reset-password?token=${token}`;
+    const adminEmail = process.env.ADMIN_EMAIL || 'contacto@agenciasi.cl';
+    const resetLink = `${siteUrl}/admin/reset-password?token=${resetToken}`;
 
     await mailer.send({
       to: adminEmail,
@@ -71,12 +66,12 @@ router.post('/admin/forgot-password', async (req, res) => {
 
     res.json({ success: true });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: 'Error al enviar el correo' });
+    console.error('[forgot-password]', error.message);
+    res.status(500).json({ success: false, message: 'Error al enviar el correo: ' + error.message });
   }
 });
 
-// Admin reset password — verifies token and saves new password
+// Admin reset password — verifies JWT token and saves new password to DB
 router.post('/admin/reset-password', async (req, res) => {
   try {
     const { token, newPassword } = req.body;
@@ -84,9 +79,14 @@ router.post('/admin/reset-password', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Datos inválidos' });
     }
 
-    const reset = await prisma.passwordReset.findUnique({ where: { token } });
-    if (!reset || reset.used || reset.type !== 'admin' || reset.expiresAt < new Date()) {
+    let decoded;
+    try {
+      decoded = jwt.verify(token, JWT_SECRET);
+    } catch {
       return res.status(400).json({ success: false, message: 'El enlace no es válido o ya expiró' });
+    }
+    if (decoded.role !== 'admin_reset') {
+      return res.status(400).json({ success: false, message: 'Token inválido' });
     }
 
     const hashed = await bcrypt.hash(newPassword, 10);
@@ -96,12 +96,10 @@ router.post('/admin/reset-password', async (req, res) => {
       create: { key: 'admin_password', value: hashed },
     });
 
-    await prisma.passwordReset.update({ where: { token }, data: { used: true } });
-
     res.json({ success: true });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: 'Error al restablecer la contraseña' });
+    console.error('[reset-password]', error.message);
+    res.status(500).json({ success: false, message: 'Error al restablecer: ' + error.message });
   }
 });
 
