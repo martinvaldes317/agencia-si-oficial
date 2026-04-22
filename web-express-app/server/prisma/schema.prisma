@@ -49,6 +49,23 @@ model Client {
   files            ClientFile[]
   tickets          Ticket[]
   tasks            Task[]
+  services         ClientService[]
+}
+
+model ClientService {
+  id            Int       @id @default(autoincrement())
+  clientId      Int
+  client        Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  name          String
+  type          String    @default("mensual")
+  amount        Float     @default(0)
+  active        Boolean   @default(true)
+  renewalDate   DateTime?
+  firstYearFree Boolean   @default(false)
+  paidBy        String?
+  notes         String?   @db.Text
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
 model Metric {

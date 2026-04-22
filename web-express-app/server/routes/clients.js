@@ -49,7 +49,10 @@ router.get('/', authenticateAdmin, async (req, res) => {
   try {
     const clients = await prisma.client.findMany({
       orderBy: { createdAt: 'desc' },
-      select: { id: true, name: true, email: true, company: true, phone: true, plan: true, active: true, createdAt: true, hostingRenewal: true, domainRenewal: true, domainName: true, monthlyFee: true, hostingCost: true, domainCost: true, domainPaidByClient: true, activeServices: true }
+      select: {
+        id: true, name: true, email: true, company: true, phone: true, plan: true, active: true, createdAt: true,
+        services: { where: { type: 'anual', active: true }, select: { name: true, renewalDate: true } }
+      }
     });
     res.json({ success: true, clients });
   } catch (e) { err(res, e, 'list'); }
@@ -102,7 +105,8 @@ router.get('/:id', authenticateAdmin, async (req, res) => {
         meetings: { orderBy: { date: 'asc' } },
         files:    { orderBy: { createdAt: 'desc' } },
         tickets:  { include: { messages: { orderBy: { createdAt: 'asc' } } }, orderBy: { createdAt: 'desc' } },
-        tasks:    { orderBy: { createdAt: 'desc' } }
+        tasks:    { orderBy: { createdAt: 'desc' } },
+        services: { orderBy: { createdAt: 'asc' } }
       }
     });
     if (!client) return res.status(404).json({ success: false, message: 'Cliente no encontrado' });
@@ -326,6 +330,49 @@ router.delete('/:clientId/tasks/:taskId', authenticateAdmin, async (req, res) =>
     await prisma.task.delete({ where: { id: Number(req.params.taskId) } });
     res.json({ success: true });
   } catch (e) { err(res, e, 'tasks.delete'); }
+});
+
+// ── Services ──────────────────────────────────────────────────────────────────
+router.post('/:id/services', authenticateAdmin, async (req, res) => {
+  try {
+    const { name, type, amount, renewalDate, firstYearFree, paidBy, notes } = req.body;
+    const service = await prisma.clientService.create({
+      data: {
+        clientId: Number(req.params.id),
+        name, type: type || 'mensual',
+        amount: Number(amount || 0),
+        renewalDate: renewalDate ? new Date(renewalDate) : null,
+        firstYearFree: Boolean(firstYearFree),
+        paidBy: paidBy || null,
+        notes: notes || null
+      }
+    });
+    res.json({ success: true, service });
+  } catch (e) { err(res, e, 'services.create'); }
+});
+
+router.patch('/:id/services/:serviceId', authenticateAdmin, async (req, res) => {
+  try {
+    const { name, type, amount, active, renewalDate, firstYearFree, paidBy, notes } = req.body;
+    const data = {};
+    if (name !== undefined)          data.name = name;
+    if (type !== undefined)          data.type = type;
+    if (amount !== undefined)        data.amount = Number(amount);
+    if (active !== undefined)        data.active = active;
+    if (renewalDate !== undefined)   data.renewalDate = renewalDate ? new Date(renewalDate) : null;
+    if (firstYearFree !== undefined) data.firstYearFree = firstYearFree;
+    if (paidBy !== undefined)        data.paidBy = paidBy || null;
+    if (notes !== undefined)         data.notes = notes || null;
+    const service = await prisma.clientService.update({ where: { id: Number(req.params.serviceId) }, data });
+    res.json({ success: true, service });
+  } catch (e) { err(res, e, 'services.update'); }
+});
+
+router.delete('/:id/services/:serviceId', authenticateAdmin, async (req, res) => {
+  try {
+    await prisma.clientService.delete({ where: { id: Number(req.params.serviceId) } });
+    res.json({ success: true });
+  } catch (e) { err(res, e, 'services.delete'); }
 });
 
 module.exports = router;

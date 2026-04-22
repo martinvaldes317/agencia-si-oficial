@@ -5,7 +5,7 @@ import {
   Users, Plus, Search, TrendingUp, CreditCard, Calendar, FolderOpen,
   MessageSquare, ChevronLeft, X, Upload, Send, Trash2, LogOut,
   Eye, EyeOff, Loader, AlertCircle, DollarSign, BarChart2, CheckSquare, Square,
-  Globe, Bell
+  Globe, Bell, Pencil
 } from 'lucide-react'
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
@@ -436,155 +436,245 @@ function TasksTab({ clientId, tasks, onRefresh, authFetch }) {
   )
 }
 
-function ServicesTab({ client, onRefresh, authFetch }) {
-  const serviceOptions = [
-    { id: 'meta_ads', label: 'Meta Ads' },
-    { id: 'google_ads', label: 'Google Ads' },
-    { id: 'web', label: 'Sitio Web' },
-    { id: 'wordpress', label: 'WordPress Pro' },
-    { id: 'ecommerce', label: 'E-commerce' },
-    { id: 'seo', label: 'SEO' },
-    { id: 'social', label: 'Redes Sociales' },
-    { id: 'ia', label: 'Ecosistema IA' },
-    { id: 'branding', label: 'Branding' },
-  ]
+const SERVICE_PRESETS = [
+  { name: 'Meta Ads',       type: 'mensual' },
+  { name: 'Google Ads',     type: 'mensual' },
+  { name: 'SEO',            type: 'mensual' },
+  { name: 'Redes Sociales', type: 'mensual' },
+  { name: 'Sitio Web',      type: 'unico'   },
+  { name: 'WordPress Pro',  type: 'mensual' },
+  { name: 'E-commerce',     type: 'unico'   },
+  { name: 'Ecosistema IA',  type: 'mensual' },
+  { name: 'Branding',       type: 'unico'   },
+  { name: 'Hosting',        type: 'anual'   },
+  { name: 'Dominio',        type: 'anual'   },
+]
 
-  const parseServices = (str) => str ? str.split(',').filter(Boolean) : []
+const EMPTY_SVC = { name: '', isCustom: false, type: 'mensual', amount: '', renewalDate: '', firstYearFree: false, paidBy: 'agencia', notes: '' }
 
-  const [form, setForm] = useState({
-    activeServices: parseServices(client.activeServices),
-    monthlyFee: client.monthlyFee || '',
-    domainName: client.domainName || '',
-    hostingProvider: client.hostingProvider || '',
-    hostingCost: client.hostingCost || '',
-    hostingRenewal: client.hostingRenewal ? client.hostingRenewal.slice(0, 10) : '',
-    domainCost: client.domainCost || '',
-    domainRenewal: client.domainRenewal ? client.domainRenewal.slice(0, 10) : '',
-    domainPaidByClient: client.domainPaidByClient || false,
-    serviceNotes: client.serviceNotes || '',
-  })
-  const [saving, setSaving] = useState(false)
-  const [saved, setSaved] = useState(false)
-  const [saveError, setSaveError] = useState('')
-
-  const toggleService = (id) => {
-    setForm(p => ({
-      ...p,
-      activeServices: p.activeServices.includes(id)
-        ? p.activeServices.filter(s => s !== id)
-        : [...p.activeServices, id]
-    }))
-  }
-
+function ServiceForm({ form, setForm, onSave, onCancel, saving, isEdit }) {
   const f = k => e => setForm(p => ({ ...p, [k]: e.target.value }))
 
-  const daysUntil = (dateStr) => {
-    if (!dateStr) return null
-    return Math.ceil((new Date(dateStr) - new Date()) / (1000 * 60 * 60 * 24))
-  }
-
-  const RenewalBadge = ({ dateStr, label }) => {
-    const days = daysUntil(dateStr)
-    if (days === null) return null
-    const color = days < 0 ? '#ef4444' : days <= 30 ? '#f59e0b' : '#22c55e'
-    const text = days < 0 ? `Venció hace ${Math.abs(days)}d` : days === 0 ? 'Vence hoy' : `${days}d`
-    return <span style={{ background: color + '22', color, border: `1px solid ${color}44` }} className="text-xs px-2 py-0.5 rounded-full font-semibold ml-2">{label}: {text}</span>
-  }
-
-  const submit = async (e) => {
-    e.preventDefault()
-    setSaving(true); setSaveError('')
-    const payload = {
-      ...form,
-      activeServices: form.activeServices.join(','),
-      monthlyFee: form.monthlyFee ? Number(form.monthlyFee) : null,
-      hostingCost: form.hostingCost ? Number(form.hostingCost) : null,
-      domainCost: form.domainCost ? Number(form.domainCost) : null,
+  const selectPreset = (val) => {
+    if (val === '__custom__') {
+      setForm(p => ({ ...p, name: '', isCustom: true, type: 'mensual' }))
+    } else if (!val) {
+      setForm(p => ({ ...p, name: '', isCustom: false }))
+    } else {
+      const preset = SERVICE_PRESETS.find(p => p.name === val)
+      setForm(p => ({
+        ...p, name: val, isCustom: false, type: preset.type,
+        firstYearFree: preset.type === 'anual',
+        amount: val === 'Hosting' ? '22490' : p.amount,
+      }))
     }
-    const r = await authFetch(`/api/clients/${client.id}`, { method: 'PATCH', body: JSON.stringify(payload) })
-    const d = await r.json()
-    setSaving(false)
-    if (d.success) { await onRefresh(); setSaved(true); setTimeout(() => setSaved(false), 2000) }
-    else setSaveError(d.message || 'Error al guardar')
   }
 
-  const hasWeb = form.activeServices.some(s => ['web', 'wordpress', 'ecommerce'].includes(s))
+  const presetVal = form.isCustom ? '__custom__' : (SERVICE_PRESETS.some(p => p.name === form.name) ? form.name : '')
 
   return (
-    <form onSubmit={submit} className="space-y-6">
-      {/* Servicios activos */}
-      <div>
-        <p className="text-xs text-zinc-400 uppercase tracking-wider mb-3">Servicios contratados</p>
-        <div className="flex flex-wrap gap-2">
-          {serviceOptions.map(({ id, label }) => (
-            <button key={id} type="button" onClick={() => toggleService(id)}
-              className={`text-xs px-3 py-1.5 rounded-full border transition-all font-medium ${
-                form.activeServices.includes(id)
-                  ? 'bg-white text-black border-white'
-                  : 'bg-transparent text-zinc-400 border-zinc-700 hover:border-zinc-500'
-              }`}>{label}</button>
-          ))}
-        </div>
+    <div className="bg-zinc-800 border border-zinc-600 rounded-xl p-4 space-y-3">
+      <p className="text-xs text-zinc-400 uppercase tracking-wider font-semibold">{isEdit ? 'Editar servicio' : 'Nuevo servicio'}</p>
+
+      <div className="grid grid-cols-2 gap-3">
+        <Field label="Servicio">
+          <select value={presetVal} onChange={e => selectPreset(e.target.value)} className={inputCls}>
+            <option value="">— Seleccionar —</option>
+            {SERVICE_PRESETS.map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
+            <option value="__custom__">Personalizado...</option>
+          </select>
+        </Field>
+        <Field label="Tipo de cobro">
+          <select value={form.type} onChange={f('type')} className={inputCls}>
+            <option value="mensual">Mensual</option>
+            <option value="anual">Anual</option>
+            <option value="unico">Pago único</option>
+          </select>
+        </Field>
       </div>
 
-      {/* Tarifa mensual */}
-      <Field label="Tarifa mensual (CLP)">
-        <input type="number" value={form.monthlyFee} onChange={f('monthlyFee')} className={inputCls} placeholder="Ej: 150000" />
+      {form.isCustom && (
+        <Field label="Nombre del servicio">
+          <input value={form.name} onChange={f('name')} className={inputCls} placeholder="Ej: Consultoría estratégica" autoFocus />
+        </Field>
+      )}
+
+      <div className="grid grid-cols-2 gap-3">
+        <Field label={`Valor CLP${form.type === 'mensual' ? '/mes' : form.type === 'anual' ? '/año' : ''}`}>
+          <input type="number" value={form.amount} onChange={f('amount')} className={inputCls} placeholder="0" />
+        </Field>
+        {form.type === 'anual' && (
+          <Field label="Fecha de renovación">
+            <input type="date" value={form.renewalDate} onChange={f('renewalDate')} className={inputCls} />
+          </Field>
+        )}
+      </div>
+
+      {form.type === 'anual' && (
+        <>
+          <Field label="¿Quién paga?">
+            <select value={form.paidBy} onChange={f('paidBy')} className={inputCls}>
+              <option value="agencia">Agencia (se le cobra al cliente)</option>
+              <option value="cliente">Cliente paga directamente</option>
+            </select>
+          </Field>
+          <label className="flex items-center gap-3 cursor-pointer select-none">
+            <button type="button"
+              onClick={() => setForm(p => ({ ...p, firstYearFree: !p.firstYearFree }))}
+              className={`w-10 h-5 rounded-full transition-colors relative shrink-0 ${form.firstYearFree ? 'bg-white' : 'bg-zinc-600'}`}>
+              <span className={`absolute top-0.5 w-4 h-4 bg-black rounded-full transition-transform ${form.firstYearFree ? 'translate-x-5' : 'translate-x-0.5'}`} />
+            </button>
+            <span className="text-sm text-zinc-300">Primer año gratis (incluido en el desarrollo)</span>
+          </label>
+        </>
+      )}
+
+      <Field label="Notas internas (opcional)">
+        <input value={form.notes} onChange={f('notes')} className={inputCls} placeholder="Proveedor, accesos, detalles..." />
       </Field>
 
-      {/* Hosting — solo si tiene servicio web */}
-      {hasWeb && (
-        <div className="bg-zinc-800 rounded-xl p-4 space-y-4">
-          <p className="text-xs text-zinc-400 uppercase tracking-wider">Hosting</p>
-          <div className="grid grid-cols-2 gap-3">
-            <Field label="Proveedor">
-              <input value={form.hostingProvider} onChange={f('hostingProvider')} className={inputCls} placeholder="Hostinger, AWS..." />
-            </Field>
-            <Field label="Costo anual (CLP)">
-              <input type="number" value={form.hostingCost} onChange={f('hostingCost')} className={inputCls} placeholder="0" />
-            </Field>
+      <div className="flex gap-2 pt-1">
+        <button type="button" onClick={onCancel}
+          className="flex-1 bg-zinc-700 text-zinc-300 py-2.5 rounded-lg text-sm font-medium hover:bg-zinc-600 transition-colors">
+          Cancelar
+        </button>
+        <button type="button" onClick={onSave} disabled={saving || !form.name.trim()}
+          className="flex-1 bg-white text-black py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 flex items-center justify-center gap-2 transition-colors">
+          {saving ? <Loader size={14} className="animate-spin" /> : isEdit ? 'Guardar' : 'Agregar'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function ServicesTab({ clientId, services, onRefresh, authFetch }) {
+  const [editingId, setEditingId] = useState(null)
+  const [adding, setAdding] = useState(false)
+  const [form, setForm] = useState(EMPTY_SVC)
+  const [saving, setSaving] = useState(false)
+
+  const startEdit = (svc) => {
+    setAdding(false)
+    setEditingId(svc.id)
+    setForm({
+      name: svc.name, isCustom: !SERVICE_PRESETS.some(p => p.name === svc.name),
+      type: svc.type, amount: svc.amount != null ? String(svc.amount) : '',
+      renewalDate: svc.renewalDate ? svc.renewalDate.slice(0, 10) : '',
+      firstYearFree: svc.firstYearFree || false,
+      paidBy: svc.paidBy || 'agencia',
+      notes: svc.notes || ''
+    })
+  }
+
+  const startAdd = () => { setEditingId(null); setAdding(true); setForm(EMPTY_SVC) }
+  const cancel = () => { setEditingId(null); setAdding(false) }
+
+  const save = async () => {
+    if (!form.name.trim()) return
+    setSaving(true)
+    const payload = {
+      name: form.name.trim(), type: form.type,
+      amount: form.amount !== '' ? Number(form.amount) : 0,
+      renewalDate: form.type === 'anual' && form.renewalDate ? form.renewalDate : null,
+      firstYearFree: form.type === 'anual' ? form.firstYearFree : false,
+      paidBy: form.type === 'anual' ? form.paidBy : null,
+      notes: form.notes.trim() || null
+    }
+    if (editingId) {
+      await authFetch(`/api/clients/${clientId}/services/${editingId}`, { method: 'PATCH', body: JSON.stringify(payload) })
+    } else {
+      await authFetch(`/api/clients/${clientId}/services`, { method: 'POST', body: JSON.stringify(payload) })
+    }
+    await onRefresh()
+    cancel()
+    setSaving(false)
+  }
+
+  const remove = async (id) => {
+    if (!window.confirm('¿Eliminar este servicio?')) return
+    await authFetch(`/api/clients/${clientId}/services/${id}`, { method: 'DELETE' })
+    onRefresh()
+  }
+
+  const toggleActive = async (svc) => {
+    await authFetch(`/api/clients/${clientId}/services/${svc.id}`, { method: 'PATCH', body: JSON.stringify({ active: !svc.active }) })
+    onRefresh()
+  }
+
+  const daysUntil = (d) => d ? Math.ceil((new Date(d) - new Date()) / 86400000) : null
+  const typeBadge = { mensual: 'bg-blue-950 text-blue-400', anual: 'bg-purple-950 text-purple-400', unico: 'bg-green-950 text-green-400' }
+  const typeLabel = { mensual: 'Mensual', anual: 'Anual', unico: 'Único' }
+
+  const monthly = services.filter(s => s.active && s.type === 'mensual').reduce((sum, s) => sum + (s.amount || 0), 0)
+  const annual  = services.filter(s => s.active && s.type === 'anual').reduce((sum, s) => sum + (s.amount || 0), 0)
+
+  return (
+    <div className="space-y-3">
+      {services.length > 0 && (
+        <div className="grid grid-cols-2 gap-3 mb-1">
+          <div className="bg-zinc-800 rounded-xl p-3">
+            <p className="text-zinc-500 text-xs mb-1">Facturación mensual</p>
+            <p className="text-white font-bold text-lg">${monthly.toLocaleString('es-CL')}</p>
           </div>
-          <Field label={<span className="flex items-center gap-1">Renovación {form.hostingRenewal && <RenewalBadge dateStr={form.hostingRenewal} label="Hosting" />}</span>}>
-            <input type="date" value={form.hostingRenewal} onChange={f('hostingRenewal')} className={inputCls} />
-          </Field>
+          <div className="bg-zinc-800 rounded-xl p-3">
+            <p className="text-zinc-500 text-xs mb-1">Costos anuales</p>
+            <p className="text-white font-bold text-lg">${annual.toLocaleString('es-CL')}</p>
+          </div>
         </div>
       )}
 
-      {/* Dominio */}
-      <div className="bg-zinc-800 rounded-xl p-4 space-y-4">
-        <p className="text-xs text-zinc-400 uppercase tracking-wider">Dominio</p>
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Nombre de dominio">
-            <input value={form.domainName} onChange={f('domainName')} className={inputCls} placeholder="empresa.cl" />
-          </Field>
-          <Field label="Costo anual (CLP)">
-            <input type="number" value={form.domainCost} onChange={f('domainCost')} className={inputCls} placeholder="0" />
-          </Field>
+      {services.length === 0 && !adding && (
+        <p className="text-zinc-600 text-sm text-center py-6">Sin servicios. Agrega el primero.</p>
+      )}
+
+      {services.map(svc => (
+        <div key={svc.id}>
+          {editingId === svc.id ? (
+            <ServiceForm form={form} setForm={setForm} onSave={save} onCancel={cancel} saving={saving} isEdit />
+          ) : (
+            <div className={`bg-zinc-800 rounded-xl px-4 py-3 ${!svc.active ? 'opacity-50' : ''}`}>
+              <div className="flex items-start gap-3">
+                <button type="button" onClick={() => toggleActive(svc)} title={svc.active ? 'Activo · click para pausar' : 'Pausado · click para activar'}
+                  className={`mt-1 w-2.5 h-2.5 rounded-full shrink-0 transition-colors cursor-pointer ${svc.active ? 'bg-green-400' : 'bg-zinc-600'}`} />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-white text-sm font-medium">{svc.name}</span>
+                    <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${typeBadge[svc.type]}`}>{typeLabel[svc.type]}</span>
+                    {svc.firstYearFree && <span className="text-xs px-1.5 py-0.5 rounded-full bg-zinc-700 text-zinc-400">1er año gratis</span>}
+                  </div>
+                  <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                    <span className="text-zinc-300 text-xs font-medium">${Number(svc.amount || 0).toLocaleString('es-CL')}</span>
+                    {svc.type === 'anual' && svc.paidBy && (
+                      <span className="text-zinc-500 text-xs">· {svc.paidBy === 'agencia' ? 'paga agencia' : 'paga cliente'}</span>
+                    )}
+                    {svc.renewalDate && (() => {
+                      const days = daysUntil(svc.renewalDate)
+                      const color = days < 0 ? '#ef4444' : days <= 30 ? '#f59e0b' : '#6b7280'
+                      const label = days < 0 ? `venció hace ${Math.abs(days)}d` : days === 0 ? 'vence hoy' : `vence en ${days}d`
+                      return <span style={{ color }} className="text-xs">· {label}</span>
+                    })()}
+                  </div>
+                  {svc.notes && <p className="text-zinc-600 text-xs mt-0.5 truncate">{svc.notes}</p>}
+                </div>
+                <div className="flex gap-0.5 shrink-0">
+                  <button onClick={() => startEdit(svc)} className="text-zinc-500 hover:text-white p-1.5 rounded-lg hover:bg-zinc-700 transition-colors"><Pencil size={13} /></button>
+                  <button onClick={() => remove(svc.id)} className="text-zinc-500 hover:text-red-400 p-1.5 rounded-lg hover:bg-zinc-700 transition-colors"><Trash2 size={13} /></button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        <Field label={<span className="flex items-center gap-1">Renovación {form.domainRenewal && <RenewalBadge dateStr={form.domainRenewal} label="Dominio" />}</span>}>
-          <input type="date" value={form.domainRenewal} onChange={f('domainRenewal')} className={inputCls} />
-        </Field>
-        <label className="flex items-center gap-3 cursor-pointer">
-          <div onClick={() => setForm(p => ({ ...p, domainPaidByClient: !p.domainPaidByClient }))}
-            className={`w-10 h-5 rounded-full transition-colors relative flex-shrink-0 ${form.domainPaidByClient ? 'bg-white' : 'bg-zinc-600'}`}>
-            <span className={`absolute top-0.5 w-4 h-4 bg-black rounded-full transition-transform ${form.domainPaidByClient ? 'translate-x-5' : 'translate-x-0.5'}`} />
-          </div>
-          <span className="text-sm text-zinc-300">El cliente paga el dominio directamente</span>
-        </label>
-      </div>
+      ))}
 
-      {/* Notas */}
-      <Field label="Notas internas">
-        <textarea value={form.serviceNotes} onChange={f('serviceNotes')} rows={3}
-          className={`${inputCls} resize-none`} placeholder="Accesos, credenciales, detalles del contrato..." />
-      </Field>
+      {adding && <ServiceForm form={form} setForm={setForm} onSave={save} onCancel={cancel} saving={saving} isEdit={false} />}
 
-      {saveError && <p className="text-red-400 text-sm">{saveError}</p>}
-      <button type="submit" disabled={saving}
-        className="w-full bg-white text-black py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
-        {saving ? <Loader size={16} className="animate-spin" /> : saved ? '✓ Guardado' : 'Guardar cambios'}
-      </button>
-    </form>
+      {!adding && editingId === null && (
+        <button type="button" onClick={startAdd}
+          className="w-full flex items-center justify-center gap-2 border border-dashed border-zinc-700 text-zinc-500 hover:text-white hover:border-zinc-500 rounded-xl py-3 text-sm transition-colors">
+          <Plus size={15} /> Agregar servicio
+        </button>
+      )}
+    </div>
   )
 }
 
@@ -886,7 +976,7 @@ export default function ClientManagement() {
             {activeTab === 'archivos' && <FilesTab clientId={selected.id} files={selected.files} onRefresh={refresh} adminToken={adminToken} />}
             {activeTab === 'tickets' && <TicketsTab tickets={selected.tickets} onRefresh={refresh} authFetch={adminFetch} />}
             {activeTab === 'tasks' && <TasksTab clientId={selected.id} tasks={selected.tasks || []} onRefresh={refresh} authFetch={adminFetch} />}
-            {activeTab === 'servicios' && <ServicesTab client={selected} onRefresh={refresh} authFetch={adminFetch} />}
+            {activeTab === 'servicios' && <ServicesTab clientId={selected.id} services={selected.services || []} onRefresh={refresh} authFetch={adminFetch} />}
             {activeTab === 'notificar' && <NotifyTab client={selected} authFetch={adminFetch} />}
           </div>
         </div>
@@ -968,13 +1058,11 @@ export default function ClientManagement() {
                   <p className="text-zinc-500 text-sm truncate">{c.email} · {c.company || 'Sin empresa'}</p>
                   {(() => {
                     const alerts = []
-                    const checkRenewal = (date, label) => {
-                      if (!date) return
-                      const days = Math.ceil((new Date(date) - new Date()) / (1000 * 60 * 60 * 24))
-                      if (days <= 30) alerts.push({ label, days })
-                    }
-                    checkRenewal(c.hostingRenewal, 'Hosting')
-                    checkRenewal(c.domainRenewal, 'Dominio')
+                    ;(c.services || []).forEach(s => {
+                      if (!s.renewalDate) return
+                      const days = Math.ceil((new Date(s.renewalDate) - new Date()) / (1000 * 60 * 60 * 24))
+                      if (days <= 30) alerts.push({ label: s.name, days })
+                    })
                     if (alerts.length === 0) return null
                     return (
                       <div className="flex gap-2 mt-1 flex-wrap">

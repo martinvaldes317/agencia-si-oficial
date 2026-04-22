@@ -59,6 +59,23 @@ async function runMigrations() {
     UNIQUE KEY AdminConfig_key_key (\`key\`)
   )`);
 
+  // ClientService table
+  await createTable(`CREATE TABLE IF NOT EXISTS ClientService (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    clientId INT NOT NULL,
+    name VARCHAR(191) NOT NULL,
+    type VARCHAR(50) NOT NULL DEFAULT 'mensual',
+    amount DOUBLE NOT NULL DEFAULT 0,
+    active TINYINT(1) NOT NULL DEFAULT 1,
+    renewalDate DATETIME(3) NULL,
+    firstYearFree TINYINT(1) NOT NULL DEFAULT 0,
+    paidBy VARCHAR(50) NULL,
+    notes TEXT NULL,
+    createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    FOREIGN KEY (clientId) REFERENCES Client(id) ON DELETE CASCADE
+  )`);
+
   // Task table
   await createTable(`CREATE TABLE IF NOT EXISTS Task (
     id INT AUTO_INCREMENT PRIMARY KEY,
