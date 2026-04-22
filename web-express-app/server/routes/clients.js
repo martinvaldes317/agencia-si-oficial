@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { authenticateAdmin } = require('../middleware/auth');
+const { authenticateAdmin, JWT_SECRET } = require('../middleware/auth');
 const prisma = require('../lib/prisma');
 const mailer = require('../lib/mailer');
 
@@ -56,18 +58,43 @@ router.get('/', authenticateAdmin, async (req, res) => {
   }
 });
 
-// Create client
+// Create client — no password required, sends welcome email with setup link
 router.post('/', authenticateAdmin, async (req, res) => {
   try {
-    const { name, email, password, company, phone, plan } = req.body;
-    const hashed = await bcrypt.hash(password, 10);
+    const { name, email, company, phone, plan } = req.body;
+    const tempPassword = await bcrypt.hash(crypto.randomBytes(32).toString('hex'), 10);
     const client = await prisma.client.create({
-      data: { name, email, password: hashed, company, phone, plan }
+      data: { name, email, password: tempPassword, company, phone, plan, active: false }
     });
+    const siteUrl = process.env.SITE_URL || 'https://agenciasi.cl';
+    const setupToken = jwt.sign({ role: 'client_setup', clientId: client.id }, JWT_SECRET, { expiresIn: '7d' });
+    mailer.send({
+      to: email,
+      subject: `Bienvenido/a a AgenciaSi, ${name} — Crea tu contraseña`,
+      html: mailer.clientWelcome({ clientName: name, setupLink: `${siteUrl}/portal/setup?token=${setupToken}` })
+    }).catch(e => console.error('[welcome-email]', e.message));
     res.json({ success: true, client: { id: client.id, name: client.name, email: client.email } });
   } catch (error) {
     if (error.code === 'P2002') return res.status(400).json({ success: false, message: 'Email ya existe' });
     res.status(500).json({ success: false, message: 'Error' });
+  }
+});
+
+// Resend welcome/setup email
+router.post('/:id/resend-welcome', authenticateAdmin, async (req, res) => {
+  try {
+    const client = await prisma.client.findUnique({ where: { id: Number(req.params.id) }, select: { id: true, name: true, email: true } });
+    if (!client) return res.status(404).json({ success: false, message: 'Cliente no encontrado' });
+    const siteUrl = process.env.SITE_URL || 'https://agenciasi.cl';
+    const setupToken = jwt.sign({ role: 'client_setup', clientId: client.id }, JWT_SECRET, { expiresIn: '7d' });
+    await mailer.send({
+      to: client.email,
+      subject: `Acceso a tu portal AgenciaSi — Crea tu contraseña`,
+      html: mailer.clientWelcome({ clientName: client.name, setupLink: `${siteUrl}/portal/setup?token=${setupToken}` })
+    });
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error al enviar el correo' });
   }
 });
 

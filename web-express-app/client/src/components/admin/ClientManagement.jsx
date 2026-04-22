@@ -13,8 +13,9 @@ import {
 function Modal({ title, onClose, children }) {
   return (
     <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 overflow-y-auto"
-      onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="bg-zinc-900 border border-zinc-700 rounded-2xl w-full max-w-lg my-auto">
+      onMouseDown={e => e.target === e.currentTarget && onClose()}>
+      <div className="bg-zinc-900 border border-zinc-700 rounded-2xl w-full max-w-lg my-auto"
+        onMouseDown={e => e.stopPropagation()}>
         <div className="flex items-center justify-between p-5 border-b border-zinc-800">
           <h3 className="text-white font-semibold">{title}</h3>
           <button onClick={onClose} className="text-zinc-500 hover:text-white"><X size={20} /></button>
@@ -600,7 +601,7 @@ export default function ClientManagement() {
   const [forgotLoading, setForgotLoading] = useState(false)
   const [forgotError, setForgotError] = useState('')
 
-  const [newClient, setNewClient] = useState({ name: '', email: '', password: '', company: '', phone: '', plan: 'ads' })
+  const [newClient, setNewClient] = useState({ name: '', email: '', company: '', phone: '', plan: 'ads' })
   const [creating, setCreating] = useState(false)
   const nf = k => e => setNewClient(p => ({ ...p, [k]: e.target.value }))
 
@@ -658,7 +659,7 @@ export default function ClientManagement() {
     try {
       await adminFetch('/api/clients', { method: 'POST', body: JSON.stringify(newClient) })
       setShowNew(false)
-      setNewClient({ name: '', email: '', password: '', company: '', phone: '', plan: 'ads' })
+      setNewClient({ name: '', email: '', company: '', phone: '', plan: 'ads' })
       await fetchClients()
     } catch { }
     setCreating(false)
@@ -731,6 +732,14 @@ export default function ClientManagement() {
 
   // Client detail view
   if (selected) {
+    const [resending, setResending] = useState(false)
+    const [resent, setResent] = useState(false)
+    const resendWelcome = async () => {
+      setResending(true)
+      await adminFetch(`/api/clients/${selected.id}/resend-welcome`, { method: 'POST' })
+      setResent(true); setTimeout(() => setResent(false), 3000)
+      setResending(false)
+    }
     const tabs = [
       { id: 'metricas', label: 'Métricas', icon: TrendingUp },
       { id: 'pagos', label: 'Pagos', icon: CreditCard },
@@ -755,6 +764,10 @@ export default function ClientManagement() {
               <h1 className="text-2xl font-bold text-white">{selected.name}</h1>
               <p className="text-zinc-500 text-sm">{selected.email} · {selected.company || '—'} · Plan: {selected.plan || '—'}</p>
             </div>
+            <button onClick={resendWelcome} disabled={resending}
+              className="text-xs px-3 py-1.5 rounded-lg border border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-500 transition-colors disabled:opacity-50">
+              {resending ? <Loader size={12} className="animate-spin inline" /> : resent ? '✓ Enviado' : '📧 Reenviar acceso'}
+            </button>
             <button onClick={() => { logoutAdmin(); navigate('/admin/clientes') }} className="text-zinc-600 hover:text-white text-xs transition-colors">Cerrar sesión</button>
           </div>
 
@@ -898,7 +911,6 @@ export default function ClientManagement() {
               <Field label="Empresa"><input value={newClient.company} onChange={nf('company')} className={inputCls} placeholder="Empresa S.A." /></Field>
             </div>
             <Field label="Email"><input type="email" value={newClient.email} onChange={nf('email')} required className={inputCls} placeholder="juan@empresa.cl" /></Field>
-            <Field label="Contraseña temporal"><input type="password" value={newClient.password} onChange={nf('password')} required className={inputCls} placeholder="Mínimo 6 caracteres" minLength={6} /></Field>
             <div className="grid grid-cols-2 gap-4">
               <Field label="Teléfono"><input value={newClient.phone} onChange={nf('phone')} className={inputCls} placeholder="+56 9..." /></Field>
               <Field label="Plan">
@@ -909,10 +921,13 @@ export default function ClientManagement() {
                 </select>
               </Field>
             </div>
+            <p className="text-zinc-500 text-xs bg-zinc-800 rounded-lg px-3 py-2">
+              📧 Se enviará un correo al cliente para que cree su propia contraseña.
+            </p>
             <div className="flex gap-3 pt-2">
               <button type="button" onClick={() => setShowNew(false)} className="flex-1 bg-zinc-800 text-zinc-300 py-2.5 rounded-lg text-sm font-medium hover:bg-zinc-700 transition-colors">Cancelar</button>
               <button type="submit" disabled={creating} className="flex-1 bg-white text-black py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 flex items-center justify-center gap-2">
-                {creating ? <Loader size={16} className="animate-spin" /> : 'Crear cliente'}
+                {creating ? <Loader size={16} className="animate-spin" /> : 'Crear y enviar acceso'}
               </button>
             </div>
           </form>

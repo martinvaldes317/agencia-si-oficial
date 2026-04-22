@@ -189,6 +189,21 @@ function clientNotification({ clientName, type, subject, message }) {
   `);
 }
 
+function clientWelcome({ clientName, setupLink }) {
+  return base(`
+    <p class="title">👋 Bienvenido/a a AgenciaSi</p>
+    <p class="subtitle">Hola ${clientName}, tu cuenta ha sido creada. Solo falta que establezcas tu contraseña para acceder a tu portal.</p>
+    <div class="card">
+      <div style="color:#ddd;font-size:14px;line-height:1.7">
+        En tu portal podrás ver métricas de tus campañas, cobros, reuniones, archivos y más.<br>
+        <span style="color:#666;font-size:12px">Este enlace es válido por <strong style="color:#999">7 días</strong>.</span>
+      </div>
+    </div>
+    <a href="${setupLink}" class="btn">Crear mi contraseña</a>
+    <p style="color:#444;font-size:12px;margin-top:16px;text-align:center">Si tienes problemas, contáctanos a contacto@agenciasi.cl</p>
+  `);
+}
+
 function adminPasswordReset({ resetLink }) {
   return base(`
     <p class="title">🔐 Restablecer contraseña de administrador</p>
@@ -204,4 +219,4 @@ function adminPasswordReset({ resetLink }) {
   `);
 }
 
-module.exports = { send, meetingScheduled, paymentCreated, ticketReply, fileUploaded, newContact, newSeoDiagnostic, newOrder, clientNotification, adminPasswordReset };
+module.exports = { send, meetingScheduled, paymentCreated, ticketReply, fileUploaded, newContact, newSeoDiagnostic, newOrder, clientNotification, adminPasswordReset, clientWelcome };

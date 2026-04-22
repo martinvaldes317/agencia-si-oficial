@@ -81,6 +81,32 @@ router.post('/admin/login', async (req, res) => {
   }
 });
 
+// Client setup password (welcome link)
+router.post('/client/setup-password', async (req, res) => {
+  try {
+    const { token, password } = req.body;
+    if (!token || !password || password.length < 6) {
+      return res.status(400).json({ success: false, message: 'Datos inválidos' });
+    }
+    let decoded;
+    try { decoded = jwt.verify(token, JWT_SECRET); } catch {
+      return res.status(400).json({ success: false, message: 'El enlace no es válido o ya expiró' });
+    }
+    if (decoded.role !== 'client_setup') {
+      return res.status(400).json({ success: false, message: 'Token inválido' });
+    }
+    const hashed = await bcrypt.hash(password, 10);
+    await prisma.client.update({
+      where: { id: decoded.clientId },
+      data: { password: hashed, active: true }
+    });
+    res.json({ success: true });
+  } catch (error) {
+    console.error('[client-setup]', error.message);
+    res.status(500).json({ success: false, message: 'Error al configurar contraseña' });
+  }
+});
+
 // Admin forgot password — sends signed JWT reset link (no DB needed)
 router.post('/admin/forgot-password', async (req, res) => {
   try {

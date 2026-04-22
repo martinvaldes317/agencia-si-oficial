@@ -14,6 +14,7 @@ import Links from './components/Links'
 
 // Portal
 import PortalLogin from './components/portal/PortalLogin'
+import PortalSetup from './components/portal/PortalSetup'
 import ClientPortal from './components/portal/ClientPortal'
 import PortalDashboard from './components/portal/PortalDashboard'
 import PortalMetrics from './components/portal/PortalMetrics'
@@ -49,6 +50,7 @@ function App() {
           <Route path="/admin/reset-password" element={<ResetAdminPassword />} />
 
           {/* Client portal */}
+          <Route path="/portal/setup" element={<PortalSetup />} />
           <Route path="/portal" element={<PortalLogin />} />
           <Route path="/portal" element={<ClientPortal />}>
             <Route path="dashboard" element={<PortalDashboard />} />
