@@ -23,6 +23,40 @@ app.use('/uploads/files', express.static(path.join(__dirname, 'uploads/files')))
   if (!fs.existsSync(p)) fs.mkdirSync(p, { recursive: true });
 });
 
+// ── Startup migration: add missing columns without depending on prisma db push ──
+async function runMigrations() {
+  const addCol = async (table, col, def) => {
+    try {
+      await prisma.$executeRawUnsafe(`ALTER TABLE \`${table}\` ADD COLUMN \`${col}\` ${def}`);
+      console.log(`[Migration] Added ${table}.${col}`);
+    } catch (e) {
+      if (!e.message.toLowerCase().includes('duplicate column') && !e.message.toLowerCase().includes('already exists')) {
+        console.warn(`[Migration] ${table}.${col}: ${e.message}`);
+      }
+    }
+  };
+  const createTable = async (sql) => {
+    try { await prisma.$executeRawUnsafe(sql); } catch (e) { console.warn('[Migration] createTable:', e.message); }
+  };
+
+  // Client new columns
+  await addCol('Client', 'domainName',      'VARCHAR(191) NULL');
+  await addCol('Client', 'hostingProvider', 'VARCHAR(191) NULL');
+  await addCol('Client', 'hostingRenewal',  'DATETIME(3) NULL');
+  await addCol('Client', 'domainRenewal',   'DATETIME(3) NULL');
+  await addCol('Client', 'serviceNotes',    'LONGTEXT NULL');
+
+  // AdminConfig table
+  await createTable(`CREATE TABLE IF NOT EXISTS AdminConfig (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    \`key\` VARCHAR(191) NOT NULL,
+    value LONGTEXT NOT NULL,
+    UNIQUE KEY AdminConfig_key_key (\`key\`)
+  )`);
+
+  console.log('[Migration] Done');
+}
+
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/clients', require('./routes/clients'));
@@ -133,4 +167,6 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ success: false, message: 'Internal Server Error' });
 });
 
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+runMigrations()
+  .then(() => app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`)))
+  .catch(e => { console.error('[Startup] Migration failed:', e.message); process.exit(1); });

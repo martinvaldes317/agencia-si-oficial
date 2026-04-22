@@ -603,13 +603,14 @@ export default function ClientManagement() {
 
   const [newClient, setNewClient] = useState({ name: '', email: '', company: '', phone: '', plan: 'ads' })
   const [creating, setCreating] = useState(false)
+  const [createError, setCreateError] = useState('')
   const nf = k => e => setNewClient(p => ({ ...p, [k]: e.target.value }))
 
   const fetchClients = async () => {
     try {
       const r = await adminFetch('/api/clients')
       const d = await r.json()
-      setClients(d.clients || [])
+      if (d.success) setClients(d.clients || [])
     } catch { }
   }
 
@@ -622,9 +623,11 @@ export default function ClientManagement() {
   }
 
   const fetchClient = async (id) => {
-    const r = await adminFetch(`/api/clients/${id}`)
-    const d = await r.json()
-    if (d.success) setSelected(d.client)
+    try {
+      const r = await adminFetch(`/api/clients/${id}`)
+      const d = await r.json()
+      if (d.success) setSelected(d.client)
+    } catch { }
   }
 
   useEffect(() => {
@@ -656,12 +659,20 @@ export default function ClientManagement() {
   const createClient = async (e) => {
     e.preventDefault()
     setCreating(true)
+    setCreateError('')
     try {
-      await adminFetch('/api/clients', { method: 'POST', body: JSON.stringify(newClient) })
-      setShowNew(false)
-      setNewClient({ name: '', email: '', company: '', phone: '', plan: 'ads' })
-      await fetchClients()
-    } catch { }
+      const r = await adminFetch('/api/clients', { method: 'POST', body: JSON.stringify(newClient) })
+      const d = await r.json()
+      if (!d.success) {
+        setCreateError(d.message || 'Error al crear cliente')
+      } else {
+        setShowNew(false)
+        setNewClient({ name: '', email: '', company: '', phone: '', plan: 'ads' })
+        await fetchClients()
+      }
+    } catch (e) {
+      setCreateError('Error de conexión: ' + e.message)
+    }
     setCreating(false)
   }
 
@@ -906,6 +917,7 @@ export default function ClientManagement() {
       {showNew && (
         <Modal title="Crear nuevo cliente" onClose={() => setShowNew(false)}>
           <form onSubmit={createClient} className="space-y-4">
+            {createError && <p className="bg-red-950 border border-red-800 text-red-400 text-sm px-4 py-3 rounded-lg">{createError}</p>}
             <div className="grid grid-cols-2 gap-4">
               <Field label="Nombre completo"><input value={newClient.name} onChange={nf('name')} required className={inputCls} placeholder="Juan Pérez" /></Field>
               <Field label="Empresa"><input value={newClient.company} onChange={nf('company')} className={inputCls} placeholder="Empresa S.A." /></Field>
