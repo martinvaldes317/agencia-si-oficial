@@ -1114,11 +1114,11 @@ export default function ClientManagement() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
             {
-              label: 'Facturación mensual',
-              value: stats ? `$${Math.round(stats.facturacionMensual).toLocaleString('es-CL')}` : '—',
+              label: stats ? `Cobrado en ${stats.mesNombre}` : 'Cobrado este mes',
+              value: stats ? `$${Math.round(stats.cobradoEsteMes).toLocaleString('es-CL')}` : '—',
               icon: TrendingUp,
-              sub: 'suma de servicios mensuales activos',
-              highlight: stats && stats.facturacionMensual > 0,
+              sub: 'pagos cobrados este mes',
+              highlight: stats && stats.cobradoEsteMes > 0,
             },
             {
               label: 'Costos anuales',
