@@ -598,6 +598,7 @@ export default function ClientManagement() {
   const [showPwd, setShowPwd] = useState(false)
   const [forgotSent, setForgotSent] = useState(false)
   const [forgotLoading, setForgotLoading] = useState(false)
+  const [forgotError, setForgotError] = useState('')
 
   const [newClient, setNewClient] = useState({ name: '', email: '', password: '', company: '', phone: '', plan: 'ads' })
   const [creating, setCreating] = useState(false)
@@ -692,20 +693,30 @@ export default function ClientManagement() {
           </form>
         </div>
         {forgotSent ? (
-          <p className="text-center text-green-400 text-sm mt-4">✓ Te enviamos un enlace a contacto@agenciasi.cl</p>
+          <p className="text-center text-green-400 text-sm mt-4">✓ Enlace enviado a contacto@agenciasi.cl</p>
         ) : (
-          <button
-            onClick={async () => {
-              setForgotLoading(true)
-              await fetch(`${API}/api/auth/admin/forgot-password`, { method: 'POST' })
-              setForgotSent(true)
-              setForgotLoading(false)
-            }}
-            disabled={forgotLoading}
-            className="block w-full text-center text-zinc-600 hover:text-zinc-400 text-xs mt-4 transition-colors disabled:opacity-50"
-          >
-            {forgotLoading ? 'Enviando...' : '¿Olvidaste tu contraseña?'}
-          </button>
+          <>
+            {forgotError && <p className="text-center text-red-400 text-xs mt-3">{forgotError}</p>}
+            <button
+              onClick={async () => {
+                setForgotLoading(true)
+                setForgotError('')
+                try {
+                  const res = await fetch(`${API}/api/auth/admin/forgot-password`, { method: 'POST' })
+                  const d = await res.json()
+                  if (d.success) setForgotSent(true)
+                  else setForgotError(d.message || 'Error al enviar. Intenta de nuevo.')
+                } catch {
+                  setForgotError('Error de conexión con el servidor.')
+                }
+                setForgotLoading(false)
+              }}
+              disabled={forgotLoading}
+              className="block w-full text-center text-zinc-600 hover:text-zinc-400 text-xs mt-4 transition-colors disabled:opacity-50"
+            >
+              {forgotLoading ? 'Enviando...' : '¿Olvidaste tu contraseña?'}
+            </button>
+          </>
         )}
         <button onClick={() => navigate('/admin/si')} className="block text-center text-zinc-600 hover:text-zinc-400 text-xs mt-2 transition-colors">← Volver al panel de pedidos</button>
       </div>

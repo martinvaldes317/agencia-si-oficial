@@ -51,13 +51,14 @@ async function send({ to, subject, html }) {
   try {
     await resend.emails.send({
       from: 'AgenciaSi <contacto@agenciasi.cl>',
-      to: process.env.NOTIFY_EMAIL || to,
+      to,
       subject,
       html,
     });
     console.log(`[Mailer] ✓ Email enviado a ${to}: ${subject}`);
   } catch (err) {
     console.error(`[Mailer] Error enviando a ${to}:`, err.message);
+    throw err;
   }
 }
 
