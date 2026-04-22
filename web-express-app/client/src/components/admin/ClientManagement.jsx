@@ -679,6 +679,8 @@ export default function ClientManagement() {
   const [forgotError, setForgotError] = useState('')
   const [clientLoading, setClientLoading] = useState(false)
   const [clientError, setClientError] = useState('')
+  const [resending, setResending] = useState(false)
+  const [resent, setResent] = useState(false)
 
   const [newClient, setNewClient] = useState({ name: '', email: '', company: '', phone: '', plan: 'ads' })
   const [creating, setCreating] = useState(false)
@@ -828,8 +830,6 @@ export default function ClientManagement() {
 
   // Client detail view
   if (selected) {
-    const [resending, setResending] = useState(false)
-    const [resent, setResent] = useState(false)
     const resendWelcome = async () => {
       setResending(true)
       await adminFetch(`/api/clients/${selected.id}/resend-welcome`, { method: 'POST' })

@@ -59,6 +59,20 @@ async function runMigrations() {
     UNIQUE KEY AdminConfig_key_key (\`key\`)
   )`);
 
+  // Task table
+  await createTable(`CREATE TABLE IF NOT EXISTS Task (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    clientId INT NOT NULL,
+    title VARCHAR(191) NOT NULL,
+    detail VARCHAR(191) NULL,
+    priority VARCHAR(50) NOT NULL DEFAULT 'normal',
+    dueDate DATETIME(3) NULL,
+    done TINYINT(1) NOT NULL DEFAULT 0,
+    createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    FOREIGN KEY (clientId) REFERENCES Client(id) ON DELETE CASCADE
+  )`);
+
   console.log('[Migration] Done');
 }
 
