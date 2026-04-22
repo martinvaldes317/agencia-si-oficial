@@ -6,6 +6,36 @@ const { JWT_SECRET } = require('../middleware/auth');
 const prisma = require('../lib/prisma');
 const mailer = require('../lib/mailer');
 
+// Creates AdminConfig table if it doesn't exist (self-healing)
+async function ensureAdminConfigTable() {
+  await prisma.$executeRawUnsafe(`
+    CREATE TABLE IF NOT EXISTS AdminConfig (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      \`key\` VARCHAR(191) NOT NULL,
+      value LONGTEXT NOT NULL,
+      UNIQUE KEY AdminConfig_key_key (\`key\`)
+    )
+  `);
+}
+
+async function getAdminConfigPassword() {
+  try {
+    const rows = await prisma.$queryRaw`SELECT value FROM AdminConfig WHERE \`key\` = 'admin_password' LIMIT 1`;
+    return rows.length > 0 ? rows[0].value : null;
+  } catch {
+    return null;
+  }
+}
+
+async function setAdminConfigPassword(hashed) {
+  await ensureAdminConfigTable();
+  await prisma.$executeRawUnsafe(
+    `INSERT INTO AdminConfig (\`key\`, value) VALUES ('admin_password', ?)
+     ON DUPLICATE KEY UPDATE value = ?`,
+    hashed, hashed
+  );
+}
+
 // Client login
 router.post('/login', async (req, res) => {
   try {
@@ -33,11 +63,11 @@ router.post('/login', async (req, res) => {
 router.post('/admin/login', async (req, res) => {
   try {
     const { password } = req.body;
-    const configRow = await prisma.adminConfig.findUnique({ where: { key: 'admin_password' } });
+    const dbPassword = await getAdminConfigPassword();
 
     let valid = false;
-    if (configRow) {
-      valid = await bcrypt.compare(password, configRow.value);
+    if (dbPassword) {
+      valid = await bcrypt.compare(password, dbPassword);
     } else {
       valid = password === (process.env.ADMIN_PASSWORD || 'agencia-si-admin-2024');
     }
@@ -46,6 +76,7 @@ router.post('/admin/login', async (req, res) => {
     const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '7d' });
     res.json({ success: true, token });
   } catch (error) {
+    console.error('[admin-login]', error.message);
     res.status(500).json({ success: false, message: 'Error del servidor' });
   }
 });
@@ -71,7 +102,7 @@ router.post('/admin/forgot-password', async (req, res) => {
   }
 });
 
-// Admin reset password — verifies JWT token and saves new password to DB
+// Admin reset password — verifies JWT and saves new password via raw SQL
 router.post('/admin/reset-password', async (req, res) => {
   try {
     const { token, newPassword } = req.body;
@@ -90,11 +121,7 @@ router.post('/admin/reset-password', async (req, res) => {
     }
 
     const hashed = await bcrypt.hash(newPassword, 10);
-    await prisma.adminConfig.upsert({
-      where: { key: 'admin_password' },
-      update: { value: hashed },
-      create: { key: 'admin_password', value: hashed },
-    });
+    await setAdminConfigPassword(hashed);
 
     res.json({ success: true });
   } catch (error) {
