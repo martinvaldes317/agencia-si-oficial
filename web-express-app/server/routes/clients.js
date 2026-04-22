@@ -48,7 +48,7 @@ router.get('/', authenticateAdmin, async (req, res) => {
   try {
     const clients = await prisma.client.findMany({
       orderBy: { createdAt: 'desc' },
-      select: { id: true, name: true, email: true, company: true, phone: true, plan: true, active: true, createdAt: true }
+      select: { id: true, name: true, email: true, company: true, phone: true, plan: true, active: true, createdAt: true, hostingRenewal: true, domainRenewal: true, domainName: true }
     });
     res.json({ success: true, clients });
   } catch (error) {
@@ -96,13 +96,32 @@ router.get('/:id', authenticateAdmin, async (req, res) => {
 // Update client
 router.patch('/:id', authenticateAdmin, async (req, res) => {
   try {
-    const { name, email, company, phone, plan, active, password } = req.body;
-    const data = { name, email, company, phone, plan, active };
+    const { name, email, company, phone, plan, active, password, domainName, hostingProvider, hostingRenewal, domainRenewal, serviceNotes } = req.body;
+    const data = { name, email, company, phone, plan, active, domainName, hostingProvider, serviceNotes };
+    if (hostingRenewal) data.hostingRenewal = new Date(hostingRenewal);
+    if (domainRenewal) data.domainRenewal = new Date(domainRenewal);
     if (password) data.password = await bcrypt.hash(password, 10);
     const client = await prisma.client.update({ where: { id: Number(req.params.id) }, data });
     res.json({ success: true, client });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error' });
+  }
+});
+
+// Send custom notification to client
+router.post('/:id/notify', authenticateAdmin, async (req, res) => {
+  try {
+    const { type, subject, message } = req.body;
+    const client = await prisma.client.findUnique({ where: { id: Number(req.params.id) }, select: { name: true, email: true } });
+    if (!client) return res.status(404).json({ success: false, message: 'Cliente no encontrado' });
+    await mailer.send({
+      to: client.email,
+      subject: subject || `Notificación de AgenciaSi: ${type}`,
+      html: mailer.clientNotification({ clientName: client.name, type, subject, message })
+    });
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error enviando notificación' });
   }
 });
 

@@ -23,22 +23,27 @@ model ContactLead {
 }
 
 model Client {
-  id        Int          @id @default(autoincrement())
-  email     String       @unique
-  password  String
-  name      String
-  company   String?
-  phone     String?
-  plan      String?
-  active    Boolean      @default(true)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  metrics   Metric[]
-  payments  Payment[]
-  meetings  Meeting[]
-  files     ClientFile[]
-  tickets   Ticket[]
-  tasks     Task[]
+  id               Int          @id @default(autoincrement())
+  email            String       @unique
+  password         String
+  name             String
+  company          String?
+  phone            String?
+  plan             String?
+  active           Boolean      @default(true)
+  domainName       String?
+  hostingProvider  String?
+  hostingRenewal   DateTime?
+  domainRenewal    DateTime?
+  serviceNotes     String?      @db.Text
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  metrics          Metric[]
+  payments         Payment[]
+  meetings         Meeting[]
+  files            ClientFile[]
+  tickets          Ticket[]
+  tasks            Task[]
 }
 
 model Metric {

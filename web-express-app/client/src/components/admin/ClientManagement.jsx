@@ -4,7 +4,8 @@ import { useAuth, API } from '../../context/AuthContext'
 import {
   Users, Plus, Search, TrendingUp, CreditCard, Calendar, FolderOpen,
   MessageSquare, ChevronLeft, X, Upload, Send, Trash2, LogOut,
-  Eye, EyeOff, Loader, AlertCircle, DollarSign, BarChart2, CheckSquare, Square
+  Eye, EyeOff, Loader, AlertCircle, DollarSign, BarChart2, CheckSquare, Square,
+  Globe, Bell
 } from 'lucide-react'
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
@@ -434,6 +435,139 @@ function TasksTab({ clientId, tasks, onRefresh, authFetch }) {
   )
 }
 
+function ServicesTab({ client, onRefresh, authFetch }) {
+  const [form, setForm] = useState({
+    domainName: client.domainName || '',
+    hostingProvider: client.hostingProvider || '',
+    hostingRenewal: client.hostingRenewal ? client.hostingRenewal.slice(0, 10) : '',
+    domainRenewal: client.domainRenewal ? client.domainRenewal.slice(0, 10) : '',
+    serviceNotes: client.serviceNotes || '',
+  })
+  const [saving, setSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const f = k => e => setForm(p => ({ ...p, [k]: e.target.value }))
+
+  const submit = async (e) => {
+    e.preventDefault()
+    setSaving(true)
+    await authFetch(`/api/clients/${client.id}`, { method: 'PATCH', body: JSON.stringify(form) })
+    await onRefresh()
+    setSaving(false)
+    setSaved(true)
+    setTimeout(() => setSaved(false), 2000)
+  }
+
+  const daysUntil = (dateStr) => {
+    if (!dateStr) return null
+    const diff = Math.ceil((new Date(dateStr) - new Date()) / (1000 * 60 * 60 * 24))
+    return diff
+  }
+
+  const RenewalBadge = ({ dateStr, label }) => {
+    const days = daysUntil(dateStr)
+    if (days === null) return null
+    const color = days < 0 ? '#ef4444' : days <= 30 ? '#f59e0b' : '#22c55e'
+    const text = days < 0 ? `Venció hace ${Math.abs(days)} días` : days === 0 ? 'Vence hoy' : `Vence en ${days} días`
+    return (
+      <div className="flex items-center gap-2 mt-1">
+        <span style={{ background: color + '22', color, border: `1px solid ${color}44` }}
+          className="text-xs px-2 py-0.5 rounded-full font-semibold">{label}: {text}</span>
+      </div>
+    )
+  }
+
+  return (
+    <form onSubmit={submit} className="space-y-5">
+      <div className="grid grid-cols-2 gap-4">
+        <Field label="Nombre de dominio">
+          <input value={form.domainName} onChange={f('domainName')} className={inputCls} placeholder="agenciasi.cl" />
+        </Field>
+        <Field label="Proveedor de hosting">
+          <input value={form.hostingProvider} onChange={f('hostingProvider')} className={inputCls} placeholder="Hostinger, AWS, etc." />
+        </Field>
+        <div>
+          <Field label="Renovación hosting">
+            <input type="date" value={form.hostingRenewal} onChange={f('hostingRenewal')} className={inputCls} />
+          </Field>
+          <RenewalBadge dateStr={form.hostingRenewal} label="Hosting" />
+        </div>
+        <div>
+          <Field label="Renovación dominio">
+            <input type="date" value={form.domainRenewal} onChange={f('domainRenewal')} className={inputCls} />
+          </Field>
+          <RenewalBadge dateStr={form.domainRenewal} label="Dominio" />
+        </div>
+      </div>
+      <Field label="Notas de servicio">
+        <textarea value={form.serviceNotes} onChange={f('serviceNotes')} rows={4}
+          className={`${inputCls} resize-none`} placeholder="Plan contratado, accesos, detalles técnicos..." />
+      </Field>
+      <button type="submit" disabled={saving}
+        className="w-full bg-white text-black py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
+        {saving ? <Loader size={16} className="animate-spin" /> : saved ? '✓ Guardado' : 'Guardar cambios'}
+      </button>
+    </form>
+  )
+}
+
+function NotifyTab({ client, authFetch }) {
+  const [form, setForm] = useState({ type: 'pago', subject: '', message: '' })
+  const [sending, setSending] = useState(false)
+  const [sent, setSent] = useState(false)
+  const [error, setError] = useState('')
+  const f = k => e => setForm(p => ({ ...p, [k]: e.target.value }))
+
+  const templates = {
+    pago: { subject: 'Recordatorio de pago pendiente', message: `Hola ${client.name},\n\nTe recordamos que tienes un pago pendiente con AgenciaSi.\n\nPor favor contáctanos para coordinar el pago o revisa tu portal de clientes.\n\n¡Gracias!` },
+    renovacion_hosting: { subject: 'Tu hosting está próximo a vencer', message: `Hola ${client.name},\n\nTe informamos que tu plan de hosting está próximo a su fecha de renovación.\n\nPara no interrumpir el servicio de tu sitio web, te recomendamos renovar con anticipación.\n\nContáctanos para ayudarte.` },
+    renovacion_dominio: { subject: 'Tu dominio está próximo a vencer', message: `Hola ${client.name},\n\nTe informamos que tu dominio está próximo a vencer.\n\nEs importante renovarlo a tiempo para no perder tu presencia en línea.\n\nContacta a AgenciaSi y te ayudamos.` },
+    mantencion: { subject: 'Mantención programada de tu sitio web', message: `Hola ${client.name},\n\nTe informamos que realizaremos una mantención programada en tu sitio web.\n\nEsta mantención puede causar una breve interrupción del servicio. Te notificaremos cuando esté completada.\n\nGracias por tu comprensión.` },
+    personalizado: { subject: '', message: '' },
+  }
+
+  const applyTemplate = (type) => {
+    const t = templates[type]
+    setForm({ type, subject: t.subject, message: t.message })
+  }
+
+  const submit = async (e) => {
+    e.preventDefault()
+    setSending(true); setError('')
+    const res = await authFetch(`/api/clients/${client.id}/notify`, { method: 'POST', body: JSON.stringify(form) })
+    const d = await res.json()
+    setSending(false)
+    if (d.success) { setSent(true); setTimeout(() => setSent(false), 3000) }
+    else setError('Error al enviar. Verifica la configuración SMTP.')
+  }
+
+  return (
+    <form onSubmit={submit} className="space-y-4">
+      <Field label="Tipo de notificación">
+        <select value={form.type} onChange={e => applyTemplate(e.target.value)} className={inputCls}>
+          <option value="pago">💳 Aviso de pago</option>
+          <option value="renovacion_hosting">🖥️ Renovación hosting</option>
+          <option value="renovacion_dominio">🌐 Renovación dominio</option>
+          <option value="mantencion">🔧 Mantención programada</option>
+          <option value="personalizado">📢 Mensaje personalizado</option>
+        </select>
+      </Field>
+      <Field label="Asunto">
+        <input value={form.subject} onChange={f('subject')} required className={inputCls} placeholder="Asunto del correo" />
+      </Field>
+      <Field label="Mensaje">
+        <textarea value={form.message} onChange={f('message')} required rows={7}
+          className={`${inputCls} resize-none`} placeholder="Escribe el mensaje para el cliente..." />
+      </Field>
+      <p className="text-zinc-600 text-xs">Se enviará a: <span className="text-zinc-400">{client.email}</span></p>
+      {error && <p className="text-red-400 text-sm">{error}</p>}
+      <button type="submit" disabled={sending}
+        className="w-full bg-white text-black py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
+        {sending ? <Loader size={16} className="animate-spin" /> : sent ? '✓ Enviado' : <><Send size={15} /> Enviar notificación</>}
+      </button>
+    </form>
+  )
+}
+
 // ─── main ─────────────────────────────────────────────────────────────────────
 
 export default function ClientManagement() {
@@ -575,6 +709,8 @@ export default function ClientManagement() {
       { id: 'archivos', label: 'Archivos', icon: FolderOpen },
       { id: 'tickets', label: 'Tickets', icon: MessageSquare },
       { id: 'tasks', label: 'Tareas', icon: CheckSquare },
+      { id: 'servicios', label: 'Servicios', icon: Globe },
+      { id: 'notificar', label: 'Notificar', icon: Bell },
     ]
     const refresh = () => fetchClient(selected.id)
 
@@ -612,6 +748,8 @@ export default function ClientManagement() {
             {activeTab === 'archivos' && <FilesTab clientId={selected.id} files={selected.files} onRefresh={refresh} adminToken={adminToken} />}
             {activeTab === 'tickets' && <TicketsTab tickets={selected.tickets} onRefresh={refresh} authFetch={adminFetch} />}
             {activeTab === 'tasks' && <TasksTab clientId={selected.id} tasks={selected.tasks || []} onRefresh={refresh} authFetch={adminFetch} />}
+            {activeTab === 'servicios' && <ServicesTab client={selected} onRefresh={refresh} authFetch={adminFetch} />}
+            {activeTab === 'notificar' && <NotifyTab client={selected} authFetch={adminFetch} />}
           </div>
         </div>
       </div>
@@ -690,6 +828,27 @@ export default function ClientManagement() {
                 <div className="flex-1 min-w-0">
                   <p className="text-white font-medium">{c.name}</p>
                   <p className="text-zinc-500 text-sm truncate">{c.email} · {c.company || 'Sin empresa'}</p>
+                  {(() => {
+                    const alerts = []
+                    const checkRenewal = (date, label) => {
+                      if (!date) return
+                      const days = Math.ceil((new Date(date) - new Date()) / (1000 * 60 * 60 * 24))
+                      if (days <= 30) alerts.push({ label, days })
+                    }
+                    checkRenewal(c.hostingRenewal, 'Hosting')
+                    checkRenewal(c.domainRenewal, 'Dominio')
+                    if (alerts.length === 0) return null
+                    return (
+                      <div className="flex gap-2 mt-1 flex-wrap">
+                        {alerts.map(a => (
+                          <span key={a.label} className="text-xs px-2 py-0.5 rounded-full font-semibold"
+                            style={{ background: a.days < 0 ? '#ef444422' : '#f59e0b22', color: a.days < 0 ? '#ef4444' : '#f59e0b' }}>
+                            ⚠ {a.label} {a.days < 0 ? `venció hace ${Math.abs(a.days)}d` : `vence en ${a.days}d`}
+                          </span>
+                        ))}
+                      </div>
+                    )
+                  })()}
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
                   {c.plan && <span className="bg-zinc-800 text-zinc-400 text-xs px-2 py-1 rounded-full">{c.plan}</span>}

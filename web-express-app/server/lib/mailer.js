@@ -167,4 +167,25 @@ function newOrder({ orderId, name, email, phone, service, plan }) {
   `);
 }
 
-module.exports = { send, meetingScheduled, paymentCreated, ticketReply, fileUploaded, newContact, newSeoDiagnostic, newOrder };
+function clientNotification({ clientName, type, subject, message }) {
+  const typeIcons = {
+    pago: '💳', renovacion_hosting: '🖥️', renovacion_dominio: '🌐',
+    mantencion: '🔧', personalizado: '📢'
+  };
+  const typeLabels = {
+    pago: 'Aviso de pago', renovacion_hosting: 'Renovación de hosting',
+    renovacion_dominio: 'Renovación de dominio', mantencion: 'Mantención programada', personalizado: 'Notificación'
+  };
+  const icon = typeIcons[type] || '📢';
+  const label = typeLabels[type] || 'Notificación';
+  return base(`
+    <p class="title">${icon} ${subject || label}</p>
+    <p class="subtitle">Hola ${clientName}, tienes un nuevo aviso de AgenciaSi.</p>
+    <div class="card">
+      <div style="color:#ddd;font-size:14px;line-height:1.7;white-space:pre-line">${message}</div>
+    </div>
+    <p style="color:#555;font-size:13px;margin-top:16px;">Si tienes dudas, responde este correo o contáctanos por WhatsApp.</p>
+  `);
+}
+
+module.exports = { send, meetingScheduled, paymentCreated, ticketReply, fileUploaded, newContact, newSeoDiagnostic, newOrder, clientNotification };
