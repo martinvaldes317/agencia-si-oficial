@@ -450,7 +450,13 @@ const SERVICE_PRESETS = [
   { name: 'Dominio',        type: 'anual'   },
 ]
 
-const EMPTY_SVC = { name: '', isCustom: false, type: 'mensual', amount: '', renewalDate: '', firstYearFree: false, paidBy: 'agencia', notes: '' }
+const WEB_PRESETS = ['Sitio Web', 'WordPress Pro', 'E-commerce']
+
+const EMPTY_SVC = {
+  name: '', isCustom: false, type: 'mensual', amount: '', renewalDate: '', firstYearFree: false, paidBy: 'agencia', notes: '',
+  addHosting: true, hostingAmount: '22490', hostingRenewal: '', hostingPaidBy: 'agencia',
+  addDomain: true, domainAmount: '', domainRenewal: '', domainPaidBy: 'agencia',
+}
 
 function ServiceForm({ form, setForm, onSave, onCancel, saving, isEdit }) {
   const f = k => e => setForm(p => ({ ...p, [k]: e.target.value }))
@@ -529,6 +535,77 @@ function ServiceForm({ form, setForm, onSave, onCancel, saving, isEdit }) {
         </>
       )}
 
+      {/* Hosting + Dominio automáticos para servicios web (solo al crear) */}
+      {!isEdit && WEB_PRESETS.includes(form.name) && (
+        <div className="space-y-2">
+          <p className="text-xs text-zinc-400 uppercase tracking-wider">Servicios anuales incluidos</p>
+
+          {/* Hosting */}
+          <div className="bg-zinc-900 rounded-xl p-3 space-y-2">
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" checked={form.addHosting}
+                onChange={() => setForm(p => ({ ...p, addHosting: !p.addHosting }))}
+                className="accent-white w-4 h-4" />
+              <span className="text-white text-sm font-medium flex-1">Hosting</span>
+              <span className="text-xs text-zinc-500">Año 1 gratis</span>
+            </label>
+            {form.addHosting && (
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <Field label="Costo anual CLP">
+                  <input type="number" value={form.hostingAmount}
+                    onChange={e => setForm(p => ({ ...p, hostingAmount: e.target.value }))} className={inputCls} />
+                </Field>
+                <Field label="Renovación">
+                  <input type="date" value={form.hostingRenewal}
+                    onChange={e => setForm(p => ({ ...p, hostingRenewal: e.target.value }))} className={inputCls} />
+                </Field>
+                <div className="col-span-2">
+                  <Field label="¿Quién paga?">
+                    <select value={form.hostingPaidBy}
+                      onChange={e => setForm(p => ({ ...p, hostingPaidBy: e.target.value }))} className={inputCls}>
+                      <option value="agencia">Agencia (se le cobra al cliente)</option>
+                      <option value="cliente">Cliente paga directamente</option>
+                    </select>
+                  </Field>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Dominio */}
+          <div className="bg-zinc-900 rounded-xl p-3 space-y-2">
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" checked={form.addDomain}
+                onChange={() => setForm(p => ({ ...p, addDomain: !p.addDomain }))}
+                className="accent-white w-4 h-4" />
+              <span className="text-white text-sm font-medium flex-1">Dominio</span>
+              <span className="text-xs text-zinc-500">Año 1 gratis</span>
+            </label>
+            {form.addDomain && (
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <Field label="Costo anual CLP">
+                  <input type="number" value={form.domainAmount}
+                    onChange={e => setForm(p => ({ ...p, domainAmount: e.target.value }))} className={inputCls} />
+                </Field>
+                <Field label="Renovación">
+                  <input type="date" value={form.domainRenewal}
+                    onChange={e => setForm(p => ({ ...p, domainRenewal: e.target.value }))} className={inputCls} />
+                </Field>
+                <div className="col-span-2">
+                  <Field label="¿Quién paga?">
+                    <select value={form.domainPaidBy}
+                      onChange={e => setForm(p => ({ ...p, domainPaidBy: e.target.value }))} className={inputCls}>
+                      <option value="agencia">Agencia (se le cobra al cliente)</option>
+                      <option value="cliente">Cliente paga directamente</option>
+                    </select>
+                  </Field>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       <Field label="Notas internas (opcional)">
         <input value={form.notes} onChange={f('notes')} className={inputCls} placeholder="Proveedor, accesos, detalles..." />
       </Field>
@@ -572,6 +649,7 @@ function ServicesTab({ clientId, services, onRefresh, authFetch }) {
   const save = async () => {
     if (!form.name.trim()) return
     setSaving(true)
+    const isWeb = WEB_PRESETS.includes(form.name)
     const payload = {
       name: form.name.trim(), type: form.type,
       amount: form.amount !== '' ? Number(form.amount) : 0,
@@ -584,6 +662,18 @@ function ServicesTab({ clientId, services, onRefresh, authFetch }) {
       await authFetch(`/api/clients/${clientId}/services/${editingId}`, { method: 'PATCH', body: JSON.stringify(payload) })
     } else {
       await authFetch(`/api/clients/${clientId}/services`, { method: 'POST', body: JSON.stringify(payload) })
+      if (isWeb && form.addHosting) {
+        await authFetch(`/api/clients/${clientId}/services`, { method: 'POST', body: JSON.stringify({
+          name: 'Hosting', type: 'anual', amount: Number(form.hostingAmount || 0),
+          renewalDate: form.hostingRenewal || null, firstYearFree: true, paidBy: form.hostingPaidBy, notes: null
+        })})
+      }
+      if (isWeb && form.addDomain) {
+        await authFetch(`/api/clients/${clientId}/services`, { method: 'POST', body: JSON.stringify({
+          name: 'Dominio', type: 'anual', amount: Number(form.domainAmount || 0),
+          renewalDate: form.domainRenewal || null, firstYearFree: true, paidBy: form.domainPaidBy, notes: null
+        })})
+      }
     }
     await onRefresh()
     cancel()
