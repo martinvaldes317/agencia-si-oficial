@@ -165,6 +165,29 @@ model AdminConfig {
   value String @db.Text
 }
 
+model WebExpressOrder {
+  id           Int      @id @default(autoincrement())
+  orderId      String   @unique
+  status       String   @default("nuevo")
+  businessName String
+  email        String
+  phone        String?
+  city         String?
+  address      String?
+  whatsapp     String?
+  socials      String?
+  hasDomain    String?
+  brandColors  String?
+  products     String   @db.Text
+  about        String?  @db.Text
+  mission      String?
+  vision       String?
+  visualStyle  String?
+  clientId     Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
 model Licitacion {
   id                Int      @id @default(autoincrement())
   entidad           String

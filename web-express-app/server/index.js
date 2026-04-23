@@ -4,8 +4,11 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const prisma = require('./lib/prisma');
 const mailer = require('./lib/mailer');
+const { authenticateAdmin, JWT_SECRET } = require('./middleware/auth');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -105,6 +108,31 @@ async function runMigrations() {
     updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)
   )`);
 
+  // WebExpressOrder table
+  await createTable(`CREATE TABLE IF NOT EXISTS WebExpressOrder (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    orderId VARCHAR(191) NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'nuevo',
+    businessName VARCHAR(191) NOT NULL,
+    email VARCHAR(191) NOT NULL,
+    phone VARCHAR(191) NULL,
+    city VARCHAR(191) NULL,
+    address VARCHAR(191) NULL,
+    whatsapp VARCHAR(191) NULL,
+    socials VARCHAR(191) NULL,
+    hasDomain VARCHAR(50) NULL,
+    brandColors VARCHAR(500) NULL,
+    products LONGTEXT NULL,
+    about LONGTEXT NULL,
+    mission LONGTEXT NULL,
+    vision VARCHAR(500) NULL,
+    visualStyle VARCHAR(50) NULL,
+    clientId INT NULL,
+    createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    UNIQUE KEY WebExpressOrder_orderId_key (orderId)
+  )`);
+
   console.log('[Migration] Done');
 }
 
@@ -150,63 +178,64 @@ app.post('/api/seo-diagnostic', async (req, res) => {
   }
 });
 
-// Submit a new order
-app.post('/api/submit-order', (req, res) => {
+// Submit a new Web Express order
+app.post('/api/submit-order', async (req, res) => {
   try {
-    const orderData = req.body;
+    const { businessName, email, phone, city, address, whatsapp, socials, hasDomain, brandColorsText, products, about, mission, vision, visualStyle } = req.body;
+    if (!businessName || !email) return res.status(400).json({ success: false, message: 'Nombre y email son requeridos' });
+
     const orderId = `ORDER-${Date.now()}`;
-    orderData.id = orderId;
-    orderData.status = 'recibido';
-    orderData.createdAt = new Date().toISOString();
-    const filePath = path.join(__dirname, 'uploads', `${orderId}.json`);
-    fs.writeFileSync(filePath, JSON.stringify(orderData, null, 2));
-    mailer.send({ to: 'contacto@agenciasi.cl', subject: `Nuevo pedido: ${orderId}`, html: mailer.newOrder({ orderId, name: orderData.name, email: orderData.email, phone: orderData.phone, service: orderData.service, plan: orderData.plan }) });
-    res.status(200).json({ success: true, message: 'Order received', orderId });
+    const order = await prisma.webExpressOrder.create({
+      data: { orderId, businessName, email, phone: phone || null, city: city || null, address: address || null, whatsapp: whatsapp || null, socials: socials || null, hasDomain: hasDomain || null, brandColors: brandColorsText || null, products: products || '', about: about || null, mission: mission || null, vision: vision || null, visualStyle: visualStyle || 'minimalista' }
+    });
+
+    // Create client account if doesn't exist
+    const siteUrl = process.env.SITE_URL || 'https://agenciasi.cl';
+    let clientId = null;
+    const existing = await prisma.client.findUnique({ where: { email } });
+    if (!existing) {
+      const tempHash = await bcrypt.hash(`temp-${Date.now()}`, 10);
+      const newClient = await prisma.client.create({
+        data: { email, password: tempHash, name: businessName, company: businessName, phone: phone || null, plan: 'web-express', active: false }
+      });
+      clientId = newClient.id;
+      const setupToken = jwt.sign({ role: 'client_setup', clientId: newClient.id }, JWT_SECRET, { expiresIn: '7d' });
+      mailer.send({ to: email, subject: 'Tu web está en producción — Accede a tu panel', html: mailer.clientWelcome({ clientName: businessName, setupLink: `${siteUrl}/portal/setup?token=${setupToken}` }) })
+        .catch(e => console.error('[wizard-welcome]', e.message));
+    } else {
+      clientId = existing.id;
+    }
+
+    await prisma.webExpressOrder.update({ where: { orderId }, data: { clientId } });
+    mailer.send({ to: 'contacto@agenciasi.cl', subject: `Nuevo pedido Web Express: ${businessName}`, html: mailer.newOrder({ orderId, name: businessName, email, phone, service: 'Web Profesional Express', plan: visualStyle }) })
+      .catch(e => console.error('[wizard-notify]', e.message));
+
+    res.json({ success: true, orderId });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    console.error('[submit-order]', error.message);
+    res.status(500).json({ success: false, message: 'Error al procesar el pedido' });
   }
 });
 
-// Admin: List all orders
-app.get('/api/orders', (req, res) => {
+// Admin: List all Web Express orders
+app.get('/api/orders', authenticateAdmin, async (req, res) => {
   try {
-    const files = fs.readdirSync(path.join(__dirname, 'uploads'));
-    const orders = files
-      .filter(file => file.endsWith('.json'))
-      .map(file => {
-        const content = fs.readFileSync(path.join(__dirname, 'uploads', file), 'utf-8');
-        return JSON.parse(content);
-      })
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const orders = await prisma.webExpressOrder.findMany({ orderBy: { createdAt: 'desc' } });
     res.json({ success: true, orders });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error fetching orders' });
   }
 });
 
-// Admin/Client: Get single order
-app.get('/api/orders/:id', (req, res) => {
-  try {
-    const filePath = path.join(__dirname, 'uploads', `${req.params.id}.json`);
-    if (!fs.existsSync(filePath)) return res.status(404).json({ success: false, message: 'Order not found' });
-    const order = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-    res.json({ success: true, order });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Error fetching order' });
-  }
-});
-
 // Admin: Update order status
-app.patch('/api/orders/:id/status', (req, res) => {
+app.patch('/api/orders/:id/status', authenticateAdmin, async (req, res) => {
   try {
     const { status } = req.body;
-    const filePath = path.join(__dirname, 'uploads', `${req.params.id}.json`);
-    if (!fs.existsSync(filePath)) return res.status(404).json({ success: false, message: 'Order not found' });
-    const order = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-    order.status = status;
-    order.updatedAt = new Date().toISOString();
-    fs.writeFileSync(filePath, JSON.stringify(order, null, 2));
-    res.json({ success: true, message: 'Status updated', order });
+    const order = await prisma.webExpressOrder.update({
+      where: { orderId: req.params.id },
+      data: { status }
+    });
+    res.json({ success: true, order });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error updating status' });
   }

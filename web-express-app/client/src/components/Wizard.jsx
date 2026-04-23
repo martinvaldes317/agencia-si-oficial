@@ -368,9 +368,8 @@ const Step7 = ({ processPayment, isProcessing }) => (
                     <p className="text-sm text-gray-500 mt-1">Diseño personalizado + Optimización móvil</p>
                 </div>
                 <div className="text-right">
-                    <span className="block text-xs font-bold text-gray-400 decoration-red-400 line-through decoration-2">$149.990</span>
-                    <span className="block text-2xl font-bold text-black tracking-tight">$59.990</span>
-                    <span className="text-[9px] uppercase font-bold text-gray-400">+ IVA</span>
+                    <span className="block text-2xl font-bold text-black tracking-tight">$129.990</span>
+                    <span className="text-[9px] uppercase font-bold text-gray-400">IVA incluido</span>
                 </div>
             </div>
 
@@ -436,19 +435,19 @@ const SuccessState = ({ orderId }) => (
                 <li className="flex gap-3 text-sm flex-col">
                     <div className="flex gap-3">
                         <span className="font-bold text-black shrink-0">1.</span>
-                        <span>Revisaremos tus archivos y textos.</span>
+                        <span>Revisaremos tu información y empezamos el diseño.</span>
                     </div>
                 </li>
                 <li className="flex gap-3 text-sm flex-col">
                     <div className="flex gap-3">
                         <span className="font-bold text-black shrink-0">2.</span>
-                        <span>Puedes hacer seguimiento en tiempo real en tu panel.</span>
+                        <span>Revisa tu correo — te enviamos el acceso a tu panel de cliente para hacer seguimiento.</span>
                     </div>
                     <a
-                        href={`/status/${orderId}`}
+                        href="/portal"
                         className="ml-7 text-xs font-bold text-blue-600 uppercase tracking-widest flex items-center gap-1 hover:gap-2 transition-all"
                     >
-                        Ver mi panel de cliente <ArrowRight className="w-3 h-3" />
+                        Ir al portal de cliente <ArrowRight className="w-3 h-3" />
                     </a>
                 </li>
                 <li className="flex gap-3 text-sm border-t border-gray-200 pt-4 mt-2">
@@ -590,29 +589,29 @@ export default function Wizard() {
         setStep(prev => Math.max(prev - 1, 1));
     };
 
-    const processPayment = () => {
+    const processPayment = async () => {
         setIsProcessing(true);
-        // Mock API call
-        setTimeout(async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/submit-order`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            const data = await response.json();
+            if (data.success) {
+                setOrderId(data.orderId);
+                localStorage.removeItem('webExpressData');
+                setComplete(true);
+                window.scrollTo(0, 0);
+            } else {
+                alert('Error al enviar el pedido. Por favor intenta nuevamente.');
+            }
+        } catch (e) {
+            console.error('API Error', e);
+            alert('Error de conexión. Por favor intenta nuevamente.');
+        } finally {
             setIsProcessing(false);
-            setComplete(true);
-            window.scrollTo(0, 0);
-
-            // Here you would call your backend API
-            try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/submit-order`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-                const data = await response.json();
-                if (data.success) {
-                    setOrderId(data.orderId);
-                }
-            } catch (e) { console.error("API Error", e); } // Silently fail for demo
-
-            localStorage.removeItem('webExpressData');
-        }, 2000);
+        }
     };
 
     if (complete) {

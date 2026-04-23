@@ -1189,6 +1189,145 @@ function LicitacionesView({ onBack, authFetch }) {
   )
 }
 
+// ─── Web Express Orders ───────────────────────────────────────────────────────
+
+function WebOrdersView({ onBack, authFetch }) {
+  const [orders, setOrders] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [expandedId, setExpandedId] = useState(null)
+  const [updatingId, setUpdatingId] = useState(null)
+
+  const fetchOrders = async () => {
+    const r = await authFetch('/api/orders')
+    const d = await r.json()
+    if (d.success) setOrders(d.orders)
+    setLoading(false)
+  }
+
+  useEffect(() => { fetchOrders() }, [])
+
+  const updateStatus = async (orderId, status) => {
+    setUpdatingId(orderId)
+    await authFetch(`/api/orders/${orderId}/status`, { method: 'PATCH', body: JSON.stringify({ status }) })
+    await fetchOrders()
+    setUpdatingId(null)
+  }
+
+  const statusStyle = {
+    nuevo:      { bg: 'bg-blue-950',  text: 'text-blue-400',  label: 'Nuevo' },
+    en_proceso: { bg: 'bg-amber-950', text: 'text-amber-400', label: 'En proceso' },
+    entregado:  { bg: 'bg-green-950', text: 'text-green-400', label: 'Entregado' },
+  }
+  const styleLabels = { minimalista: 'Minimalista', corporativo: 'Corporativo', moderno: 'Moderno / Tech', creativo: 'Creativo' }
+
+  return (
+    <div className="min-h-screen bg-black">
+      <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
+        <div className="flex items-center gap-4">
+          <button onClick={onBack} className="text-zinc-500 hover:text-white transition-colors">
+            <ChevronLeft size={24} />
+          </button>
+          <div className="flex-1">
+            <h1 className="text-2xl font-bold text-white">Pedidos Web Express</h1>
+            <p className="text-zinc-500 text-sm">Solicitudes del wizard de digitalización</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-3">
+          {[
+            { label: 'Total pedidos', value: orders.length, cls: 'text-white' },
+            { label: 'Nuevos', value: orders.filter(o => o.status === 'nuevo').length, cls: 'text-blue-400' },
+            { label: 'Entregados', value: orders.filter(o => o.status === 'entregado').length, cls: 'text-green-400' },
+          ].map(s => (
+            <div key={s.label} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+              <p className="text-zinc-500 text-xs mb-1">{s.label}</p>
+              <p className={`text-xl font-bold ${s.cls}`}>{s.value}</p>
+            </div>
+          ))}
+        </div>
+
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : orders.length === 0 ? (
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-12 text-center">
+            <Globe size={36} className="text-zinc-700 mx-auto mb-4" />
+            <p className="text-zinc-500">Sin pedidos aún.</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {orders.map(order => {
+              const sc = statusStyle[order.status] || statusStyle.nuevo
+              const expanded = expandedId === order.orderId
+              return (
+                <div key={order.orderId} className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+                  <div className="p-5">
+                    <div className="flex items-start gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                          <span className="text-white font-semibold">{order.businessName}</span>
+                          <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${sc.bg} ${sc.text}`}>{sc.label}</span>
+                          {order.visualStyle && (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400">
+                              {styleLabels[order.visualStyle] || order.visualStyle}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-zinc-400 text-sm">{order.email}{order.phone ? ` · ${order.phone}` : ''}</p>
+                        <p className="text-zinc-600 text-xs mt-0.5">
+                          {new Date(order.createdAt).toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}
+                          {' · '}{order.orderId}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <select
+                          value={order.status}
+                          onChange={e => updateStatus(order.orderId, e.target.value)}
+                          disabled={updatingId === order.orderId}
+                          className="bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs rounded-lg px-2 py-1.5 focus:outline-none focus:border-zinc-500 disabled:opacity-50"
+                        >
+                          <option value="nuevo">Nuevo</option>
+                          <option value="en_proceso">En proceso</option>
+                          <option value="entregado">Entregado</option>
+                        </select>
+                        <button
+                          onClick={() => setExpandedId(expanded ? null : order.orderId)}
+                          className="text-zinc-500 hover:text-white text-xs px-2 py-1.5 rounded-lg hover:bg-zinc-800 transition-colors"
+                        >
+                          {expanded ? 'Cerrar' : 'Ver datos'}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {expanded && (
+                    <div className="border-t border-zinc-800 p-5 space-y-4 text-sm">
+                      {order.city && <div><p className="text-zinc-500 text-xs uppercase tracking-wider mb-0.5">Ciudad / Dirección</p><p className="text-white">{order.city}{order.address ? ` — ${order.address}` : ''}</p></div>}
+                      {order.whatsapp && <div><p className="text-zinc-500 text-xs uppercase tracking-wider mb-0.5">WhatsApp</p><p className="text-white">{order.whatsapp}</p></div>}
+                      {order.socials && <div><p className="text-zinc-500 text-xs uppercase tracking-wider mb-0.5">Redes sociales</p><p className="text-white">{order.socials}</p></div>}
+                      {order.hasDomain && <div><p className="text-zinc-500 text-xs uppercase tracking-wider mb-0.5">¿Tiene dominio?</p><p className="text-white">{order.hasDomain === 'yes' ? 'Sí, ya tiene' : 'No, necesita'}</p></div>}
+                      {order.brandColors && <div><p className="text-zinc-500 text-xs uppercase tracking-wider mb-0.5">Colores de marca</p><p className="text-white">{order.brandColors}</p></div>}
+                      {order.products && <div><p className="text-zinc-500 text-xs uppercase tracking-wider mb-0.5">Productos / servicios</p><p className="text-zinc-300 whitespace-pre-line">{order.products}</p></div>}
+                      {order.about && <div><p className="text-zinc-500 text-xs uppercase tracking-wider mb-0.5">Quiénes somos</p><p className="text-zinc-300 whitespace-pre-line">{order.about}</p></div>}
+                      {(order.mission || order.vision) && (
+                        <div className="grid grid-cols-2 gap-4">
+                          {order.mission && <div><p className="text-zinc-500 text-xs uppercase tracking-wider mb-0.5">Misión</p><p className="text-zinc-300">{order.mission}</p></div>}
+                          {order.vision && <div><p className="text-zinc-500 text-xs uppercase tracking-wider mb-0.5">Visión</p><p className="text-zinc-300">{order.vision}</p></div>}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 // ─── main ─────────────────────────────────────────────────────────────────────
 
 export default function ClientManagement() {
@@ -1228,6 +1367,7 @@ export default function ClientManagement() {
   const [generating, setGenerating] = useState(false)
   const [generateResult, setGenerateResult] = useState(null)
   const [showLicitaciones, setShowLicitaciones] = useState(false)
+  const [showWebOrders, setShowWebOrders] = useState(false)
 
   const [newClient, setNewClient] = useState({ name: '', email: '', company: '', phone: '', plan: 'ads' })
   const [creating, setCreating] = useState(false)
@@ -1463,7 +1603,10 @@ export default function ClientManagement() {
     )
   }
 
-  // Licitaciones view
+  if (showWebOrders) {
+    return <WebOrdersView onBack={() => setShowWebOrders(false)} authFetch={adminFetch} />
+  }
+
   if (showLicitaciones) {
     return <LicitacionesView onBack={() => setShowLicitaciones(false)} authFetch={adminFetch} />
   }
@@ -1487,7 +1630,14 @@ export default function ClientManagement() {
             <h1 className="text-2xl font-bold text-white">Gestión de clientes</h1>
           </div>
           <div className="flex items-center gap-3">
-            <button onClick={() => navigate('/admin/si')} className="text-zinc-500 hover:text-white text-sm transition-colors">Pedidos →</button>
+            <button
+              onClick={() => setShowWebOrders(true)}
+              className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-500 px-3 py-2 rounded-lg text-sm transition-colors"
+              title="Ver pedidos Web Express"
+            >
+              <Globe size={14} />
+              <span className="hidden sm:inline">Web Express</span>
+            </button>
             <button
               onClick={() => setShowLicitaciones(true)}
               className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-500 px-3 py-2 rounded-lg text-sm transition-colors"
