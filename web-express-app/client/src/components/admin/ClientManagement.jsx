@@ -448,6 +448,7 @@ const SERVICE_PRESETS = [
   { name: 'Branding',       type: 'unico'   },
   { name: 'Hosting',        type: 'anual'   },
   { name: 'Dominio',        type: 'anual'   },
+  { name: 'Asesorías 1:1',  type: 'mensual' },
 ]
 
 const WEB_PRESETS = ['Sitio Web', 'WordPress Pro', 'E-commerce']
