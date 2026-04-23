@@ -59,6 +59,8 @@ async function runMigrations() {
     UNIQUE KEY AdminConfig_key_key (\`key\`)
   )`);
 
+  await addCol('ClientService', 'saleDate', 'DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)');
+
   // ClientService table
   await createTable(`CREATE TABLE IF NOT EXISTS ClientService (
     id INT AUTO_INCREMENT PRIMARY KEY,

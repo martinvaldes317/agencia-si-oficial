@@ -64,6 +64,7 @@ model ClientService {
   firstYearFree Boolean   @default(false)
   paidBy        String?
   notes         String?   @db.Text
+  saleDate      DateTime  @default(now())
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }

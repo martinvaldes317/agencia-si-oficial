@@ -36,7 +36,7 @@ router.get('/stats', authenticateAdmin, async (req, res) => {
     const mesNombre    = now.toLocaleString('es-CL', { month: 'long' });
 
     const [allServices, payments, clientesActivos, clientesTotal, renovaciones] = await Promise.all([
-      prisma.clientService.findMany({ where: { active: true }, select: { type: true, amount: true, createdAt: true, firstYearFree: true } }),
+      prisma.clientService.findMany({ where: { active: true }, select: { type: true, amount: true, saleDate: true, createdAt: true, firstYearFree: true } }),
       prisma.payment.findMany({ select: { amount: true, status: true, paidAt: true, createdAt: true } }),
       prisma.client.count({ where: { active: true } }),
       prisma.client.count(),
@@ -54,10 +54,11 @@ router.get('/stats', authenticateAdmin, async (req, res) => {
       .reduce((s, p) => s + p.amount, 0);
 
     const serviciosEsteMes = allServices
-      .filter(s =>
-        (s.type === 'unico' || (s.type === 'anual' && !s.firstYearFree)) &&
-        s.createdAt >= startOfMonth && s.createdAt <= endOfMonth
-      )
+      .filter(s => {
+        const fecha = s.saleDate || s.createdAt;
+        return (s.type === 'unico' || (s.type === 'anual' && !s.firstYearFree)) &&
+          fecha >= startOfMonth && fecha <= endOfMonth;
+      })
       .reduce((s, x) => s + x.amount, 0);
 
     const cobradoEsteMes = pagosEsteMes + serviciosEsteMes;
@@ -87,8 +88,8 @@ router.get('/analytics', authenticateAdmin, async (req, res) => {
         select: { amount: true, paidAt: true, createdAt: true }
       }),
       prisma.clientService.findMany({
-        where: { active: true, createdAt: { gte: months[0].start } },
-        select: { name: true, type: true, amount: true, firstYearFree: true, createdAt: true }
+        where: { active: true },
+        select: { name: true, type: true, amount: true, firstYearFree: true, saleDate: true, createdAt: true }
       }),
       prisma.clientService.findMany({
         where: { active: true },
@@ -101,7 +102,7 @@ router.get('/analytics', authenticateAdmin, async (req, res) => {
         .filter(p => { const d = p.paidAt || p.createdAt; return d >= m.start && d <= m.end; })
         .reduce((s, p) => s + p.amount, 0);
       const svcs = services
-        .filter(s => (s.type === 'unico' || (s.type === 'anual' && !s.firstYearFree)) && s.createdAt >= m.start && s.createdAt <= m.end)
+        .filter(s => { const d = s.saleDate || s.createdAt; return (s.type === 'unico' || (s.type === 'anual' && !s.firstYearFree)) && d >= m.start && d <= m.end; })
         .reduce((s, x) => s + x.amount, 0);
       return { label: m.label, total: pagos + svcs };
     });
@@ -442,7 +443,7 @@ router.delete('/:clientId/tasks/:taskId', authenticateAdmin, async (req, res) =>
 // ── Services ──────────────────────────────────────────────────────────────────
 router.post('/:id/services', authenticateAdmin, async (req, res) => {
   try {
-    const { name, type, amount, renewalDate, firstYearFree, paidBy, notes } = req.body;
+    const { name, type, amount, renewalDate, firstYearFree, paidBy, notes, saleDate } = req.body;
     const service = await prisma.clientService.create({
       data: {
         clientId: Number(req.params.id),
@@ -451,7 +452,8 @@ router.post('/:id/services', authenticateAdmin, async (req, res) => {
         renewalDate: renewalDate ? new Date(renewalDate) : null,
         firstYearFree: Boolean(firstYearFree),
         paidBy: paidBy || null,
-        notes: notes || null
+        notes: notes || null,
+        saleDate: saleDate ? new Date(saleDate) : new Date(),
       }
     });
     res.json({ success: true, service });
@@ -460,7 +462,7 @@ router.post('/:id/services', authenticateAdmin, async (req, res) => {
 
 router.patch('/:id/services/:serviceId', authenticateAdmin, async (req, res) => {
   try {
-    const { name, type, amount, active, renewalDate, firstYearFree, paidBy, notes } = req.body;
+    const { name, type, amount, active, renewalDate, firstYearFree, paidBy, notes, saleDate } = req.body;
     const data = {};
     if (name !== undefined)          data.name = name;
     if (type !== undefined)          data.type = type;
@@ -470,6 +472,7 @@ router.patch('/:id/services/:serviceId', authenticateAdmin, async (req, res) => 
     if (firstYearFree !== undefined) data.firstYearFree = firstYearFree;
     if (paidBy !== undefined)        data.paidBy = paidBy || null;
     if (notes !== undefined)         data.notes = notes || null;
+    if (saleDate !== undefined)      data.saleDate = saleDate ? new Date(saleDate) : null;
     const service = await prisma.clientService.update({ where: { id: Number(req.params.serviceId) }, data });
     res.json({ success: true, service });
   } catch (e) { err(res, e, 'services.update'); }

@@ -459,7 +459,8 @@ const SERVICE_PRESETS = [
 const WEB_PRESETS = ['Sitio Web', 'WordPress Pro', 'E-commerce']
 
 const EMPTY_SVC = {
-  name: '', isCustom: false, type: 'mensual', amount: '', renewalDate: '', firstYearFree: false, paidBy: 'agencia', notes: '',
+  name: '', isCustom: false, type: 'mensual', amount: '', saleDate: new Date().toISOString().slice(0, 10),
+  renewalDate: '', firstYearFree: false, paidBy: 'agencia', notes: '',
   addHosting: true, hostingAmount: '22490', hostingRenewal: '', hostingPaidBy: 'agencia',
   addDomain: true, domainAmount: '', domainRenewal: '', domainPaidBy: 'agencia',
 }
@@ -515,12 +516,16 @@ function ServiceForm({ form, setForm, onSave, onCancel, saving, isEdit }) {
         <Field label={`Valor CLP${form.type === 'mensual' ? '/mes' : form.type === 'anual' ? '/año' : ''}`}>
           <input type="number" value={form.amount} onChange={f('amount')} className={inputCls} placeholder="0" />
         </Field>
-        {form.type === 'anual' && (
-          <Field label="Fecha de renovación">
-            <input type="date" value={form.renewalDate} onChange={f('renewalDate')} className={inputCls} />
-          </Field>
-        )}
+        <Field label="Fecha de venta / inicio">
+          <input type="date" value={form.saleDate} onChange={f('saleDate')} className={inputCls} />
+        </Field>
       </div>
+
+      {form.type === 'anual' && (
+        <Field label="Fecha de renovación">
+          <input type="date" value={form.renewalDate} onChange={f('renewalDate')} className={inputCls} />
+        </Field>
+      )}
 
       {form.type === 'anual' && (
         <>
@@ -642,9 +647,11 @@ function ServicesTab({ clientId, services, onRefresh, authFetch }) {
   const startEdit = (svc) => {
     setAdding(false)
     setEditingId(svc.id)
+    setRenewingId(null)
     setForm({
       name: svc.name, isCustom: !SERVICE_PRESETS.some(p => p.name === svc.name),
       type: svc.type, amount: svc.amount != null ? String(svc.amount) : '',
+      saleDate: svc.saleDate ? svc.saleDate.slice(0, 10) : new Date().toISOString().slice(0, 10),
       renewalDate: svc.renewalDate ? svc.renewalDate.slice(0, 10) : '',
       firstYearFree: svc.firstYearFree || false,
       paidBy: svc.paidBy || 'agencia',
@@ -693,6 +700,7 @@ function ServicesTab({ clientId, services, onRefresh, authFetch }) {
     const payload = {
       name: form.name.trim(), type: form.type,
       amount: form.amount !== '' ? Number(form.amount) : 0,
+      saleDate: form.saleDate || new Date().toISOString().slice(0, 10),
       renewalDate: form.type === 'anual' && form.renewalDate ? form.renewalDate : null,
       firstYearFree: form.type === 'anual' ? form.firstYearFree : false,
       paidBy: form.type === 'anual' ? form.paidBy : null,
@@ -806,7 +814,10 @@ function ServicesTab({ clientId, services, onRefresh, authFetch }) {
                       return <span style={{ color }} className="text-xs">· {label}</span>
                     })()}
                   </div>
-                  {svc.notes && <p className="text-zinc-600 text-xs mt-0.5 truncate">{svc.notes}</p>}
+                  <p className="text-zinc-600 text-xs mt-0.5">
+                    {svc.saleDate ? new Date(svc.saleDate).toLocaleDateString('es-CL', { day:'numeric', month:'short', year:'numeric' }) : ''}
+                    {svc.notes ? ` · ${svc.notes}` : ''}
+                  </p>
                 </div>
                 <div className="flex gap-0.5 shrink-0">
                   {svc.type === 'anual' && (
