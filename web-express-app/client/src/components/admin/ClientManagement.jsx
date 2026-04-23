@@ -446,9 +446,14 @@ const SERVICE_PRESETS = [
   { name: 'E-commerce',     type: 'unico'   },
   { name: 'Ecosistema IA',  type: 'mensual' },
   { name: 'Branding',       type: 'unico'   },
-  { name: 'Hosting',        type: 'anual'   },
-  { name: 'Dominio',        type: 'anual'   },
-  { name: 'Asesorías 1:1',  type: 'mensual' },
+  { name: 'Hosting',                    type: 'anual'   },
+  { name: 'Dominio',                    type: 'anual'   },
+  { name: 'Asesorías 1:1',             type: 'mensual' },
+  { name: 'Creación de Video con IA',  type: 'mensual' },
+  { name: 'Grabación Audiovisual',     type: 'unico'   },
+  { name: 'Diseño Gráfico',            type: 'unico'   },
+  { name: 'Mantención Web',            type: 'mensual' },
+  { name: 'Actualización Web',         type: 'mensual' },
 ]
 
 const WEB_PRESETS = ['Sitio Web', 'WordPress Pro', 'E-commerce']
