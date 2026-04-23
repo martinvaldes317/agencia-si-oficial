@@ -36,7 +36,7 @@ router.get('/stats', authenticateAdmin, async (req, res) => {
     const mesNombre    = now.toLocaleString('es-CL', { month: 'long' });
 
     const [allServices, payments, clientesActivos, clientesTotal, renovaciones] = await Promise.all([
-      prisma.clientService.findMany({ where: { active: true }, select: { type: true, amount: true, createdAt: true } }),
+      prisma.clientService.findMany({ where: { active: true }, select: { type: true, amount: true, createdAt: true, firstYearFree: true } }),
       prisma.payment.findMany({ select: { amount: true, status: true, paidAt: true, createdAt: true } }),
       prisma.client.count({ where: { active: true } }),
       prisma.client.count(),
@@ -53,11 +53,14 @@ router.get('/stats', authenticateAdmin, async (req, res) => {
       })
       .reduce((s, p) => s + p.amount, 0);
 
-    const unicosEsteMes = allServices
-      .filter(s => s.type === 'unico' && s.createdAt >= startOfMonth && s.createdAt <= endOfMonth)
+    const serviciosEsteMes = allServices
+      .filter(s =>
+        (s.type === 'unico' || (s.type === 'anual' && !s.firstYearFree)) &&
+        s.createdAt >= startOfMonth && s.createdAt <= endOfMonth
+      )
       .reduce((s, x) => s + x.amount, 0);
 
-    const cobradoEsteMes = pagosEsteMes + unicosEsteMes;
+    const cobradoEsteMes = pagosEsteMes + serviciosEsteMes;
     const costosAnuales  = allServices.filter(s => s.type === 'anual').reduce((s, x) => s + x.amount, 0);
     const pendiente      = payments.filter(p => p.status === 'pendiente').reduce((s, p) => s + p.amount, 0);
 
