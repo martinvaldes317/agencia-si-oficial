@@ -385,11 +385,23 @@ app.patch('/api/orders/:id/status', authenticateAdmin, async (req, res) => {
 // Admin: Delete order
 app.delete('/api/orders/:orderId', authenticateAdmin, async (req, res) => {
   try {
+    const order = await prisma.webExpressOrder.findUnique({ where: { orderId: req.params.orderId } });
+    if (!order) return res.status(404).json({ success: false, message: 'Pedido no encontrado' });
+
+    // Delete auto-created client account only if it was never activated
+    if (order.clientId) {
+      const client = await prisma.client.findUnique({ where: { id: order.clientId } });
+      if (client && client.plan === 'web-express' && !client.active) {
+        await prisma.client.delete({ where: { id: order.clientId } });
+      }
+    }
+
     await prisma.webExpressOrder.delete({ where: { orderId: req.params.orderId } });
     const ordersDir = path.join(__dirname, 'uploads', 'orders', req.params.orderId);
     if (fs.existsSync(ordersDir)) fs.rmSync(ordersDir, { recursive: true, force: true });
     res.json({ success: true });
   } catch (error) {
+    console.error('[delete-order]', error.message);
     res.status(500).json({ success: false, message: 'Error al eliminar' });
   }
 });
