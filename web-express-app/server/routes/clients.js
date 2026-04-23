@@ -35,8 +35,8 @@ router.get('/stats', authenticateAdmin, async (req, res) => {
     const in30days     = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
     const mesNombre    = now.toLocaleString('es-CL', { month: 'long' });
 
-    const [services, payments, clientesActivos, clientesTotal, renovaciones] = await Promise.all([
-      prisma.clientService.findMany({ where: { active: true }, select: { type: true, amount: true } }),
+    const [allServices, payments, clientesActivos, clientesTotal, renovaciones] = await Promise.all([
+      prisma.clientService.findMany({ where: { active: true }, select: { type: true, amount: true, createdAt: true } }),
       prisma.payment.findMany({ select: { amount: true, status: true, paidAt: true, createdAt: true } }),
       prisma.client.count({ where: { active: true } }),
       prisma.client.count(),
@@ -45,7 +45,7 @@ router.get('/stats', authenticateAdmin, async (req, res) => {
       }),
     ]);
 
-    const cobradoEsteMes = payments
+    const pagosEsteMes = payments
       .filter(p => {
         if (p.status !== 'pagado') return false;
         const fecha = p.paidAt || p.createdAt;
@@ -53,8 +53,13 @@ router.get('/stats', authenticateAdmin, async (req, res) => {
       })
       .reduce((s, p) => s + p.amount, 0);
 
-    const costosAnuales = services.filter(s => s.type === 'anual').reduce((s, x) => s + x.amount, 0);
-    const pendiente     = payments.filter(p => p.status === 'pendiente').reduce((s, p) => s + p.amount, 0);
+    const unicosEsteMes = allServices
+      .filter(s => s.type === 'unico' && s.createdAt >= startOfMonth && s.createdAt <= endOfMonth)
+      .reduce((s, x) => s + x.amount, 0);
+
+    const cobradoEsteMes = pagosEsteMes + unicosEsteMes;
+    const costosAnuales  = allServices.filter(s => s.type === 'anual').reduce((s, x) => s + x.amount, 0);
+    const pendiente      = payments.filter(p => p.status === 'pendiente').reduce((s, p) => s + p.amount, 0);
 
     res.json({ success: true, stats: { cobradoEsteMes, mesNombre, costosAnuales, pendiente, clientesActivos, clientesTotal, renovaciones } });
   } catch (e) { err(res, e, 'stats'); }
