@@ -92,12 +92,26 @@ async function runMigrations() {
     FOREIGN KEY (clientId) REFERENCES Client(id) ON DELETE CASCADE
   )`);
 
+  // Licitacion table
+  await createTable(`CREATE TABLE IF NOT EXISTS Licitacion (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    entidad VARCHAR(191) NOT NULL,
+    numero VARCHAR(191) NULL,
+    descripcion VARCHAR(191) NOT NULL,
+    monto DOUBLE NOT NULL DEFAULT 0,
+    fechaAdjudicacion DATETIME(3) NOT NULL,
+    notas LONGTEXT NULL,
+    createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)
+  )`);
+
   console.log('[Migration] Done');
 }
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/clients', require('./routes/clients'));
+app.use('/api/licitaciones', require('./routes/licitaciones'));
 app.use('/api/portal', require('./routes/portal'));
 
 // --- Existing routes ---

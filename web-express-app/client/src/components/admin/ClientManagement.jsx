@@ -5,7 +5,7 @@ import {
   Users, Plus, Search, TrendingUp, CreditCard, Calendar, FolderOpen,
   MessageSquare, ChevronLeft, X, Upload, Send, Trash2, LogOut,
   Eye, EyeOff, Loader, AlertCircle, DollarSign, BarChart2, CheckSquare, Square,
-  Globe, Bell, Pencil, RefreshCw, Zap
+  Globe, Bell, Pencil, RefreshCw, Zap, Landmark
 } from 'lucide-react'
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
@@ -975,6 +975,220 @@ function AnalyticsSection({ analytics }) {
   )
 }
 
+// ─── licitaciones ─────────────────────────────────────────────────────────────
+
+const emptyLic = () => ({
+  entidad: '', numero: '', descripcion: '', monto: '',
+  fechaAdjudicacion: new Date().toISOString().slice(0, 10), notas: ''
+})
+
+function LicitacionesView({ onBack, authFetch }) {
+  const [licitaciones, setLicitaciones] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [adding, setAdding] = useState(false)
+  const [editingId, setEditingId] = useState(null)
+  const [form, setForm] = useState(emptyLic())
+  const [saving, setSaving] = useState(false)
+  const f = k => e => setForm(p => ({ ...p, [k]: e.target.value }))
+
+  const fetchLicitaciones = async () => {
+    const r = await authFetch('/api/licitaciones')
+    const d = await r.json()
+    if (d.success) setLicitaciones(d.licitaciones)
+    setLoading(false)
+  }
+
+  useEffect(() => { fetchLicitaciones() }, [])
+
+  const save = async () => {
+    if (!form.entidad.trim() || !form.descripcion.trim() || !form.monto) return
+    setSaving(true)
+    const payload = {
+      entidad: form.entidad.trim(),
+      numero: form.numero.trim() || null,
+      descripcion: form.descripcion.trim(),
+      monto: Number(form.monto),
+      fechaAdjudicacion: form.fechaAdjudicacion,
+      notas: form.notas.trim() || null,
+    }
+    if (editingId) {
+      await authFetch(`/api/licitaciones/${editingId}`, { method: 'PATCH', body: JSON.stringify(payload) })
+    } else {
+      await authFetch('/api/licitaciones', { method: 'POST', body: JSON.stringify(payload) })
+    }
+    await fetchLicitaciones()
+    setAdding(false)
+    setEditingId(null)
+    setForm(emptyLic())
+    setSaving(false)
+  }
+
+  const remove = async (id) => {
+    if (!window.confirm('¿Eliminar esta licitación?')) return
+    await authFetch(`/api/licitaciones/${id}`, { method: 'DELETE' })
+    fetchLicitaciones()
+  }
+
+  const startEdit = (lic) => {
+    setAdding(false)
+    setEditingId(lic.id)
+    setForm({
+      entidad: lic.entidad,
+      numero: lic.numero || '',
+      descripcion: lic.descripcion,
+      monto: String(lic.monto),
+      fechaAdjudicacion: lic.fechaAdjudicacion.slice(0, 10),
+      notas: lic.notas || '',
+    })
+  }
+
+  const cancel = () => { setAdding(false); setEditingId(null); setForm(emptyLic()) }
+
+  const now = new Date()
+  const totalYear = licitaciones
+    .filter(l => new Date(l.fechaAdjudicacion).getFullYear() === now.getFullYear())
+    .reduce((s, l) => s + l.monto, 0)
+  const totalAll = licitaciones.reduce((s, l) => s + l.monto, 0)
+
+  const LicForm = (
+    <div className="bg-zinc-800 border border-zinc-600 rounded-xl p-4 space-y-3">
+      <p className="text-xs text-zinc-400 uppercase tracking-wider font-semibold">
+        {editingId ? 'Editar licitación' : 'Nueva licitación adjudicada'}
+      </p>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="col-span-2">
+          <Field label="Entidad pública">
+            <input value={form.entidad} onChange={f('entidad')} className={inputCls}
+              placeholder="Ej: Ministerio de Salud, Municipalidad de Santiago" autoFocus />
+          </Field>
+        </div>
+        <Field label="N° Licitación (opcional)">
+          <input value={form.numero} onChange={f('numero')} className={inputCls} placeholder="750294-56-LE24" />
+        </Field>
+        <Field label="Fecha adjudicación">
+          <input type="date" value={form.fechaAdjudicacion} onChange={f('fechaAdjudicacion')} className={inputCls} />
+        </Field>
+        <div className="col-span-2">
+          <Field label="Descripción / servicio adjudicado">
+            <input value={form.descripcion} onChange={f('descripcion')} className={inputCls}
+              placeholder="Ej: Diseño y desarrollo de sitio web institucional" />
+          </Field>
+        </div>
+        <Field label="Monto adjudicado (CLP)">
+          <input type="number" value={form.monto} onChange={f('monto')} className={inputCls} placeholder="0" />
+        </Field>
+        <Field label="Notas internas (opcional)">
+          <input value={form.notas} onChange={f('notas')} className={inputCls} placeholder="Observaciones..." />
+        </Field>
+      </div>
+      <div className="flex gap-2 pt-1">
+        <button type="button" onClick={cancel}
+          className="flex-1 bg-zinc-700 text-zinc-300 py-2.5 rounded-lg text-sm font-medium hover:bg-zinc-600 transition-colors">
+          Cancelar
+        </button>
+        <button type="button" onClick={save}
+          disabled={saving || !form.entidad.trim() || !form.descripcion.trim() || !form.monto}
+          className="flex-1 bg-white text-black py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 flex items-center justify-center gap-2 transition-colors">
+          {saving ? <Loader size={14} className="animate-spin" /> : editingId ? 'Guardar cambios' : 'Agregar licitación'}
+        </button>
+      </div>
+    </div>
+  )
+
+  return (
+    <div className="min-h-screen bg-black">
+      <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
+        {/* Header */}
+        <div className="flex items-center gap-4">
+          <button onClick={onBack} className="text-zinc-500 hover:text-white transition-colors">
+            <ChevronLeft size={24} />
+          </button>
+          <div className="flex-1">
+            <h1 className="text-2xl font-bold text-white">Licitaciones adjudicadas</h1>
+            <p className="text-zinc-500 text-sm">Contratos con entidades públicas</p>
+          </div>
+          {!adding && editingId === null && (
+            <button onClick={() => { setAdding(true); setForm(emptyLic()) }}
+              className="flex items-center gap-2 bg-white text-black px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-zinc-100 transition-colors">
+              <Plus size={16} /> Nueva licitación
+            </button>
+          )}
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-3 gap-3">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+            <p className="text-zinc-500 text-xs mb-1">Adjudicado {now.getFullYear()}</p>
+            <p className="text-white text-xl font-bold">${totalYear.toLocaleString('es-CL')}</p>
+          </div>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+            <p className="text-zinc-500 text-xs mb-1">Total histórico</p>
+            <p className="text-white text-xl font-bold">${totalAll.toLocaleString('es-CL')}</p>
+          </div>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+            <p className="text-zinc-500 text-xs mb-1">Licitaciones</p>
+            <p className="text-white text-xl font-bold">{licitaciones.length}</p>
+          </div>
+        </div>
+
+        {/* Add form */}
+        {adding && LicForm}
+
+        {/* List */}
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : licitaciones.length === 0 && !adding ? (
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-12 text-center">
+            <Landmark size={36} className="text-zinc-700 mx-auto mb-4" />
+            <p className="text-zinc-500">Sin licitaciones registradas. Agrega la primera.</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {licitaciones.map(lic => (
+              <div key={lic.id}>
+                {editingId === lic.id ? LicForm : (
+                  <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+                    <div className="flex items-start gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-white font-semibold">{lic.entidad}</span>
+                          {lic.numero && (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-amber-950 text-amber-400 font-mono">{lic.numero}</span>
+                          )}
+                        </div>
+                        <p className="text-zinc-400 text-sm mt-0.5">{lic.descripcion}</p>
+                        <div className="flex items-center gap-3 mt-1.5 flex-wrap">
+                          <span className="text-white font-bold text-lg">${lic.monto.toLocaleString('es-CL')}</span>
+                          <span className="text-zinc-500 text-xs">
+                            Adjudicada el {new Date(lic.fechaAdjudicacion).toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}
+                          </span>
+                        </div>
+                        {lic.notas && <p className="text-zinc-600 text-xs mt-1">{lic.notas}</p>}
+                      </div>
+                      <div className="flex gap-0.5 shrink-0">
+                        <button onClick={() => startEdit(lic)}
+                          className="text-zinc-500 hover:text-white p-1.5 rounded-lg hover:bg-zinc-800 transition-colors">
+                          <Pencil size={13} />
+                        </button>
+                        <button onClick={() => remove(lic.id)}
+                          className="text-zinc-500 hover:text-red-400 p-1.5 rounded-lg hover:bg-zinc-800 transition-colors">
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 // ─── main ─────────────────────────────────────────────────────────────────────
 
 export default function ClientManagement() {
@@ -1013,6 +1227,7 @@ export default function ClientManagement() {
   const [analytics, setAnalytics] = useState(null)
   const [generating, setGenerating] = useState(false)
   const [generateResult, setGenerateResult] = useState(null)
+  const [showLicitaciones, setShowLicitaciones] = useState(false)
 
   const [newClient, setNewClient] = useState({ name: '', email: '', company: '', phone: '', plan: 'ads' })
   const [creating, setCreating] = useState(false)
@@ -1248,6 +1463,11 @@ export default function ClientManagement() {
     )
   }
 
+  // Licitaciones view
+  if (showLicitaciones) {
+    return <LicitacionesView onBack={() => setShowLicitaciones(false)} authFetch={adminFetch} />
+  }
+
   // Clients list
   const filtered = clients.filter(c =>
     c.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -1268,6 +1488,14 @@ export default function ClientManagement() {
           </div>
           <div className="flex items-center gap-3">
             <button onClick={() => navigate('/admin/si')} className="text-zinc-500 hover:text-white text-sm transition-colors">Pedidos →</button>
+            <button
+              onClick={() => setShowLicitaciones(true)}
+              className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-500 px-3 py-2 rounded-lg text-sm transition-colors"
+              title="Ver licitaciones adjudicadas"
+            >
+              <Landmark size={14} />
+              <span className="hidden sm:inline">Licitaciones</span>
+            </button>
             <button
               onClick={generateMonthly}
               disabled={generating}

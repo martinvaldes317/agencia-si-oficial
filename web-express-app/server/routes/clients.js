@@ -35,13 +35,17 @@ router.get('/stats', authenticateAdmin, async (req, res) => {
     const in30days     = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
     const mesNombre    = now.toLocaleString('es-CL', { month: 'long' });
 
-    const [allServices, payments, clientesActivos, clientesTotal, renovaciones] = await Promise.all([
+    const [allServices, payments, clientesActivos, clientesTotal, renovaciones, licitacionesEsteMes] = await Promise.all([
       prisma.clientService.findMany({ where: { active: true }, select: { type: true, amount: true, saleDate: true, createdAt: true, firstYearFree: true } }),
       prisma.payment.findMany({ select: { amount: true, status: true, paidAt: true, createdAt: true } }),
       prisma.client.count({ where: { active: true } }),
       prisma.client.count(),
       prisma.clientService.count({
         where: { type: 'anual', active: true, renewalDate: { gte: now, lte: in30days } }
+      }),
+      prisma.licitacion.findMany({
+        where: { fechaAdjudicacion: { gte: startOfMonth, lte: endOfMonth } },
+        select: { monto: true }
       }),
     ]);
 
@@ -61,7 +65,8 @@ router.get('/stats', authenticateAdmin, async (req, res) => {
       })
       .reduce((s, x) => s + x.amount, 0);
 
-    const cobradoEsteMes = pagosEsteMes + serviciosEsteMes;
+    const licitacionesTotal = licitacionesEsteMes.reduce((s, l) => s + l.monto, 0);
+    const cobradoEsteMes = pagosEsteMes + serviciosEsteMes + licitacionesTotal;
     const costosAnuales  = allServices.filter(s => s.type === 'anual').reduce((s, x) => s + x.amount, 0);
     const pendiente      = payments.filter(p => p.status === 'pendiente').reduce((s, p) => s + p.amount, 0);
 
@@ -82,7 +87,7 @@ router.get('/analytics', authenticateAdmin, async (req, res) => {
       };
     });
 
-    const [payments, services, allServices] = await Promise.all([
+    const [payments, services, allServices, licitaciones] = await Promise.all([
       prisma.payment.findMany({
         where: { status: 'pagado', OR: [{ paidAt: { gte: months[0].start } }, { createdAt: { gte: months[0].start } }] },
         select: { amount: true, paidAt: true, createdAt: true }
@@ -95,6 +100,10 @@ router.get('/analytics', authenticateAdmin, async (req, res) => {
         where: { active: true },
         select: { name: true, amount: true }
       }),
+      prisma.licitacion.findMany({
+        where: { fechaAdjudicacion: { gte: months[0].start } },
+        select: { monto: true, fechaAdjudicacion: true }
+      }),
     ]);
 
     const monthlyRevenue = months.map(m => {
@@ -104,7 +113,10 @@ router.get('/analytics', authenticateAdmin, async (req, res) => {
       const svcs = services
         .filter(s => { const d = s.saleDate || s.createdAt; return (s.type === 'unico' || (s.type === 'anual' && !s.firstYearFree)) && d >= m.start && d <= m.end; })
         .reduce((s, x) => s + x.amount, 0);
-      return { label: m.label, total: pagos + svcs };
+      const lics = licitaciones
+        .filter(l => l.fechaAdjudicacion >= m.start && l.fechaAdjudicacion <= m.end)
+        .reduce((s, l) => s + l.monto, 0);
+      return { label: m.label, total: pagos + svcs + lics };
     });
 
     const svcMap = {};
