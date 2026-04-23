@@ -58,8 +58,8 @@ export default function DigitalizationLanding() {
                     </h1>
 
                     <p className="text-xl md:text-2xl text-zinc-400 max-w-2xl mx-auto mb-16 leading-relaxed font-light animate-fade-in delay-100">
-                        Creamos tu <strong>Landing Page de alto rendimiento</strong> optimizada para recibir leads.
-                        Diseño premium, lista en solo <span className="text-white border-b border-white/20">5 días hábiles</span>.
+                        Creamos tu <strong>página web profesional</strong> lista para recibir clientes desde el primer día.
+                        Diseño a medida, entregada en solo <span className="text-white border-b border-white/20">5 días hábiles</span>.
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-6 animate-fade-in delay-200">
@@ -81,18 +81,18 @@ export default function DigitalizationLanding() {
                         {[
                             {
                                 icon: Layout,
-                                title: "Diseño de Autoridad",
-                                desc: "No usamos plantillas genéricas. Aplicamos psicología de ventas y diseño UI de vanguardia."
+                                title: "Diseño que genera confianza",
+                                desc: "Sin plantillas genéricas. Tu web va a representar tu negocio como corresponde y hacer que quien llegue, quiera contactarte."
                             },
                             {
                                 icon: Smartphone,
-                                title: "Mobile-First UX",
-                                desc: "El 90% de tus clientes vendrán desde el celular. Tu sitio será perfecto en cualquier pantalla."
+                                title: "Se ve perfecta en celular",
+                                desc: "El 90% de tus clientes van a entrar desde el teléfono. Tu sitio va a verse y funcionar bien en cualquier pantalla, siempre."
                             },
                             {
                                 icon: Rocket,
-                                title: "Carga Instantánea",
-                                desc: "Velocidad extrema optimizada para mejorar tu posicionamiento y retención de usuarios."
+                                title: "Carga al instante, no pierde clientes",
+                                desc: "Si una web demora en abrir, el cliente se va. Optimizamos para que cargue rápido y Google te posicione mejor."
                             }
                         ].map((item, i) => (
                             <div key={i} className="bg-black p-12 hover:bg-zinc-900/50 transition-colors group">
@@ -117,7 +117,7 @@ export default function DigitalizationLanding() {
                         {[
                             { step: "01", title: "Wizard", desc: "Completas el formulario inteligente con tu información." },
                             { step: "02", title: "Curatía", desc: "Nuestro equipo procesa y optimiza tus textos y fotos." },
-                            { step: "03", title: "Diseño", desc: "Construimos tu landing con arquitectura de alta conversión." },
+                            { step: "03", title: "Diseño", desc: "Construimos tu sitio pensado para que los visitantes te contacten." },
                             { step: "04", title: "Revisión", desc: "Ajustes finales para que todo quede perfecto." },
                             { step: "05", title: "Go-Live", desc: "Lanzamos tu sitio con dominio y hosting incluido." }
                         ].map((s, i) => (
@@ -145,7 +145,7 @@ export default function DigitalizationLanding() {
 
                         <div className="space-y-6">
                             {[
-                                { t: "Landing Page High-End", d: "Arquitectura de sección única diseñada para convertir." },
+                                { t: "Página web a tu medida", d: "Diseñada desde cero para que quienes lleguen, te contacten." },
                                 { t: "Dominio .CL o .COM", d: "Gestionamos el registro por el primer año." },
                                 { t: "Hosting Premium", d: "Servidores de alta velocidad con SSL (Candado de seguridad)." },
                                 { t: "Email Corporativo", d: "Configuración de tu cuenta profesional (ej: info@tuempresa.cl)." },
@@ -206,7 +206,7 @@ export default function DigitalizationLanding() {
             <section className="py-32 px-6 text-center">
                 <div className="max-w-3xl mx-auto">
                     <h2 className="text-4xl md:text-7xl font-light tracking-tighter mb-10">¿Listo para dar el salto?</h2>
-                    <p className="text-zinc-500 text-lg md:text-xl font-light mb-16 italic">No dejes pasar más tiempo. Tu competencia ya está online, es hora de que tú lo hagas con autoridad.</p>
+                    <p className="text-zinc-500 text-lg md:text-xl font-light mb-16 italic">Cada día sin web es un cliente que se fue a buscar a otro. Ponle nombre y cara a tu negocio en internet hoy.</p>
                     <Link to="/digitalizacion-express/wizard" className="inline-flex items-center gap-4 border-b border-white pb-2 text-xl font-light hover:text-zinc-400 hover:border-zinc-400 transition-all group">
                         Empezar mi digitalización <MousePointer2 className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </Link>
