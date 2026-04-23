@@ -1220,6 +1220,12 @@ function WebOrdersView({ onBack, authFetch }) {
   }
   const styleLabels = { minimalista: 'Minimalista', corporativo: 'Corporativo', moderno: 'Moderno / Tech', creativo: 'Creativo' }
 
+  const deleteOrder = async (orderId) => {
+    if (!window.confirm(`¿Eliminar el pedido ${orderId}? Esta acción no se puede deshacer.`)) return
+    await authFetch(`/api/orders/${orderId}`, { method: 'DELETE' })
+    await fetchOrders()
+  }
+
   const downloadOrder = async (orderId, fetcher) => {
     try {
       const res = await fetcher(`/api/orders/${orderId}/download`)
@@ -1316,6 +1322,13 @@ function WebOrdersView({ onBack, authFetch }) {
                           className="text-zinc-500 hover:text-white text-xs px-2 py-1.5 rounded-lg hover:bg-zinc-800 transition-colors"
                         >
                           {expanded ? 'Cerrar' : 'Ver datos'}
+                        </button>
+                        <button
+                          onClick={() => deleteOrder(order.orderId)}
+                          className="text-zinc-600 hover:text-red-400 p-1.5 rounded-lg hover:bg-zinc-800 transition-colors"
+                          title="Eliminar pedido"
+                        >
+                          <Trash2 size={14} />
                         </button>
                       </div>
                     </div>

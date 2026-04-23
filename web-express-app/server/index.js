@@ -382,6 +382,18 @@ app.patch('/api/orders/:id/status', authenticateAdmin, async (req, res) => {
   }
 });
 
+// Admin: Delete order
+app.delete('/api/orders/:orderId', authenticateAdmin, async (req, res) => {
+  try {
+    await prisma.webExpressOrder.delete({ where: { orderId: req.params.orderId } });
+    const ordersDir = path.join(__dirname, 'uploads', 'orders', req.params.orderId);
+    if (fs.existsSync(ordersDir)) fs.rmSync(ordersDir, { recursive: true, force: true });
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error al eliminar' });
+  }
+});
+
 // Admin: Download order as ZIP (PDF + images)
 app.get('/api/orders/:orderId/download', authenticateAdmin, async (req, res) => {
   try {
