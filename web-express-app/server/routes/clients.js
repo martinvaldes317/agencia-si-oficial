@@ -68,6 +68,89 @@ router.get('/stats', authenticateAdmin, async (req, res) => {
   } catch (e) { err(res, e, 'stats'); }
 });
 
+// ── Analytics ─────────────────────────────────────────────────────────────────
+router.get('/analytics', authenticateAdmin, async (req, res) => {
+  try {
+    const now = new Date();
+    const months = Array.from({ length: 6 }, (_, i) => {
+      const d = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
+      return {
+        label: d.toLocaleString('es-CL', { month: 'short' }) + ' ' + String(d.getFullYear()).slice(2),
+        start: new Date(d.getFullYear(), d.getMonth(), 1),
+        end:   new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59),
+      };
+    });
+
+    const [payments, services, allServices] = await Promise.all([
+      prisma.payment.findMany({
+        where: { status: 'pagado', OR: [{ paidAt: { gte: months[0].start } }, { createdAt: { gte: months[0].start } }] },
+        select: { amount: true, paidAt: true, createdAt: true }
+      }),
+      prisma.clientService.findMany({
+        where: { active: true, createdAt: { gte: months[0].start } },
+        select: { name: true, type: true, amount: true, firstYearFree: true, createdAt: true }
+      }),
+      prisma.clientService.findMany({
+        where: { active: true },
+        select: { name: true, amount: true }
+      }),
+    ]);
+
+    const monthlyRevenue = months.map(m => {
+      const pagos = payments
+        .filter(p => { const d = p.paidAt || p.createdAt; return d >= m.start && d <= m.end; })
+        .reduce((s, p) => s + p.amount, 0);
+      const svcs = services
+        .filter(s => (s.type === 'unico' || (s.type === 'anual' && !s.firstYearFree)) && s.createdAt >= m.start && s.createdAt <= m.end)
+        .reduce((s, x) => s + x.amount, 0);
+      return { label: m.label, total: pagos + svcs };
+    });
+
+    const svcMap = {};
+    allServices.forEach(s => {
+      if (!svcMap[s.name]) svcMap[s.name] = { name: s.name, count: 0, revenue: 0 };
+      svcMap[s.name].count++;
+      svcMap[s.name].revenue += s.amount || 0;
+    });
+    const topServices = Object.values(svcMap).sort((a, b) => b.count - a.count).slice(0, 5);
+
+    res.json({ success: true, monthlyRevenue, topServices });
+  } catch (e) { err(res, e, 'analytics'); }
+});
+
+// ── Generate monthly payments ─────────────────────────────────────────────────
+router.post('/generate-monthly-payments', authenticateAdmin, async (req, res) => {
+  try {
+    const now = new Date();
+    const mes = now.toLocaleString('es-CL', { month: 'long' });
+    const year = now.getFullYear();
+    const tag = `Cobro mensual ${mes} ${year}`;
+
+    const clients = await prisma.client.findMany({
+      where: { active: true },
+      include: { services: { where: { type: 'mensual', active: true } } }
+    });
+
+    let created = 0, total = 0;
+    for (const client of clients) {
+      if (!client.services.length) continue;
+      const exists = await prisma.payment.findFirst({ where: { clientId: client.id, description: { contains: tag } } });
+      if (exists) continue;
+      const amount = client.services.reduce((s, sv) => s + sv.amount, 0);
+      await prisma.payment.create({
+        data: {
+          clientId: client.id, amount,
+          description: `${tag} — ${client.services.map(s => s.name).join(', ')}`,
+          status: 'pendiente',
+          dueDate: new Date(year, now.getMonth() + 1, 5),
+        }
+      });
+      created++; total += amount;
+    }
+    res.json({ success: true, created, total, mes });
+  } catch (e) { err(res, e, 'generate-monthly'); }
+});
+
 // ── List clients ──────────────────────────────────────────────────────────────
 router.get('/', authenticateAdmin, async (req, res) => {
   try {

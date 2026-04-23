@@ -5,7 +5,7 @@ import {
   Users, Plus, Search, TrendingUp, CreditCard, Calendar, FolderOpen,
   MessageSquare, ChevronLeft, X, Upload, Send, Trash2, LogOut,
   Eye, EyeOff, Loader, AlertCircle, DollarSign, BarChart2, CheckSquare, Square,
-  Globe, Bell, Pencil
+  Globe, Bell, Pencil, RefreshCw, Zap
 } from 'lucide-react'
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
@@ -629,6 +629,9 @@ function ServicesTab({ clientId, services, onRefresh, authFetch }) {
   const [adding, setAdding] = useState(false)
   const [form, setForm] = useState(EMPTY_SVC)
   const [saving, setSaving] = useState(false)
+  const [renewingId, setRenewingId] = useState(null)
+  const [renewForm, setRenewForm] = useState({ renewalDate: '', amount: '' })
+  const [renewing, setRenewing] = useState(false)
 
   const startEdit = (svc) => {
     setAdding(false)
@@ -643,8 +646,39 @@ function ServicesTab({ clientId, services, onRefresh, authFetch }) {
     })
   }
 
-  const startAdd = () => { setEditingId(null); setAdding(true); setForm(EMPTY_SVC) }
+  const startAdd = () => { setEditingId(null); setAdding(true); setRenewingId(null); setForm(EMPTY_SVC) }
   const cancel = () => { setEditingId(null); setAdding(false) }
+
+  const startRenew = (svc) => {
+    setEditingId(null); setAdding(false)
+    setRenewingId(svc.id)
+    const nextYear = svc.renewalDate
+      ? new Date(new Date(svc.renewalDate).setFullYear(new Date(svc.renewalDate).getFullYear() + 1)).toISOString().slice(0, 10)
+      : new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().slice(0, 10)
+    setRenewForm({ renewalDate: nextYear, amount: svc.amount != null ? String(svc.amount) : '' })
+  }
+
+  const confirmRenew = async (svc) => {
+    setRenewing(true)
+    await Promise.all([
+      authFetch(`/api/clients/${clientId}/services/${svc.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ renewalDate: renewForm.renewalDate, firstYearFree: false })
+      }),
+      authFetch(`/api/clients/${clientId}/payments`, {
+        method: 'POST',
+        body: JSON.stringify({
+          amount: Number(renewForm.amount || 0),
+          description: `Renovación ${svc.name} ${new Date(renewForm.renewalDate).getFullYear()}`,
+          status: 'pendiente',
+          dueDate: renewForm.renewalDate,
+        })
+      }),
+    ])
+    await onRefresh()
+    setRenewingId(null)
+    setRenewing(false)
+  }
 
   const save = async () => {
     if (!form.name.trim()) return
@@ -721,6 +755,28 @@ function ServicesTab({ clientId, services, onRefresh, authFetch }) {
         <div key={svc.id}>
           {editingId === svc.id ? (
             <ServiceForm form={form} setForm={setForm} onSave={save} onCancel={cancel} saving={saving} isEdit />
+          ) : renewingId === svc.id ? (
+            <div className="bg-zinc-800 border border-zinc-600 rounded-xl p-4 space-y-3">
+              <p className="text-xs text-zinc-400 uppercase tracking-wider font-semibold">Renovar {svc.name}</p>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Nueva fecha de renovación">
+                  <input type="date" value={renewForm.renewalDate}
+                    onChange={e => setRenewForm(p => ({ ...p, renewalDate: e.target.value }))} className={inputCls} />
+                </Field>
+                <Field label="Monto a cobrar (CLP)">
+                  <input type="number" value={renewForm.amount}
+                    onChange={e => setRenewForm(p => ({ ...p, amount: e.target.value }))} className={inputCls} placeholder="0" />
+                </Field>
+              </div>
+              <p className="text-zinc-600 text-xs">Se creará un cobro pendiente por este monto y se actualizará la fecha de renovación.</p>
+              <div className="flex gap-2">
+                <button onClick={() => setRenewingId(null)} className="flex-1 bg-zinc-700 text-zinc-300 py-2.5 rounded-lg text-sm font-medium hover:bg-zinc-600 transition-colors">Cancelar</button>
+                <button onClick={() => confirmRenew(svc)} disabled={renewing}
+                  className="flex-1 bg-white text-black py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 flex items-center justify-center gap-2 transition-colors">
+                  {renewing ? <Loader size={14} className="animate-spin" /> : <><RefreshCw size={13} /> Confirmar renovación</>}
+                </button>
+              </div>
+            </div>
           ) : (
             <div className={`bg-zinc-800 rounded-xl px-4 py-3 ${!svc.active ? 'opacity-50' : ''}`}>
               <div className="flex items-start gap-3">
@@ -747,6 +803,9 @@ function ServicesTab({ clientId, services, onRefresh, authFetch }) {
                   {svc.notes && <p className="text-zinc-600 text-xs mt-0.5 truncate">{svc.notes}</p>}
                 </div>
                 <div className="flex gap-0.5 shrink-0">
+                  {svc.type === 'anual' && (
+                    <button onClick={() => startRenew(svc)} title="Renovar" className="text-zinc-500 hover:text-green-400 p-1.5 rounded-lg hover:bg-zinc-700 transition-colors"><RefreshCw size={13} /></button>
+                  )}
                   <button onClick={() => startEdit(svc)} className="text-zinc-500 hover:text-white p-1.5 rounded-lg hover:bg-zinc-700 transition-colors"><Pencil size={13} /></button>
                   <button onClick={() => remove(svc.id)} className="text-zinc-500 hover:text-red-400 p-1.5 rounded-lg hover:bg-zinc-700 transition-colors"><Trash2 size={13} /></button>
                 </div>
@@ -826,6 +885,78 @@ function NotifyTab({ client, authFetch }) {
   )
 }
 
+// ─── analytics ────────────────────────────────────────────────────────────────
+
+function AnalyticsSection({ analytics }) {
+  if (!analytics) return null
+  const { monthlyRevenue, topServices } = analytics
+  const maxRev = Math.max(...monthlyRevenue.map(m => m.total), 1)
+  const maxCount = topServices[0]?.count || 1
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Bar chart */}
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+        <p className="text-zinc-400 text-xs uppercase tracking-wider mb-5">Ingresos últimos 6 meses</p>
+        <div className="flex items-end gap-2 h-28">
+          {monthlyRevenue.map((m, i) => {
+            const pct = Math.max((m.total / maxRev) * 100, m.total > 0 ? 4 : 1)
+            const isCurrent = i === monthlyRevenue.length - 1
+            return (
+              <div key={i} className="flex-1 flex flex-col items-center gap-1.5 group relative">
+                {m.total > 0 && (
+                  <span className="text-[9px] text-zinc-500 group-hover:text-zinc-300 transition-colors truncate w-full text-center">
+                    ${Math.round(m.total / 1000)}k
+                  </span>
+                )}
+                <div className="w-full flex-1 flex items-end">
+                  <div
+                    className={`w-full rounded-t transition-all ${isCurrent ? 'bg-white' : 'bg-zinc-600'}`}
+                    style={{ height: `${pct}%` }}
+                  />
+                </div>
+                <span className="text-[10px] text-zinc-500 w-full text-center truncate">{m.label}</span>
+              </div>
+            )
+          })}
+        </div>
+        <div className="mt-3 pt-3 border-t border-zinc-800 flex justify-between">
+          <span className="text-zinc-500 text-xs">Total período</span>
+          <span className="text-white text-xs font-semibold">
+            ${monthlyRevenue.reduce((s, m) => s + m.total, 0).toLocaleString('es-CL')}
+          </span>
+        </div>
+      </div>
+
+      {/* Top services */}
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+        <p className="text-zinc-400 text-xs uppercase tracking-wider mb-5">Servicios más contratados</p>
+        {topServices.length === 0 ? (
+          <p className="text-zinc-600 text-sm">Sin datos aún</p>
+        ) : (
+          <div className="space-y-4">
+            {topServices.map((s, i) => (
+              <div key={i} className="space-y-1.5">
+                <div className="flex justify-between items-center">
+                  <span className="text-white text-sm">{s.name}</span>
+                  <span className="text-zinc-400 text-xs">{s.count} cliente{s.count !== 1 ? 's' : ''}</span>
+                </div>
+                <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-white rounded-full transition-all"
+                    style={{ width: `${(s.count / maxCount) * 100}%`, opacity: i === 0 ? 1 : 0.4 + (0.1 * (topServices.length - i)) }}
+                  />
+                </div>
+                <p className="text-zinc-600 text-xs">${s.revenue.toLocaleString('es-CL')} en contratos</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 // ─── main ─────────────────────────────────────────────────────────────────────
 
 export default function ClientManagement() {
@@ -861,6 +992,9 @@ export default function ClientManagement() {
   const [clientError, setClientError] = useState('')
   const [resending, setResending] = useState(false)
   const [resent, setResent] = useState(false)
+  const [analytics, setAnalytics] = useState(null)
+  const [generating, setGenerating] = useState(false)
+  const [generateResult, setGenerateResult] = useState(null)
 
   const [newClient, setNewClient] = useState({ name: '', email: '', company: '', phone: '', plan: 'ads' })
   const [creating, setCreating] = useState(false)
@@ -883,6 +1017,28 @@ export default function ClientManagement() {
     } catch { }
   }
 
+  const fetchAnalytics = async () => {
+    try {
+      const r = await adminFetch('/api/clients/analytics')
+      const d = await r.json()
+      if (d.success) setAnalytics(d)
+    } catch { }
+  }
+
+  const generateMonthly = async () => {
+    setGenerating(true)
+    setGenerateResult(null)
+    try {
+      const r = await adminFetch('/api/clients/generate-monthly-payments', { method: 'POST' })
+      const d = await r.json()
+      if (d.success) {
+        setGenerateResult(d)
+        await fetchStats()
+      }
+    } catch { }
+    setGenerating(false)
+  }
+
   const fetchClient = async (id) => {
     setClientLoading(true)
     setClientError('')
@@ -899,7 +1055,7 @@ export default function ClientManagement() {
 
   useEffect(() => {
     if (!adminToken) { setLoading(false); return }
-    Promise.all([fetchClients(), fetchStats()]).finally(() => setLoading(false))
+    Promise.all([fetchClients(), fetchStats(), fetchAnalytics()]).finally(() => setLoading(false))
   }, [adminToken])
 
   const handleAdminLogin = async (e) => {
@@ -1094,6 +1250,15 @@ export default function ClientManagement() {
           </div>
           <div className="flex items-center gap-3">
             <button onClick={() => navigate('/admin/si')} className="text-zinc-500 hover:text-white text-sm transition-colors">Pedidos →</button>
+            <button
+              onClick={generateMonthly}
+              disabled={generating}
+              title="Generar cobros mensuales pendientes para todos los clientes activos"
+              className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-500 px-3 py-2 rounded-lg text-sm transition-colors disabled:opacity-50"
+            >
+              {generating ? <Loader size={14} className="animate-spin" /> : <Zap size={14} />}
+              <span className="hidden sm:inline">Generar cobros</span>
+            </button>
             <button onClick={() => setShowNew(true)} className="flex items-center gap-2 bg-white text-black px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-zinc-100 transition-colors">
               <Plus size={16} /> Nuevo cliente
             </button>
@@ -1102,6 +1267,21 @@ export default function ClientManagement() {
             </button>
           </div>
         </div>
+
+        {/* Generate result banner */}
+        {generateResult && (
+          <div className="flex items-center justify-between bg-green-950 border border-green-800 text-green-400 px-4 py-3 rounded-xl text-sm">
+            <span>
+              {generateResult.created === 0
+                ? `Ya se generaron los cobros de ${generateResult.mes} anteriormente.`
+                : `✓ ${generateResult.created} cobro${generateResult.created !== 1 ? 's' : ''} generado${generateResult.created !== 1 ? 's' : ''} para ${generateResult.mes} — $${Math.round(generateResult.total).toLocaleString('es-CL')} total`}
+            </span>
+            <button onClick={() => setGenerateResult(null)} className="text-green-600 hover:text-green-400"><X size={14} /></button>
+          </div>
+        )}
+
+        {/* Analytics */}
+        <AnalyticsSection analytics={analytics} />
 
         {/* Search */}
         <div className="relative">
