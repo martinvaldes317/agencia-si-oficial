@@ -56,8 +56,8 @@ router.get('/stats', authenticateAdmin, async (req, res) => {
     const serviciosEsteMes = allServices
       .filter(s => {
         const fecha = s.saleDate || s.createdAt;
-        return (s.type === 'unico' || (s.type === 'anual' && !s.firstYearFree)) &&
-          fecha >= startOfMonth && fecha <= endOfMonth;
+        const cuenta = s.type === 'unico' || s.type === 'licitacion' || (s.type === 'anual' && !s.firstYearFree);
+        return cuenta && fecha >= startOfMonth && fecha <= endOfMonth;
       })
       .reduce((s, x) => s + x.amount, 0);
 

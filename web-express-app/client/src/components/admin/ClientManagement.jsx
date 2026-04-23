@@ -502,6 +502,7 @@ function ServiceForm({ form, setForm, onSave, onCancel, saving, isEdit }) {
             <option value="mensual">Mensual</option>
             <option value="anual">Anual</option>
             <option value="unico">Pago único</option>
+            <option value="licitacion">Licitación adjudicada</option>
           </select>
         </Field>
       </div>
@@ -546,8 +547,8 @@ function ServiceForm({ form, setForm, onSave, onCancel, saving, isEdit }) {
         </>
       )}
 
-      {/* Hosting + Dominio automáticos para servicios web (solo al crear) */}
-      {!isEdit && WEB_PRESETS.includes(form.name) && (
+      {/* Hosting + Dominio automáticos para servicios web (solo al crear, nunca en licitación) */}
+      {!isEdit && WEB_PRESETS.includes(form.name) && form.type !== 'licitacion' && (
         <div className="space-y-2">
           <p className="text-xs text-zinc-400 uppercase tracking-wider">Servicios anuales incluidos</p>
 
@@ -740,8 +741,8 @@ function ServicesTab({ clientId, services, onRefresh, authFetch }) {
   }
 
   const daysUntil = (d) => d ? Math.ceil((new Date(d) - new Date()) / 86400000) : null
-  const typeBadge = { mensual: 'bg-blue-950 text-blue-400', anual: 'bg-purple-950 text-purple-400', unico: 'bg-green-950 text-green-400' }
-  const typeLabel = { mensual: 'Mensual', anual: 'Anual', unico: 'Único' }
+  const typeBadge = { mensual: 'bg-blue-950 text-blue-400', anual: 'bg-purple-950 text-purple-400', unico: 'bg-green-950 text-green-400', licitacion: 'bg-amber-950 text-amber-400' }
+  const typeLabel = { mensual: 'Mensual', anual: 'Anual', unico: 'Único', licitacion: 'Licitación' }
 
   const monthly = services.filter(s => s.active && s.type === 'mensual').reduce((sum, s) => sum + (s.amount || 0), 0)
   const annual  = services.filter(s => s.active && s.type === 'anual').reduce((sum, s) => sum + (s.amount || 0), 0)
