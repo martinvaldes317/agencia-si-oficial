@@ -1227,6 +1227,7 @@ export default function ClientManagement() {
                   <option value="ads">Ads</option>
                   <option value="web">Web</option>
                   <option value="full">Full</option>
+                  <option value="asesorias">Asesorías 1:1</option>
                 </select>
               </Field>
             </div>
