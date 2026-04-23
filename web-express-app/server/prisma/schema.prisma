@@ -183,6 +183,8 @@ model WebExpressOrder {
   mission      String?
   vision       String?
   visualStyle  String?
+  logoName     String?
+  photosNames  String?  @db.Text
   clientId     Int?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

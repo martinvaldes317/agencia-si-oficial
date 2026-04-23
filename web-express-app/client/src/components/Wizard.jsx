@@ -285,9 +285,10 @@ const Step5 = ({ data, handleMultiFileChange }) => (
 
         <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 mt-6">
             {/* Previews would go here based on data.photosPreviews array */}
-            {data.photosPreviews && data.photosPreviews.map((src, i) => (
+            {data.photosPreviews && data.photosPreviews.map((photo, i) => (
                 <div key={i} className="aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200 relative group">
-                    <img src={src} className="w-full h-full object-cover" />
+                    <img src={photo.dataUrl || photo} alt={photo.name || `foto-${i+1}`} className="w-full h-full object-cover" />
+                    {photo.name && <p className="absolute bottom-0 inset-x-0 bg-black/60 text-white text-[9px] px-1 py-0.5 truncate text-center">{photo.name}</p>}
                 </div>
             ))}
         </div>
@@ -503,8 +504,9 @@ export default function Wizard() {
         mission: '',
         vision: '',
         visualStyle: 'minimalista',
-        logoName: '', // just for UI preview
-        photosPreviews: [] // array of base64
+        logoName: '',
+        logoBase64: '',
+        photosPreviews: [] // array of {name, dataUrl}
     });
 
     // Load from localStorage on mount
@@ -534,24 +536,22 @@ export default function Wizard() {
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        if (file) {
-            setFormData(prev => ({
-                ...prev,
-                logoName: file.name
-                // In a real app, upload via API immediately or convert to base64
-            }));
-        }
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            setFormData(prev => ({ ...prev, logoName: file.name, logoBase64: ev.target.result }));
+        };
+        reader.readAsDataURL(file);
     };
 
     const handleMultiFileChange = (e) => {
         const files = Array.from(e.target.files);
-        // Create base64 previews
         files.forEach(file => {
             const reader = new FileReader();
             reader.onload = (ev) => {
                 setFormData(prev => ({
                     ...prev,
-                    photosPreviews: [...(prev.photosPreviews || []), ev.target.result]
+                    photosPreviews: [...(prev.photosPreviews || []), { name: file.name, dataUrl: ev.target.result }]
                 }));
             };
             reader.readAsDataURL(file);

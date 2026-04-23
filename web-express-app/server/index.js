@@ -6,6 +6,8 @@ const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const PDFDocument = require('pdfkit');
+const archiver = require('archiver');
 const prisma = require('./lib/prisma');
 const mailer = require('./lib/mailer');
 const { authenticateAdmin, JWT_SECRET } = require('./middleware/auth');
@@ -17,11 +19,12 @@ app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Static files for client downloads (served with auth in route)
+// Static files
 app.use('/uploads/files', express.static(path.join(__dirname, 'uploads/files')));
+app.use('/uploads/orders', express.static(path.join(__dirname, 'uploads/orders')));
 
 // Ensure uploads dirs exist
-['uploads', 'uploads/files'].forEach(dir => {
+['uploads', 'uploads/files', 'uploads/orders'].forEach(dir => {
   const p = path.join(__dirname, dir);
   if (!fs.existsSync(p)) fs.mkdirSync(p, { recursive: true });
 });
@@ -108,6 +111,9 @@ async function runMigrations() {
     updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)
   )`);
 
+  await addCol('WebExpressOrder', 'logoName',    'VARCHAR(191) NULL');
+  await addCol('WebExpressOrder', 'photosNames', 'LONGTEXT NULL');
+
   // WebExpressOrder table
   await createTable(`CREATE TABLE IF NOT EXISTS WebExpressOrder (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -127,6 +133,8 @@ async function runMigrations() {
     mission LONGTEXT NULL,
     vision VARCHAR(500) NULL,
     visualStyle VARCHAR(50) NULL,
+    logoName VARCHAR(191) NULL,
+    photosNames LONGTEXT NULL,
     clientId INT NULL,
     createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
@@ -141,6 +149,115 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/clients', require('./routes/clients'));
 app.use('/api/licitaciones', require('./routes/licitaciones'));
 app.use('/api/portal', require('./routes/portal'));
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function extFromDataUrl(dataUrl) {
+  const m = (dataUrl || '').match(/^data:image\/([a-z+]+);base64,/i);
+  if (!m) return '.jpg';
+  const t = m[1].toLowerCase();
+  return t === 'jpeg' ? '.jpg' : t === 'svg+xml' ? '.svg' : `.${t}`;
+}
+
+function saveBase64(dataUrl, filePath) {
+  const raw = dataUrl.replace(/^data:image\/[^;]+;base64,/, '');
+  fs.writeFileSync(filePath, Buffer.from(raw, 'base64'));
+}
+
+async function generateOrderPdf(order, ordersDir) {
+  return new Promise((resolve, reject) => {
+    const doc = new PDFDocument({ margin: 50, size: 'A4' });
+    const chunks = [];
+    doc.on('data', c => chunks.push(c));
+    doc.on('end', () => resolve(Buffer.concat(chunks)));
+    doc.on('error', reject);
+
+    const styleLabels = { minimalista: 'Minimalista', corporativo: 'Corporativo', moderno: 'Moderno / Tech', creativo: 'Creativo' };
+
+    const title = (t) => { doc.fontSize(14).font('Helvetica-Bold').fillColor('#000').text(t); doc.moveDown(0.4); };
+    const field = (label, value) => {
+      if (!value) return;
+      doc.fontSize(8).font('Helvetica-Bold').fillColor('#888').text(label.toUpperCase());
+      doc.fontSize(11).font('Helvetica').fillColor('#000').text(String(value), { lineGap: 2 });
+      doc.moveDown(0.5);
+    };
+
+    // Header
+    doc.fontSize(22).font('Helvetica-Bold').fillColor('#000').text('Pedido Web Express', { align: 'center' });
+    doc.fontSize(10).font('Helvetica').fillColor('#555').text(order.orderId, { align: 'center' });
+    doc.fontSize(9).fillColor('#888').text(new Date(order.createdAt).toLocaleString('es-CL'), { align: 'center' });
+    doc.moveDown(1.5);
+
+    title('Datos del negocio');
+    field('Empresa', order.businessName);
+    field('Email', order.email);
+    field('Teléfono', order.phone);
+    field('Ciudad', order.city);
+    field('Dirección', order.address);
+    field('WhatsApp', order.whatsapp);
+    field('Redes sociales', order.socials);
+
+    doc.moveDown(0.5);
+    title('Identidad de marca');
+    field('Logo', order.logoName || '— No adjuntado');
+    field('¿Tiene dominio?', order.hasDomain === 'yes' ? 'Sí, ya tiene' : order.hasDomain === 'no' ? 'No, necesita' : null);
+    field('Colores de marca', order.brandColors);
+
+    doc.moveDown(0.5);
+    title('Productos / Servicios');
+    field('Descripción', order.products);
+
+    doc.moveDown(0.5);
+    title('Información institucional');
+    field('Quiénes somos', order.about);
+    field('Misión', order.mission);
+    field('Visión', order.vision);
+
+    doc.moveDown(0.5);
+    title('Estilo visual');
+    field('Estilo elegido', styleLabels[order.visualStyle] || order.visualStyle);
+
+    // Photo filenames
+    const fotosDir = path.join(ordersDir, 'fotos');
+    const fotoFiles = fs.existsSync(fotosDir) ? fs.readdirSync(fotosDir) : [];
+    if (fotoFiles.length > 0) {
+      doc.moveDown(0.5);
+      title('Fotografías adjuntas');
+      fotoFiles.forEach((f, i) => {
+        doc.fontSize(10).font('Helvetica').fillColor('#333').text(`${i + 1}. ${f}`);
+      });
+    }
+
+    // Logo page
+    const logoDir = path.join(ordersDir, 'logo');
+    const logoFiles = fs.existsSync(logoDir) ? fs.readdirSync(logoDir) : [];
+    if (logoFiles.length > 0) {
+      doc.addPage();
+      title('Logo');
+      try { doc.image(path.join(logoDir, logoFiles[0]), { fit: [400, 300], align: 'center' }); }
+      catch { doc.text(`[${logoFiles[0]}]`); }
+    }
+
+    // Photos page
+    if (fotoFiles.length > 0) {
+      doc.addPage();
+      title('Fotografías');
+      let x = 50, y = doc.y + 10;
+      const W = 150, GAP = 20;
+      fotoFiles.forEach(f => {
+        try {
+          if (y + W + 20 > doc.page.height - 50) { doc.addPage(); y = 50; x = 50; }
+          doc.image(path.join(fotosDir, f), x, y, { fit: [W, W] });
+          doc.fontSize(7).font('Helvetica').fillColor('#666').text(f, x, y + W + 3, { width: W, align: 'center' });
+          x += W + GAP;
+          if (x + W > doc.page.width - 50) { x = 50; y += W + 30; }
+        } catch { /* skip unreadable image */ }
+      });
+    }
+
+    doc.end();
+  });
+}
 
 // --- Existing routes ---
 
@@ -181,12 +298,36 @@ app.post('/api/seo-diagnostic', async (req, res) => {
 // Submit a new Web Express order
 app.post('/api/submit-order', async (req, res) => {
   try {
-    const { businessName, email, phone, city, address, whatsapp, socials, hasDomain, brandColorsText, products, about, mission, vision, visualStyle } = req.body;
+    const { businessName, email, phone, city, address, whatsapp, socials, hasDomain, brandColorsText, products, about, mission, vision, visualStyle, logoName, logoBase64, photosPreviews } = req.body;
     if (!businessName || !email) return res.status(400).json({ success: false, message: 'Nombre y email son requeridos' });
 
     const orderId = `ORDER-${Date.now()}`;
+
+    // Save images to disk
+    const ordersDir = path.join(__dirname, 'uploads', 'orders', orderId);
+    let savedLogoName = null;
+    const savedPhotoNames = [];
+
+    if (logoBase64) {
+      const ext = extFromDataUrl(logoBase64);
+      savedLogoName = logoName || `logo${ext}`;
+      fs.mkdirSync(path.join(ordersDir, 'logo'), { recursive: true });
+      saveBase64(logoBase64, path.join(ordersDir, 'logo', savedLogoName));
+    }
+
+    if (Array.isArray(photosPreviews) && photosPreviews.length > 0) {
+      fs.mkdirSync(path.join(ordersDir, 'fotos'), { recursive: true });
+      photosPreviews.forEach((photo, i) => {
+        const dataUrl = photo.dataUrl || photo;
+        const ext = extFromDataUrl(dataUrl);
+        const name = photo.name || `foto_${i + 1}${ext}`;
+        savedPhotoNames.push(name);
+        saveBase64(dataUrl, path.join(ordersDir, 'fotos', name));
+      });
+    }
+
     const order = await prisma.webExpressOrder.create({
-      data: { orderId, businessName, email, phone: phone || null, city: city || null, address: address || null, whatsapp: whatsapp || null, socials: socials || null, hasDomain: hasDomain || null, brandColors: brandColorsText || null, products: products || '', about: about || null, mission: mission || null, vision: vision || null, visualStyle: visualStyle || 'minimalista' }
+      data: { orderId, businessName, email, phone: phone || null, city: city || null, address: address || null, whatsapp: whatsapp || null, socials: socials || null, hasDomain: hasDomain || null, brandColors: brandColorsText || null, products: products || '', about: about || null, mission: mission || null, vision: vision || null, visualStyle: visualStyle || 'minimalista', logoName: savedLogoName, photosNames: savedPhotoNames.length > 0 ? JSON.stringify(savedPhotoNames) : null }
     });
 
     // Create client account if doesn't exist
@@ -238,6 +379,41 @@ app.patch('/api/orders/:id/status', authenticateAdmin, async (req, res) => {
     res.json({ success: true, order });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error updating status' });
+  }
+});
+
+// Admin: Download order as ZIP (PDF + images)
+app.get('/api/orders/:orderId/download', authenticateAdmin, async (req, res) => {
+  try {
+    const order = await prisma.webExpressOrder.findUnique({ where: { orderId: req.params.orderId } });
+    if (!order) return res.status(404).json({ success: false, message: 'Pedido no encontrado' });
+
+    const ordersDir = path.join(__dirname, 'uploads', 'orders', order.orderId);
+    const pdfBuffer = await generateOrderPdf(order, ordersDir);
+
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', `attachment; filename="${order.orderId}.zip"`);
+
+    const archive = archiver('zip', { zlib: { level: 6 } });
+    archive.on('error', err => { throw err; });
+    archive.pipe(res);
+
+    archive.append(pdfBuffer, { name: 'pedido.pdf' });
+
+    const logoDir = path.join(ordersDir, 'logo');
+    if (fs.existsSync(logoDir)) {
+      fs.readdirSync(logoDir).forEach(f => archive.file(path.join(logoDir, f), { name: `logo/${f}` }));
+    }
+
+    const fotosDir = path.join(ordersDir, 'fotos');
+    if (fs.existsSync(fotosDir)) {
+      fs.readdirSync(fotosDir).forEach(f => archive.file(path.join(fotosDir, f), { name: `fotos/${f}` }));
+    }
+
+    await archive.finalize();
+  } catch (error) {
+    console.error('[download-order]', error.message);
+    if (!res.headersSent) res.status(500).json({ success: false, message: 'Error generando el ZIP' });
   }
 });
 

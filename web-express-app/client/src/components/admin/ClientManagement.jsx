@@ -1220,6 +1220,18 @@ function WebOrdersView({ onBack, authFetch }) {
   }
   const styleLabels = { minimalista: 'Minimalista', corporativo: 'Corporativo', moderno: 'Moderno / Tech', creativo: 'Creativo' }
 
+  const downloadOrder = async (orderId, fetcher) => {
+    try {
+      const res = await fetcher(`/api/orders/${orderId}/download`)
+      if (!res.ok) { alert('Error al generar el ZIP'); return; }
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url; a.download = `${orderId}.zip`; a.click()
+      URL.revokeObjectURL(url)
+    } catch { alert('Error de conexión al descargar') }
+  }
+
   return (
     <div className="min-h-screen bg-black">
       <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
@@ -1280,7 +1292,7 @@ function WebOrdersView({ onBack, authFetch }) {
                           {' · '}{order.orderId}
                         </p>
                       </div>
-                      <div className="flex items-center gap-2 shrink-0">
+                      <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
                         <select
                           value={order.status}
                           onChange={e => updateStatus(order.orderId, e.target.value)}
@@ -1291,6 +1303,14 @@ function WebOrdersView({ onBack, authFetch }) {
                           <option value="en_proceso">En proceso</option>
                           <option value="entregado">Entregado</option>
                         </select>
+                        <a
+                          href={`${API}/api/orders/${order.orderId}/download`}
+                          onClick={e => { e.preventDefault(); downloadOrder(order.orderId, authFetch); }}
+                          className="text-xs px-2 py-1.5 rounded-lg bg-zinc-700 hover:bg-zinc-600 text-zinc-300 hover:text-white transition-colors"
+                          title="Descargar ZIP con PDF + imágenes"
+                        >
+                          ↓ ZIP
+                        </a>
                         <button
                           onClick={() => setExpandedId(expanded ? null : order.orderId)}
                           className="text-zinc-500 hover:text-white text-xs px-2 py-1.5 rounded-lg hover:bg-zinc-800 transition-colors"
@@ -1302,7 +1322,44 @@ function WebOrdersView({ onBack, authFetch }) {
                   </div>
 
                   {expanded && (
-                    <div className="border-t border-zinc-800 p-5 space-y-4 text-sm">
+                    <div className="border-t border-zinc-800 p-5 space-y-5 text-sm">
+                      {/* Logo */}
+                      {order.logoName && (
+                        <div>
+                          <p className="text-zinc-500 text-xs uppercase tracking-wider mb-2">Logo — <span className="font-mono text-zinc-400">{order.logoName}</span></p>
+                          <img
+                            src={`${API}/uploads/orders/${order.orderId}/logo/${order.logoName}`}
+                            alt="Logo"
+                            className="max-h-24 rounded border border-zinc-700 bg-white p-1"
+                          />
+                        </div>
+                      )}
+
+                      {/* Photos */}
+                      {order.photosNames && (() => {
+                        const names = JSON.parse(order.photosNames)
+                        return names.length > 0 ? (
+                          <div>
+                            <p className="text-zinc-500 text-xs uppercase tracking-wider mb-2">Fotografías ({names.length})</p>
+                            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                              {names.map(name => (
+                                <div key={name} className="space-y-1">
+                                  <div className="aspect-square rounded overflow-hidden border border-zinc-700 bg-zinc-800">
+                                    <img
+                                      src={`${API}/uploads/orders/${order.orderId}/fotos/${name}`}
+                                      alt={name}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  </div>
+                                  <p className="text-zinc-600 text-[9px] truncate text-center">{name}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ) : null
+                      })()}
+
+                      {/* Text fields */}
                       {order.city && <div><p className="text-zinc-500 text-xs uppercase tracking-wider mb-0.5">Ciudad / Dirección</p><p className="text-white">{order.city}{order.address ? ` — ${order.address}` : ''}</p></div>}
                       {order.whatsapp && <div><p className="text-zinc-500 text-xs uppercase tracking-wider mb-0.5">WhatsApp</p><p className="text-white">{order.whatsapp}</p></div>}
                       {order.socials && <div><p className="text-zinc-500 text-xs uppercase tracking-wider mb-0.5">Redes sociales</p><p className="text-white">{order.socials}</p></div>}
