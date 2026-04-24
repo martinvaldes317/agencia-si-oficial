@@ -71,9 +71,84 @@ async function main() {
     }
   })
 
-  console.log(`✓ Usuario demo creado: ${client.email}`)
-  console.log(`  Contraseña: demo1234`)
+  console.log(`✓ Demo creado: ${client.email} — demo1234`)
+
+  // ── AGENCIA GLOBAL SPA ───────────────────────────────────────────────────
+  const thisMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 15)
+
+  const c1 = await prisma.client.upsert({
+    where: { email: 'contacto@agenciasi.cl' },
+    update: {},
+    create: {
+      email: 'contacto@agenciasi.cl',
+      password: await bcrypt.hash('cliente123', 10),
+      name: 'AGENCIA GLOBAL SPA',
+      company: 'AGENCIA GLOBAL SPA',
+      plan: 'web-express',
+      active: false,
+      domainName: 'agenciaglobal.cl',
+      hostingProvider: 'Railway',
+      monthlyFee: 41240,
+      hostingCost: 41240,
+      domainCost: 9990,
+      services: {
+        create: [
+          { name: 'Hosting',   type: 'anual',  amount: 41240,  active: true, saleDate: new Date('2026-01-10') },
+          { name: 'Sitio Web', type: 'unico',  amount: 129990, active: true, saleDate: new Date('2026-01-10') },
+          { name: 'Dominio',   type: 'anual',  amount: 9990,   active: true, saleDate: new Date('2026-01-10') },
+        ]
+      },
+      payments: {
+        create: [
+          { amount: 129990, description: 'Sitio Web Profesional Express', status: 'pagado', paidAt: thisMonth, dueDate: thisMonth },
+          { amount: 41240,  description: 'Hosting anual',                 status: 'pagado', paidAt: thisMonth, dueDate: thisMonth },
+          { amount: 9990,   description: 'Dominio .cl',                   status: 'pagado', paidAt: thisMonth, dueDate: thisMonth },
+        ]
+      }
+    }
+  })
+  console.log(`✓ Creado: ${c1.email} — cliente123`)
+
+  // ── Javiera Caceres / COEXCA ─────────────────────────────────────────────
+  const c2 = await prisma.client.upsert({
+    where: { email: 'coexaa@gmail.com' },
+    update: {},
+    create: {
+      email: 'coexaa@gmail.com',
+      password: await bcrypt.hash('cliente123', 10),
+      name: 'Javiera Caceres',
+      company: 'COEXCA',
+      plan: 'full',
+      active: true,
+      domainName: 'coexca.cl',
+      hostingProvider: 'Railway',
+      monthlyFee: 40000,
+      hostingCost: 41240,
+      domainCost: 9990,
+      services: {
+        create: [
+          { name: 'Hosting',       type: 'anual',   amount: 41240,  active: true, saleDate: new Date('2025-11-01') },
+          { name: 'Meta Ads',      type: 'mensual', amount: 40000,  active: true, saleDate: new Date('2025-11-01') },
+          { name: 'Asesorías 1:1', type: 'unico',   amount: 499990, active: true, saleDate: new Date('2025-12-15') },
+        ]
+      },
+      payments: {
+        create: [
+          { amount: 499990, description: 'Asesorías 1:1 pack completo', status: 'pagado', paidAt: new Date('2025-12-20'), dueDate: new Date('2025-12-20') },
+          { amount: 41240,  description: 'Hosting anual',               status: 'pagado', paidAt: new Date('2025-11-05'), dueDate: new Date('2025-11-05') },
+          { amount: 40000,  description: 'Meta Ads — noviembre',        status: 'pagado', paidAt: new Date('2025-11-30'), dueDate: new Date('2025-11-30') },
+          { amount: 40000,  description: 'Meta Ads — diciembre',        status: 'pagado', paidAt: new Date('2025-12-31'), dueDate: new Date('2025-12-31') },
+          { amount: 40000,  description: 'Meta Ads — enero',            status: 'pagado', paidAt: new Date('2026-01-31'), dueDate: new Date('2026-01-31') },
+          { amount: 40000,  description: 'Meta Ads — febrero',          status: 'pagado', paidAt: new Date('2026-02-28'), dueDate: new Date('2026-02-28') },
+          { amount: 40000,  description: 'Meta Ads — marzo',            status: 'pagado', paidAt: new Date('2026-03-31'), dueDate: new Date('2026-03-31') },
+          { amount: 40000,  description: 'Meta Ads — abril',            status: 'pagado', paidAt: thisMonth,             dueDate: thisMonth },
+        ]
+      }
+    }
+  })
+  console.log(`✓ Creado: ${c2.email} — cliente123`)
 }
 
 main()
   .catch(e => { console.error(e); process.exit(1) })
+  .finally(() => prisma.$disconnect())
