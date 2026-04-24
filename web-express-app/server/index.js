@@ -11,6 +11,11 @@ const archiver = require('archiver');
 const prisma = require('./lib/prisma');
 const mailer = require('./lib/mailer');
 const { authenticateAdmin, JWT_SECRET } = require('./middleware/auth');
+const { MercadoPagoConfig, Preference, Payment: MPPayment } = require('mercadopago');
+
+const mpClient = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN || '' });
+const mpPreference = new Preference(mpClient);
+const mpPaymentClient = new MPPayment(mpClient);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -355,6 +360,128 @@ app.post('/api/submit-order', async (req, res) => {
   } catch (error) {
     console.error('[submit-order]', error.message);
     res.status(500).json({ success: false, message: 'Error al procesar el pedido' });
+  }
+});
+
+// MercadoPago: Create payment preference (called by wizard before redirecting)
+app.post('/api/mp/create-preference', async (req, res) => {
+  try {
+    const { businessName, email, phone, city, address, whatsapp, socials, hasDomain, brandColorsText, products, about, mission, vision, visualStyle, logoName, logoBase64, photosPreviews } = req.body;
+    if (!businessName || !email) return res.status(400).json({ success: false, message: 'Nombre y email son requeridos' });
+
+    const orderId = `ORDER-${Date.now()}`;
+    const siteUrl = process.env.SITE_URL || 'https://agenciasi.cl';
+
+    // Save images to disk
+    const ordersDir = path.join(__dirname, 'uploads', 'orders', orderId);
+    let savedLogoName = null;
+    const savedPhotoNames = [];
+
+    if (logoBase64) {
+      const ext = extFromDataUrl(logoBase64);
+      savedLogoName = logoName || `logo${ext}`;
+      fs.mkdirSync(path.join(ordersDir, 'logo'), { recursive: true });
+      saveBase64(logoBase64, path.join(ordersDir, 'logo', savedLogoName));
+    }
+
+    if (Array.isArray(photosPreviews) && photosPreviews.length > 0) {
+      fs.mkdirSync(path.join(ordersDir, 'fotos'), { recursive: true });
+      photosPreviews.forEach((photo, i) => {
+        const dataUrl = photo.dataUrl || photo;
+        const ext = extFromDataUrl(dataUrl);
+        const name = photo.name || `foto_${i + 1}${ext}`;
+        savedPhotoNames.push(name);
+        saveBase64(dataUrl, path.join(ordersDir, 'fotos', name));
+      });
+    }
+
+    await prisma.webExpressOrder.create({
+      data: {
+        orderId, businessName, email,
+        phone: phone || null, city: city || null, address: address || null,
+        whatsapp: whatsapp || null, socials: socials || null, hasDomain: hasDomain || null,
+        brandColors: brandColorsText || null, products: products || '',
+        about: about || null, mission: mission || null, vision: vision || null,
+        visualStyle: visualStyle || 'minimalista',
+        logoName: savedLogoName,
+        photosNames: savedPhotoNames.length > 0 ? JSON.stringify(savedPhotoNames) : null,
+        status: 'pendiente_pago'
+      }
+    });
+
+    const preference = await mpPreference.create({
+      body: {
+        items: [{
+          id: orderId,
+          title: 'Web Profesional Express',
+          description: `Sitio web para ${businessName}`,
+          quantity: 1,
+          unit_price: 129990,
+          currency_id: 'CLP'
+        }],
+        payer: { name: businessName, email },
+        external_reference: orderId,
+        back_urls: {
+          success: `${siteUrl}/digitalizacion-express/pago`,
+          failure: `${siteUrl}/digitalizacion-express/pago`,
+          pending: `${siteUrl}/digitalizacion-express/pago`
+        },
+        auto_return: 'approved',
+        notification_url: `${siteUrl}/api/webhooks/mercadopago`
+      }
+    });
+
+    res.json({ success: true, orderId, init_point: preference.init_point });
+  } catch (error) {
+    console.error('[mp-create-preference]', error.message);
+    res.status(500).json({ success: false, message: 'Error al crear la preferencia de pago' });
+  }
+});
+
+// MercadoPago: Webhook — confirms payment and activates the order
+app.post('/api/webhooks/mercadopago', async (req, res) => {
+  res.sendStatus(200); // respond immediately so MP doesn't retry
+  const { type, data } = req.body;
+  if (type !== 'payment' || !data?.id) return;
+
+  try {
+    const payment = await mpPaymentClient.get({ id: data.id });
+    if (payment.status !== 'approved') return;
+
+    const orderId = payment.external_reference;
+    if (!orderId) return;
+
+    const order = await prisma.webExpressOrder.findUnique({ where: { orderId } });
+    if (!order || order.status !== 'pendiente_pago') return; // already processed or not found
+
+    await prisma.webExpressOrder.update({ where: { orderId }, data: { status: 'nuevo' } });
+
+    const siteUrl = process.env.SITE_URL || 'https://agenciasi.cl';
+    let clientId = order.clientId;
+
+    if (!clientId) {
+      const existing = await prisma.client.findUnique({ where: { email: order.email } });
+      if (!existing) {
+        const tempHash = await bcrypt.hash(`temp-${Date.now()}`, 10);
+        const newClient = await prisma.client.create({
+          data: { email: order.email, password: tempHash, name: order.businessName, company: order.businessName, phone: order.phone || null, plan: 'web-express', active: false }
+        });
+        clientId = newClient.id;
+        const setupToken = jwt.sign({ role: 'client_setup', clientId: newClient.id }, JWT_SECRET, { expiresIn: '7d' });
+        mailer.send({ to: order.email, subject: 'Tu web está en producción — Accede a tu panel', html: mailer.clientWelcome({ clientName: order.businessName, setupLink: `${siteUrl}/portal/setup?token=${setupToken}` }) })
+          .catch(e => console.error('[webhook-welcome]', e.message));
+      } else {
+        clientId = existing.id;
+      }
+      await prisma.webExpressOrder.update({ where: { orderId }, data: { clientId } });
+    }
+
+    mailer.send({ to: 'contacto@agenciasi.cl', subject: `Pago confirmado: ${order.businessName}`, html: mailer.newOrder({ orderId, name: order.businessName, email: order.email, phone: order.phone, service: 'Web Profesional Express', plan: order.visualStyle }) })
+      .catch(e => console.error('[webhook-notify]', e.message));
+
+    console.log(`[webhook-mp] Pedido ${orderId} confirmado`);
+  } catch (e) {
+    console.error('[webhook-mp]', e.message);
   }
 });
 

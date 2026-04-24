@@ -1214,9 +1214,10 @@ function WebOrdersView({ onBack, authFetch }) {
   }
 
   const statusStyle = {
-    nuevo:      { bg: 'bg-blue-950',  text: 'text-blue-400',  label: 'Nuevo' },
-    en_proceso: { bg: 'bg-amber-950', text: 'text-amber-400', label: 'En proceso' },
-    entregado:  { bg: 'bg-green-950', text: 'text-green-400', label: 'Entregado' },
+    pendiente_pago: { bg: 'bg-zinc-800',   text: 'text-zinc-400',  label: 'Pago pendiente' },
+    nuevo:          { bg: 'bg-blue-950',   text: 'text-blue-400',  label: 'Nuevo' },
+    en_proceso:     { bg: 'bg-amber-950',  text: 'text-amber-400', label: 'En proceso' },
+    entregado:      { bg: 'bg-green-950',  text: 'text-green-400', label: 'Entregado' },
   }
   const styleLabels = { minimalista: 'Minimalista', corporativo: 'Corporativo', moderno: 'Moderno / Tech', creativo: 'Creativo' }
 
@@ -1305,6 +1306,7 @@ function WebOrdersView({ onBack, authFetch }) {
                           disabled={updatingId === order.orderId}
                           className="bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs rounded-lg px-2 py-1.5 focus:outline-none focus:border-zinc-500 disabled:opacity-50"
                         >
+                          <option value="pendiente_pago">Pago pendiente</option>
                           <option value="nuevo">Nuevo</option>
                           <option value="en_proceso">En proceso</option>
                           <option value="entregado">Entregado</option>

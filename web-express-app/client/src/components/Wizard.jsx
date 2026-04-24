@@ -417,59 +417,11 @@ const Step7 = ({ processPayment, isProcessing }) => (
     </div>
 )
 
-const SuccessState = ({ orderId }) => (
-    <div className="text-center py-10 animate-fade-in block">
-        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-600 relative overflow-hidden group">
-            <Check className="w-10 h-10" />
-            <div className="absolute inset-0 bg-white/20 animate-shimmer" />
-        </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">¡Tu web ya está en producción!</h2>
-        <p className="text-gray-500 text-lg mb-4 max-w-md mx-auto">Hemos recibido tu información correctamente. Nuestro equipo comenzará a trabajar ahora mismo.</p>
-
-        <div className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-full text-xs font-mono mb-8">
-            <span className="text-zinc-500">ID DE SEGUIMIENTO:</span> {orderId}
-        </div>
-
-        <div className="bg-gray-50 p-6 rounded-xl border border-gray-100 inline-block text-left w-full max-w-md mb-8">
-            <p className="text-xs uppercase tracking-widest font-bold text-gray-400 mb-4">Próximos pasos:</p>
-            <ul className="space-y-4">
-                <li className="flex gap-3 text-sm flex-col">
-                    <div className="flex gap-3">
-                        <span className="font-bold text-black shrink-0">1.</span>
-                        <span>Revisaremos tu información y empezamos el diseño.</span>
-                    </div>
-                </li>
-                <li className="flex gap-3 text-sm flex-col">
-                    <div className="flex gap-3">
-                        <span className="font-bold text-black shrink-0">2.</span>
-                        <span>Revisa tu correo — te enviamos el acceso a tu panel de cliente para hacer seguimiento.</span>
-                    </div>
-                    <a
-                        href="/portal"
-                        className="ml-7 text-xs font-bold text-blue-600 uppercase tracking-widest flex items-center gap-1 hover:gap-2 transition-all"
-                    >
-                        Ir al portal de cliente <ArrowRight className="w-3 h-3" />
-                    </a>
-                </li>
-                <li className="flex gap-3 text-sm border-t border-gray-200 pt-4 mt-2">
-                    <span className="font-bold text-black shrink-0">3.</span>
-                    <span className="text-green-600 font-bold uppercase tracking-widest text-[10px] mt-0.5">Entrega estimada: 3 a 5 días hábiles.</span>
-                </li>
-            </ul>
-        </div>
-
-        <div className="block pt-4">
-            <a href="/" className="text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-black transition-all">Volver al inicio</a>
-        </div>
-    </div>
-)
 
 export default function Wizard() {
     const [step, setStep] = useState(1);
     const [isProcessing, setIsProcessing] = useState(false);
-    const [complete, setComplete] = useState(false);
     const [isLaunching, setIsLaunching] = useState(false);
-    const [orderId, setOrderId] = useState(null);
 
     // Insights ticker state
     const [insightIndex, setInsightIndex] = useState(0);
@@ -592,37 +544,25 @@ export default function Wizard() {
     const processPayment = async () => {
         setIsProcessing(true);
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/submit-order`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/mp/create-preference`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             });
             const data = await response.json();
-            if (data.success) {
-                setOrderId(data.orderId);
+            if (data.success && data.init_point) {
                 localStorage.removeItem('webExpressData');
-                setComplete(true);
-                window.scrollTo(0, 0);
+                window.location.href = data.init_point;
             } else {
-                alert('Error al enviar el pedido. Por favor intenta nuevamente.');
+                alert('Error al procesar el pedido. Por favor intenta nuevamente.');
+                setIsProcessing(false);
             }
         } catch (e) {
             console.error('API Error', e);
             alert('Error de conexión. Por favor intenta nuevamente.');
-        } finally {
             setIsProcessing(false);
         }
     };
-
-    if (complete) {
-        return (
-            <div className="w-full max-w-3xl mx-auto pt-20 pb-12 px-4">
-                <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-                    <SuccessState orderId={orderId} />
-                </div>
-            </div>
-        );
-    }
 
     const titles = [
         "",
