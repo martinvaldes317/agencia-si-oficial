@@ -1542,6 +1542,17 @@ export default function ClientManagement() {
     setCreating(false)
   }
 
+  const deleteClient = async (c) => {
+    if (!window.confirm(`¿Eliminar a ${c.name}?\n\nSe borrarán todos sus datos: métricas, pagos, reuniones, archivos y tickets. Esta acción no se puede deshacer.`)) return
+    try {
+      await adminFetch(`/api/clients/${c.id}`, { method: 'DELETE' })
+      setSelected(null)
+      await fetchClients()
+    } catch (e) {
+      alert('Error al eliminar: ' + e.message)
+    }
+  }
+
   // Admin login gate
   if (!adminToken) return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
@@ -1808,8 +1819,9 @@ export default function ClientManagement() {
         ) : (
           <div className="space-y-3">
             {filtered.map(c => (
-              <button key={c.id} onClick={() => { fetchClient(c.id); setActiveTab('metricas') }}
-                className="w-full bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-xl p-5 text-left flex items-center gap-4 transition-all group">
+              <div key={c.id}
+                className="w-full bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-xl p-5 flex items-center gap-4 transition-all group cursor-pointer"
+                onClick={() => { fetchClient(c.id); setActiveTab('metricas') }}>
                 <div className="w-11 h-11 bg-white text-black rounded-full flex items-center justify-center text-sm font-bold shrink-0">
                   {c.name.split(' ').map(n => n[0]).slice(0,2).join('').toUpperCase()}
                 </div>
@@ -1836,11 +1848,18 @@ export default function ClientManagement() {
                     )
                   })()}
                 </div>
-                <div className="flex items-center gap-3 shrink-0">
+                <div className="flex items-center gap-2 shrink-0">
                   {c.plan && <span className="bg-zinc-800 text-zinc-400 text-xs px-2 py-1 rounded-full">{c.plan}</span>}
                   <span className={`w-2 h-2 rounded-full ${c.active ? 'bg-green-400' : 'bg-zinc-600'}`} />
+                  <button
+                    onClick={e => { e.stopPropagation(); deleteClient(c) }}
+                    className="opacity-0 group-hover:opacity-100 text-zinc-600 hover:text-red-400 p-1.5 rounded-lg hover:bg-zinc-800 transition-all ml-1"
+                    title="Eliminar cliente"
+                  >
+                    <Trash2 size={14} />
+                  </button>
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         )}
