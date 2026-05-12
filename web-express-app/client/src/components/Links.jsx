@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import {
     TrendingUp, Code2, Search, Globe, BrainCircuit,
-    Mic, Camera, MessageSquare, Mail, LogIn, ArrowRight, Sparkles,
+    MessageSquare, Mail, LogIn, ArrowRight, Sparkles,
 } from 'lucide-react'
 
 const T = {
@@ -32,7 +32,7 @@ const services = [
     {
         icon: Code2,
         label: 'Desarrollo Web Express',
-        sub: 'Tu sitio en 7 días, desde $129.990',
+        sub: 'Diseño a medida · Entrega en 5 días hábiles',
         to: '/digitalizacion-express',
         variant: 'primary',
     },
@@ -54,20 +54,6 @@ const services = [
         icon: Sparkles,
         label: 'Gestión de Redes Sociales',
         sub: 'Estrategia, contenido y pauta',
-        href: '/#contact',
-        variant: 'outline',
-    },
-    {
-        icon: Mic,
-        label: 'Studio Podcast',
-        sub: 'Grabación profesional · San Clemente',
-        href: '/#contact',
-        variant: 'outline',
-    },
-    {
-        icon: Camera,
-        label: 'Studio Fotográfico',
-        sub: 'Contenido de alto nivel por hora',
         href: '/#contact',
         variant: 'outline',
     },

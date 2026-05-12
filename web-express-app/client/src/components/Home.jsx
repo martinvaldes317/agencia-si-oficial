@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async'
 import {
     Menu, X, BrainCircuit, Code2, Globe, Palette,
     TrendingUp, Sparkles, Video, MapPin, MessageSquare, Mail,
-    ArrowRight, LogIn, Camera, Mic, ShoppingCart, CheckCircle2,
+    ArrowRight, LogIn, ShoppingCart, CheckCircle2,
     BarChart3, Users, Zap, Shield, Search
 } from 'lucide-react'
 
@@ -716,30 +716,29 @@ export default function Home() {
                     {/* Service grid */}
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                         {[
-                            { icon: Code2,        title: 'Desarrollo Web',      desc: 'Sitios profesionales, rápidos y orientados a conversión. Sin templates.',    price: 'Desde $129.990',   color: '#7F77DD' },
-                            { icon: Globe,        title: 'WordPress Pro',        desc: 'SEO técnico avanzado, plugins a medida y velocidad optimizada.',             price: 'Desde $399.990',   color: '#7F77DD' },
-                            { icon: BrainCircuit, title: 'Ecosistemas IA',       desc: 'Automatizaciones, CRM y flujos con IA para acelerar ventas.',               price: 'Cotizar',          color: T.blue   },
-                            { icon: Palette,      title: 'Branding Autoridad',   desc: 'Identidad corporativa para posicionarte y atraer alto ticket.',             price: 'Cotizar',          color: T.blue   },
-                            { icon: ShoppingCart, title: 'E-commerce',           desc: 'Tiendas con Webpay y Mercado Pago. Arquitectura orientada a conversión.',   price: 'Desde $399.990',   color: '#5DCAA5' },
-                            { icon: Sparkles,     title: 'Gestión de RRSS',      desc: 'Estrategia de contenidos, pauta y comunidad para crecer en redes.',         price: 'Cotizar',          color: '#7EB8E8' },
-                            { icon: Camera,       title: 'Studio Fotográfico',   desc: 'Arriendo por hora. Producción de contenido de alto nivel.',                 price: 'Desde $25.000/hr', color: '#F0997B', region: true },
-                            { icon: Mic,          title: 'Studio Podcast',       desc: 'Estudio profesional en San Clemente. Grabación y edición completa.',        price: 'Desde $35.000/hr', color: '#E24B4A', region: true },
-                            { icon: Video,        title: 'Producción Audiovisual', desc: 'Videos corporativos, reels y activos creativos para tus campañas.',       price: 'Cotizar',          color: '#CF9FCA' },
+                            { icon: BrainCircuit, title: 'Plan de Crecimiento Digital', desc: 'Diagnóstico estratégico pagado: auditamos tu situación actual y entregamos un plan de acción con metas, canales y presupuesto en 5 días.', price: 'Desde $150.000', color: T.blue, highlight: true },
+                            { icon: Code2,        title: 'Desarrollo Web',      desc: 'Sitios que convierten visitas en clientes. Diseño a medida, arquitectura de conversión y velocidad optimizada.',    price: 'Cotizar',   color: '#7F77DD' },
+                            { icon: Globe,        title: 'WordPress & SEO',     desc: 'Posicionamiento orgánico real. SEO técnico avanzado, plugins a medida y optimización continua.',             price: 'Cotizar',   color: '#7F77DD' },
+                            { icon: Sparkles,     title: 'Ecosistemas IA',      desc: 'Automatizaciones, CRM y flujos con inteligencia artificial para vender más con menos fricción.',               price: 'Cotizar',   color: T.blue   },
+                            { icon: Palette,      title: 'Branding Autoridad',  desc: 'Identidad corporativa que transmite confianza y posiciona tu marca en el segmento que querés ocupar.',         price: 'Cotizar',   color: T.blue   },
+                            { icon: ShoppingCart, title: 'E-commerce',          desc: 'Tiendas que venden. Integración con Webpay y Mercado Pago, arquitectura pensada para maximizar conversión.',   price: 'Cotizar',   color: '#5DCAA5' },
+                            { icon: Video,        title: 'Producción Audiovisual', desc: 'Videos corporativos, reels y activos creativos que elevan la percepción de tu marca.',                      price: 'Cotizar',   color: '#CF9FCA' },
                         ].map((s, i) => (
-                            <div key={i} className="p-6 rounded-xl flex flex-col group transition-all duration-200 hover:shadow-md cursor-default"
-                                style={{ border: `1px solid ${T.border}` }}
+                            <div key={i}
+                                className="p-6 rounded-xl flex flex-col group transition-all duration-200 hover:shadow-md cursor-default relative"
+                                style={{ border: `1px solid ${s.highlight ? s.color + '60' : T.border}`, background: s.highlight ? s.color + '06' : undefined }}
                                 onMouseEnter={e => e.currentTarget.style.borderColor = s.color + '80'}
-                                onMouseLeave={e => e.currentTarget.style.borderColor = T.border}>
+                                onMouseLeave={e => e.currentTarget.style.borderColor = s.highlight ? s.color + '60' : T.border}>
+                                {s.highlight && (
+                                    <span className="absolute top-4 right-4 text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-full"
+                                        style={{ background: s.color + '15', color: s.color }}>
+                                        Punto de entrada recomendado
+                                    </span>
+                                )}
                                 <div className="flex items-start justify-between mb-5">
                                     <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: s.color + '12' }}>
                                         <s.icon size={20} style={{ color: s.color }} />
                                     </div>
-                                    {s.region && (
-                                        <span className="text-[10px] font-semibold px-2 py-1 rounded-full"
-                                            style={{ background: T.light, color: T.gray }}>
-                                            Región del Maule
-                                        </span>
-                                    )}
                                 </div>
                                 <h4 className="text-[15px] font-bold mb-2" style={{ color: T.black, fontFamily: 'Playfair Display, serif' }}>
                                     {s.title}
