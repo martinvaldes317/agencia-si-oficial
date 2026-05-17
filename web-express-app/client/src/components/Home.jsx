@@ -6,7 +6,7 @@ import {
     Menu, X, BrainCircuit, Code2, Globe, Palette,
     TrendingUp, Sparkles, Video, MapPin, MessageSquare, Mail,
     ArrowRight, LogIn, ShoppingCart, CheckCircle2,
-    BarChart3, Users, Zap, Shield, Search
+    BarChart3, Zap, Shield, Search
 } from 'lucide-react'
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
@@ -328,7 +328,7 @@ const Footer = () => (
                         <img src="/logo-dark.png" alt="AgenciaSi" className="h-10 w-auto" />
                     </div>
                     <p className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: '#666', fontFamily: 'Poppins, sans-serif' }}>
-                        Agencia de marketing digital con foco en resultados medibles. Meta Ads, Google Ads, IA y desarrollo web.
+                        Desarrollo web, sistemas a medida e IA aplicada para empresas que quieren crecer. Meta Ads y Google Ads como complemento estratégico.
                     </p>
                     <p className="text-xs" style={{ color: '#444', fontFamily: 'Poppins, sans-serif' }}>
                         San Clemente, Región del Maule — Chile<br />
@@ -471,20 +471,20 @@ export default function Home() {
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         <div>
                             <div className="flex flex-wrap gap-2 mb-8">
-                                <Label>Meta Ads</Label>
-                                <Label>Google Ads</Label>
-                                <Label>Integración IA</Label>
-                                <Label>Chile</Label>
+                                <Label>Desarrollo Web</Label>
+                                <Label>Sistemas a Medida</Label>
+                                <Label>E-commerce</Label>
+                                <Label>IA</Label>
                             </div>
 
                             <h1 className="font-bold leading-[1.05] mb-7"
                                 style={{ fontFamily: 'Playfair Display, serif', color: T.black, fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}>
-                                Publicidad que genera clientes.{' '}
-                                <em className="font-normal" style={{ color: T.blue }}>No reportes.</em>
+                                Construimos el motor digital{' '}
+                                <em className="font-normal" style={{ color: T.blue }}>de tu empresa.</em>
                             </h1>
 
                             <p className="text-lg leading-relaxed mb-10 max-w-xl" style={{ color: T.gray }}>
-                                Implementamos Meta Ads y Google Ads con IA, con acompañamiento 1:1 y control total de métricas. Sin humo, sin excusas.
+                                Sitios web, plataformas y sistemas a medida que automatizan, venden y escalan tu negocio. Sin templates, sin humo.
                             </p>
 
                             <div className="flex flex-col sm:flex-row gap-3 mb-12">
@@ -497,9 +497,9 @@ export default function Home() {
                             {/* Trust row */}
                             <div className="flex flex-wrap items-center gap-5">
                                 {[
-                                    { icon: CheckCircle2, text: 'Cuentas propias' },
-                                    { icon: Shield,       text: 'Sin permanencia' },
-                                    { icon: BarChart3,    text: 'Métricas claras' },
+                                    { icon: CheckCircle2, text: 'Código propio' },
+                                    { icon: Shield,       text: 'Sin templates' },
+                                    { icon: BarChart3,    text: 'Resultados medibles' },
                                 ].map(({ icon: Icon, text }) => (
                                     <div key={text} className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: T.gray }}>
                                         <Icon size={14} style={{ color: T.blue }} /> {text}
@@ -519,10 +519,10 @@ export default function Home() {
                                 {/* Stats grid */}
                                 <div className="grid grid-cols-2 gap-px bg-gray-100">
                                     {[
-                                        { label: 'ROAS promedio', value: '4.2×', sub: 'últimos 90 días', up: true },
-                                        { label: 'Reducción CPA', value: '−38%', sub: 'vs. período anterior', up: true },
-                                        { label: 'Clientes activos', value: '24+', sub: 'en Chile y LATAM', up: null },
-                                        { label: 'Inversión gestionada', value: '$12M+', sub: 'CLP mensuales', up: null },
+                                        { label: 'Proyectos entregados', value: '40+',   sub: 'sitios, sistemas y apps', up: true },
+                                        { label: 'Tiempo de entrega',    value: '5 días', sub: 'Web Express promedio',    up: true },
+                                        { label: 'Clientes activos',     value: '24+',   sub: 'en Chile y LATAM',        up: null },
+                                        { label: 'Tecnologías',          value: '12+',   sub: 'React, Node, IA y más',   up: null },
                                     ].map(stat => (
                                         <div key={stat.label} className="bg-white p-6">
                                             <p className="text-[11px] font-semibold uppercase tracking-wide mb-2" style={{ color: T.gray }}>{stat.label}</p>
@@ -549,10 +549,10 @@ export default function Home() {
                 <div className="max-w-7xl mx-auto px-5 md:px-10 py-8">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
                         {[
-                            { value: '24+',   label: 'Clientes activos' },
-                            { value: '4.2×',  label: 'ROAS promedio' },
-                            { value: '$12M+', label: 'Inversión gestionada / mes' },
-                            { value: '−38%',  label: 'Reducción de CPA promedio' },
+                            { value: '40+',    label: 'Proyectos entregados' },
+                            { value: '5 días', label: 'Entrega promedio Web Express' },
+                            { value: '24+',    label: 'Clientes activos' },
+                            { value: '100%',   label: 'Código propio, sin templates' },
                         ].map(s => (
                             <div key={s.label} className="text-center">
                                 <p className="text-3xl md:text-4xl font-bold mb-1" style={{ fontFamily: 'Playfair Display, serif', color: T.blue }}>{s.value}</p>
@@ -570,18 +570,18 @@ export default function Home() {
                         <div>
                             <SectionLabel>Por qué AgenciaSi</SectionLabel>
                             <H2 className="text-4xl md:text-5xl mb-6">
-                                El fin de la gestión ciega.
+                                Tu negocio merece más que un template.
                             </H2>
                             <p className="text-base leading-relaxed mb-10" style={{ color: T.gray }}>
-                                La mayoría de agencias gestiona campañas "por ti" y te entrega reportes que nadie entiende. Nosotros trabajamos <strong style={{ color: T.black }}>contigo</strong>, con cuentas propias, métricas transparentes y foco en rentabilidad neta.
+                                La mayoría de agencias te vende un WordPress con un theme comprado. Nosotros construimos <strong style={{ color: T.black }}>desde cero</strong> — código limpio, arquitectura pensada para tu negocio y resultados medibles desde el primer mes.
                             </p>
 
                             <div className="space-y-5">
                                 {[
-                                    { icon: Users,    title: 'Acompañamiento 1:1',   desc: 'Un estratega dedicado a tu cuenta. Sin intermediarios ni cuentas cuentos.' },
-                                    { icon: BarChart3, title: 'Transparencia total',  desc: 'Acceso completo a métricas, cuentas y decisiones en tiempo real.' },
-                                    { icon: Zap,      title: 'Integración con IA',   desc: 'Automatizaciones y análisis de datos para optimizar cada peso invertido.' },
-                                    { icon: TrendingUp, title: 'Foco en ROI',        desc: 'Medimos el resultado en ventas reales, no en likes ni alcance.' },
+                                    { icon: Code2,      title: 'Desarrollo a medida',     desc: 'Cada proyecto es único. Diseñamos y construimos la solución exacta que tu negocio necesita.' },
+                                    { icon: Zap,        title: 'Entrega rápida y real',    desc: 'Web Express en 5 días hábiles. Proyectos complejos con plazos claros y cumplidos.' },
+                                    { icon: BrainCircuit, title: 'Integración con IA',     desc: 'Automatizaciones, chatbots y flujos inteligentes que reducen tu carga operativa.' },
+                                    { icon: TrendingUp, title: 'Foco en conversión',       desc: 'No solo "se ve bien". Cada sitio y sistema está diseñado para generar clientes y ventas.' },
                                 ].map(({ icon: Icon, title, desc }) => (
                                     <div key={title} className="flex gap-4 p-4 rounded-xl transition-all hover:bg-gray-50">
                                         <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
@@ -604,18 +604,18 @@ export default function Home() {
                                     Metodología SI
                                 </p>
                                 <H2 className="text-3xl md:text-4xl mb-4" style={{ color: '#fff' }}>
-                                    Publicidad que convierte. <em className="font-normal">Sin humo.</em>
+                                    Código propio. <em className="font-normal">Resultados reales.</em>
                                 </H2>
                                 <p className="text-sm leading-relaxed mb-7" style={{ color: 'rgba(255,255,255,0.65)' }}>
-                                    Acompañamiento 1:1 con foco en métricas reales, control total de cuentas y resultados medibles desde el primer mes.
+                                    Diseñamos, construimos y lanzamos tu plataforma digital con foco en conversión. Sin templates, sin dependencias, sin humo.
                                 </p>
 
                                 {/* Mini stats */}
                                 <div className="grid grid-cols-3 gap-3 mb-7">
                                     {[
-                                        { val: '4.2×', lbl: 'ROAS promedio' },
-                                        { val: '−38%', lbl: 'Reducción CPA' },
-                                        { val: '24+',  lbl: 'Clientes activos' },
+                                        { val: '40+',    lbl: 'Proyectos entregados' },
+                                        { val: '5 días', lbl: 'Entrega Web Express' },
+                                        { val: '24+',    lbl: 'Clientes activos' },
                                     ].map(s => (
                                         <div key={s.lbl} className="rounded-xl p-4 text-center" style={{ background: 'rgba(0,0,0,0.2)' }}>
                                             <p className="text-2xl font-black text-white mb-0.5" style={{ fontFamily: 'Playfair Display, serif' }}>{s.val}</p>
@@ -625,7 +625,7 @@ export default function Home() {
                                 </div>
 
                                 <div className="flex flex-wrap gap-2">
-                                    {['Meta Ads', 'Google Ads', 'IA Analytics', 'Cuentas propias'].map(t => (
+                                    {['React', 'Node.js', 'IA integrada', 'Código propio'].map(t => (
                                         <span key={t} className="text-[11px] font-semibold px-3 py-1.5 rounded-full"
                                             style={{ background: 'rgba(255,255,255,0.12)', color: '#fff' }}>
                                             {t}
@@ -650,14 +650,14 @@ export default function Home() {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16">
                         <SectionLabel>Cómo trabajamos</SectionLabel>
-                        <H2 className="text-4xl md:text-5xl">El proceso en 4 pasos.</H2>
+                        <H2 className="text-4xl md:text-5xl">Del brief al lanzamiento en 4 pasos.</H2>
                     </div>
                     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[
-                            { n: '01', title: 'Diagnóstico',   desc: 'Analizamos tu negocio, competencia y métricas actuales sin costo.' },
-                            { n: '02', title: 'Estrategia',    desc: 'Diseñamos un plan de campañas con objetivos, presupuesto y KPIs claros.' },
-                            { n: '03', title: 'Implementación', desc: 'Lanzamos campañas, integramos IA y optimizamos en tiempo real.' },
-                            { n: '04', title: 'Escala',        desc: 'Con datos validados, escalamos lo que funciona y eliminamos lo que no.' },
+                            { n: '01', title: 'Diagnóstico',    desc: 'Entendemos tu negocio, tus clientes y qué necesita tu plataforma digital para generar resultados.' },
+                            { n: '02', title: 'Diseño',         desc: 'Wireframes, arquitectura de información y diseño UI orientado a conversión. Tú apruebas cada paso.' },
+                            { n: '03', title: 'Desarrollo',     desc: 'Construimos con código propio: React, Node.js e integraciones con IA, Webpay y sistemas externos.' },
+                            { n: '04', title: 'Lanzamiento',    desc: 'Deploy, pruebas y entrega. Soporte post-lanzamiento incluido para que todo funcione desde día uno.' },
                         ].map(step => (
                             <div key={step.n} className="relative p-8 rounded-2xl bg-white" style={{ border: `1px solid ${T.border}` }}>
                                 <span className="text-6xl font-black opacity-[0.06] absolute top-6 right-6 select-none"
