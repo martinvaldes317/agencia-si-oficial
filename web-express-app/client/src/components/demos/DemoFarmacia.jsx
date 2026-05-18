@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import {
   ShoppingCart, Search, Phone, MapPin, Clock, X, Plus, Minus,
   MessageCircle, Truck, Shield, Tag, ArrowRight, Star,
@@ -130,13 +130,7 @@ export default function DemoFarmacia() {
   const [cart, setCart] = useState({})
   const [cartOpen, setCartOpen] = useState(false)
   const [paying, setPaying] = useState(false)
-  const [payStatus, setPayStatus] = useState(null)
-
-  useEffect(() => {
-    const p = new URLSearchParams(window.location.search)
-    const s = p.get('status')
-    if (s) setPayStatus(s)
-  }, [])
+  const [payStatus] = useState(() => new URLSearchParams(window.location.search).get('status'))
 
   const filtered = useMemo(() =>
     PRODUCTS.filter(p =>
@@ -170,7 +164,7 @@ export default function DemoFarmacia() {
         body: JSON.stringify({ type: 'farmacia', items }),
       })
       const data = await res.json()
-      if (data.init_point) window.location.href = data.init_point
+      if (data.init_point) window.location.assign(data.init_point)
     } catch {
       setPaying(false)
     }

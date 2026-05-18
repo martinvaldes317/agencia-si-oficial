@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import {
   MapPin, Clock, Phone, MessageCircle, ArrowRight, Star, Plus, Minus, X,
   ShoppingBag, Truck, UtensilsCrossed, Wine, ChefHat, Instagram, CheckCircle,
@@ -74,14 +74,8 @@ export default function DemoRestaurante() {
   const [tab, setTab]           = useState('delivery') // 'delivery' | 'reserva'
   const [reserva, setReserva]   = useState({ nombre:'', telefono:'', fecha:'', hora:'', personas:'2' })
   const [resSent, setResSent]   = useState(false)
-  const [paying, setPaying]     = useState(false)
-  const [payStatus, setPayStatus] = useState(null)
-
-  useEffect(() => {
-    const p = new URLSearchParams(window.location.search)
-    const s = p.get('status')
-    if (s) setPayStatus(s)
-  }, [])
+  const [paying, setPaying]   = useState(false)
+  const [payStatus]           = useState(() => new URLSearchParams(window.location.search).get('status'))
 
   const filtered   = useMemo(() => MENU.filter(p => cat === 'Todo' || p.cat === cat), [cat])
   const totalItems = Object.values(cart).reduce((a, b) => a + b, 0)
@@ -119,7 +113,7 @@ export default function DemoRestaurante() {
         body: JSON.stringify({ type: 'restaurante', items }),
       })
       const data = await res.json()
-      if (data.init_point) window.location.href = data.init_point
+      if (data.init_point) window.location.assign(data.init_point)
     } catch {
       setPaying(false)
     }

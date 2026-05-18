@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   Phone, MapPin, Clock, MessageCircle, ArrowRight, Star, CheckCircle,
   ChevronDown, ChevronUp, Calendar, Shield, Award, Users, Zap,
@@ -152,13 +152,7 @@ export default function DemoClinica() {
   const [form, setForm] = useState({ nombre: '', telefono: '', servicio: '', fecha: '', hora: '' })
   const [sent, setSent] = useState(false)
   const [paying, setPaying] = useState(null)
-  const [payStatus, setPayStatus] = useState(null)
-
-  useEffect(() => {
-    const p = new URLSearchParams(window.location.search)
-    const s = p.get('status')
-    if (s) setPayStatus(s)
-  }, [])
+  const [payStatus] = useState(() => new URLSearchParams(window.location.search).get('status'))
 
   const bookService = async (servicio) => {
     setPaying(servicio.name)
@@ -173,7 +167,7 @@ export default function DemoClinica() {
         }),
       })
       const data = await res.json()
-      if (data.init_point) window.location.href = data.init_point
+      if (data.init_point) window.location.assign(data.init_point)
     } catch {
       setPaying(null)
     }
