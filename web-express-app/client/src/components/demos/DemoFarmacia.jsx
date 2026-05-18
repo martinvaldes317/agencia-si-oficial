@@ -455,13 +455,11 @@ export default function DemoFarmacia() {
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-4">
           {/* Logo */}
           <div className="flex items-center gap-2.5 shrink-0">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: BRAND.green }}>
-              <Pill size={18} color="#fff" strokeWidth={2} />
-            </div>
-            <div>
-              <p className="font-black text-sm leading-tight" style={{ color: BRAND.dark }}>Farmacia</p>
-              <p className="font-black text-sm leading-tight" style={{ color: BRAND.green }}>Santa Clara</p>
-            </div>
+            <img
+              src="/img/farmacia/logo-farmacia-santa-clara.png"
+              alt="Farmacia Santa Clara"
+              className="h-10 w-auto object-contain"
+            />
             <div className="flex items-center gap-1 ml-1">
               <span className="relative flex h-2 w-2">
                 {status.isOpen && <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-50" style={{ background: BRAND.green }} />}
@@ -887,14 +885,13 @@ export default function DemoFarmacia() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
           {/* Col 1: Brand */}
           <div>
-            <div className="flex items-center gap-2.5 mb-3">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: BRAND.green }}>
-                <Pill size={15} color="#fff" strokeWidth={2} />
-              </div>
-              <div>
-                <p className="font-black text-sm leading-tight">Farmacia</p>
-                <p className="font-black text-sm leading-tight" style={{ color: BRAND.green }}>Santa Clara</p>
-              </div>
+            <div className="mb-3">
+              <img
+                src="/img/farmacia/logo-farmacia-santa-clara.png"
+                alt="Farmacia Santa Clara"
+                className="h-10 w-auto object-contain"
+                style={{ filter: 'brightness(0) invert(1)' }}
+              />
             </div>
             <p className="text-sm opacity-70 mb-3 leading-relaxed">
               Tu farmacia de confianza en San Clemente. Más de 15 años cuidando la salud de las familias de la región.
