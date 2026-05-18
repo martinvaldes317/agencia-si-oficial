@@ -26,6 +26,7 @@ import PaymentReturn from './components/PaymentReturn'
 import DemoFarmacia from './components/demos/DemoFarmacia'
 import DemoClinica from './components/demos/DemoClinica'
 import DemoRestaurante from './components/demos/DemoRestaurante'
+import DemoIndex from './components/demos/DemoIndex'
 
 const ScrollToTop = () => {
   const { pathname } = useLocation()
@@ -48,6 +49,7 @@ function App() {
           <Route path="/pack-express" element={<Wizard />} />
           <Route path="/diagnostico-seo" element={<DiagnosticoSEO />} />
           <Route path="/links" element={<Links />} />
+          <Route path="/demos" element={<DemoIndex />} />
           <Route path="/demos/farmacia" element={<DemoFarmacia />} />
           <Route path="/demos/clinica" element={<DemoClinica />} />
           <Route path="/demos/restaurante" element={<DemoRestaurante />} />
