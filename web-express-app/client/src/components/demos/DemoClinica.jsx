@@ -443,9 +443,11 @@ export default function DemoClinica() {
             </div>
             {/* Promo 2 */}
             <div className="rounded-2xl overflow-hidden" style={{ border: `2px dashed ${B.border}` }}>
-              <div className="py-8 flex flex-col items-center justify-center text-center" style={{ background: '#FFFBEB' }}>
-                <p className="text-4xl font-black mb-1" style={{ color: '#92400E' }}>30%</p>
-                <p className="text-sm font-bold" style={{ color: '#D97706' }}>Blanqueamiento LED</p>
+              <div className="py-6 flex flex-col items-center justify-center text-center px-4" style={{ background: '#FFFBEB' }}>
+                <span className="text-xs font-bold px-2.5 py-1 rounded-full mb-3" style={{ background: '#FEF3C7', color: '#92400E' }}>-30% OFF</span>
+                <p className="text-3xl font-black mb-0.5" style={{ color: '#92400E' }}>$62.300</p>
+                <p className="text-sm line-through mb-1" style={{ color: '#D97706' }}>$89.000</p>
+                <p className="text-xs font-bold" style={{ color: '#D97706' }}>Blanqueamiento LED</p>
               </div>
               <div className="p-5" style={{ background: '#FEFCE8' }}>
                 <p className="font-bold text-sm mb-1" style={{ color: B.black }}>Sonrisa brillante</p>

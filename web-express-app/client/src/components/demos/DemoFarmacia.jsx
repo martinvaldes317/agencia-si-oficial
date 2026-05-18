@@ -36,28 +36,190 @@ const ICON_MAP = {
 
 const PRODUCTS = [
   // OTC
-  { id: 1,  cat: 'OTC',            name: 'Paracetamol 500mg',        sub: 'Caja 20 comprimidos',      price: 3490,  badge: 'Más vendido', iconKey: 'pill_indigo',   stars: 4.8 },
-  { id: 2,  cat: 'OTC',            name: 'Ibuprofeno 400mg',          sub: 'Caja 20 comprimidos',      price: 4290,  badge: null,          iconKey: 'pill_indigo',   stars: 4.6 },
-  { id: 3,  cat: 'OTC',            name: 'Vitamina C 1000mg',         sub: 'Frasco 30 cápsulas',       price: 6990,  badge: 'Oferta',      iconKey: 'leaf_green',    stars: 4.9 },
-  { id: 4,  cat: 'OTC',            name: 'Antigripal Noche',          sub: 'Caja 10 sobres',           price: 5490,  badge: null,          iconKey: 'pill_indigo',   stars: 4.5 },
+  {
+    id: 1, cat: 'OTC', name: 'Paracetamol 500mg', sub: 'Caja 20 comprimidos', price: 3490, badge: 'Más vendido', iconKey: 'pill_indigo', stars: 4.8,
+    principioActivo: 'Paracetamol 500 mg', formaFarm: 'Comprimido recubierto', via: 'Oral',
+    indicaciones: 'Tratamiento sintomático del dolor leve a moderado (cefalea, dolor de muelas, mialgias) y fiebre en adultos y adolescentes mayores de 12 años.',
+    posologia: 'Adultos y adolescentes >12 años: 1–2 comprimidos cada 4–6 horas. Máximo 8 comprimidos (4 g) en 24 horas. No superar la dosis indicada.',
+    contraindicaciones: 'Hipersensibilidad al paracetamol. Insuficiencia hepática grave. No usar con otros medicamentos que contengan paracetamol.',
+    advertencias: 'No sobrepasar la dosis máxima. El uso excesivo puede causar daño hepático grave. Consultar al médico si los síntomas persisten más de 3 días o empeoran. Evitar el consumo de alcohol.',
+    almacenamiento: 'Conservar a temperatura ambiente (≤25 °C), protegido de la luz y la humedad. Mantener fuera del alcance de los niños.',
+    receta: false, registro: 'ISP F-24.123/2019',
+  },
+  {
+    id: 2, cat: 'OTC', name: 'Ibuprofeno 400mg', sub: 'Caja 20 comprimidos', price: 4290, badge: null, iconKey: 'pill_indigo', stars: 4.6,
+    principioActivo: 'Ibuprofeno 400 mg', formaFarm: 'Comprimido recubierto', via: 'Oral',
+    indicaciones: 'Alivio del dolor leve a moderado: cefalea, dolor muscular, dismenorrea, dolor dental. Tratamiento de la fiebre y estados febriles.',
+    posologia: 'Adultos: 400 mg cada 6–8 horas. Máximo 1.200 mg/día sin prescripción médica. Tomar con alimentos para reducir la irritación gástrica.',
+    contraindicaciones: 'Hipersensibilidad al ibuprofeno o a AINEs. Úlcera péptica activa. Insuficiencia renal o hepática grave. Último trimestre de embarazo.',
+    advertencias: 'Puede aumentar el riesgo de eventos cardiovasculares en uso prolongado. Suspender si aparece sangrado digestivo. No combinar con anticoagulantes sin indicación médica.',
+    almacenamiento: 'Conservar a temperatura ambiente (≤25 °C), protegido de la humedad. Mantener fuera del alcance de los niños.',
+    receta: false, registro: 'ISP F-18.456/2020',
+  },
+  {
+    id: 3, cat: 'OTC', name: 'Vitamina C 1000mg', sub: 'Frasco 30 cápsulas', price: 6990, badge: 'Oferta', iconKey: 'leaf_green', stars: 4.9,
+    principioActivo: 'Ácido ascórbico 1.000 mg', formaFarm: 'Cápsula de gelatina dura', via: 'Oral',
+    indicaciones: 'Suplementación de vitamina C. Apoyo al sistema inmune, síntesis de colágeno y protección antioxidante.',
+    posologia: '1 cápsula al día, preferentemente con alimentos. No exceder 2.000 mg diarios sin indicación médica.',
+    contraindicaciones: 'Hipersensibilidad al ácido ascórbico. Litiasis renal por oxalatos (precaución). Hemocromatosis.',
+    advertencias: 'Dosis elevadas pueden producir diarrea y cálculos renales. Consulte a su médico o farmacéutico antes de usar si está embarazada.',
+    almacenamiento: 'Conservar a temperatura ambiente (≤25 °C), protegido de la luz y la humedad.',
+    receta: false, registro: 'ISP AS-33.789/2021',
+  },
+  {
+    id: 4, cat: 'OTC', name: 'Antigripal Noche', sub: 'Caja 10 sobres', price: 5490, badge: null, iconKey: 'pill_indigo', stars: 4.5,
+    principioActivo: 'Paracetamol 600 mg + Clorfenamina 4 mg + Pseudoefedrina 60 mg', formaFarm: 'Granulado para solución oral', via: 'Oral',
+    indicaciones: 'Alivio sintomático de resfriado y gripe: fiebre, congestión nasal, secreción nasal y malestar general.',
+    posologia: '1 sobre disuelto en un vaso de agua caliente cada 6–8 horas. No exceder 4 sobres en 24 horas. Usar preferentemente por la noche.',
+    contraindicaciones: 'Hipertensión arterial no controlada. Uso de IMAO en los últimos 14 días. Hipertiroidismo. Glaucoma de ángulo cerrado.',
+    advertencias: 'Puede causar somnolencia. No conducir ni operar maquinaria. Evitar el alcohol. Contiene paracetamol: no combinar con otros analgésicos.',
+    almacenamiento: 'Conservar en lugar seco a temperatura ambiente (≤25 °C).',
+    receta: false, registro: 'ISP F-21.654/2018',
+  },
   // Dermocosmética
-  { id: 5,  cat: 'Dermocosmética', name: 'Protector Solar SPF 50+',   sub: 'Loción 200ml · Eucerin',   price: 18990, badge: 'Premium',     iconKey: 'sun_amber',     stars: 4.9 },
-  { id: 6,  cat: 'Dermocosmética', name: 'Hidratante Facial',         sub: 'Crema 50ml · Cetaphil',    price: 14990, badge: null,          iconKey: 'sparkles_pink', stars: 4.7 },
-  { id: 7,  cat: 'Dermocosmética', name: 'Shampoo Anticaída',         sub: 'Frasco 400ml',             price: 9990,  badge: 'Oferta',      iconKey: 'wind_blue',     stars: 4.4 },
-  { id: 8,  cat: 'Dermocosmética', name: 'Vitamina E Facial',         sub: 'Sérum 30ml',               price: 11990, badge: null,          iconKey: 'drops_purple',  stars: 4.6 },
+  {
+    id: 5, cat: 'Dermocosmética', name: 'Protector Solar SPF 50+', sub: 'Loción 200ml · Eucerin', price: 18990, badge: 'Premium', iconKey: 'sun_amber', stars: 4.9,
+    principioActivo: 'Dióxido de titanio 5% + Octinoxato 7.5% + Avobenzona 3%', formaFarm: 'Emulsión tópica', via: 'Tópica',
+    indicaciones: 'Protección solar de amplio espectro (UVA/UVB) para uso diario. Indicado para pieles sensibles, atópicas o post-procedimiento.',
+    posologia: 'Aplicar generosamente 20–30 minutos antes de la exposición solar. Reaplicar cada 2 horas y después del baño o sudoración intensa.',
+    contraindicaciones: 'Hipersensibilidad a alguno de los componentes. No aplicar en mucosas ni cerca de los ojos.',
+    advertencias: 'Uso externo exclusivo. No es suficiente protección si se está en el sol entre las 12:00 y 16:00. Mantener a los niños menores de 6 meses alejados del sol directo.',
+    almacenamiento: 'Conservar entre 8 °C y 25 °C. No exponer al calor excesivo ni congelar.',
+    receta: false, registro: 'ISP CS-11.987/2022',
+  },
+  {
+    id: 6, cat: 'Dermocosmética', name: 'Hidratante Facial', sub: 'Crema 50ml · Cetaphil', price: 14990, badge: null, iconKey: 'sparkles_pink', stars: 4.7,
+    principioActivo: 'Glicerina 7.3% + Dimeticona 1.2% + Pantenol 0.5%', formaFarm: 'Crema emoliente', via: 'Tópica',
+    indicaciones: 'Hidratación y restauración de la barrera cutánea en pieles secas, sensibles o atópicas. Apto para uso diario en rostro.',
+    posologia: 'Aplicar una cantidad suficiente sobre rostro y cuello limpios, por la mañana y/o noche. Dar suaves masajes hasta absorción completa.',
+    contraindicaciones: 'Hipersensibilidad a alguno de los componentes.',
+    advertencias: 'Solo para uso externo. Evitar el contacto con los ojos. En caso de irritación, suspender el uso y consultar a un profesional de la salud.',
+    almacenamiento: 'Conservar a temperatura ambiente (≤25 °C).',
+    receta: false, registro: 'ISP CS-08.341/2020',
+  },
+  {
+    id: 7, cat: 'Dermocosmética', name: 'Shampoo Anticaída', sub: 'Frasco 400ml', price: 9990, badge: 'Oferta', iconKey: 'wind_blue', stars: 4.4,
+    principioActivo: 'Biotina 0.2% + Arginina 2% + Queratina hidrolizada 1%', formaFarm: 'Champú líquido', via: 'Tópica capilar',
+    indicaciones: 'Tratamiento de la caída del cabello de causa no hormonal. Fortalece la fibra capilar y estimula el cuero cabelludo.',
+    posologia: 'Aplicar sobre cabello húmedo, masajear durante 2–3 minutos y enjuagar. Usar 3–4 veces por semana para mejores resultados.',
+    contraindicaciones: 'Hipersensibilidad a alguno de los componentes. No usar en cuero cabelludo con heridas abiertas o eccema activo.',
+    advertencias: 'Evitar el contacto con los ojos. En caso de irritación o reacción alérgica, suspender el uso. Consultar al médico si la caída persiste más de 3 meses.',
+    almacenamiento: 'Conservar a temperatura ambiente (≤25 °C). Mantener tapado.',
+    receta: false, registro: 'ISP CS-15.223/2021',
+  },
+  {
+    id: 8, cat: 'Dermocosmética', name: 'Vitamina E Facial', sub: 'Sérum 30ml', price: 11990, badge: null, iconKey: 'drops_purple', stars: 4.6,
+    principioActivo: 'Tocoferol (Vitamina E) 5% + Ácido hialurónico 1% + Niacinamida 3%', formaFarm: 'Sérum oleoso', via: 'Tópica',
+    indicaciones: 'Antioxidante y antienvejecimiento. Reduce la aparición de líneas de expresión, manchas y mejora la luminosidad de la piel.',
+    posologia: 'Aplicar 3–5 gotas sobre el rostro limpio por la noche. Dar suaves toquecitos con los dedos hasta absorción. Combinar con hidratante si se desea.',
+    contraindicaciones: 'Hipersensibilidad a la vitamina E o a cualquier componente.',
+    advertencias: 'Uso externo exclusivo. Puede aumentar la sensibilidad al sol; usar protector solar durante el día. Realizar prueba de tolerancia antes del primer uso.',
+    almacenamiento: 'Conservar entre 5 °C y 25 °C, protegido de la luz.',
+    receta: false, registro: 'ISP CS-09.876/2023',
+  },
   // Vitaminas
-  { id: 9,  cat: 'Vitaminas',      name: 'Omega 3 · 1000mg',          sub: 'Frasco 60 cápsulas',       price: 12990, badge: 'Más vendido', iconKey: 'fish_teal',     stars: 4.8 },
-  { id: 10, cat: 'Vitaminas',      name: 'Magnesio B6',               sub: 'Frasco 60 comprimidos',    price: 8490,  badge: null,          iconKey: 'activity_org',  stars: 4.5 },
-  { id: 11, cat: 'Vitaminas',      name: 'Complejo B',                sub: 'Frasco 30 cápsulas',       price: 7290,  badge: null,          iconKey: 'activity_org',  stars: 4.6 },
-  { id: 12, cat: 'Vitaminas',      name: 'Zinc + Vitamina C',         sub: 'Frasco 30 gummies',        price: 9990,  badge: 'Nuevo',       iconKey: 'activity_org',  stars: 4.7 },
+  {
+    id: 9, cat: 'Vitaminas', name: 'Omega 3 · 1000mg', sub: 'Frasco 60 cápsulas', price: 12990, badge: 'Más vendido', iconKey: 'fish_teal', stars: 4.8,
+    principioActivo: 'EPA 180 mg + DHA 120 mg por cápsula (aceite de pescado 1.000 mg)', formaFarm: 'Cápsula blanda de gelatina', via: 'Oral',
+    indicaciones: 'Suplementación de ácidos grasos omega-3. Apoyo a la salud cardiovascular, función cerebral y control de triglicéridos.',
+    posologia: '1–2 cápsulas al día, preferentemente durante las comidas. No exceder 3 g/día sin indicación médica.',
+    contraindicaciones: 'Alergia al pescado o mariscos. Trastornos hemorrágicos. Uso con anticoagulantes (consultar al médico).',
+    advertencias: 'Puede producir sabor a pescado o eructos. Tomar con alimentos reduce estos efectos. Consultar al médico si está en tratamiento anticoagulante.',
+    almacenamiento: 'Conservar en lugar fresco y seco (≤25 °C), protegido de la luz. Mantener refrigerado una vez abierto.',
+    receta: false, registro: 'ISP AS-27.654/2020',
+  },
+  {
+    id: 10, cat: 'Vitaminas', name: 'Magnesio B6', sub: 'Frasco 60 comprimidos', price: 8490, badge: null, iconKey: 'activity_org', stars: 4.5,
+    principioActivo: 'Citrato de magnesio 300 mg + Vitamina B6 (piridoxina) 5 mg', formaFarm: 'Comprimido', via: 'Oral',
+    indicaciones: 'Suplementación de magnesio y vitamina B6. Ayuda a reducir el cansancio, los calambres musculares y apoya el sistema nervioso.',
+    posologia: '1–2 comprimidos al día con agua, preferentemente con las comidas. En caso de calambres nocturnos, tomar por la noche.',
+    contraindicaciones: 'Insuficiencia renal grave. Hipersensibilidad a los componentes.',
+    advertencias: 'Dosis altas de magnesio pueden causar efecto laxante. No exceder la dosis diaria recomendada. Consultar al médico en caso de embarazo o lactancia.',
+    almacenamiento: 'Conservar a temperatura ambiente (≤25 °C), protegido de la humedad.',
+    receta: false, registro: 'ISP AS-31.112/2021',
+  },
+  {
+    id: 11, cat: 'Vitaminas', name: 'Complejo B', sub: 'Frasco 30 cápsulas', price: 7290, badge: null, iconKey: 'activity_org', stars: 4.6,
+    principioActivo: 'B1 (tiamina) 100 mg + B2 (riboflavina) 50 mg + B3 (niacina) 50 mg + B5 25 mg + B6 50 mg + B9 400 µg + B12 100 µg', formaFarm: 'Cápsula', via: 'Oral',
+    indicaciones: 'Suplementación del complejo B. Apoya el metabolismo energético, la función neurológica y la formación de glóbulos rojos.',
+    posologia: '1 cápsula al día con el desayuno.',
+    contraindicaciones: 'Hipersensibilidad a alguna de las vitaminas del grupo B.',
+    advertencias: 'La riboflavina puede colorear la orina de amarillo intenso (efecto inofensivo). Puede interferir con ciertos medicamentos para el Parkinson (consultar al médico).',
+    almacenamiento: 'Conservar a temperatura ambiente (≤25 °C), protegido de la luz.',
+    receta: false, registro: 'ISP AS-29.008/2019',
+  },
+  {
+    id: 12, cat: 'Vitaminas', name: 'Zinc + Vitamina C', sub: 'Frasco 30 gummies', price: 9990, badge: 'Nuevo', iconKey: 'activity_org', stars: 4.7,
+    principioActivo: 'Zinc (gluconato) 10 mg + Vitamina C (ácido ascórbico) 200 mg', formaFarm: 'Gummy masticable', via: 'Oral',
+    indicaciones: 'Refuerzo del sistema inmunitario. Apoyo antioxidante y en la cicatrización de heridas. Mantención de cabello, piel y uñas.',
+    posologia: '1 gummy al día. Masticar bien antes de tragar. No es un sustituto de una alimentación equilibrada.',
+    contraindicaciones: 'Hipersensibilidad a los componentes. No superar la dosis recomendada.',
+    advertencias: 'Contiene azúcares: los pacientes diabéticos deben consultar a su médico antes de usar. Mantener fuera del alcance de los niños.',
+    almacenamiento: 'Conservar a temperatura ambiente (≤25 °C), protegido de la luz y el calor.',
+    receta: false, registro: 'ISP AS-35.441/2023',
+  },
   // Bebé
-  { id: 13, cat: 'Bebé',           name: 'Paracetamol Pediátrico',    sub: 'Suspensión 100ml',         price: 4990,  badge: null,          iconKey: 'heart_rose',    stars: 4.9 },
-  { id: 14, cat: 'Bebé',           name: 'Crema Pañal Bepanthen',     sub: 'Tubo 100g',                price: 8990,  badge: 'Recomendado', iconKey: 'heart_rose',    stars: 4.9 },
-  { id: 15, cat: 'Bebé',           name: 'Suero Fisiológico',         sub: 'Unidosis 5ml · 20 unid.',  price: 5490,  badge: null,          iconKey: 'heart_rose',    stars: 4.7 },
+  {
+    id: 13, cat: 'Bebé', name: 'Paracetamol Pediátrico', sub: 'Suspensión 100ml', price: 4990, badge: null, iconKey: 'heart_rose', stars: 4.9,
+    principioActivo: 'Paracetamol 120 mg / 5 ml', formaFarm: 'Suspensión oral', via: 'Oral',
+    indicaciones: 'Tratamiento de la fiebre y el dolor leve a moderado en niños desde los 2 meses de edad.',
+    posologia: 'La dosis se calcula según el peso: 10–15 mg/kg cada 4–6 horas. Usar la jeringa dosificadora incluida. No exceder 5 dosis en 24 horas.',
+    contraindicaciones: 'Hipersensibilidad al paracetamol. Insuficiencia hepática grave.',
+    advertencias: 'No combinar con otros medicamentos que contengan paracetamol. Si la fiebre persiste más de 3 días, consultar al pediatra. Agitar antes de usar.',
+    almacenamiento: 'Conservar a temperatura ambiente (≤25 °C). Una vez abierto, consumir en 30 días.',
+    receta: false, registro: 'ISP F-22.789/2020',
+  },
+  {
+    id: 14, cat: 'Bebé', name: 'Crema Pañal Bepanthen', sub: 'Tubo 100g', price: 8990, badge: 'Recomendado', iconKey: 'heart_rose', stars: 4.9,
+    principioActivo: 'Dexpantenol 5% (equivale a 5 g de provitamina B5 por 100 g)', formaFarm: 'Crema tópica', via: 'Tópica',
+    indicaciones: 'Prevención y tratamiento de la dermatitis del pañal. Protege, calma e hidrata la piel sensible del bebé.',
+    posologia: 'Aplicar en cada cambio de pañal sobre la piel limpia y seca. Cubrir bien toda la zona de contacto.',
+    contraindicaciones: 'Hipersensibilidad al dexpantenol o a alguno de los componentes.',
+    advertencias: 'Solo para uso externo. Evitar el contacto con los ojos. Si la irritación persiste o hay signos de infección, consultar al médico.',
+    almacenamiento: 'Conservar a temperatura ambiente (≤25 °C).',
+    receta: false, registro: 'ISP CS-04.567/2018',
+  },
+  {
+    id: 15, cat: 'Bebé', name: 'Suero Fisiológico', sub: 'Unidosis 5ml · 20 unid.', price: 5490, badge: null, iconKey: 'heart_rose', stars: 4.7,
+    principioActivo: 'Cloruro de sodio 9 mg/ml (solución isotónica 0,9%)', formaFarm: 'Solución para inhalación/lavado nasal', via: 'Nasal / inhalatoria',
+    indicaciones: 'Higiene y desobstrucción nasal en bebés y niños. Humectación de mucosas nasales. Compatible con nebulizadores.',
+    posologia: 'Lactantes: 1–2 gotas por fosa nasal 3–4 veces al día. Niños: aplicar unidosis completa en cada fosa nasal según necesidad.',
+    contraindicaciones: 'Sin contraindicaciones conocidas para la formulación isotónica al 0,9%.',
+    advertencias: 'Para uso único. No reutilizar la ampolla una vez abierta. Verificar que la temperatura sea agradable antes de aplicar en bebés.',
+    almacenamiento: 'Conservar a temperatura ambiente (≤25 °C), protegido de la luz.',
+    receta: false, registro: 'ISP F-10.004/2017',
+  },
   // Higiene
-  { id: 16, cat: 'Higiene',        name: 'Alcohol Gel 500ml',         sub: 'Con hidratante',           price: 3290,  badge: null,          iconKey: 'drops_cyan',    stars: 4.4 },
-  { id: 17, cat: 'Higiene',        name: 'Mascarillas KN95',          sub: 'Caja 10 unidades',         price: 4990,  badge: null,          iconKey: 'shield_slate',  stars: 4.5 },
-  { id: 18, cat: 'Higiene',        name: 'Termómetro Digital',        sub: 'Lectura en 10 segundos',   price: 14990, badge: 'Oferta',      iconKey: 'thermo_red',    stars: 4.8 },
+  {
+    id: 16, cat: 'Higiene', name: 'Alcohol Gel 500ml', sub: 'Con hidratante', price: 3290, badge: null, iconKey: 'drops_cyan', stars: 4.4,
+    principioActivo: 'Etanol 70% v/v + Glicerina 1.45% + Peróxido de hidrógeno 0.125%', formaFarm: 'Gel para uso tópico', via: 'Tópica (manos)',
+    indicaciones: 'Desinfección higiénica de manos sin agua. Reduce la carga microbiana en situaciones donde no es posible el lavado con agua y jabón.',
+    posologia: 'Aplicar una cantidad suficiente (3–5 ml) en la palma de la mano seca. Frotar durante al menos 20–30 segundos hasta secado completo.',
+    contraindicaciones: 'No usar sobre heridas abiertas ni piel lesionada. No ingerir.',
+    advertencias: 'Inflamable: mantener alejado de llamas y fuentes de calor. Para uso externo exclusivo. Mantener fuera del alcance de los niños.',
+    almacenamiento: 'Conservar a temperatura ambiente (≤25 °C), alejado de fuentes de calor y llamas.',
+    receta: false, registro: 'ISP DS-44.321/2020',
+  },
+  {
+    id: 17, cat: 'Higiene', name: 'Mascarillas KN95', sub: 'Caja 10 unidades', price: 4990, badge: null, iconKey: 'shield_slate', stars: 4.5,
+    principioActivo: 'N/A — Dispositivo de protección respiratoria', formaFarm: 'Mascarilla de filtración', via: 'Uso respiratorio',
+    indicaciones: 'Protección respiratoria contra partículas y aerosoles. Filtración ≥95% de partículas no aceitosas ≥0.3 µm. Certificada KN95.',
+    posologia: 'Ajustar el clip nasal y asegurarse de que el sello sea hermético alrededor del rostro. No reutilizar más de 8 horas de uso continuo.',
+    contraindicaciones: 'No recomendada para niños menores de 2 años. Usar con precaución en personas con enfermedades respiratorias crónicas graves.',
+    advertencias: 'No es sustituto de la vacunación ni de otras medidas de prevención. Desechar si está húmeda, contaminada o dañada.',
+    almacenamiento: 'Conservar en lugar limpio y seco, en su envase original.',
+    receta: false, registro: 'ISP DS-52.114/2021',
+  },
+  {
+    id: 18, cat: 'Higiene', name: 'Termómetro Digital', sub: 'Lectura en 10 segundos', price: 14990, badge: 'Oferta', iconKey: 'thermo_red', stars: 4.8,
+    principioActivo: 'N/A — Dispositivo médico de diagnóstico', formaFarm: 'Termómetro electrónico', via: 'Axilar / oral / rectal',
+    indicaciones: 'Medición precisa de la temperatura corporal en niños y adultos. Alarma de fiebre automática. Memoria del último registro.',
+    posologia: 'Axilar: colocar bajo la axila seca durante 10 segundos. Oral: bajo la lengua con boca cerrada. Lavar el sensor después de cada uso.',
+    contraindicaciones: 'No usar en la boca de personas inconscientes o con problemas de coordinación.',
+    advertencias: 'No sumergir en agua. Cambiar la pila cuando la indicación de batería aparezca en pantalla. Limpiar con paño húmedo con alcohol.',
+    almacenamiento: 'Conservar a temperatura ambiente (≤30 °C). Proteger de golpes y caídas.',
+    receta: false, registro: 'ISP DM-07.892/2022',
+  },
 ]
 
 const CATS = ['Todos', 'OTC', 'Dermocosmética', 'Vitaminas', 'Bebé', 'Higiene']
@@ -133,6 +295,8 @@ export default function DemoFarmacia() {
   const [payStatus] = useState(() => new URLSearchParams(window.location.search).get('status'))
   const [step, setStep] = useState('cart')
   const [form, setForm] = useState({ nombre: '', email: '', telefono: '', entrega: 'delivery', direccion: '', notas: '' })
+  const [selectedProduct, setSelectedProduct] = useState(null)
+  const [detailTab, setDetailTab] = useState('descripcion')
 
   const filtered = useMemo(() =>
     PRODUCTS.filter(p =>
@@ -380,15 +544,15 @@ export default function DemoFarmacia() {
         <div className="grid md:grid-cols-3 gap-4">
           {/* Slot 1 */}
           <div className="rounded-2xl overflow-hidden flex flex-col" style={{ border: `2px dashed ${BRAND.border}` }}>
-            <div className="h-28 flex items-center justify-center" style={{ background: '#FEF9C3' }}>
-              <div className="text-center">
-                <p className="text-3xl font-black" style={{ color: '#854D0E' }}>20% OFF</p>
-                <p className="text-xs font-bold" style={{ color: '#92400E' }}>Vitaminas & Suplementos</p>
-              </div>
+            <div className="py-5 px-4 flex flex-col items-center justify-center text-center" style={{ background: '#FEF9C3' }}>
+              <span className="text-[10px] font-bold px-2.5 py-1 rounded-full mb-2" style={{ background: '#FDE68A', color: '#92400E' }}>-20% OFF</span>
+              <p className="text-2xl font-black" style={{ color: '#854D0E' }}>Omega 3 · $10.392</p>
+              <p className="text-sm line-through mt-0.5" style={{ color: '#92400E' }}>antes $12.990</p>
+              <p className="text-[11px] font-bold mt-1" style={{ color: '#92400E' }}>Vitaminas & Suplementos</p>
             </div>
             <div className="p-4 flex-1" style={{ background: '#FFFBEB' }}>
               <p className="font-bold text-sm mb-1" style={{ color: BRAND.black }}>Semana de la salud</p>
-              <p className="text-xs mb-3" style={{ color: BRAND.gray }}>Descuento en toda la línea de vitaminas. Válido hasta el domingo.</p>
+              <p className="text-xs mb-3" style={{ color: BRAND.gray }}>20% descuento en toda la línea de vitaminas. Válido hasta el domingo.</p>
               <button onClick={() => setCat('Vitaminas')} className="text-xs font-bold hover:opacity-70" style={{ color: '#D97706' }}>
                 Ver vitaminas →
               </button>
@@ -396,11 +560,11 @@ export default function DemoFarmacia() {
           </div>
           {/* Slot 2 */}
           <div className="rounded-2xl overflow-hidden flex flex-col" style={{ border: `2px dashed ${BRAND.border}` }}>
-            <div className="h-28 flex items-center justify-center" style={{ background: BRAND.mid }}>
-              <div className="text-center">
-                <p className="text-3xl font-black" style={{ color: BRAND.dark }}>2×1</p>
-                <p className="text-xs font-bold" style={{ color: BRAND.dark }}>Productos de Higiene</p>
-              </div>
+            <div className="py-5 px-4 flex flex-col items-center justify-center text-center" style={{ background: BRAND.mid }}>
+              <span className="text-[10px] font-bold px-2.5 py-1 rounded-full mb-2" style={{ background: BRAND.light, color: BRAND.dark }}>2×1</span>
+              <p className="text-2xl font-black" style={{ color: BRAND.dark }}>Alcohol Gel $3.290</p>
+              <p className="text-sm line-through mt-0.5" style={{ color: BRAND.dark }}>pagas 1, llevas 2</p>
+              <p className="text-[11px] font-bold mt-1" style={{ color: BRAND.dark }}>Higiene & Protección</p>
             </div>
             <div className="p-4 flex-1" style={{ background: BRAND.light }}>
               <p className="font-bold text-sm mb-1" style={{ color: BRAND.black }}>Lleva 2, paga 1</p>
@@ -499,8 +663,9 @@ export default function DemoFarmacia() {
             {filtered.map(p => (
               <div
                 key={p.id}
-                className="bg-white rounded-2xl overflow-hidden flex flex-col transition-shadow hover:shadow-md"
+                className="bg-white rounded-2xl overflow-hidden flex flex-col transition-shadow hover:shadow-md cursor-pointer"
                 style={{ border: `1px solid ${BRAND.border}` }}
+                onClick={() => { setSelectedProduct(p); setDetailTab('descripcion') }}
               >
                 {/* Icon area */}
                 <ProductIcon iconKey={p.iconKey} />
@@ -531,9 +696,10 @@ export default function DemoFarmacia() {
                     <div
                       className="flex items-center justify-between rounded-xl overflow-hidden mt-auto"
                       style={{ border: `1.5px solid ${BRAND.green}` }}
+                      onClick={e => e.stopPropagation()}
                     >
                       <button
-                        onClick={() => remove(p.id)}
+                        onClick={e => { e.stopPropagation(); remove(p.id) }}
                         className="px-3 py-2.5 transition-colors hover:opacity-70 flex items-center justify-center"
                         style={{ color: BRAND.green }}
                       >
@@ -543,7 +709,7 @@ export default function DemoFarmacia() {
                         {cart[p.id]}
                       </span>
                       <button
-                        onClick={() => add(p.id)}
+                        onClick={e => { e.stopPropagation(); add(p.id) }}
                         className="px-3 py-2.5 transition-colors hover:opacity-70 flex items-center justify-center"
                         style={{ color: BRAND.green }}
                       >
@@ -551,16 +717,16 @@ export default function DemoFarmacia() {
                       </button>
                     </div>
                   ) : (
-                    <div className="flex flex-col gap-2 mt-auto">
+                    <div className="flex flex-col gap-2 mt-auto" onClick={e => e.stopPropagation()}>
                       <button
-                        onClick={() => { add(p.id); setCartOpen(true) }}
+                        onClick={e => { e.stopPropagation(); add(p.id); setCartOpen(true) }}
                         className="w-full py-2.5 rounded-xl text-xs font-bold transition-opacity hover:opacity-90"
                         style={{ background: BRAND.green, color: '#fff' }}
                       >
                         Comprar ahora
                       </button>
                       <button
-                        onClick={() => add(p.id)}
+                        onClick={e => { e.stopPropagation(); add(p.id) }}
                         className="w-full py-2.5 rounded-xl text-xs font-bold transition-opacity hover:opacity-80"
                         style={{ border: `1.5px solid ${BRAND.green}`, color: BRAND.green, background: 'transparent' }}
                       >
@@ -657,6 +823,179 @@ export default function DemoFarmacia() {
           </a>
         </div>
       </footer>
+
+      {/* ── Product Detail Overlay ── */}
+      {selectedProduct && (() => {
+        const p = selectedProduct
+        const cfg = ICON_MAP[p.iconKey] || { icon: Package, color: BRAND.green, bg: BRAND.light }
+        const IconComp = cfg.icon
+        const tabs = [
+          { id: 'descripcion', label: 'Descripción' },
+          { id: 'composicion', label: 'Composición' },
+          { id: 'uso',         label: 'Cómo usarlo' },
+          { id: 'precauciones',label: 'Precauciones' },
+        ]
+        return (
+          <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4" style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)' }}>
+            <div
+              className="w-full sm:max-w-2xl bg-white rounded-t-3xl sm:rounded-3xl overflow-hidden flex flex-col shadow-2xl"
+              style={{ maxHeight: '92vh' }}
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between px-5 py-4 shrink-0" style={{ borderBottom: `1px solid ${BRAND.border}` }}>
+                <p className="text-xs font-bold uppercase tracking-widest" style={{ color: BRAND.gray }}>Detalle del producto</p>
+                <button
+                  onClick={() => setSelectedProduct(null)}
+                  className="p-1.5 rounded-xl hover:bg-gray-100 transition-colors"
+                >
+                  <X size={18} style={{ color: BRAND.gray }} />
+                </button>
+              </div>
+
+              {/* Scrollable body */}
+              <div className="overflow-y-auto flex-1">
+                {/* Product hero */}
+                <div className="flex gap-5 p-5 items-start" style={{ background: cfg.bg }}>
+                  <div
+                    className="w-24 h-24 rounded-2xl flex items-center justify-center shrink-0"
+                    style={{ background: cfg.color + '18' }}
+                  >
+                    <IconComp size={44} color={cfg.color} strokeWidth={1.5} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    {p.badge && (
+                      <div className="mb-1.5">
+                        <BadgeChip text={p.badge} />
+                      </div>
+                    )}
+                    <h2 className="font-black text-lg leading-tight mb-0.5" style={{ color: BRAND.black }}>{p.name}</h2>
+                    <p className="text-sm mb-2" style={{ color: BRAND.gray }}>{p.sub}</p>
+                    <Stars n={p.stars} />
+                    <div className="flex items-center gap-2 mt-2">
+                      {p.receta ? (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: '#FEE2E2', color: '#991B1B' }}>Requiere receta médica</span>
+                      ) : (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: BRAND.mid, color: BRAND.dark }}>Venta directa</span>
+                      )}
+                    </div>
+                    <p className="text-[10px] mt-1.5" style={{ color: BRAND.gray }}>{p.registro}</p>
+                  </div>
+                </div>
+
+                {/* Price + add to cart */}
+                <div className="px-5 py-4 flex items-center justify-between gap-4" style={{ borderBottom: `1px solid ${BRAND.border}` }}>
+                  <p className="text-3xl font-black" style={{ color: BRAND.green }}>{fmt(p.price)}</p>
+                  {cart[p.id] ? (
+                    <div className="flex items-center gap-3 rounded-xl overflow-hidden" style={{ border: `1.5px solid ${BRAND.green}` }}>
+                      <button onClick={() => remove(p.id)} className="px-4 py-2 font-bold hover:opacity-70" style={{ color: BRAND.green }}><Minus size={15} /></button>
+                      <span className="font-black text-base w-5 text-center" style={{ color: BRAND.dark }}>{cart[p.id]}</span>
+                      <button onClick={() => add(p.id)} className="px-4 py-2 font-bold hover:opacity-70" style={{ color: BRAND.green }}><Plus size={15} /></button>
+                    </div>
+                  ) : (
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => { add(p.id); setCartOpen(true); setSelectedProduct(null) }}
+                        className="px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-opacity hover:opacity-90"
+                        style={{ background: BRAND.green }}
+                      >
+                        Comprar ahora
+                      </button>
+                      <button
+                        onClick={() => add(p.id)}
+                        className="px-4 py-2.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-80"
+                        style={{ border: `1.5px solid ${BRAND.green}`, color: BRAND.green }}
+                      >
+                        + Carro
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Tabs */}
+                <div className="flex border-b" style={{ borderColor: BRAND.border }}>
+                  {tabs.map(t => (
+                    <button
+                      key={t.id}
+                      onClick={() => setDetailTab(t.id)}
+                      className="flex-1 py-3 text-xs font-bold transition-all"
+                      style={detailTab === t.id
+                        ? { color: BRAND.green, borderBottom: `2px solid ${BRAND.green}` }
+                        : { color: BRAND.gray }}
+                    >
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Tab content */}
+                <div className="p-5 space-y-4 text-sm" style={{ color: BRAND.black }}>
+                  {detailTab === 'descripcion' && (
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: BRAND.gray }}>Indicaciones</p>
+                        <p className="leading-relaxed" style={{ color: '#374151' }}>{p.indicaciones}</p>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3 pt-2">
+                        <div className="rounded-xl p-3" style={{ background: BRAND.light }}>
+                          <p className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: BRAND.dark }}>Forma farmacéutica</p>
+                          <p className="text-xs font-semibold">{p.formaFarm}</p>
+                        </div>
+                        <div className="rounded-xl p-3" style={{ background: BRAND.light }}>
+                          <p className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: BRAND.dark }}>Vía de administración</p>
+                          <p className="text-xs font-semibold">{p.via}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {detailTab === 'composicion' && (
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-widest mb-2" style={{ color: BRAND.gray }}>Principio activo</p>
+                      <div className="rounded-xl p-4" style={{ background: '#F9FAFB', border: `1px solid ${BRAND.border}` }}>
+                        <p className="leading-relaxed font-medium">{p.principioActivo}</p>
+                      </div>
+                      <p className="text-xs mt-3" style={{ color: BRAND.gray }}>
+                        Para la lista completa de excipientes, consulte el prospecto incluido en el envase o consúltenos.
+                      </p>
+                    </div>
+                  )}
+                  {detailTab === 'uso' && (
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-widest mb-2" style={{ color: BRAND.gray }}>Posología y forma de administración</p>
+                      <div className="rounded-xl p-4" style={{ background: '#F0FDF4', border: `1px solid ${BRAND.mid}` }}>
+                        <p className="leading-relaxed" style={{ color: '#14532D' }}>{p.posologia}</p>
+                      </div>
+                      <p className="text-xs mt-3 flex items-start gap-1.5" style={{ color: BRAND.gray }}>
+                        <Shield size={13} style={{ flexShrink: 0, marginTop: 1, color: BRAND.green }} />
+                        Consulte siempre a su médico o farmacéutico si tiene dudas sobre el tratamiento.
+                      </p>
+                    </div>
+                  )}
+                  {detailTab === 'precauciones' && (
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-[11px] font-bold uppercase tracking-widest mb-2" style={{ color: '#991B1B' }}>Contraindicaciones</p>
+                        <div className="rounded-xl p-3" style={{ background: '#FEF2F2', border: '1px solid #FECACA' }}>
+                          <p className="text-sm leading-relaxed" style={{ color: '#7F1D1D' }}>{p.contraindicaciones}</p>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-bold uppercase tracking-widest mb-2" style={{ color: '#92400E' }}>Advertencias</p>
+                        <div className="rounded-xl p-3" style={{ background: '#FFFBEB', border: '1px solid #FDE68A' }}>
+                          <p className="text-sm leading-relaxed" style={{ color: '#78350F' }}>{p.advertencias}</p>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-bold uppercase tracking-widest mb-2" style={{ color: BRAND.gray }}>Almacenamiento</p>
+                        <p className="text-sm leading-relaxed">{p.almacenamiento}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
 
       {/* Cart Drawer */}
       {cartOpen && (

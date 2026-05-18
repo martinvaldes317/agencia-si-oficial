@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import {
   MapPin, Clock, Phone, MessageCircle, ArrowRight, Star, Plus, Minus, X,
   ShoppingBag, Truck, UtensilsCrossed, Wine, ChefHat, Instagram, CheckCircle,
-  CreditCard
+  CreditCard, Search
 } from 'lucide-react'
 
 const B = {
@@ -78,8 +78,13 @@ export default function DemoRestaurante() {
   const [payStatus]           = useState(() => new URLSearchParams(window.location.search).get('status'))
   const [step, setStep]       = useState('cart') // 'cart' | 'form'
   const [form, setForm]       = useState({ nombre: '', email: '', telefono: '', direccion: '', notas: '' })
+  const [menuSearch, setMenuSearch] = useState('')
 
-  const filtered   = useMemo(() => MENU.filter(p => cat === 'Todo' || p.cat === cat), [cat])
+  const filtered   = useMemo(() =>
+    MENU.filter(p =>
+      (cat === 'Todo' || p.cat === cat) &&
+      (menuSearch === '' || p.name.toLowerCase().includes(menuSearch.toLowerCase()))
+    ), [cat, menuSearch])
   const totalItems = Object.values(cart).reduce((a, b) => a + b, 0)
   const totalPrice = MENU.reduce((acc, p) => acc + (cart[p.id] || 0) * p.precio, 0)
 
@@ -280,6 +285,27 @@ export default function DemoRestaurante() {
             Menú del día
           </h2>
 
+          {/* Search bar */}
+          <div className="relative max-w-md mx-auto mb-6">
+            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: B.gray }} />
+            <input
+              value={menuSearch}
+              onChange={e => setMenuSearch(e.target.value)}
+              placeholder="Buscar en el menú…"
+              className="w-full pl-10 pr-4 py-3 rounded-xl text-sm outline-none transition-all"
+              style={{
+                background: '#fff',
+                border: `1.5px solid ${menuSearch ? B.red : B.border}`,
+                fontFamily: "'Inter', sans-serif",
+              }}
+            />
+            {menuSearch && (
+              <button onClick={() => setMenuSearch('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 p-0.5 rounded-full hover:bg-gray-100">
+                <X size={14} style={{ color: B.gray }} />
+              </button>
+            )}
+          </div>
+
           {/* Category pills */}
           <div className="flex gap-2 overflow-x-auto pb-2 mb-8 justify-start md:justify-center">
             {CATS.map(c => (
@@ -295,6 +321,13 @@ export default function DemoRestaurante() {
             ))}
           </div>
 
+          {filtered.length === 0 && (
+            <div className="text-center py-20" style={{ color: B.gray }}>
+              <Search size={36} style={{ margin: '0 auto 12px', opacity: 0.3 }} />
+              <p className="font-semibold text-base mb-1" style={{ color: B.black }}>No encontramos &ldquo;{menuSearch}&rdquo;</p>
+              <p className="text-sm">Prueba con otro término o <button onClick={() => setMenuSearch('')} className="font-bold underline" style={{ color: B.red }}>ver todo el menú</button></p>
+            </div>
+          )}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.map(p => (
               <div key={p.id}
@@ -403,7 +436,10 @@ export default function DemoRestaurante() {
                 <p className="font-black text-base mb-1" style={{ color: B.black, fontFamily: "'Lora', serif" }}>Cena para 2 + vino</p>
                 <p className="text-xs mb-3" style={{ color: B.gray }}>Dos platos a elección del menú + botella de vino de la casa. Reserva requerida.</p>
                 <div className="flex items-center justify-between">
-                  <p className="font-black text-lg" style={{ color: B.red }}>$39.900</p>
+                  <div>
+                    <p className="font-black text-lg" style={{ color: B.red }}>$39.900</p>
+                    <p className="text-xs line-through" style={{ color: B.gray }}>$55.980</p>
+                  </div>
                   <a href="#reservas" className="text-xs font-bold hover:opacity-70" style={{ color: B.orange }}>Reservar →</a>
                 </div>
               </div>
