@@ -447,13 +447,22 @@ export default function DemoFarmacia() {
                       </button>
                     </div>
                   ) : (
-                    <button
-                      onClick={() => add(p.id)}
-                      className="w-full py-2.5 rounded-xl text-xs font-bold mt-auto transition-opacity hover:opacity-85"
-                      style={{ background: BRAND.green, color: '#fff' }}
-                    >
-                      Agregar al carro
-                    </button>
+                    <div className="flex flex-col gap-2 mt-auto">
+                      <button
+                        onClick={() => { add(p.id); setCartOpen(true) }}
+                        className="w-full py-2.5 rounded-xl text-xs font-bold transition-opacity hover:opacity-90"
+                        style={{ background: BRAND.green, color: '#fff' }}
+                      >
+                        Comprar ahora
+                      </button>
+                      <button
+                        onClick={() => add(p.id)}
+                        className="w-full py-2.5 rounded-xl text-xs font-bold transition-opacity hover:opacity-80"
+                        style={{ border: `1.5px solid ${BRAND.green}`, color: BRAND.green, background: 'transparent' }}
+                      >
+                        Agregar al carro
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
