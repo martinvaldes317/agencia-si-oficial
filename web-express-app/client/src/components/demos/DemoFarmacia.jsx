@@ -57,7 +57,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP F-18.456/2020',
   },
   {
-    id: 3, cat: 'OTC', name: 'Vitamina C 1000mg', sub: 'Frasco 30 cápsulas', price: 6990, badge: 'Oferta', iconKey: 'leaf_green', stars: 4.9,
+    id: 3, cat: 'OTC', name: 'Vitamina C 1000mg', sub: 'Frasco 30 cápsulas', price: 6990, priceOrig: 8990, badge: 'Oferta', iconKey: 'leaf_green', stars: 4.9,
     principioActivo: 'Ácido ascórbico 1.000 mg', formaFarm: 'Cápsula de gelatina dura', via: 'Oral',
     indicaciones: 'Suplementación de vitamina C. Apoyo al sistema inmune, síntesis de colágeno y protección antioxidante.',
     posologia: '1 cápsula al día, preferentemente con alimentos. No exceder 2.000 mg diarios sin indicación médica.',
@@ -98,7 +98,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP CS-08.341/2020',
   },
   {
-    id: 7, cat: 'Dermocosmética', name: 'Shampoo Anticaída', sub: 'Frasco 400ml', price: 9990, badge: 'Oferta', iconKey: 'wind_blue', stars: 4.4,
+    id: 7, cat: 'Dermocosmética', name: 'Shampoo Anticaída', sub: 'Frasco 400ml', price: 9990, priceOrig: 12490, badge: 'Oferta', iconKey: 'wind_blue', stars: 4.4,
     principioActivo: 'Biotina 0.2% + Arginina 2% + Queratina hidrolizada 1%', formaFarm: 'Champú líquido', via: 'Tópica capilar',
     indicaciones: 'Tratamiento de la caída del cabello de causa no hormonal. Fortalece la fibra capilar y estimula el cuero cabelludo.',
     posologia: 'Aplicar sobre cabello húmedo, masajear durante 2–3 minutos y enjuagar. Usar 3–4 veces por semana para mejores resultados.',
@@ -119,7 +119,7 @@ const PRODUCTS = [
   },
   // Vitaminas
   {
-    id: 9, cat: 'Vitaminas', name: 'Omega 3 · 1000mg', sub: 'Frasco 60 cápsulas', price: 12990, badge: 'Más vendido', iconKey: 'fish_teal', stars: 4.8,
+    id: 9, cat: 'Vitaminas', name: 'Omega 3 · 1000mg', sub: 'Frasco 60 cápsulas', price: 10392, priceOrig: 12990, badge: 'Más vendido', iconKey: 'fish_teal', stars: 4.8,
     principioActivo: 'EPA 180 mg + DHA 120 mg por cápsula (aceite de pescado 1.000 mg)', formaFarm: 'Cápsula blanda de gelatina', via: 'Oral',
     indicaciones: 'Suplementación de ácidos grasos omega-3. Apoyo a la salud cardiovascular, función cerebral y control de triglicéridos.',
     posologia: '1–2 cápsulas al día, preferentemente durante las comidas. No exceder 3 g/día sin indicación médica.',
@@ -211,7 +211,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP DS-52.114/2021',
   },
   {
-    id: 18, cat: 'Higiene', name: 'Termómetro Digital', sub: 'Lectura en 10 segundos', price: 14990, badge: 'Oferta', iconKey: 'thermo_red', stars: 4.8,
+    id: 18, cat: 'Higiene', name: 'Termómetro Digital', sub: 'Lectura en 10 segundos', price: 11990, priceOrig: 14990, badge: 'Oferta', iconKey: 'thermo_red', stars: 4.8,
     principioActivo: 'N/A — Dispositivo médico de diagnóstico', formaFarm: 'Termómetro electrónico', via: 'Axilar / oral / rectal',
     indicaciones: 'Medición precisa de la temperatura corporal en niños y adultos. Alarma de fiebre automática. Memoria del último registro.',
     posologia: 'Axilar: colocar bajo la axila seca durante 10 segundos. Oral: bajo la lengua con boca cerrada. Lavar el sensor después de cada uso.',
@@ -688,9 +688,17 @@ export default function DemoFarmacia() {
 
                   <Stars n={p.stars} />
 
-                  <p className="text-xl font-black mt-3 mb-4" style={{ color: BRAND.green }}>
-                    {fmt(p.price)}
-                  </p>
+                  <div className="mt-3 mb-4">
+                    {p.priceOrig && (
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-xs line-through" style={{ color: BRAND.gray }}>{fmt(p.priceOrig)}</span>
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: '#FEE2E2', color: '#991B1B' }}>
+                          -{Math.round((1 - p.price / p.priceOrig) * 100)}%
+                        </span>
+                      </div>
+                    )}
+                    <p className="text-xl font-black" style={{ color: BRAND.green }}>{fmt(p.price)}</p>
+                  </div>
 
                   {cart[p.id] ? (
                     <div
@@ -884,7 +892,17 @@ export default function DemoFarmacia() {
 
                 {/* Price + add to cart */}
                 <div className="px-5 py-4 flex items-center justify-between gap-4" style={{ borderBottom: `1px solid ${BRAND.border}` }}>
-                  <p className="text-3xl font-black" style={{ color: BRAND.green }}>{fmt(p.price)}</p>
+                  <div>
+                    {p.priceOrig && (
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-sm line-through" style={{ color: BRAND.gray }}>{fmt(p.priceOrig)}</span>
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: '#FEE2E2', color: '#991B1B' }}>
+                          -{Math.round((1 - p.price / p.priceOrig) * 100)}%
+                        </span>
+                      </div>
+                    )}
+                    <p className="text-3xl font-black" style={{ color: BRAND.green }}>{fmt(p.price)}</p>
+                  </div>
                   {cart[p.id] ? (
                     <div className="flex items-center gap-3 rounded-xl overflow-hidden" style={{ border: `1.5px solid ${BRAND.green}` }}>
                       <button onClick={() => remove(p.id)} className="px-4 py-2 font-bold hover:opacity-70" style={{ color: BRAND.green }}><Minus size={15} /></button>
