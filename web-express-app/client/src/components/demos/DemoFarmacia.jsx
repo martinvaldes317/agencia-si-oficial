@@ -352,31 +352,67 @@ export default function DemoFarmacia() {
         </div>
       </div>
 
-      {/* Category pills */}
-      <div
-        className="sticky top-[57px] z-30 bg-white px-4 py-3"
-        style={{ borderBottom: `1px solid ${BRAND.border}` }}
-      >
-        <div className="max-w-6xl mx-auto flex gap-2 overflow-x-auto scrollbar-hide">
+      {/* Layout: sidebar + products */}
+      <div className="max-w-6xl mx-auto px-4 py-8 flex gap-6 items-start">
+
+        {/* ── Vertical category sidebar ── */}
+        <aside className="hidden md:flex flex-col w-52 shrink-0 sticky top-[73px]">
+          <p className="text-[11px] font-bold uppercase tracking-widest mb-3 px-3" style={{ color: BRAND.gray }}>
+            Categorías
+          </p>
+          {CATS.map(name => {
+            const iconMap = { 'Todos': Package, 'OTC': Pill, 'Dermocosmética': Sparkles, 'Vitaminas': Leaf, 'Bebé': Heart, 'Higiene': Droplets }
+            const SideIcon = iconMap[name] || Package
+            const count = name === 'Todos' ? PRODUCTS.length : PRODUCTS.filter(p => p.cat === name).length
+            const active = cat === name
+            return (
+              <button
+                key={name}
+                onClick={() => setCat(name)}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-left transition-all hover:opacity-90 mb-0.5"
+                style={active
+                  ? { background: BRAND.green, color: '#fff' }
+                  : { color: BRAND.gray, background: 'transparent' }}
+              >
+                <span
+                  className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                  style={{ background: active ? 'rgba(255,255,255,0.2)' : '#F3F4F6' }}
+                >
+                  <SideIcon size={14} color={active ? '#fff' : BRAND.gray} />
+                </span>
+                <span className="flex-1">{name}</span>
+                <span
+                  className="text-[11px] font-bold px-1.5 py-0.5 rounded-full"
+                  style={{
+                    background: active ? 'rgba(255,255,255,0.25)' : '#F3F4F6',
+                    color: active ? '#fff' : BRAND.gray,
+                  }}
+                >
+                  {count}
+                </span>
+              </button>
+            )
+          })}
+        </aside>
+
+        {/* ── Mobile horizontal pills (small screens only) ── */}
+        <div className="md:hidden w-full flex gap-2 overflow-x-auto pb-1 mb-4">
           {CATS.map(c => (
             <button
               key={c}
               onClick={() => setCat(c)}
               className="shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all"
-              style={
-                cat === c
-                  ? { background: BRAND.green, color: '#fff' }
-                  : { background: '#F3F4F6', color: BRAND.gray }
-              }
+              style={cat === c
+                ? { background: BRAND.green, color: '#fff' }
+                : { background: '#F3F4F6', color: BRAND.gray }}
             >
               {c}
             </button>
           ))}
         </div>
-      </div>
 
-      {/* Product grid */}
-      <main className="max-w-6xl mx-auto px-4 py-8">
+        {/* ── Product grid ── */}
+        <main className="flex-1 min-w-0">
         {filtered.length === 0 ? (
           <div className="text-center py-24" style={{ color: BRAND.gray }}>
             <div
@@ -391,7 +427,7 @@ export default function DemoFarmacia() {
             <p className="text-sm">Intenta con otro término o contáctanos por WhatsApp</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.map(p => (
               <div
                 key={p.id}
@@ -469,7 +505,8 @@ export default function DemoFarmacia() {
             ))}
           </div>
         )}
-      </main>
+        </main>
+      </div>
 
       {/* Footer */}
       <footer className="mt-16 py-12 px-4" style={{ background: BRAND.dark, color: '#fff' }}>
