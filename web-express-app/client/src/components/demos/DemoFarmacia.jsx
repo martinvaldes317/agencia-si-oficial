@@ -298,6 +298,27 @@ function CartProductIcon({ iconKey }) {
   )
 }
 
+function getFarmaciaStatus() {
+  const now = new Date()
+  const day = now.getDay()
+  const mins = now.getHours() * 60 + now.getMinutes()
+  const schedule = [
+    { open: 10 * 60,       close: 18 * 60 }, // Dom
+    { open: 8 * 60 + 30,   close: 21 * 60 }, // Lun
+    { open: 8 * 60 + 30,   close: 21 * 60 }, // Mar
+    { open: 8 * 60 + 30,   close: 21 * 60 }, // Mié
+    { open: 8 * 60 + 30,   close: 21 * 60 }, // Jue
+    { open: 8 * 60 + 30,   close: 21 * 60 }, // Vie
+    { open: 9 * 60,        close: 20 * 60 }, // Sáb
+  ]
+  const s = schedule[day]
+  const fmt = m => `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`
+  if (mins >= s.open && mins < s.close) return { isOpen: true, detail: `Cierra a las ${fmt(s.close)}` }
+  if (mins < s.open) return { isOpen: false, detail: `Abre hoy a las ${fmt(s.open)}` }
+  const next = schedule[(day + 1) % 7]
+  return { isOpen: false, detail: `Abre mañana a las ${fmt(next.open)}` }
+}
+
 export default function DemoFarmacia() {
   const [cat, setCat] = useState('Todos')
   const [search, setSearch] = useState('')
@@ -310,6 +331,7 @@ export default function DemoFarmacia() {
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [detailTab, setDetailTab] = useState('descripcion')
   const [searchOpen, setSearchOpen] = useState(false)
+  const [status] = useState(getFarmaciaStatus)
 
   const filtered = PRODUCTS.filter(p =>
     (cat === 'Todos' || p.cat === cat) &&
@@ -410,6 +432,13 @@ export default function DemoFarmacia() {
             <Clock size={12} />
             Lun–Sáb 8:30–21:00 · Dom 9:00–19:00
           </span>
+          <span className="flex items-center gap-1.5 font-semibold" style={{ color: status.isOpen ? BRAND.green : '#DC2626' }}>
+            <span className="relative flex h-2 w-2">
+              {status.isOpen && <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-50" style={{ background: BRAND.green }} />}
+              <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: status.isOpen ? BRAND.green : '#DC2626' }} />
+            </span>
+            {status.isOpen ? 'Abierto' : 'Cerrado'} · {status.detail}
+          </span>
         </div>
         <a
           href={WA}
@@ -432,6 +461,15 @@ export default function DemoFarmacia() {
             <div>
               <p className="font-black text-sm leading-tight" style={{ color: BRAND.dark }}>Farmacia</p>
               <p className="font-black text-sm leading-tight" style={{ color: BRAND.green }}>Santa Clara</p>
+            </div>
+            <div className="flex items-center gap-1 ml-1">
+              <span className="relative flex h-2 w-2">
+                {status.isOpen && <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-50" style={{ background: BRAND.green }} />}
+                <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: status.isOpen ? BRAND.green : '#DC2626' }} />
+              </span>
+              <span className="text-[10px] font-bold hidden sm:block" style={{ color: status.isOpen ? BRAND.green : '#DC2626' }}>
+                {status.isOpen ? 'Abierto' : 'Cerrado'}
+              </span>
             </div>
           </div>
 
