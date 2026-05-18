@@ -23,6 +23,7 @@ import PortalCalendar from './components/portal/PortalCalendar'
 import PortalFiles from './components/portal/PortalFiles'
 import PortalTickets from './components/portal/PortalTickets'
 import PaymentReturn from './components/PaymentReturn'
+import DemoFarmacia from './components/demos/DemoFarmacia'
 
 const ScrollToTop = () => {
   const { pathname } = useLocation()
@@ -45,6 +46,7 @@ function App() {
           <Route path="/pack-express" element={<Wizard />} />
           <Route path="/diagnostico-seo" element={<DiagnosticoSEO />} />
           <Route path="/links" element={<Links />} />
+          <Route path="/demos/farmacia" element={<DemoFarmacia />} />
 
           {/* Admin */}
           <Route path="/admin/si" element={<AdminDashboard />} />
