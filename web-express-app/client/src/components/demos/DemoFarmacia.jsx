@@ -250,16 +250,22 @@ export default function DemoFarmacia() {
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-4">
           {/* Logo */}
           <div className="flex items-center gap-2.5 shrink-0">
-            <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center"
-              style={{ background: BRAND.green }}
-            >
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: BRAND.green }}>
               <Pill size={18} color="#fff" strokeWidth={2} />
             </div>
             <div>
               <p className="font-black text-sm leading-tight" style={{ color: BRAND.dark }}>Farmacia</p>
               <p className="font-black text-sm leading-tight" style={{ color: BRAND.green }}>Santa Clara</p>
             </div>
+          </div>
+
+          {/* Nav links */}
+          <div className="hidden lg:flex items-center gap-5 text-sm font-semibold shrink-0" style={{ color: BRAND.gray }}>
+            <a href="#inicio"    className="hover:opacity-70 transition-opacity">Inicio</a>
+            <a href="#productos" className="hover:opacity-70 transition-opacity">Productos</a>
+            <a href="#ofertas"   className="hover:opacity-70 transition-opacity" style={{ color: BRAND.green }}>Ofertas</a>
+            <a href="#nosotros"  className="hover:opacity-70 transition-opacity">Nosotros</a>
+            <a href="#contacto"  className="hover:opacity-70 transition-opacity">Contacto</a>
           </div>
 
           {/* Search */}
@@ -297,7 +303,7 @@ export default function DemoFarmacia() {
       </nav>
 
       {/* Hero section with background image */}
-      <div className="relative overflow-hidden" style={{ minHeight: 340 }}>
+      <div id="inicio" className="relative overflow-hidden" style={{ minHeight: 340 }}>
         <img
           src="https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=1400&h=600&fit=crop&q=80"
           alt="Farmacia Santa Clara"
@@ -355,15 +361,67 @@ export default function DemoFarmacia() {
       {/* Trust strip */}
       <div style={{ background: '#F0FDF4', borderBottom: `1px solid ${BRAND.border}` }}>
         <div className="max-w-6xl mx-auto px-4 py-4 flex flex-wrap gap-x-8 gap-y-2 items-center justify-between text-xs" style={{ color: BRAND.gray }}>
-          <span className="font-semibold" style={{ color: BRAND.dark }}>Farmacia Santa Clara Ltda. · RUT 76.543.210-K</span>
+          <span className="font-semibold" style={{ color: BRAND.dark }}>Farmacia Santa Clara · San Clemente, Región del Maule</span>
           <span className="flex items-center gap-1.5"><Shield size={12} style={{ color: BRAND.green }} /> Autorizada ISP · Reg. N° 24.567</span>
           <span className="flex items-center gap-1.5"><MapPin size={12} style={{ color: BRAND.green }} /> Av. Huamachuco 842, San Clemente</span>
           <span className="flex items-center gap-1.5"><Phone size={12} style={{ color: BRAND.green }} /> +56 9 3293 0812</span>
         </div>
       </div>
 
+      {/* ── Ofertas especiales ── */}
+      <section id="ofertas" className="max-w-6xl mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: BRAND.green }}>Promociones</p>
+            <h2 className="text-xl font-black" style={{ color: BRAND.black }}>Ofertas especiales</h2>
+          </div>
+          <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{ background: BRAND.mid, color: BRAND.dark }}>Esta semana</span>
+        </div>
+        <div className="grid md:grid-cols-3 gap-4">
+          {/* Slot 1 */}
+          <div className="rounded-2xl overflow-hidden flex flex-col" style={{ border: `2px dashed ${BRAND.border}` }}>
+            <div className="h-28 flex items-center justify-center" style={{ background: '#FEF9C3' }}>
+              <div className="text-center">
+                <p className="text-3xl font-black" style={{ color: '#854D0E' }}>20% OFF</p>
+                <p className="text-xs font-bold" style={{ color: '#92400E' }}>Vitaminas & Suplementos</p>
+              </div>
+            </div>
+            <div className="p-4 flex-1" style={{ background: '#FFFBEB' }}>
+              <p className="font-bold text-sm mb-1" style={{ color: BRAND.black }}>Semana de la salud</p>
+              <p className="text-xs mb-3" style={{ color: BRAND.gray }}>Descuento en toda la línea de vitaminas. Válido hasta el domingo.</p>
+              <button onClick={() => setCat('Vitaminas')} className="text-xs font-bold hover:opacity-70" style={{ color: '#D97706' }}>
+                Ver vitaminas →
+              </button>
+            </div>
+          </div>
+          {/* Slot 2 */}
+          <div className="rounded-2xl overflow-hidden flex flex-col" style={{ border: `2px dashed ${BRAND.border}` }}>
+            <div className="h-28 flex items-center justify-center" style={{ background: BRAND.mid }}>
+              <div className="text-center">
+                <p className="text-3xl font-black" style={{ color: BRAND.dark }}>2×1</p>
+                <p className="text-xs font-bold" style={{ color: BRAND.dark }}>Productos de Higiene</p>
+              </div>
+            </div>
+            <div className="p-4 flex-1" style={{ background: BRAND.light }}>
+              <p className="font-bold text-sm mb-1" style={{ color: BRAND.black }}>Lleva 2, paga 1</p>
+              <p className="text-xs mb-3" style={{ color: BRAND.gray }}>En selección de alcohol gel, mascarillas y termómetros.</p>
+              <button onClick={() => setCat('Higiene')} className="text-xs font-bold hover:opacity-70" style={{ color: BRAND.green }}>
+                Ver higiene →
+              </button>
+            </div>
+          </div>
+          {/* Slot 3 — espacio libre para campaña */}
+          <div className="rounded-2xl overflow-hidden flex flex-col items-center justify-center p-6 text-center"
+            style={{ border: `2px dashed ${BRAND.border}`, background: '#FAFAFA', minHeight: 180 }}>
+            <Tag size={28} style={{ color: BRAND.border, marginBottom: 10 }} />
+            <p className="text-sm font-bold mb-1" style={{ color: '#D1D5DB' }}>Espacio disponible</p>
+            <p className="text-xs" style={{ color: '#D1D5DB' }}>Campaña o promoción especial</p>
+          </div>
+        </div>
+      </section>
+
       {/* Layout: sidebar + products */}
-      <div className="max-w-6xl mx-auto px-4 py-8 flex gap-6 items-start">
+      <div id="productos" className="max-w-6xl mx-auto px-4 py-8 flex gap-6 items-start">
 
         {/* ── Vertical category sidebar ── */}
         <aside className="hidden md:flex flex-col w-52 shrink-0 sticky top-[73px]">
@@ -519,7 +577,7 @@ export default function DemoFarmacia() {
       </div>
 
       {/* Footer */}
-      <footer className="mt-16 py-12 px-4" style={{ background: BRAND.dark, color: '#fff' }}>
+      <footer id="contacto" className="mt-16 py-12 px-4" style={{ background: BRAND.dark, color: '#fff' }}>
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
           {/* Col 1: Brand */}
           <div>
@@ -535,8 +593,7 @@ export default function DemoFarmacia() {
             <p className="text-sm opacity-70 mb-3 leading-relaxed">
               Tu farmacia de confianza en San Clemente. Más de 15 años cuidando la salud de las familias de la región.
             </p>
-            <p className="text-xs opacity-40">RUT: 76.543.210-K</p>
-            <p className="text-xs opacity-40 mt-0.5">Farmacia Santa Clara Ltda.</p>
+            <p className="text-xs opacity-40 mt-0.5">San Clemente · Región del Maule</p>
           </div>
 
           {/* Col 2: Contacto */}
@@ -594,7 +651,7 @@ export default function DemoFarmacia() {
 
         <div className="max-w-6xl mx-auto mt-10 pt-6 flex items-center justify-between flex-wrap gap-3 text-xs opacity-35"
           style={{ borderTop: '1px solid rgba(255,255,255,0.12)' }}>
-          <span>© 2025 Farmacia Santa Clara Ltda. · Todos los derechos reservados</span>
+          <span>© 2025 Farmacia Santa Clara · Todos los derechos reservados</span>
           <a href="https://agenciasi.cl" target="_blank" rel="noreferrer" className="hover:opacity-70 transition-opacity">
             Sitio desarrollado por AgenciaSi
           </a>

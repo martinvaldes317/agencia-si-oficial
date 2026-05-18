@@ -244,11 +244,12 @@ export default function DemoClinica() {
             </div>
           </div>
           <div className="hidden md:flex items-center gap-6 text-sm font-semibold" style={{ color: B.gray }}>
+            <a href="#inicio"    className="hover:opacity-70 transition-opacity">Inicio</a>
             <a href="#servicios" className="hover:opacity-70 transition-opacity">Servicios</a>
-            <a href="#nosotros" className="hover:opacity-70 transition-opacity">Nosotros</a>
-            <a href="#equipo" className="hover:opacity-70 transition-opacity">Equipo</a>
-            <a href="#agendar" className="hover:opacity-70 transition-opacity">Agendar</a>
-            <a href="#preguntas" className="hover:opacity-70 transition-opacity">FAQ</a>
+            <a href="#promociones" className="hover:opacity-70 transition-opacity" style={{ color: B.blue }}>Promociones</a>
+            <a href="#nosotros"  className="hover:opacity-70 transition-opacity">Nosotros</a>
+            <a href="#equipo"    className="hover:opacity-70 transition-opacity">Equipo</a>
+            <a href="#agendar"   className="hover:opacity-70 transition-opacity">Agendar</a>
           </div>
           <a
             href={`${WA}?text=${encodeURIComponent('Hola, quiero agendar una hora')}`}
@@ -264,6 +265,7 @@ export default function DemoClinica() {
 
       {/* Hero */}
       <section
+        id="inicio"
         className="relative py-24 md:py-36 px-5 flex items-center"
         style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1400&h=700&fit=crop&q=80')`,
@@ -416,6 +418,52 @@ export default function DemoClinica() {
       </section>
 
       {/* Nosotros */}
+      {/* Promociones especiales */}
+      <section id="promociones" className="py-14 px-5">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: B.blue }}>Beneficios</p>
+              <h2 className="text-2xl font-black" style={{ color: B.black }}>Promociones del mes</h2>
+            </div>
+            <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{ background: B.mid, color: B.dark }}>Marzo 2025</span>
+          </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {/* Promo 1 */}
+            <div className="rounded-2xl overflow-hidden" style={{ border: `2px dashed ${B.border}` }}>
+              <div className="py-8 flex flex-col items-center justify-center text-center" style={{ background: B.mid }}>
+                <p className="text-4xl font-black mb-1" style={{ color: B.dark }}>GRATIS</p>
+                <p className="text-sm font-bold" style={{ color: B.blue }}>Primera consulta</p>
+              </div>
+              <div className="p-5" style={{ background: B.light }}>
+                <p className="font-bold text-sm mb-1" style={{ color: B.black }}>Evaluación sin costo</p>
+                <p className="text-xs mb-3" style={{ color: B.gray }}>Diagnóstico dental completo en tu primera visita. Sin compromiso.</p>
+                <a href="#agendar" className="text-xs font-bold hover:opacity-70" style={{ color: B.blue }}>Reservar →</a>
+              </div>
+            </div>
+            {/* Promo 2 */}
+            <div className="rounded-2xl overflow-hidden" style={{ border: `2px dashed ${B.border}` }}>
+              <div className="py-8 flex flex-col items-center justify-center text-center" style={{ background: '#FFFBEB' }}>
+                <p className="text-4xl font-black mb-1" style={{ color: '#92400E' }}>30%</p>
+                <p className="text-sm font-bold" style={{ color: '#D97706' }}>Blanqueamiento LED</p>
+              </div>
+              <div className="p-5" style={{ background: '#FEFCE8' }}>
+                <p className="font-bold text-sm mb-1" style={{ color: B.black }}>Sonrisa brillante</p>
+                <p className="text-xs mb-3" style={{ color: B.gray }}>Descuento en blanqueamiento profesional. Válido en pago al contado.</p>
+                <a href="#agendar" className="text-xs font-bold hover:opacity-70" style={{ color: '#D97706' }}>Agendar hora →</a>
+              </div>
+            </div>
+            {/* Slot libre */}
+            <div className="rounded-2xl flex flex-col items-center justify-center p-6 text-center"
+              style={{ border: `2px dashed ${B.border}`, background: '#FAFAFA', minHeight: 180 }}>
+              <Calendar size={28} style={{ color: B.border, marginBottom: 10 }} />
+              <p className="text-sm font-bold mb-1" style={{ color: '#D1D5DB' }}>Espacio disponible</p>
+              <p className="text-xs" style={{ color: '#D1D5DB' }}>Campaña o promoción especial</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="nosotros" className="py-16 md:py-24 px-5" style={{ background: B.light }}>
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           {/* Image */}
@@ -687,8 +735,7 @@ export default function DemoClinica() {
             <p className="text-sm opacity-70 mb-3 leading-relaxed">
               Más de 10 años transformando sonrisas en San Clemente. Equipo certificado y tecnología de última generación.
             </p>
-            <p className="text-xs opacity-40">RUT: 76.891.234-5</p>
-            <p className="text-xs opacity-40 mt-0.5">Clínica Dental Sonrisa SpA</p>
+            <p className="text-xs opacity-40 mt-0.5">San Clemente · Región del Maule</p>
             <a href={WA} target="_blank" rel="noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold mt-4"
               style={{ background: '#25D366' }}>
@@ -747,7 +794,7 @@ export default function DemoClinica() {
 
         <div className="max-w-6xl mx-auto mt-10 pt-6 flex items-center justify-between flex-wrap gap-3 text-xs opacity-35"
           style={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}>
-          <span>© 2025 Clínica Dental Sonrisa SpA · Todos los derechos reservados</span>
+          <span>© 2025 Clínica Dental Sonrisa · Todos los derechos reservados</span>
           <a href="https://agenciasi.cl" target="_blank" rel="noreferrer" className="hover:opacity-70 transition-opacity">
             Sitio desarrollado por AgenciaSi
           </a>

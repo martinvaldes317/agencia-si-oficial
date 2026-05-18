@@ -181,9 +181,12 @@ export default function DemoRestaurante() {
           </div>
           <div className="hidden md:flex items-center gap-6 text-sm font-semibold"
             style={{ color: B.gray }}>
+            <a href="#inicio"   className="hover:opacity-70">Inicio</a>
             <a href="#menu"     className="hover:opacity-70">Menú</a>
+            <a href="#especiales" className="hover:opacity-70" style={{ color: B.red }}>Especiales</a>
             <a href="#nosotros" className="hover:opacity-70">Nosotros</a>
             <a href="#reservas" className="hover:opacity-70">Reservas</a>
+            <a href="#contacto" className="hover:opacity-70">Contacto</a>
           </div>
           <button onClick={() => setCartOpen(true)}
             className="relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-white transition-opacity hover:opacity-85"
@@ -201,7 +204,7 @@ export default function DemoRestaurante() {
       </nav>
 
       {/* ── Hero ────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden min-h-[560px] md:min-h-[680px] flex items-center justify-center px-5 text-center"
+      <section id="inicio" className="relative overflow-hidden min-h-[560px] md:min-h-[680px] flex items-center justify-center px-5 text-center"
         style={{ background: '#111' }}>
         {/* Background image */}
         <img
@@ -360,6 +363,62 @@ export default function DemoRestaurante() {
       </section>
 
       {/* ── Nosotros ────────────────────────────────────────────────────── */}
+      {/* ── Especiales del chef ─────────────────────────────────────────── */}
+      <section id="especiales" className="py-14 px-5" style={{ background: B.light }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: B.red }}>Chef recomienda</p>
+              <h2 className="text-2xl font-black" style={{ color: B.black, fontFamily: "'Lora', serif" }}>Especiales de temporada</h2>
+            </div>
+            <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{ background: B.mid, color: B.dark }}>Esta semana</span>
+          </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {/* Especial 1 */}
+            <div className="bg-white rounded-2xl overflow-hidden" style={{ border: `1px solid ${B.border}` }}>
+              <div className="relative">
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=200&fit=crop&q=80"
+                  alt="Menú del día" className="w-full h-40 object-cover" />
+                <span className="absolute top-3 left-3 text-xs font-black px-2.5 py-1 rounded-full text-white"
+                  style={{ background: B.red }}>OFERTA</span>
+              </div>
+              <div className="p-4">
+                <p className="font-black text-base mb-1" style={{ color: B.black, fontFamily: "'Lora', serif" }}>Menú del día completo</p>
+                <p className="text-xs mb-3" style={{ color: B.gray }}>Entrada + plato de fondo + postre + bebida. Lunes a viernes al almuerzo.</p>
+                <div className="flex items-center justify-between">
+                  <p className="font-black text-lg" style={{ color: B.red }}>$8.990</p>
+                  <span className="text-xs line-through" style={{ color: B.gray }}>$12.990</span>
+                </div>
+              </div>
+            </div>
+            {/* Especial 2 */}
+            <div className="bg-white rounded-2xl overflow-hidden" style={{ border: `1px solid ${B.border}` }}>
+              <div className="relative">
+                <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&h=200&fit=crop&q=80"
+                  alt="Noche romántica" className="w-full h-40 object-cover" />
+                <span className="absolute top-3 left-3 text-xs font-black px-2.5 py-1 rounded-full text-white"
+                  style={{ background: B.orange }}>NUEVO</span>
+              </div>
+              <div className="p-4">
+                <p className="font-black text-base mb-1" style={{ color: B.black, fontFamily: "'Lora', serif" }}>Cena para 2 + vino</p>
+                <p className="text-xs mb-3" style={{ color: B.gray }}>Dos platos a elección del menú + botella de vino de la casa. Reserva requerida.</p>
+                <div className="flex items-center justify-between">
+                  <p className="font-black text-lg" style={{ color: B.red }}>$39.900</p>
+                  <a href="#reservas" className="text-xs font-bold hover:opacity-70" style={{ color: B.orange }}>Reservar →</a>
+                </div>
+              </div>
+            </div>
+            {/* Slot libre */}
+            <div className="bg-white rounded-2xl flex flex-col items-center justify-center p-6 text-center"
+              style={{ border: `2px dashed ${B.border}`, minHeight: 200 }}>
+              <ChefHat size={28} style={{ color: B.border, marginBottom: 10 }} />
+              <p className="text-sm font-bold mb-1" style={{ color: '#D1D5DB', fontFamily: "'Lora', serif" }}>Espacio disponible</p>
+              <p className="text-xs" style={{ color: '#D1D5DB' }}>Especial o campaña de temporada</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="nosotros" className="py-16 px-5"
         style={{ background: `linear-gradient(135deg, ${B.dark}, #450000)` }}>
         <div className="max-w-5xl mx-auto">
@@ -547,7 +606,7 @@ export default function DemoRestaurante() {
       </div>
 
       {/* ── Footer ──────────────────────────────────────────────────────── */}
-      <footer className="py-10 px-5" style={{ background: B.dark, color: '#fff' }}>
+      <footer id="contacto" className="py-10 px-5" style={{ background: B.dark, color: '#fff' }}>
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-8">
           {/* Col 1: Brand */}
           <div>
@@ -558,8 +617,7 @@ export default function DemoRestaurante() {
             <p className="text-sm opacity-70 mb-3 leading-relaxed">
               Cocina italiana artesanal en el corazón de San Clemente desde 2012. Ingredientes seleccionados, recetas auténticas y sabor de hogar.
             </p>
-            <p className="text-xs opacity-40">RUT: 77.234.567-8</p>
-            <p className="text-xs opacity-40 mt-0.5">La Trattoria SpA</p>
+            <p className="text-xs opacity-40 mt-0.5">San Clemente · Región del Maule</p>
           </div>
 
           {/* Col 2: Encuéntranos */}
@@ -606,7 +664,7 @@ export default function DemoRestaurante() {
 
         <div className="max-w-6xl mx-auto mt-8 pt-6 flex items-center justify-between flex-wrap gap-3 text-xs opacity-40"
           style={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}>
-          <span>© 2025 La Trattoria SpA · San Clemente · Todos los derechos reservados</span>
+          <span>© 2025 La Trattoria · San Clemente · Todos los derechos reservados</span>
           <a href="https://agenciasi.cl" target="_blank" rel="noreferrer" className="hover:opacity-70">Sitio desarrollado por AgenciaSi</a>
         </div>
       </footer>
