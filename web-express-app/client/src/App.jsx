@@ -25,6 +25,7 @@ import PortalTickets from './components/portal/PortalTickets'
 import PaymentReturn from './components/PaymentReturn'
 import DemoFarmacia from './components/demos/DemoFarmacia'
 import DemoClinica from './components/demos/DemoClinica'
+import DemoRestaurante from './components/demos/DemoRestaurante'
 
 const ScrollToTop = () => {
   const { pathname } = useLocation()
@@ -49,6 +50,7 @@ function App() {
           <Route path="/links" element={<Links />} />
           <Route path="/demos/farmacia" element={<DemoFarmacia />} />
           <Route path="/demos/clinica" element={<DemoClinica />} />
+          <Route path="/demos/restaurante" element={<DemoRestaurante />} />
 
           {/* Admin */}
           <Route path="/admin/si" element={<AdminDashboard />} />
