@@ -1,7 +1,8 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import {
   MapPin, Clock, Phone, MessageCircle, ArrowRight, Star, Plus, Minus, X,
-  ShoppingBag, Truck, UtensilsCrossed, Wine, ChefHat, Instagram, CheckCircle
+  ShoppingBag, Truck, UtensilsCrossed, Wine, ChefHat, Instagram, CheckCircle,
+  CreditCard
 } from 'lucide-react'
 
 const B = {
@@ -73,6 +74,14 @@ export default function DemoRestaurante() {
   const [tab, setTab]           = useState('delivery') // 'delivery' | 'reserva'
   const [reserva, setReserva]   = useState({ nombre:'', telefono:'', fecha:'', hora:'', personas:'2' })
   const [resSent, setResSent]   = useState(false)
+  const [paying, setPaying]     = useState(false)
+  const [payStatus, setPayStatus] = useState(null)
+
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search)
+    const s = p.get('status')
+    if (s) setPayStatus(s)
+  }, [])
 
   const filtered   = useMemo(() => MENU.filter(p => cat === 'Todo' || p.cat === cat), [cat])
   const totalItems = Object.values(cart).reduce((a, b) => a + b, 0)
@@ -95,6 +104,27 @@ export default function DemoRestaurante() {
     window.open(`${WA}?text=${encodeURIComponent(msg)}`, '_blank')
   }
 
+  const goCheckout = async () => {
+    if (totalItems === 0) return
+    setPaying(true)
+    try {
+      const items = MENU.filter(p => cart[p.id]).map(p => ({
+        title: p.name,
+        quantity: cart[p.id],
+        unit_price: p.precio,
+      }))
+      const res = await fetch('/api/demos/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'restaurante', items }),
+      })
+      const data = await res.json()
+      if (data.init_point) window.location.href = data.init_point
+    } catch {
+      setPaying(false)
+    }
+  }
+
   const waReserva = e => {
     e.preventDefault()
     const msg = `Hola La Trattoria!\n\nQuisiera reservar una mesa:\n\n• Nombre: ${reserva.nombre}\n• Teléfono: ${reserva.telefono}\n• Fecha: ${reserva.fecha}\n• Hora: ${reserva.hora}\n• Personas: ${reserva.personas}\n\n¿Tienen disponibilidad?`
@@ -107,11 +137,13 @@ export default function DemoRestaurante() {
   const f        = k => e => setReserva(p => ({ ...p, [k]: e.target.value }))
 
   return (
-    <div className="min-h-screen" style={{ background: B.cream, fontFamily: "'Georgia', 'Times New Roman', serif" }}>
+    <div className="min-h-screen" style={{ background: B.cream, fontFamily: "'Inter', sans-serif" }}>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" />
 
       {/* ── Demo Banner ─────────────────────────────────────────────────── */}
       <div className="text-center py-2.5 px-4 text-xs font-bold flex items-center justify-center gap-3 flex-wrap"
-        style={{ background: B.dark, color: '#fff', fontFamily: 'system-ui,sans-serif' }}>
+        style={{ background: B.dark, color: '#fff' }}>
         <span>Demo creado por AgenciaSi — ¿Quieres este sitio para tu restaurante?</span>
         <a href="https://agenciasi.cl/#contact" target="_blank" rel="noreferrer"
           className="underline hover:opacity-80 flex items-center gap-1">
@@ -119,28 +151,41 @@ export default function DemoRestaurante() {
         </a>
       </div>
 
+      {/* ── Payment Status Banner ────────────────────────────────────────── */}
+      {payStatus && (
+        <div style={{
+          background: payStatus === 'approved' ? '#16A34A' : payStatus === 'pending' ? '#D97706' : '#DC2626',
+          color: '#fff', padding: '14px 20px', textAlign: 'center', fontWeight: 700, fontSize: 15,
+          fontFamily: "'Inter', sans-serif",
+        }}>
+          {payStatus === 'approved' && '¡Pago aprobado! Tu pedido está en camino. Te avisamos cuando salga.'}
+          {payStatus === 'pending' && 'Pago en proceso. Te avisaremos cuando se confirme.'}
+          {payStatus === 'failure' && 'El pago no pudo procesarse. Intenta nuevamente o pide por WhatsApp.'}
+        </div>
+      )}
+
       {/* ── Navbar ──────────────────────────────────────────────────────── */}
       <nav className="bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
         <div className="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <UtensilsCrossed size={24} color={B.dark} />
             <div>
-              <p className="font-black text-base leading-tight" style={{ color: B.dark }}>La Trattoria</p>
+              <p className="font-black text-base leading-tight" style={{ color: B.dark, fontFamily: "'Lora', serif" }}>La Trattoria</p>
               <p className="text-[10px] font-semibold uppercase tracking-widest"
-                style={{ color: B.orange, fontFamily: 'system-ui' }}>
+                style={{ color: B.orange }}>
                 Cocina Italiana · San Clemente
               </p>
             </div>
           </div>
           <div className="hidden md:flex items-center gap-6 text-sm font-semibold"
-            style={{ color: B.gray, fontFamily: 'system-ui' }}>
+            style={{ color: B.gray }}>
             <a href="#menu"     className="hover:opacity-70">Menú</a>
             <a href="#nosotros" className="hover:opacity-70">Nosotros</a>
             <a href="#reservas" className="hover:opacity-70">Reservas</a>
           </div>
           <button onClick={() => setCartOpen(true)}
             className="relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-white transition-opacity hover:opacity-85"
-            style={{ background: B.red, fontFamily: 'system-ui' }}>
+            style={{ background: B.red }}>
             <ShoppingBag size={15} />
             <span>Pedir</span>
             {totalItems > 0 && (
@@ -166,32 +211,30 @@ export default function DemoRestaurante() {
         <div className="absolute inset-0" style={{ background: 'rgba(20,0,0,0.62)' }} />
 
         <div className="relative max-w-3xl mx-auto text-white py-20 md:py-32">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] mb-4 opacity-60"
-            style={{ fontFamily: 'system-ui' }}>
+          <p className="text-xs font-bold uppercase tracking-[0.3em] mb-4 opacity-60">
             Cocina italiana artesanal
           </p>
-          <h1 className="text-4xl md:text-6xl font-black leading-tight mb-6">
+          <h1 className="text-4xl md:text-6xl font-black leading-tight mb-6" style={{ fontFamily: "'Lora', serif" }}>
             Auténtica cocina italiana<br />
             <em className="font-normal" style={{ color: '#FCA5A5' }}>hecha con pasión.</em>
           </h1>
-          <p className="text-base opacity-75 mb-10 max-w-lg mx-auto leading-relaxed"
-            style={{ fontFamily: 'system-ui' }}>
+          <p className="text-base opacity-75 mb-10 max-w-lg mx-auto leading-relaxed">
             Pasta fresca artesanal, carnes a la parrilla y una selección de vinos que transforma
             cada comida en una experiencia memorable.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a href="#menu"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-opacity hover:opacity-90"
-              style={{ background: '#fff', color: B.dark, fontFamily: 'system-ui' }}>
+              style={{ background: '#fff', color: B.dark }}>
               <UtensilsCrossed size={16} /> Ver menú completo
             </a>
             <a href="#reservas"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-opacity hover:opacity-90"
-              style={{ background: B.red, color: '#fff', fontFamily: 'system-ui' }}>
+              style={{ background: B.red, color: '#fff' }}>
               Reservar mesa
             </a>
           </div>
-          <div className="flex items-center justify-center gap-2 mt-10" style={{ fontFamily: 'system-ui' }}>
+          <div className="flex items-center justify-center gap-2 mt-10">
             <div className="flex">
               {[1,2,3,4,5].map(i => <Star key={i} size={16} fill="#FBBF24" color="#FBBF24" />)}
             </div>
@@ -212,7 +255,7 @@ export default function DemoRestaurante() {
             <div key={c.title} className="flex items-center gap-3 p-3 rounded-xl"
               style={{ background: B.light }}>
               {c.icon}
-              <div style={{ fontFamily: 'system-ui' }}>
+              <div>
                 <p className="font-bold text-sm" style={{ color: B.black }}>{c.title}</p>
                 <p className="text-[11px]"        style={{ color: B.gray }}>{c.sub}</p>
               </div>
@@ -225,10 +268,10 @@ export default function DemoRestaurante() {
       <section id="menu" className="py-16 px-5">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-bold uppercase tracking-widest mb-2 text-center"
-            style={{ color: B.red, fontFamily: 'system-ui' }}>
+            style={{ color: B.red }}>
             — Nuestra carta
           </p>
-          <h2 className="text-3xl md:text-4xl font-black text-center mb-10" style={{ color: B.black }}>
+          <h2 className="text-3xl md:text-4xl font-black text-center mb-10" style={{ color: B.black, fontFamily: "'Lora', serif" }}>
             Menú del día
           </h2>
 
@@ -238,7 +281,6 @@ export default function DemoRestaurante() {
               <button key={c} onClick={() => setCat(c)}
                 className="shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all"
                 style={{
-                  fontFamily: 'system-ui',
                   ...(cat === c
                     ? { background: B.red, color: '#fff' }
                     : { background: '#F3F4F6', color: B.gray }),
@@ -263,7 +305,7 @@ export default function DemoRestaurante() {
                   />
                   {p.popular && (
                     <span className="absolute top-3 left-3 flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full"
-                      style={{ background: B.red, color: '#fff', fontFamily: 'system-ui' }}>
+                      style={{ background: B.red, color: '#fff' }}>
                       <Star size={9} fill="#fff" color="#fff" /> Popular
                     </span>
                   )}
@@ -272,11 +314,11 @@ export default function DemoRestaurante() {
                 {/* Content */}
                 <div className="p-4 flex flex-col flex-1">
                   <div className="flex items-start justify-between gap-2 mb-1">
-                    <h3 className="font-bold text-sm leading-tight" style={{ color: B.black }}>{p.name}</h3>
+                    <h3 className="font-bold text-sm leading-tight" style={{ color: B.black, fontFamily: "'Lora', serif" }}>{p.name}</h3>
                     {p.badge && <BadgeChip text={p.badge} />}
                   </div>
                   <p className="text-xs leading-relaxed flex-1 mb-3"
-                    style={{ color: B.gray, fontFamily: 'system-ui' }}>
+                    style={{ color: B.gray }}>
                     {p.desc}
                   </p>
                   <div className="flex items-center justify-between pt-3"
@@ -284,7 +326,7 @@ export default function DemoRestaurante() {
                     <span className="font-black text-base" style={{ color: B.dark }}>{fmt(p.precio)}</span>
                     {cart[p.id] ? (
                       <div className="flex items-center gap-2 rounded-xl overflow-hidden"
-                        style={{ border: `1.5px solid ${B.red}`, fontFamily: 'system-ui' }}>
+                        style={{ border: `1.5px solid ${B.red}` }}>
                         <button onClick={() => remove(p.id)}
                           className="px-3 py-1.5 font-bold transition-colors hover:opacity-70"
                           style={{ color: B.red }}>
@@ -303,7 +345,7 @@ export default function DemoRestaurante() {
                     ) : (
                       <button onClick={() => add(p.id)}
                         className="inline-flex items-center gap-1 px-4 py-1.5 rounded-xl text-xs font-bold text-white transition-opacity hover:opacity-85"
-                        style={{ background: B.red, fontFamily: 'system-ui' }}>
+                        style={{ background: B.red }}>
                         <Plus size={12} /> Agregar
                       </button>
                     )}
@@ -322,16 +364,14 @@ export default function DemoRestaurante() {
           <div className="grid md:grid-cols-2 gap-10 items-center">
             {/* Text side */}
             <div className="text-white">
-              <p className="text-xs font-bold uppercase tracking-widest mb-3 opacity-60"
-                style={{ fontFamily: 'system-ui' }}>
+              <p className="text-xs font-bold uppercase tracking-widest mb-3 opacity-60">
                 — Nuestra historia
               </p>
-              <h2 className="text-3xl md:text-4xl font-black mb-6">
+              <h2 className="text-3xl md:text-4xl font-black mb-6" style={{ fontFamily: "'Lora', serif" }}>
                 Más de 15 años cocinando<br />
                 <em className="font-normal opacity-80">con el corazón.</em>
               </h2>
-              <p className="text-base opacity-70 mb-8 leading-relaxed"
-                style={{ fontFamily: 'system-ui' }}>
+              <p className="text-base opacity-70 mb-8 leading-relaxed">
                 La Trattoria nació en 2009 de la mano del Chef Marco Pellegrini, quien trajo las
                 recetas de su nonna desde Nápoles. Cada plato es una historia: pasta amasada a mano
                 cada mañana, salsas que hierven por horas y productos locales de la Región del Maule.
@@ -345,7 +385,7 @@ export default function DemoRestaurante() {
                   <div key={s.l} className="rounded-2xl p-5"
                     style={{ background: 'rgba(255,255,255,0.1)' }}>
                     <p className="text-3xl font-black text-white mb-1">{s.n}</p>
-                    <p className="text-[11px] opacity-60" style={{ fontFamily: 'system-ui' }}>{s.l}</p>
+                    <p className="text-[11px] opacity-60">{s.l}</p>
                   </div>
                 ))}
               </div>
@@ -366,20 +406,20 @@ export default function DemoRestaurante() {
       <section id="reservas" className="py-16 px-5">
         <div className="max-w-3xl mx-auto">
           <p className="text-xs font-bold uppercase tracking-widest mb-2 text-center"
-            style={{ color: B.red, fontFamily: 'system-ui' }}>
+            style={{ color: B.red }}>
             — Sin esperas
           </p>
-          <h2 className="text-3xl font-black text-center mb-3" style={{ color: B.black }}>
+          <h2 className="text-3xl font-black text-center mb-3" style={{ color: B.black, fontFamily: "'Lora', serif" }}>
             Reserva tu mesa
           </h2>
           <p className="text-center text-sm mb-8"
-            style={{ color: B.gray, fontFamily: 'system-ui' }}>
+            style={{ color: B.gray }}>
             Confirmamos tu reserva vía WhatsApp en menos de 1 hora
           </p>
 
           {/* Tabs */}
           <div className="flex rounded-xl overflow-hidden mb-8"
-            style={{ border: `1px solid ${B.border}`, fontFamily: 'system-ui' }}>
+            style={{ border: `1px solid ${B.border}` }}>
             {[
               ['delivery', <Truck size={14} />,         'Delivery / Retiro'],
               ['reserva',  <UtensilsCrossed size={14}/>, 'Reservar mesa'],
@@ -400,17 +440,17 @@ export default function DemoRestaurante() {
               <div className="flex justify-center mb-4">
                 <Truck size={48} color={B.red} />
               </div>
-              <h3 className="font-black text-xl mb-2" style={{ color: B.black }}>Pedido por WhatsApp</h3>
-              <p className="text-sm mb-6" style={{ color: B.gray, fontFamily: 'system-ui' }}>
+              <h3 className="font-black text-xl mb-2" style={{ color: B.black, fontFamily: "'Lora', serif" }}>Pedido por WhatsApp</h3>
+              <p className="text-sm mb-6" style={{ color: B.gray }}>
                 Selecciona tus platos del menú, haz clic en "Ver pedido" y te enviamos el total
                 con el tiempo estimado de entrega.
               </p>
               <button onClick={() => setCartOpen(true)}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white transition-opacity hover:opacity-85 mb-3"
-                style={{ background: B.red, fontFamily: 'system-ui' }}>
+                style={{ background: B.red }}>
                 <ShoppingBag size={16} /> Ver mi pedido ({totalItems} items)
               </button>
-              <p className="text-[11px]" style={{ color: B.gray, fontFamily: 'system-ui' }}>
+              <p className="text-[11px]" style={{ color: B.gray }}>
                 Delivery disponible en San Clemente y alrededores · Retiro sin costo
               </p>
             </div>
@@ -420,13 +460,13 @@ export default function DemoRestaurante() {
               <div className="flex justify-center mb-4">
                 <CheckCircle size={52} color={B.red} />
               </div>
-              <h3 className="font-black text-xl mb-2" style={{ color: B.black }}>Reserva enviada</h3>
-              <p className="text-sm mb-4" style={{ color: B.gray, fontFamily: 'system-ui' }}>
+              <h3 className="font-black text-xl mb-2" style={{ color: B.black, fontFamily: "'Lora', serif" }}>Reserva enviada</h3>
+              <p className="text-sm mb-4" style={{ color: B.gray }}>
                 Te confirmamos por WhatsApp en menos de 1 hora. ¡Nos vemos pronto!
               </p>
               <button onClick={() => setResSent(false)}
                 className="text-sm font-bold"
-                style={{ color: B.red, fontFamily: 'system-ui' }}>
+                style={{ color: B.red }}>
                 Hacer otra reserva
               </button>
             </div>
@@ -437,13 +477,13 @@ export default function DemoRestaurante() {
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-bold block mb-1.5"
-                    style={{ color: B.gray, fontFamily: 'system-ui' }}>NOMBRE</label>
+                    style={{ color: B.gray }}>NOMBRE</label>
                   <input required value={reserva.nombre} onChange={f('nombre')}
                     placeholder="Tu nombre completo" className={inp} style={inpStyle} />
                 </div>
                 <div>
                   <label className="text-xs font-bold block mb-1.5"
-                    style={{ color: B.gray, fontFamily: 'system-ui' }}>TELÉFONO</label>
+                    style={{ color: B.gray }}>TELÉFONO</label>
                   <input required value={reserva.telefono} onChange={f('telefono')}
                     placeholder="+56 9 XXXX XXXX" className={inp} style={inpStyle} />
                 </div>
@@ -451,14 +491,14 @@ export default function DemoRestaurante() {
               <div className="grid md:grid-cols-3 gap-4">
                 <div>
                   <label className="text-xs font-bold block mb-1.5"
-                    style={{ color: B.gray, fontFamily: 'system-ui' }}>FECHA</label>
+                    style={{ color: B.gray }}>FECHA</label>
                   <input type="date" required value={reserva.fecha} onChange={f('fecha')}
                     className={inp} style={inpStyle}
                     min={new Date().toISOString().split('T')[0]} />
                 </div>
                 <div>
                   <label className="text-xs font-bold block mb-1.5"
-                    style={{ color: B.gray, fontFamily: 'system-ui' }}>HORA</label>
+                    style={{ color: B.gray }}>HORA</label>
                   <select value={reserva.hora} onChange={f('hora')} className={inp} style={inpStyle}>
                     <option value="">Selecciona</option>
                     {['13:00','13:30','14:00','14:30','19:30','20:00','20:30','21:00','21:30']
@@ -467,7 +507,7 @@ export default function DemoRestaurante() {
                 </div>
                 <div>
                   <label className="text-xs font-bold block mb-1.5"
-                    style={{ color: B.gray, fontFamily: 'system-ui' }}>PERSONAS</label>
+                    style={{ color: B.gray }}>PERSONAS</label>
                   <select value={reserva.personas} onChange={f('personas')} className={inp} style={inpStyle}>
                     {['1','2','3','4','5','6','7','8+'].map(n => <option key={n}>{n}</option>)}
                   </select>
@@ -475,7 +515,7 @@ export default function DemoRestaurante() {
               </div>
               <button type="submit"
                 className="w-full py-4 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
-                style={{ background: B.red, fontFamily: 'system-ui' }}>
+                style={{ background: B.red }}>
                 <MessageCircle size={18} /> Confirmar por WhatsApp
               </button>
             </form>
@@ -487,7 +527,7 @@ export default function DemoRestaurante() {
       <div className="py-10 px-5" style={{ background: B.light }}>
         <div className="max-w-3xl mx-auto">
           <h3 className="text-xl font-black text-center mb-6 flex items-center justify-center gap-2"
-            style={{ color: B.black }}>
+            style={{ color: B.black, fontFamily: "'Lora', serif" }}>
             <Clock size={20} color={B.red} /> Horarios de atención
           </h3>
           <div className="grid md:grid-cols-3 gap-4">
@@ -495,7 +535,7 @@ export default function DemoRestaurante() {
               <div key={h.dia} className="bg-white rounded-xl p-5 text-center"
                 style={{ border: `1px solid ${B.border}` }}>
                 <p className="font-bold text-sm mb-1" style={{ color: B.dark }}>{h.dia}</p>
-                <p className="text-xs"                style={{ color: B.gray, fontFamily: 'system-ui' }}>{h.hora}</p>
+                <p className="text-xs"                style={{ color: B.gray }}>{h.hora}</p>
               </div>
             ))}
           </div>
@@ -508,34 +548,32 @@ export default function DemoRestaurante() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <UtensilsCrossed size={18} color="#FCA5A5" />
-              <p className="font-black text-lg">La Trattoria</p>
+              <p className="font-black text-lg" style={{ fontFamily: "'Lora', serif" }}>La Trattoria</p>
             </div>
-            <p className="text-sm opacity-70 mb-4" style={{ fontFamily: 'system-ui' }}>
+            <p className="text-sm opacity-70 mb-4">
               Cocina italiana artesanal en el corazón de San Clemente. Reservas y delivery vía WhatsApp.
             </p>
             <a href={WA} target="_blank" rel="noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold"
-              style={{ background: '#25D366', fontFamily: 'system-ui' }}>
+              style={{ background: '#25D366' }}>
               <MessageCircle size={15} /> Pedir ahora
             </a>
           </div>
           <div>
-            <p className="font-bold mb-3 text-sm uppercase tracking-widest opacity-60"
-              style={{ fontFamily: 'system-ui' }}>
+            <p className="font-bold mb-3 text-sm uppercase tracking-widest opacity-60">
               Encuéntranos
             </p>
-            <div className="space-y-2 text-sm opacity-80" style={{ fontFamily: 'system-ui' }}>
+            <div className="space-y-2 text-sm opacity-80">
               <p className="flex items-center gap-2"><MapPin   size={13} /> Av. Balmaceda 530, San Clemente</p>
               <p className="flex items-center gap-2"><Phone    size={13} /> +56 9 3293 0812</p>
               <p className="flex items-center gap-2"><Instagram size={13} /> @latrattoria.sc</p>
             </div>
           </div>
           <div>
-            <p className="font-bold mb-3 text-sm uppercase tracking-widest opacity-60"
-              style={{ fontFamily: 'system-ui' }}>
+            <p className="font-bold mb-3 text-sm uppercase tracking-widest opacity-60">
               Aceptamos
             </p>
-            <div className="flex flex-wrap gap-2" style={{ fontFamily: 'system-ui' }}>
+            <div className="flex flex-wrap gap-2">
               {['Efectivo', 'Débito', 'Crédito', 'Transferencia'].map(m => (
                 <span key={m} className="text-xs px-3 py-1 rounded-full font-semibold"
                   style={{ background: 'rgba(255,255,255,0.12)', color: '#fff' }}>
@@ -546,7 +584,7 @@ export default function DemoRestaurante() {
           </div>
         </div>
         <div className="max-w-6xl mx-auto mt-8 pt-6 flex items-center justify-between flex-wrap gap-3 text-xs opacity-40"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.15)', fontFamily: 'system-ui' }}>
+          style={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}>
           <span>© 2025 La Trattoria · San Clemente</span>
           <a href="https://agenciasi.cl" target="_blank" rel="noreferrer" className="hover:opacity-70">
             Sitio desarrollado por AgenciaSi
@@ -558,7 +596,7 @@ export default function DemoRestaurante() {
       {cartOpen && (
         <div className="fixed inset-0 z-50 flex">
           <div className="flex-1 bg-black/50" onClick={() => setCartOpen(false)} />
-          <div className="w-full max-w-sm bg-white flex flex-col shadow-2xl" style={{ fontFamily: 'system-ui' }}>
+          <div className="w-full max-w-sm bg-white flex flex-col shadow-2xl">
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4"
               style={{ borderBottom: `1px solid ${B.border}` }}>
@@ -631,10 +669,21 @@ export default function DemoRestaurante() {
                   <span className="font-semibold" style={{ color: B.gray }}>Total</span>
                   <span className="text-xl font-black" style={{ color: B.dark }}>{fmt(totalPrice)}</span>
                 </div>
-                <button onClick={waOrder}
-                  className="w-full py-3.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
-                  style={{ background: '#25D366' }}>
-                  <MessageCircle size={18} /> Pedir por WhatsApp
+                <button
+                  onClick={goCheckout}
+                  disabled={paying}
+                  className="w-full py-3.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-60"
+                  style={{ background: '#2D2BB5' }}
+                >
+                  <CreditCard size={18} />
+                  {paying ? 'Procesando…' : 'Pagar con MercadoPago'}
+                </button>
+                <button
+                  onClick={waOrder}
+                  className="w-full py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 hover:opacity-80 transition-opacity mt-2"
+                  style={{ border: '1.5px solid #25D366', color: '#25D366', background: 'transparent', fontSize: 13 }}
+                >
+                  <MessageCircle size={15} /> O pedir por WhatsApp
                 </button>
                 <p className="text-center text-[11px] mt-2" style={{ color: B.gray }}>
                   Confirmamos tu pedido y tiempo de entrega al instante

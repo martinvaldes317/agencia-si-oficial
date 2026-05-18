@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Phone, MapPin, Clock, MessageCircle, ArrowRight, Star, CheckCircle,
   ChevronDown, ChevronUp, Calendar, Shield, Award, Users, Zap,
   Stethoscope, Sparkles, Sun, AlignCenter, AlertCircle, Heart,
-  Gem, Scan, Activity
+  Gem, Scan, Activity, CreditCard
 } from 'lucide-react'
 
 const B = {
@@ -151,6 +151,33 @@ function FAQ({ q, a }) {
 export default function DemoClinica() {
   const [form, setForm] = useState({ nombre: '', telefono: '', servicio: '', fecha: '', hora: '' })
   const [sent, setSent] = useState(false)
+  const [paying, setPaying] = useState(null)
+  const [payStatus, setPayStatus] = useState(null)
+
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search)
+    const s = p.get('status')
+    if (s) setPayStatus(s)
+  }, [])
+
+  const bookService = async (servicio) => {
+    setPaying(servicio.name)
+    try {
+      const unit_price = parseInt(servicio.precio.replace(/\D/g, ''), 10)
+      const res = await fetch('/api/demos/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'clinica',
+          items: [{ title: servicio.name, quantity: 1, unit_price }],
+        }),
+      })
+      const data = await res.json()
+      if (data.init_point) window.location.href = data.init_point
+    } catch {
+      setPaying(null)
+    }
+  }
 
   const f = k => e => setForm(p => ({ ...p, [k]: e.target.value }))
 
@@ -165,7 +192,10 @@ export default function DemoClinica() {
   const inputStyle = { background: '#F9FAFB', border: `1.5px solid ${B.border}` }
 
   return (
-    <div className="min-h-screen" style={{ background: '#F9FAFB', fontFamily: 'system-ui, sans-serif' }}>
+    <>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&display=swap" />
+    <div className="min-h-screen" style={{ background: '#F9FAFB', fontFamily: "'DM Sans', sans-serif" }}>
 
       {/* Demo Banner */}
       <div
@@ -182,6 +212,17 @@ export default function DemoClinica() {
           Cotizar ahora <ArrowRight size={11} />
         </a>
       </div>
+
+      {payStatus && (
+        <div style={{
+          background: payStatus === 'approved' ? '#0EA5E9' : payStatus === 'pending' ? '#D97706' : '#DC2626',
+          color: '#fff', padding: '14px 20px', textAlign: 'center', fontWeight: 700, fontSize: 15,
+        }}>
+          {payStatus === 'approved' && '¡Pago aprobado! Tu cita quedó reservada. Te confirmaremos por WhatsApp.'}
+          {payStatus === 'pending' && 'Pago en proceso. Te avisaremos cuando se confirme.'}
+          {payStatus === 'failure' && 'El pago no pudo procesarse. Intenta nuevamente.'}
+        </div>
+      )}
 
       {/* Navbar */}
       <nav className="bg-white shadow-sm sticky top-0 z-40">
@@ -354,6 +395,15 @@ export default function DemoClinica() {
                     Agendar <ArrowRight size={11} />
                   </a>
                 </div>
+                <button
+                  onClick={() => bookService(s)}
+                  disabled={paying === s.name}
+                  className="mt-3 w-full py-2 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-1.5 transition-opacity hover:opacity-90 disabled:opacity-60"
+                  style={{ background: B.blue }}
+                >
+                  <CreditCard size={12} />
+                  {paying === s.name ? 'Procesando…' : 'Reservar y Pagar'}
+                </button>
               </div>
             ))}
           </div>
@@ -686,5 +736,6 @@ export default function DemoClinica() {
         <MessageCircle size={26} color="#fff" />
       </a>
     </div>
+    </>
   )
 }

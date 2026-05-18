@@ -438,6 +438,37 @@ app.post('/api/mp/create-preference', async (req, res) => {
   }
 });
 
+// MercadoPago: Demo checkout — creates a one-off preference for demo sites
+app.post('/api/demos/checkout', async (req, res) => {
+  try {
+    const { type, items } = req.body;
+    if (!type || !Array.isArray(items) || items.length === 0)
+      return res.status(400).json({ success: false, message: 'type e items son requeridos' });
+
+    const siteUrl = process.env.SITE_URL || 'https://agenciasi.cl';
+    const preference = await mpPreference.create({
+      body: {
+        items: items.map(i => ({
+          title:      i.title,
+          quantity:   i.quantity,
+          unit_price: i.unit_price,
+          currency_id: 'CLP',
+        })),
+        back_urls: {
+          success: `${siteUrl}/demos/${type}?status=approved`,
+          failure: `${siteUrl}/demos/${type}?status=failure`,
+          pending: `${siteUrl}/demos/${type}?status=pending`,
+        },
+        auto_return: 'approved',
+      },
+    });
+    res.json({ success: true, init_point: preference.init_point });
+  } catch (error) {
+    console.error('[demos-checkout]', error.message);
+    res.status(500).json({ success: false, message: 'Error al crear la preferencia' });
+  }
+});
+
 // MercadoPago: Webhook — confirms payment and activates the order
 app.post('/api/webhooks/mercadopago', async (req, res) => {
   res.sendStatus(200); // respond immediately so MP doesn't retry

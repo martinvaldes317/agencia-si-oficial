@@ -1,9 +1,9 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import {
   ShoppingCart, Search, Phone, MapPin, Clock, X, Plus, Minus,
   MessageCircle, Truck, Shield, Tag, ArrowRight, Star,
   Pill, Leaf, Sun, Sparkles, Wind, Droplets, Fish, Activity,
-  Heart, ShieldCheck, Thermometer, Package
+  Heart, ShieldCheck, Thermometer, Package, CreditCard
 } from 'lucide-react'
 
 const BRAND = {
@@ -129,6 +129,14 @@ export default function DemoFarmacia() {
   const [search, setSearch] = useState('')
   const [cart, setCart] = useState({})
   const [cartOpen, setCartOpen] = useState(false)
+  const [paying, setPaying] = useState(false)
+  const [payStatus, setPayStatus] = useState(null)
+
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search)
+    const s = p.get('status')
+    if (s) setPayStatus(s)
+  }, [])
 
   const filtered = useMemo(() =>
     PRODUCTS.filter(p =>
@@ -147,6 +155,27 @@ export default function DemoFarmacia() {
     return n
   })
 
+  const goCheckout = async () => {
+    if (totalItems === 0) return
+    setPaying(true)
+    try {
+      const items = PRODUCTS.filter(p => cart[p.id]).map(p => ({
+        title: p.name,
+        quantity: cart[p.id],
+        unit_price: p.price,
+      }))
+      const res = await fetch('/api/demos/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'farmacia', items }),
+      })
+      const data = await res.json()
+      if (data.init_point) window.location.href = data.init_point
+    } catch {
+      setPaying(false)
+    }
+  }
+
   const waOrder = () => {
     const items = PRODUCTS
       .filter(p => cart[p.id])
@@ -157,7 +186,10 @@ export default function DemoFarmacia() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: '#F9FAFB', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" />
+    <div className="min-h-screen" style={{ background: '#F9FAFB', fontFamily: "'Outfit', sans-serif" }}>
 
       {/* Demo Banner */}
       <div
@@ -174,6 +206,17 @@ export default function DemoFarmacia() {
           Cotizar ahora <ArrowRight size={11} />
         </a>
       </div>
+
+      {payStatus && (
+        <div style={{
+          background: payStatus === 'approved' ? '#16A34A' : payStatus === 'pending' ? '#D97706' : '#DC2626',
+          color: '#fff', padding: '14px 20px', textAlign: 'center', fontWeight: 700, fontSize: 15,
+        }}>
+          {payStatus === 'approved' && '¡Pago aprobado! Tu pedido está confirmado. Te contactaremos pronto.'}
+          {payStatus === 'pending' && 'Pago en proceso. Te avisaremos cuando se confirme.'}
+          {payStatus === 'failure' && 'El pago no pudo procesarse. Intenta nuevamente.'}
+        </div>
+      )}
 
       {/* Top bar */}
       <div
@@ -594,12 +637,21 @@ export default function DemoFarmacia() {
                   Precios sujetos a disponibilidad de stock
                 </p>
                 <button
-                  onClick={waOrder}
-                  className="w-full py-3.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
-                  style={{ background: '#25D366' }}
+                  onClick={goCheckout}
+                  disabled={paying}
+                  className="w-full py-3.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-opacity hover:opacity-90 disabled:opacity-60"
+                  style={{ background: '#2D2BB5' }}
                 >
-                  <MessageCircle size={18} />
-                  Pedir por WhatsApp
+                  <CreditCard size={18} />
+                  {paying ? 'Procesando…' : 'Pagar con MercadoPago'}
+                </button>
+                <button
+                  onClick={waOrder}
+                  className="w-full py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-opacity hover:opacity-80 mt-2"
+                  style={{ border: '1.5px solid #25D366', color: '#25D366', background: 'transparent', fontSize: 13 }}
+                >
+                  <MessageCircle size={15} />
+                  O pedir por WhatsApp
                 </button>
                 <p className="text-center text-[11px] mt-2.5" style={{ color: BRAND.gray }}>
                   Te confirmaremos disponibilidad y hora de entrega
@@ -622,5 +674,6 @@ export default function DemoFarmacia() {
         <MessageCircle size={26} color="#fff" strokeWidth={2} />
       </a>
     </div>
+    </>
   )
 }
