@@ -612,8 +612,16 @@ app.get('/api/orders/:orderId/download', authenticateAdmin, async (req, res) => 
   }
 });
 
-// 404 & Error handlers
-app.use((_req, res) => res.status(404).json({ success: false, message: 'Not found' }));
+// Serve React frontend (SPA catch-all — must be last, after all API routes)
+const distPath = path.join(__dirname, '../dist');
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath));
+  app.get('*', (_req, res) => res.sendFile(path.join(distPath, 'index.html')));
+} else {
+  app.use((_req, res) => res.status(404).json({ success: false, message: 'Not found' }));
+}
+
+// Error handler
 app.use((err, _req, res, _next) => {
   console.error(err.stack);
   res.status(500).json({ success: false, message: 'Internal Server Error' });
