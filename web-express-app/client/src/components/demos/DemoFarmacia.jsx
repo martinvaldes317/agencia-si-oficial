@@ -260,15 +260,20 @@ function ProductIcon({ iconKey, img }) {
   const IconComp = cfg.icon
   if (img) {
     return (
-      <div className="h-44 overflow-hidden" style={{ background: cfg.bg }}>
-        <img src={img} alt="" className="w-full h-full object-contain p-3" />
+      <div className="relative overflow-hidden flex items-center justify-center" style={{ background: '#fff', height: 180 }}>
+        <img
+          src={img}
+          alt=""
+          className="object-contain transition-transform hover:scale-105"
+          style={{ maxHeight: 160, maxWidth: '90%', padding: '8px 16px' }}
+        />
       </div>
     )
   }
   return (
     <div
-      className="h-44 flex items-center justify-center"
-      style={{ background: cfg.bg }}
+      className="flex items-center justify-center"
+      style={{ background: cfg.bg, height: 180 }}
     >
       <div
         className="w-20 h-20 rounded-2xl flex items-center justify-center"
@@ -549,41 +554,51 @@ export default function DemoFarmacia() {
           <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{ background: BRAND.mid, color: BRAND.dark }}>Esta semana</span>
         </div>
         <div className="grid md:grid-cols-3 gap-4">
-          {/* Slot 1 */}
-          <div className="rounded-2xl overflow-hidden flex flex-col" style={{ border: `2px dashed ${BRAND.border}` }}>
-            <div className="py-5 px-4 flex flex-col items-center justify-center text-center" style={{ background: '#FEF9C3' }}>
-              <span className="text-[10px] font-bold px-2.5 py-1 rounded-full mb-2" style={{ background: '#FDE68A', color: '#92400E' }}>-20% OFF</span>
-              <p className="text-2xl font-black" style={{ color: '#854D0E' }}>Omega 3 · $10.392</p>
-              <p className="text-sm line-through mt-0.5" style={{ color: '#92400E' }}>antes $12.990</p>
-              <p className="text-[11px] font-bold mt-1" style={{ color: '#92400E' }}>Vitaminas & Suplementos</p>
+          {/* Promo 1 — Omega 3 20% OFF */}
+          <div
+            className="rounded-2xl overflow-hidden flex flex-col cursor-pointer hover:shadow-lg transition-shadow"
+            style={{ background: '#FFFBEB', border: `1.5px solid #FDE68A` }}
+            onClick={() => setCat('Vitaminas')}
+          >
+            <div className="relative flex items-center justify-center px-6 pt-5" style={{ background: '#FEF9C3', minHeight: 140 }}>
+              <span className="absolute top-3 left-3 text-[10px] font-black px-2.5 py-1 rounded-full" style={{ background: '#EF4444', color: '#fff' }}>-20% OFF</span>
+              <img src="/img/farmacia/omega3-1000mg.jpg" alt="Omega 3" className="object-contain" style={{ maxHeight: 120 }} />
             </div>
-            <div className="p-4 flex-1" style={{ background: '#FFFBEB' }}>
-              <p className="font-bold text-sm mb-1" style={{ color: BRAND.black }}>Semana de la salud</p>
-              <p className="text-xs mb-3" style={{ color: BRAND.gray }}>20% descuento en toda la línea de vitaminas. Válido hasta el domingo.</p>
-              <button onClick={() => setCat('Vitaminas')} className="text-xs font-bold hover:opacity-70" style={{ color: '#D97706' }}>
-                Ver vitaminas →
-              </button>
-            </div>
-          </div>
-          {/* Slot 2 */}
-          <div className="rounded-2xl overflow-hidden flex flex-col" style={{ border: `2px dashed ${BRAND.border}` }}>
-            <div className="py-5 px-4 flex flex-col items-center justify-center text-center" style={{ background: BRAND.mid }}>
-              <span className="text-[10px] font-bold px-2.5 py-1 rounded-full mb-2" style={{ background: BRAND.light, color: BRAND.dark }}>2×1</span>
-              <p className="text-2xl font-black" style={{ color: BRAND.dark }}>Alcohol Gel $3.290</p>
-              <p className="text-sm line-through mt-0.5" style={{ color: BRAND.dark }}>pagas 1, llevas 2</p>
-              <p className="text-[11px] font-bold mt-1" style={{ color: BRAND.dark }}>Higiene & Protección</p>
-            </div>
-            <div className="p-4 flex-1" style={{ background: BRAND.light }}>
-              <p className="font-bold text-sm mb-1" style={{ color: BRAND.black }}>Lleva 2, paga 1</p>
-              <p className="text-xs mb-3" style={{ color: BRAND.gray }}>En selección de alcohol gel, mascarillas y termómetros.</p>
-              <button onClick={() => setCat('Higiene')} className="text-xs font-bold hover:opacity-70" style={{ color: BRAND.green }}>
-                Ver higiene →
-              </button>
+            <div className="p-4 flex-1">
+              <p className="font-black text-sm mb-0.5" style={{ color: '#92400E' }}>Omega 3 · 1000mg</p>
+              <p className="text-[11px] mb-2" style={{ color: BRAND.gray }}>Frasco 60 cápsulas · Semana de la salud</p>
+              <div className="flex items-baseline gap-2 mb-3">
+                <span className="text-xl font-black" style={{ color: '#D97706' }}>$10.392</span>
+                <span className="text-xs line-through" style={{ color: BRAND.gray }}>$12.990</span>
+              </div>
+              <span className="text-xs font-bold" style={{ color: '#D97706' }}>Ver vitaminas →</span>
             </div>
           </div>
-          {/* Slot 3 — espacio libre para campaña */}
+
+          {/* Promo 2 — Alcohol Gel 2×1 */}
+          <div
+            className="rounded-2xl overflow-hidden flex flex-col cursor-pointer hover:shadow-lg transition-shadow"
+            style={{ background: BRAND.light, border: `1.5px solid ${BRAND.mid}` }}
+            onClick={() => setCat('Higiene')}
+          >
+            <div className="relative flex items-center justify-center px-6 pt-5" style={{ background: BRAND.mid, minHeight: 140 }}>
+              <span className="absolute top-3 left-3 text-[10px] font-black px-2.5 py-1 rounded-full" style={{ background: BRAND.green, color: '#fff' }}>2×1</span>
+              <img src="/img/farmacia/alcohol-gel-500ml.jpg" alt="Alcohol Gel" className="object-contain" style={{ maxHeight: 120 }} />
+            </div>
+            <div className="p-4 flex-1">
+              <p className="font-black text-sm mb-0.5" style={{ color: BRAND.dark }}>Alcohol Gel 500ml</p>
+              <p className="text-[11px] mb-2" style={{ color: BRAND.gray }}>Con hidratante · Lleva 2, paga 1</p>
+              <div className="flex items-baseline gap-2 mb-3">
+                <span className="text-xl font-black" style={{ color: BRAND.green }}>$3.290</span>
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: BRAND.mid, color: BRAND.dark }}>×2 uds.</span>
+              </div>
+              <span className="text-xs font-bold" style={{ color: BRAND.green }}>Ver higiene →</span>
+            </div>
+          </div>
+
+          {/* Slot 3 — espacio libre */}
           <div className="rounded-2xl overflow-hidden flex flex-col items-center justify-center p-6 text-center"
-            style={{ border: `2px dashed ${BRAND.border}`, background: '#FAFAFA', minHeight: 180 }}>
+            style={{ border: `2px dashed ${BRAND.border}`, background: '#FAFAFA', minHeight: 220 }}>
             <Tag size={28} style={{ color: BRAND.border, marginBottom: 10 }} />
             <p className="text-sm font-bold mb-1" style={{ color: '#D1D5DB' }}>Espacio disponible</p>
             <p className="text-xs" style={{ color: '#D1D5DB' }}>Campaña o promoción especial</p>
@@ -667,28 +682,34 @@ export default function DemoFarmacia() {
           </div>
         ) : (
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
-            {filtered.map(p => (
+            {filtered.map(p => {
+              const cfg = ICON_MAP[p.iconKey] || { color: BRAND.green }
+              return (
               <div
                 key={p.id}
-                className="bg-white rounded-2xl overflow-hidden flex flex-col transition-shadow hover:shadow-md cursor-pointer"
+                className="bg-white rounded-2xl overflow-hidden flex flex-col transition-all hover:shadow-lg cursor-pointer group"
                 style={{ border: `1px solid ${BRAND.border}` }}
                 onClick={() => { setSelectedProduct(p); setDetailTab('descripcion') }}
               >
-                {/* Icon area */}
+                {/* Colored top accent */}
+                <div style={{ height: 3, background: cfg.color }} />
+
+                {/* Image / icon area */}
                 <ProductIcon iconKey={p.iconKey} img={p.img} />
+
+                {/* Divider */}
+                <div style={{ height: 1, background: BRAND.border }} />
 
                 {/* Info */}
                 <div className="p-4 flex flex-col flex-1">
-                  {/* Badge row */}
-                  {p.badge && (
-                    <div className="mb-2">
-                      <BadgeChip text={p.badge} />
-                    </div>
-                  )}
+                  {/* Badge + name row */}
+                  <div className="flex items-start justify-between gap-1 mb-1">
+                    <p className="text-sm font-bold leading-snug" style={{ color: BRAND.black }}>
+                      {p.name}
+                    </p>
+                    {p.badge && <BadgeChip text={p.badge} />}
+                  </div>
 
-                  <p className="text-sm font-bold leading-snug mb-1" style={{ color: BRAND.black }}>
-                    {p.name}
-                  </p>
                   <p className="text-[11px] mb-2 leading-relaxed" style={{ color: BRAND.gray }}>
                     {p.sub}
                   </p>
@@ -751,7 +772,7 @@ export default function DemoFarmacia() {
                   )}
                 </div>
               </div>
-            ))}
+            )})}
           </div>
         )}
         </main>
