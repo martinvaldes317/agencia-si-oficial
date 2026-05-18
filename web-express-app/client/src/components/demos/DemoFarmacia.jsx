@@ -607,12 +607,12 @@ export default function DemoFarmacia() {
       </nav>
 
       {/* Hero section with background image */}
-      <div id="inicio" className="relative overflow-hidden" style={{ minHeight: 340 }}>
+      <div id="inicio" className="relative overflow-hidden" style={{ minHeight: 500 }}>
         <img
           src="/img/farmacia/hero-farmacia.jpg"
           alt="Farmacia Santa Clara"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: 'right center' }}
+          style={{ objectPosition: 'right 15%' }}
         />
         {/* Overlay: 85% izquierda → 0% derecha (rostro visible a la derecha) */}
         <div
