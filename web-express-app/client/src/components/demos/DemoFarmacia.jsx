@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import {
   ShoppingCart, Search, Phone, MapPin, Clock, X, Plus, Minus,
   MessageCircle, Truck, Shield, Tag, ArrowRight, Star,
@@ -310,11 +310,10 @@ export default function DemoFarmacia() {
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [detailTab, setDetailTab] = useState('descripcion')
 
-  const filtered = useMemo(() =>
-    PRODUCTS.filter(p =>
-      (cat === 'Todos' || p.cat === cat) &&
-      (search === '' || p.name.toLowerCase().includes(search.toLowerCase()))
-    ), [cat, search])
+  const filtered = PRODUCTS.filter(p =>
+    (cat === 'Todos' || p.cat === cat) &&
+    (search === '' || p.name.toLowerCase().includes(search.toLowerCase()) || p.sub.toLowerCase().includes(search.toLowerCase()))
+  )
 
   const totalItems = Object.values(cart).reduce((a, b) => a + b, 0)
   const totalPrice = PRODUCTS.reduce((acc, p) => acc + (cart[p.id] || 0) * p.price, 0)
@@ -446,17 +445,25 @@ export default function DemoFarmacia() {
 
           {/* Search */}
           <div className="flex-1 relative max-w-xl">
-            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: BRAND.gray }} />
+            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: search ? BRAND.green : BRAND.gray }} />
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Busca medicamentos, vitaminas, dermocosméticos…"
-              className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm outline-none transition-all"
+              className="w-full pl-9 pr-10 py-2.5 rounded-xl text-sm outline-none transition-all"
               style={{
-                background: '#F3F4F6',
+                background: search ? '#F0FDF4' : '#F3F4F6',
                 border: `1.5px solid ${search ? BRAND.green : 'transparent'}`,
               }}
             />
+            {search && (
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: BRAND.green, color: '#fff' }}>{filtered.length}</span>
+                <button onClick={() => setSearch('')} className="p-0.5 rounded-full hover:bg-gray-200 transition-colors">
+                  <X size={13} style={{ color: BRAND.gray }} />
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Cart button */}

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import {
   MapPin, Clock, Phone, MessageCircle, ArrowRight, Star, Plus, Minus, X,
   ShoppingBag, Truck, UtensilsCrossed, Wine, ChefHat, Instagram, CheckCircle,
@@ -80,11 +80,10 @@ export default function DemoRestaurante() {
   const [form, setForm]       = useState({ nombre: '', email: '', telefono: '', direccion: '', notas: '' })
   const [menuSearch, setMenuSearch] = useState('')
 
-  const filtered   = useMemo(() =>
-    MENU.filter(p =>
-      (cat === 'Todo' || p.cat === cat) &&
-      (menuSearch === '' || p.name.toLowerCase().includes(menuSearch.toLowerCase()))
-    ), [cat, menuSearch])
+  const filtered = MENU.filter(p =>
+    (cat === 'Todo' || p.cat === cat) &&
+    (menuSearch === '' || p.name.toLowerCase().includes(menuSearch.toLowerCase()) || p.desc.toLowerCase().includes(menuSearch.toLowerCase()))
+  )
   const totalItems = Object.values(cart).reduce((a, b) => a + b, 0)
   const totalPrice = MENU.reduce((acc, p) => acc + (cart[p.id] || 0) * p.precio, 0)
 
@@ -287,22 +286,26 @@ export default function DemoRestaurante() {
 
           {/* Search bar */}
           <div className="relative max-w-md mx-auto mb-6">
-            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: B.gray }} />
+            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: menuSearch ? B.red : B.gray }} />
             <input
               value={menuSearch}
               onChange={e => setMenuSearch(e.target.value)}
               placeholder="Buscar en el menú…"
-              className="w-full pl-10 pr-4 py-3 rounded-xl text-sm outline-none transition-all"
+              className="w-full pl-10 py-3 rounded-xl text-sm outline-none transition-all"
               style={{
-                background: '#fff',
+                paddingRight: menuSearch ? '5rem' : '1rem',
+                background: menuSearch ? '#FFF7ED' : '#fff',
                 border: `1.5px solid ${menuSearch ? B.red : B.border}`,
                 fontFamily: "'Inter', sans-serif",
               }}
             />
             {menuSearch && (
-              <button onClick={() => setMenuSearch('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 p-0.5 rounded-full hover:bg-gray-100">
-                <X size={14} style={{ color: B.gray }} />
-              </button>
+              <div className="absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: B.red, color: '#fff' }}>{filtered.length}</span>
+                <button onClick={() => setMenuSearch('')} className="p-0.5 rounded-full hover:bg-orange-100 transition-colors">
+                  <X size={13} style={{ color: B.gray }} />
+                </button>
+              </div>
             )}
           </div>
 
