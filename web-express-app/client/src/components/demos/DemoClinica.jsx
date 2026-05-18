@@ -339,11 +339,12 @@ export default function DemoClinica() {
 
       {/* Info strip */}
       <div style={{ background: B.dark }}>
-        <div className="max-w-6xl mx-auto px-5 py-4 grid sm:grid-cols-3 gap-4">
+        <div className="max-w-6xl mx-auto px-5 py-4 grid sm:grid-cols-4 gap-4">
           {[
             { Icon: Clock,  text: 'Lun – Vie: 9:00 – 19:00 · Sab: 9:00 – 14:00' },
-            { Icon: Phone,  text: '+56 9 3293 0812' },
-            { Icon: MapPin, text: 'Av. Bernardo O\'Higgins 1240, Of. 305' },
+            { Icon: Phone,  text: '+56 9 3293 0812 · (71) 2 456 789' },
+            { Icon: MapPin, text: 'Av. Huamachuco 1240, Of. 305, San Clemente' },
+            { Icon: Shield, text: 'SIS autorizada · Código 14.892' },
           ].map(i => (
             <div key={i.text} className="flex items-center gap-2 text-xs text-white opacity-80">
               <i.Icon size={13} style={{ flexShrink: 0 }} />
@@ -467,6 +468,23 @@ export default function DemoClinica() {
               <Calendar size={15} /> Agenda tu consulta gratis
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* Stats institucionales */}
+      <section className="py-10 px-5" style={{ background: B.mid }}>
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {[
+            { n: '+10', label: 'Años de experiencia' },
+            { n: '+4.800', label: 'Pacientes atendidos' },
+            { n: '3', label: 'Especialistas certificados' },
+            { n: '98%', label: 'Satisfacción de pacientes' },
+          ].map(s => (
+            <div key={s.label}>
+              <p className="text-3xl font-black mb-1" style={{ color: B.dark }}>{s.n}</p>
+              <p className="text-xs font-semibold" style={{ color: B.gray }}>{s.label}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -653,77 +671,84 @@ export default function DemoClinica() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-5" style={{ background: B.dark, color: '#fff' }}>
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
+      <footer className="py-14 px-5" style={{ background: B.dark, color: '#fff' }}>
+        <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
+          {/* Col 1: Brand */}
           <div>
-            <div className="flex items-center gap-2.5 mb-4">
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center"
-                style={{ background: B.blue }}
-              >
-                <Stethoscope size={17} color="#fff" />
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: B.blue }}>
+                <Stethoscope size={18} color="#fff" />
               </div>
-              <p className="font-black text-base">Clinica Dental Sonrisa</p>
+              <div>
+                <p className="font-black text-sm leading-tight">Clínica Dental</p>
+                <p className="font-black text-sm leading-tight" style={{ color: B.blue }}>Sonrisa</p>
+              </div>
             </div>
-            <p className="text-sm opacity-70 mb-5 leading-relaxed">
-              Especialistas en salud bucal con tecnologia de ultima generacion y atencion personalizada.
+            <p className="text-sm opacity-70 mb-3 leading-relaxed">
+              Más de 10 años transformando sonrisas en San Clemente. Equipo certificado y tecnología de última generación.
             </p>
-            <a
-              href={WA}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold"
-              style={{ background: '#25D366' }}
-            >
-              <MessageCircle size={15} /> Escribir por WhatsApp
+            <p className="text-xs opacity-40">RUT: 76.891.234-5</p>
+            <p className="text-xs opacity-40 mt-0.5">Clínica Dental Sonrisa SpA</p>
+            <a href={WA} target="_blank" rel="noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold mt-4"
+              style={{ background: '#25D366' }}>
+              <MessageCircle size={15} /> WhatsApp
             </a>
           </div>
+
+          {/* Col 2: Contacto */}
           <div>
-            <p className="font-bold mb-4 text-xs uppercase tracking-widest opacity-50">Horario de atencion</p>
-            <div className="space-y-2 text-sm opacity-80">
-              <div className="flex items-center gap-2">
-                <Clock size={13} style={{ flexShrink: 0 }} />
-                <span>Lunes a Viernes: 9:00 – 19:00</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock size={13} style={{ flexShrink: 0 }} />
-                <span>Sabado: 9:00 – 14:00</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MessageCircle size={13} style={{ flexShrink: 0 }} />
-                <span>Urgencias: 24/7 via WhatsApp</span>
-              </div>
-            </div>
-          </div>
-          <div>
-            <p className="font-bold mb-4 text-xs uppercase tracking-widest opacity-50">Ubicacion</p>
-            <div className="space-y-2 text-sm opacity-80">
+            <p className="font-bold mb-4 text-xs uppercase tracking-widest opacity-50">Contacto</p>
+            <div className="space-y-2.5 text-sm opacity-75">
               <div className="flex items-start gap-2">
                 <MapPin size={13} style={{ flexShrink: 0, marginTop: 2 }} />
-                <span>Av. Bernardo O'Higgins 1240, Of. 305</span>
+                <span>Av. Huamachuco 1240, Of. 305, San Clemente, Maule</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Phone size={13} style={{ flexShrink: 0 }} />
-                <span>+56 9 3293 0812</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle size={13} style={{ flexShrink: 0 }} />
-                <span>Fonasa C y D · Isapres</span>
-              </div>
+              <div className="flex items-center gap-2"><Phone size={13} /><span>+56 9 3293 0812</span></div>
+              <div className="flex items-center gap-2"><Phone size={13} /><span>(71) 2 456 789</span></div>
+              <div className="flex items-center gap-2"><span className="text-xs opacity-60">@</span><span>contacto@clinicasonrisa.cl</span></div>
             </div>
           </div>
+
+          {/* Col 3: Horarios */}
+          <div>
+            <p className="font-bold mb-4 text-xs uppercase tracking-widest opacity-50">Horarios</p>
+            <div className="space-y-1.5 text-sm opacity-75">
+              <p>Lunes – Viernes: 9:00 – 19:00</p>
+              <p>Sábado: 9:00 – 14:00</p>
+              <p>Domingo y festivos: cerrado</p>
+              <p className="text-[11px] opacity-50 mt-2">Urgencias dentales disponibles fuera de horario — consultar disponibilidad por WhatsApp.</p>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {['Fonasa C y D', 'Cruz Blanca', 'Banmédica', 'Colmena'].map(c => (
+                <span key={c} className="text-[11px] px-2.5 py-1 rounded-full font-semibold"
+                  style={{ background: 'rgba(255,255,255,0.12)' }}>{c}</span>
+              ))}
+            </div>
+          </div>
+
+          {/* Col 4: Acreditación */}
+          <div>
+            <p className="font-bold mb-4 text-xs uppercase tracking-widest opacity-50">Acreditación</p>
+            <div className="space-y-2 text-sm opacity-75">
+              <p>Prestador registrado MINSAL</p>
+              <p>Código habilitación: 14.892</p>
+              <p>Directora técnica:<br /><span className="opacity-60">Dra. Valentina Reyes M.</span></p>
+            </div>
+            <p className="font-bold mt-5 mb-2 text-xs uppercase tracking-widest opacity-50">Redes sociales</p>
+            <div className="flex gap-3 text-sm opacity-70">
+              <a href="#" className="hover:opacity-100">Instagram</a>
+              <span className="opacity-30">·</span>
+              <a href="#" className="hover:opacity-100">Facebook</a>
+            </div>
+            <p className="text-xs opacity-40 mt-1">@clinicasonrisa.sc</p>
+          </div>
         </div>
-        <div
-          className="max-w-6xl mx-auto mt-10 pt-6 flex items-center justify-between flex-wrap gap-3 text-xs opacity-40"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}
-        >
-          <span>© 2025 Clinica Dental Sonrisa</span>
-          <a
-            href="https://agenciasi.cl"
-            target="_blank"
-            rel="noreferrer"
-            className="hover:opacity-70 transition-opacity"
-          >
+
+        <div className="max-w-6xl mx-auto mt-10 pt-6 flex items-center justify-between flex-wrap gap-3 text-xs opacity-35"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}>
+          <span>© 2025 Clínica Dental Sonrisa SpA · Todos los derechos reservados</span>
+          <a href="https://agenciasi.cl" target="_blank" rel="noreferrer" className="hover:opacity-70 transition-opacity">
             Sitio desarrollado por AgenciaSi
           </a>
         </div>

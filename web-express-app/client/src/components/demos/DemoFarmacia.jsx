@@ -228,7 +228,7 @@ export default function DemoFarmacia() {
         <div className="flex items-center gap-5 flex-wrap">
           <span className="flex items-center gap-1.5">
             <MapPin size={12} />
-            Av. Libertad 842, San Clemente
+            Av. Huamachuco 842, San Clemente
           </span>
           <span className="flex items-center gap-1.5">
             <Clock size={12} />
@@ -349,6 +349,16 @@ export default function DemoFarmacia() {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* Trust strip */}
+      <div style={{ background: '#F0FDF4', borderBottom: `1px solid ${BRAND.border}` }}>
+        <div className="max-w-6xl mx-auto px-4 py-4 flex flex-wrap gap-x-8 gap-y-2 items-center justify-between text-xs" style={{ color: BRAND.gray }}>
+          <span className="font-semibold" style={{ color: BRAND.dark }}>Farmacia Santa Clara Ltda. · RUT 76.543.210-K</span>
+          <span className="flex items-center gap-1.5"><Shield size={12} style={{ color: BRAND.green }} /> Autorizada ISP · Reg. N° 24.567</span>
+          <span className="flex items-center gap-1.5"><MapPin size={12} style={{ color: BRAND.green }} /> Av. Huamachuco 842, San Clemente</span>
+          <span className="flex items-center gap-1.5"><Phone size={12} style={{ color: BRAND.green }} /> +56 9 3293 0812</span>
         </div>
       </div>
 
@@ -510,76 +520,82 @@ export default function DemoFarmacia() {
 
       {/* Footer */}
       <footer className="mt-16 py-12 px-4" style={{ background: BRAND.dark, color: '#fff' }}>
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
+          {/* Col 1: Brand */}
           <div>
             <div className="flex items-center gap-2.5 mb-3">
-              <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: BRAND.green }}
-              >
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: BRAND.green }}>
                 <Pill size={15} color="#fff" strokeWidth={2} />
               </div>
-              <p className="font-black text-base">Farmacia Santa Clara</p>
+              <div>
+                <p className="font-black text-sm leading-tight">Farmacia</p>
+                <p className="font-black text-sm leading-tight" style={{ color: BRAND.green }}>Santa Clara</p>
+              </div>
             </div>
-            <p className="text-sm opacity-60 mb-4 leading-relaxed">
-              Tu farmacia de confianza en San Clemente. Más de 15 años cuidando tu salud.
+            <p className="text-sm opacity-70 mb-3 leading-relaxed">
+              Tu farmacia de confianza en San Clemente. Más de 15 años cuidando la salud de las familias de la región.
             </p>
-            <a
-              href={WA}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-opacity hover:opacity-90"
-              style={{ background: '#25D366' }}
-            >
-              <MessageCircle size={15} />
-              WhatsApp
-            </a>
+            <p className="text-xs opacity-40">RUT: 76.543.210-K</p>
+            <p className="text-xs opacity-40 mt-0.5">Farmacia Santa Clara Ltda.</p>
           </div>
 
-          <div>
-            <p className="font-bold mb-4 text-xs uppercase tracking-widest opacity-50">Horario</p>
-            <div className="space-y-2 text-sm opacity-75">
-              <div className="flex items-center gap-2">
-                <Clock size={13} className="shrink-0 opacity-60" />
-                <span>Lunes a Sábado: 8:30 – 21:00</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock size={13} className="shrink-0 opacity-60" />
-                <span>Domingo: 9:00 – 19:00</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock size={13} className="shrink-0 opacity-60" />
-                <span>Festivos: 10:00 – 18:00</span>
-              </div>
-            </div>
-          </div>
-
+          {/* Col 2: Contacto */}
           <div>
             <p className="font-bold mb-4 text-xs uppercase tracking-widest opacity-50">Contacto</p>
-            <div className="space-y-2 text-sm opacity-75">
-              <p className="flex items-center gap-2">
-                <MapPin size={13} className="shrink-0 opacity-60" />
-                Av. Libertad 842, San Clemente
+            <div className="space-y-2.5 text-sm opacity-75">
+              <p className="flex items-start gap-2">
+                <MapPin size={13} className="shrink-0 mt-0.5 opacity-60" />
+                Av. Huamachuco 842, San Clemente, Región del Maule
               </p>
               <p className="flex items-center gap-2">
                 <Phone size={13} className="shrink-0 opacity-60" />
                 +56 9 3293 0812
               </p>
+              <p className="flex items-center gap-2">
+                <Phone size={13} className="shrink-0 opacity-60" />
+                (71) 2 345 678 (fijo)
+              </p>
+              <a href="mailto:contacto@farmaciasantaclara.cl" className="flex items-center gap-2 hover:opacity-90">
+                <span className="opacity-60 text-xs">@</span>
+                contacto@farmaciasantaclara.cl
+              </a>
             </div>
+          </div>
+
+          {/* Col 3: Horarios */}
+          <div>
+            <p className="font-bold mb-4 text-xs uppercase tracking-widest opacity-50">Horarios</p>
+            <div className="space-y-2 text-sm opacity-75">
+              <div className="flex items-center gap-2"><Clock size={13} className="shrink-0 opacity-60" /><span>Lun – Vie: 8:30 – 21:00</span></div>
+              <div className="flex items-center gap-2"><Clock size={13} className="shrink-0 opacity-60" /><span>Sábado: 9:00 – 20:00</span></div>
+              <div className="flex items-center gap-2"><Clock size={13} className="shrink-0 opacity-60" /><span>Domingo: 10:00 – 18:00</span></div>
+              <div className="flex items-center gap-2"><Clock size={13} className="shrink-0 opacity-60" /><span>Festivos: 10:00 – 16:00</span></div>
+              <p className="text-[11px] opacity-50 mt-2">* Urgencias y recetas retenidas: horario reducido según turno.</p>
+            </div>
+          </div>
+
+          {/* Col 4: Legal & redes */}
+          <div>
+            <p className="font-bold mb-4 text-xs uppercase tracking-widest opacity-50">Información</p>
+            <div className="space-y-2 text-sm opacity-75">
+              <p>Farmacia autorizada por el ISP</p>
+              <p>Registro sanitario N° 24.567</p>
+              <p>Química Farmacéutica responsable:<br /><span className="opacity-60">Q.F. Patricia Rojas M.</span></p>
+            </div>
+            <p className="font-bold mt-5 mb-3 text-xs uppercase tracking-widest opacity-50">Síguenos</p>
+            <div className="flex gap-3">
+              <a href="#" className="text-sm opacity-70 hover:opacity-100">Instagram</a>
+              <span className="opacity-30">·</span>
+              <a href="#" className="text-sm opacity-70 hover:opacity-100">Facebook</a>
+            </div>
+            <p className="text-xs opacity-40 mt-2">@farmaciasantaclara</p>
           </div>
         </div>
 
-        <div
-          className="max-w-6xl mx-auto mt-10 pt-6 flex items-center justify-between flex-wrap gap-3 text-xs opacity-35"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.12)' }}
-        >
-          <span>© 2025 Farmacia Santa Clara</span>
-          <a
-            href="https://agenciasi.cl"
-            target="_blank"
-            rel="noreferrer"
-            className="hover:opacity-70 transition-opacity"
-          >
+        <div className="max-w-6xl mx-auto mt-10 pt-6 flex items-center justify-between flex-wrap gap-3 text-xs opacity-35"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.12)' }}>
+          <span>© 2025 Farmacia Santa Clara Ltda. · Todos los derechos reservados</span>
+          <a href="https://agenciasi.cl" target="_blank" rel="noreferrer" className="hover:opacity-70 transition-opacity">
             Sitio desarrollado por AgenciaSi
           </a>
         </div>

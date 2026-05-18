@@ -374,20 +374,22 @@ export default function DemoRestaurante() {
                 <em className="font-normal opacity-80">con el corazón.</em>
               </h2>
               <p className="text-base opacity-70 mb-8 leading-relaxed">
-                La Trattoria nació en 2009 de la mano del Chef Marco Pellegrini, quien trajo las
-                recetas de su nonna desde Nápoles. Cada plato es una historia: pasta amasada a mano
-                cada mañana, salsas que hierven por horas y productos locales de la Región del Maule.
+                Desde 2012, La Trattoria es un referente de la cocina italiana artesanal en San Clemente.
+                Ubicados en plena Av. Huamachuco, el corazón de la ciudad, ofrecemos una experiencia
+                gastronómica auténtica con ingredientes importados y recetas transmitidas por generaciones.
+                Somos un emprendimiento familiar con más de 12 años construyendo nuestra comunidad.
               </p>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {[
-                  { n: '15+', l: 'Años de historia' },
-                  { n: '48',  l: 'Platos en carta' },
-                  { n: '4.8', l: 'Estrellas Google' },
+                  { n: '12',     l: 'años de historia' },
+                  { n: '+15.000', l: 'comensales' },
+                  { n: '18',     l: 'platos artesanales' },
+                  { n: '4.9★',   l: 'valoración' },
                 ].map(s => (
-                  <div key={s.l} className="rounded-2xl p-5"
+                  <div key={s.l} className="rounded-2xl p-4 text-center"
                     style={{ background: 'rgba(255,255,255,0.1)' }}>
-                    <p className="text-3xl font-black text-white mb-1">{s.n}</p>
-                    <p className="text-[11px] opacity-60">{s.l}</p>
+                    <p className="text-2xl font-black mb-1" style={{ color: '#FCA5A5' }}>{s.n}</p>
+                    <p className="text-[11px] opacity-60 leading-tight">{s.l}</p>
                   </div>
                 ))}
               </div>
@@ -546,51 +548,66 @@ export default function DemoRestaurante() {
 
       {/* ── Footer ──────────────────────────────────────────────────────── */}
       <footer className="py-10 px-5" style={{ background: B.dark, color: '#fff' }}>
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-8">
+          {/* Col 1: Brand */}
           <div>
             <div className="flex items-center gap-2 mb-2">
               <UtensilsCrossed size={18} color="#FCA5A5" />
               <p className="font-black text-lg" style={{ fontFamily: "'Lora', serif" }}>La Trattoria</p>
             </div>
-            <p className="text-sm opacity-70 mb-4">
-              Cocina italiana artesanal en el corazón de San Clemente. Reservas y delivery vía WhatsApp.
+            <p className="text-sm opacity-70 mb-3 leading-relaxed">
+              Cocina italiana artesanal en el corazón de San Clemente desde 2012. Ingredientes seleccionados, recetas auténticas y sabor de hogar.
             </p>
-            <a href={WA} target="_blank" rel="noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold"
-              style={{ background: '#25D366' }}>
-              <MessageCircle size={15} /> Pedir ahora
-            </a>
+            <p className="text-xs opacity-40">RUT: 77.234.567-8</p>
+            <p className="text-xs opacity-40 mt-0.5">La Trattoria SpA</p>
           </div>
+
+          {/* Col 2: Encuéntranos */}
           <div>
-            <p className="font-bold mb-3 text-sm uppercase tracking-widest opacity-60">
-              Encuéntranos
-            </p>
+            <p className="font-bold mb-3 text-sm uppercase tracking-widest opacity-60">Encuéntranos</p>
             <div className="space-y-2 text-sm opacity-80">
-              <p className="flex items-center gap-2"><MapPin   size={13} /> Av. Balmaceda 530, San Clemente</p>
-              <p className="flex items-center gap-2"><Phone    size={13} /> +56 9 3293 0812</p>
+              <p className="flex items-start gap-2"><MapPin size={13} style={{ flexShrink:0, marginTop:2 }} /> Av. Huamachuco 530, San Clemente, Región del Maule</p>
+              <p className="flex items-center gap-2"><Phone size={13} /> +56 9 3293 0812</p>
+              <p className="flex items-center gap-2"><Phone size={13} /> (71) 2 678 901</p>
               <p className="flex items-center gap-2"><Instagram size={13} /> @latrattoria.sc</p>
             </div>
           </div>
+
+          {/* Col 3: Horarios */}
           <div>
-            <p className="font-bold mb-3 text-sm uppercase tracking-widest opacity-60">
-              Aceptamos
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {['Efectivo', 'Débito', 'Crédito', 'Transferencia'].map(m => (
+            <p className="font-bold mb-3 text-sm uppercase tracking-widest opacity-60">Horarios</p>
+            <div className="space-y-1.5 text-sm opacity-80">
+              <p>Lun – Jue: 12:30–15:30 · 19:00–23:00</p>
+              <p>Vie – Sáb: 12:30–16:00 · 19:00–00:00</p>
+              <p>Domingo: 12:30–16:30 (solo almuerzo)</p>
+              <p className="text-[11px] opacity-50 mt-2">Reservas recomendadas para fin de semana. Terraza disponible en verano.</p>
+            </div>
+          </div>
+
+          {/* Col 4: Medios de pago */}
+          <div>
+            <p className="font-bold mb-3 text-sm uppercase tracking-widest opacity-60">Aceptamos</p>
+            <div className="flex flex-wrap gap-2 mb-5">
+              {['Efectivo', 'Débito', 'Crédito', 'Transferencia', 'MercadoPago'].map(m => (
                 <span key={m} className="text-xs px-3 py-1 rounded-full font-semibold"
                   style={{ background: 'rgba(255,255,255,0.12)', color: '#fff' }}>
                   {m}
                 </span>
               ))}
             </div>
+            <p className="font-bold mb-2 text-xs uppercase tracking-widest opacity-60">Servicio</p>
+            <div className="space-y-1 text-sm opacity-75">
+              <p>Delivery: San Clemente y alrededores</p>
+              <p>Retiro sin costo adicional</p>
+              <p>Reservas: WhatsApp o llamada</p>
+            </div>
           </div>
         </div>
+
         <div className="max-w-6xl mx-auto mt-8 pt-6 flex items-center justify-between flex-wrap gap-3 text-xs opacity-40"
           style={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}>
-          <span>© 2025 La Trattoria · San Clemente</span>
-          <a href="https://agenciasi.cl" target="_blank" rel="noreferrer" className="hover:opacity-70">
-            Sitio desarrollado por AgenciaSi
-          </a>
+          <span>© 2025 La Trattoria SpA · San Clemente · Todos los derechos reservados</span>
+          <a href="https://agenciasi.cl" target="_blank" rel="noreferrer" className="hover:opacity-70">Sitio desarrollado por AgenciaSi</a>
         </div>
       </footer>
 
