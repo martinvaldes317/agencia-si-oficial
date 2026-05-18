@@ -389,6 +389,39 @@ export default function DemoFarmacia() {
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" />
+      <style>{`
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(22px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from { opacity: 0; transform: scale(0.94); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+        .anim-fade-up  { animation: fadeUp  0.6s cubic-bezier(0.22,1,0.36,1) both; }
+        .anim-fade-in  { animation: fadeIn  0.55s ease both; }
+        .anim-scale-in { animation: scaleIn 0.5s cubic-bezier(0.22,1,0.36,1) both; }
+        .d-1 { animation-delay: 80ms; }
+        .d-2 { animation-delay: 180ms; }
+        .d-3 { animation-delay: 280ms; }
+        .d-4 { animation-delay: 380ms; }
+        .d-5 { animation-delay: 480ms; }
+        .d-6 { animation-delay: 580ms; }
+        .card-lift { transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s ease; }
+        .card-lift:hover { transform: translateY(-5px); box-shadow: 0 16px 32px rgba(0,0,0,0.10); }
+        .promo-lift { transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease !important; }
+        .promo-lift:hover { transform: translateY(-6px) scale(1.015) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.13) !important; }
+        .btn-scale { transition: transform 0.18s ease, opacity 0.18s ease; }
+        .btn-scale:hover { transform: scale(1.04); }
+        .img-zoom img { transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+        .img-zoom:hover img { transform: scale(1.07); }
+        .sidebar-item { transition: all 0.2s cubic-bezier(0.22,1,0.36,1); }
+        .sidebar-item:hover { transform: translateX(3px); }
+      `}</style>
     <div className="min-h-screen" style={{ background: '#F9FAFB', fontFamily: "'Outfit', sans-serif" }}>
 
       {/* Demo Banner */}
@@ -579,48 +612,41 @@ export default function DemoFarmacia() {
           src="/img/farmacia/hero-farmacia.jpg"
           alt="Farmacia Santa Clara"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: 'center' }}
+          style={{ objectPosition: 'right center' }}
         />
-        {/* Overlay: 0% izquierda → 80% derecha */}
+        {/* Overlay: 85% izquierda → 0% derecha (rostro visible a la derecha) */}
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(90deg, rgba(20,83,45,0) 0%, rgba(20,83,45,0.80) 100%)' }}
+          style={{ background: 'linear-gradient(90deg, rgba(20,83,45,0.88) 0%, rgba(20,83,45,0.55) 50%, rgba(20,83,45,0) 100%)' }}
         />
-        <div className="relative max-w-6xl mx-auto px-4 py-14 flex flex-col md:flex-row items-center justify-between gap-10">
-          {/* Feature badges — izquierda, sobre imagen visible */}
-          <div className="grid grid-cols-3 gap-3 shrink-0 order-2 md:order-1">
-            {[
-              { icon: <Truck size={22} color="#fff" />,   title: 'Despacho',   sub: 'mismo día' },
-              { icon: <Shield size={22} color="#fff" />,  title: 'Productos',  sub: '100% originales' },
-              { icon: <Tag size={22} color="#fff" />,     title: 'Precios',    sub: 'convenientes' },
-            ].map(b => (
-              <div
-                key={b.title}
-                className="rounded-2xl p-4 text-center text-white"
-                style={{ background: 'rgba(20,83,45,0.55)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.18)' }}
-              >
-                <div className="flex justify-center mb-2">{b.icon}</div>
-                <p className="text-xs font-bold">{b.title}</p>
-                <p className="text-[10px] opacity-70 mt-0.5">{b.sub}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Copy — derecha, sobre overlay 80% */}
-          <div className="text-white max-w-lg order-1 md:order-2 text-right md:text-right">
-            <p className="text-xs font-bold uppercase tracking-widest opacity-70 mb-3">Farmacia Santa Clara</p>
-            <h1 className="text-3xl md:text-4xl font-black mb-4 leading-tight">
+        <div className="relative max-w-6xl mx-auto px-4 py-16 flex flex-col md:flex-row items-center justify-between gap-10">
+          {/* Copy — izquierda sobre overlay fuerte */}
+          <div className="text-white max-w-lg">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] opacity-70 mb-3 anim-fade-up">Farmacia Santa Clara</p>
+            <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight anim-fade-up d-1">
               Tu salud,<br />a un clic de distancia
             </h1>
-            <p className="text-sm opacity-85 mb-6 leading-relaxed">
+            <p className="text-sm opacity-85 mb-7 leading-relaxed max-w-sm anim-fade-up d-2">
               Medicamentos, vitaminas y dermocosméticos con despacho a domicilio el mismo día en San Clemente y alrededores.
             </p>
-            <div className="flex justify-end">
+            <div className="flex flex-wrap gap-3 mb-8 anim-fade-up d-3">
+              {[
+                { icon: <Truck size={16} />,   label: 'Despacho mismo día' },
+                { icon: <Shield size={16} />,  label: 'Productos originales' },
+                { icon: <Tag size={16} />,     label: 'Precios convenientes' },
+              ].map(b => (
+                <span key={b.label} className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full"
+                  style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.2)' }}>
+                  {b.icon} {b.label}
+                </span>
+              ))}
+            </div>
+            <div className="anim-fade-up d-4">
               <a
                 href={WA}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-opacity hover:opacity-90"
+                className="btn-scale inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm shadow-lg"
                 style={{ background: '#fff', color: BRAND.dark }}
               >
                 <MessageCircle size={16} style={{ color: '#25D366' }} />
@@ -628,6 +654,8 @@ export default function DemoFarmacia() {
               </a>
             </div>
           </div>
+          {/* Derecha vacía — el rostro del farmacéutico es visible */}
+          <div className="hidden md:block flex-1" />
         </div>
       </div>
 
@@ -643,7 +671,7 @@ export default function DemoFarmacia() {
 
       {/* ── Ofertas especiales ── */}
       <section id="ofertas" className="max-w-6xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center justify-between mb-5 anim-fade-up">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: BRAND.green }}>Promociones</p>
             <h2 className="text-xl font-black" style={{ color: BRAND.black }}>Ofertas especiales</h2>
@@ -654,7 +682,7 @@ export default function DemoFarmacia() {
 
           {/* Promo 1 — Omega 3 20% OFF */}
           <div
-            className="rounded-2xl overflow-hidden cursor-pointer hover:shadow-xl transition-all hover:-translate-y-0.5 flex"
+            className="promo-lift rounded-2xl overflow-hidden cursor-pointer flex anim-scale-in d-1"
             style={{ background: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)', minHeight: 160 }}
             onClick={() => setCat('Vitaminas')}
           >
@@ -678,7 +706,7 @@ export default function DemoFarmacia() {
 
           {/* Promo 2 — Alcohol Gel 2×1 */}
           <div
-            className="rounded-2xl overflow-hidden cursor-pointer hover:shadow-xl transition-all hover:-translate-y-0.5 flex"
+            className="promo-lift rounded-2xl overflow-hidden cursor-pointer flex anim-scale-in d-2"
             style={{ background: 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)', minHeight: 160 }}
             onClick={() => setCat('Higiene')}
           >
@@ -727,7 +755,7 @@ export default function DemoFarmacia() {
               <button
                 key={name}
                 onClick={() => setCat(name)}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-left transition-all hover:opacity-90 mb-0.5"
+                className="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-left mb-0.5"
                 style={active
                   ? { background: BRAND.green, color: '#fff' }
                   : { color: BRAND.gray, background: 'transparent' }}
@@ -791,7 +819,7 @@ export default function DemoFarmacia() {
               return (
               <div
                 key={p.id}
-                className="bg-white rounded-2xl overflow-hidden flex flex-col transition-all hover:shadow-lg cursor-pointer group"
+                className="card-lift img-zoom bg-white rounded-2xl overflow-hidden flex flex-col cursor-pointer"
                 style={{ border: `1px solid ${BRAND.border}` }}
                 onClick={() => { setSelectedProduct(p); setDetailTab('descripcion') }}
               >
