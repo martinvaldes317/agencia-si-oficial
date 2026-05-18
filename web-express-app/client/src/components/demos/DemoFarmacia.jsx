@@ -554,52 +554,59 @@ export default function DemoFarmacia() {
           <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{ background: BRAND.mid, color: BRAND.dark }}>Esta semana</span>
         </div>
         <div className="grid md:grid-cols-3 gap-4">
+
           {/* Promo 1 — Omega 3 20% OFF */}
           <div
-            className="rounded-2xl overflow-hidden flex flex-col cursor-pointer hover:shadow-lg transition-shadow"
-            style={{ background: '#FFFBEB', border: `1.5px solid #FDE68A` }}
+            className="rounded-2xl overflow-hidden cursor-pointer hover:shadow-xl transition-all hover:-translate-y-0.5 flex"
+            style={{ background: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)', minHeight: 160 }}
             onClick={() => setCat('Vitaminas')}
           >
-            <div className="relative flex items-center justify-center px-6 pt-5" style={{ background: '#FEF9C3', minHeight: 140 }}>
-              <span className="absolute top-3 left-3 text-[10px] font-black px-2.5 py-1 rounded-full" style={{ background: '#EF4444', color: '#fff' }}>-20% OFF</span>
-              <img src="/img/farmacia/omega3-1000mg.jpg" alt="Omega 3" className="object-contain" style={{ maxHeight: 120 }} />
-            </div>
-            <div className="p-4 flex-1">
-              <p className="font-black text-sm mb-0.5" style={{ color: '#92400E' }}>Omega 3 · 1000mg</p>
-              <p className="text-[11px] mb-2" style={{ color: BRAND.gray }}>Frasco 60 cápsulas · Semana de la salud</p>
-              <div className="flex items-baseline gap-2 mb-3">
-                <span className="text-xl font-black" style={{ color: '#D97706' }}>$10.392</span>
-                <span className="text-xs line-through" style={{ color: BRAND.gray }}>$12.990</span>
+            {/* Left: info */}
+            <div className="flex flex-col justify-between p-5 flex-1">
+              <div>
+                <span className="inline-block text-[11px] font-black px-2.5 py-1 rounded-full mb-3" style={{ background: '#DC2626', color: '#fff' }}>-20% OFF</span>
+                <p className="font-black text-base leading-tight mb-1" style={{ color: '#78350F' }}>Omega 3<br />1000mg</p>
+                <p className="text-[10px] mb-3" style={{ color: '#92400E', opacity: 0.7 }}>Frasco 60 cápsulas</p>
               </div>
-              <span className="text-xs font-bold" style={{ color: '#D97706' }}>Ver vitaminas →</span>
+              <div>
+                <p className="text-2xl font-black leading-none" style={{ color: '#92400E' }}>$10.392</p>
+                <p className="text-xs line-through mt-0.5" style={{ color: '#B45309' }}>antes $12.990</p>
+              </div>
+            </div>
+            {/* Right: image */}
+            <div className="flex items-center justify-center pr-4" style={{ width: 120 }}>
+              <img src="/img/farmacia/omega3-1000mg.jpg" alt="Omega 3" className="object-contain drop-shadow-lg" style={{ maxHeight: 130 }} />
             </div>
           </div>
 
           {/* Promo 2 — Alcohol Gel 2×1 */}
           <div
-            className="rounded-2xl overflow-hidden flex flex-col cursor-pointer hover:shadow-lg transition-shadow"
-            style={{ background: BRAND.light, border: `1.5px solid ${BRAND.mid}` }}
+            className="rounded-2xl overflow-hidden cursor-pointer hover:shadow-xl transition-all hover:-translate-y-0.5 flex"
+            style={{ background: 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)', minHeight: 160 }}
             onClick={() => setCat('Higiene')}
           >
-            <div className="relative flex items-center justify-center px-6 pt-5" style={{ background: BRAND.mid, minHeight: 140 }}>
-              <span className="absolute top-3 left-3 text-[10px] font-black px-2.5 py-1 rounded-full" style={{ background: BRAND.green, color: '#fff' }}>2×1</span>
-              <img src="/img/farmacia/alcohol-gel-500ml.jpg" alt="Alcohol Gel" className="object-contain" style={{ maxHeight: 120 }} />
-            </div>
-            <div className="p-4 flex-1">
-              <p className="font-black text-sm mb-0.5" style={{ color: BRAND.dark }}>Alcohol Gel 500ml</p>
-              <p className="text-[11px] mb-2" style={{ color: BRAND.gray }}>Con hidratante · Lleva 2, paga 1</p>
-              <div className="flex items-baseline gap-2 mb-3">
-                <span className="text-xl font-black" style={{ color: BRAND.green }}>$3.290</span>
-                <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: BRAND.mid, color: BRAND.dark }}>×2 uds.</span>
+            {/* Left: info */}
+            <div className="flex flex-col justify-between p-5 flex-1">
+              <div>
+                <span className="inline-block text-[11px] font-black px-2.5 py-1 rounded-full mb-3" style={{ background: BRAND.green, color: '#fff' }}>2 × 1</span>
+                <p className="font-black text-base leading-tight mb-1" style={{ color: BRAND.dark }}>Alcohol Gel<br />500ml</p>
+                <p className="text-[10px] mb-3" style={{ color: BRAND.dark, opacity: 0.6 }}>Con hidratante</p>
               </div>
-              <span className="text-xs font-bold" style={{ color: BRAND.green }}>Ver higiene →</span>
+              <div>
+                <p className="text-2xl font-black leading-none" style={{ color: BRAND.dark }}>$3.290</p>
+                <p className="text-xs mt-0.5 font-semibold" style={{ color: BRAND.green }}>Llevas 2 unidades</p>
+              </div>
+            </div>
+            {/* Right: image */}
+            <div className="flex items-center justify-center pr-4" style={{ width: 120 }}>
+              <img src="/img/farmacia/alcohol-gel-500ml.jpg" alt="Alcohol Gel" className="object-contain drop-shadow-lg" style={{ maxHeight: 130 }} />
             </div>
           </div>
 
           {/* Slot 3 — espacio libre */}
-          <div className="rounded-2xl overflow-hidden flex flex-col items-center justify-center p-6 text-center"
-            style={{ border: `2px dashed ${BRAND.border}`, background: '#FAFAFA', minHeight: 220 }}>
-            <Tag size={28} style={{ color: BRAND.border, marginBottom: 10 }} />
+          <div className="rounded-2xl flex flex-col items-center justify-center p-6 text-center"
+            style={{ border: `2px dashed ${BRAND.border}`, background: '#FAFAFA', minHeight: 160 }}>
+            <Tag size={26} style={{ color: '#D1D5DB', marginBottom: 10 }} />
             <p className="text-sm font-bold mb-1" style={{ color: '#D1D5DB' }}>Espacio disponible</p>
             <p className="text-xs" style={{ color: '#D1D5DB' }}>Campaña o promoción especial</p>
           </div>
