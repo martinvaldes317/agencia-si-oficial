@@ -37,7 +37,7 @@ const ICON_MAP = {
 const PRODUCTS = [
   // OTC
   {
-    id: 1, cat: 'OTC', name: 'Paracetamol 500mg', sub: 'Caja 20 comprimidos', price: 3490, badge: 'Más vendido', iconKey: 'pill_indigo', stars: 4.8,
+    id: 1, cat: 'OTC', name: 'Paracetamol 500mg', sub: 'Caja 20 comprimidos', price: 3490, badge: 'Más vendido', iconKey: 'pill_indigo', stars: 4.8, img: '/demos/farmacia/paracetamol-500mg.jpg',
     principioActivo: 'Paracetamol 500 mg', formaFarm: 'Comprimido recubierto', via: 'Oral',
     indicaciones: 'Tratamiento sintomático del dolor leve a moderado (cefalea, dolor de muelas, mialgias) y fiebre en adultos y adolescentes mayores de 12 años.',
     posologia: 'Adultos y adolescentes >12 años: 1–2 comprimidos cada 4–6 horas. Máximo 8 comprimidos (4 g) en 24 horas. No superar la dosis indicada.',
@@ -47,7 +47,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP F-24.123/2019',
   },
   {
-    id: 2, cat: 'OTC', name: 'Ibuprofeno 400mg', sub: 'Caja 20 comprimidos', price: 4290, badge: null, iconKey: 'pill_indigo', stars: 4.6,
+    id: 2, cat: 'OTC', name: 'Ibuprofeno 400mg', sub: 'Caja 20 comprimidos', price: 4290, badge: null, iconKey: 'pill_indigo', stars: 4.6, img: '/demos/farmacia/ibuprofeno-400mg.jpg',
     principioActivo: 'Ibuprofeno 400 mg', formaFarm: 'Comprimido recubierto', via: 'Oral',
     indicaciones: 'Alivio del dolor leve a moderado: cefalea, dolor muscular, dismenorrea, dolor dental. Tratamiento de la fiebre y estados febriles.',
     posologia: 'Adultos: 400 mg cada 6–8 horas. Máximo 1.200 mg/día sin prescripción médica. Tomar con alimentos para reducir la irritación gástrica.',
@@ -57,7 +57,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP F-18.456/2020',
   },
   {
-    id: 3, cat: 'OTC', name: 'Vitamina C 1000mg', sub: 'Frasco 30 cápsulas', price: 6990, priceOrig: 8990, badge: 'Oferta', iconKey: 'leaf_green', stars: 4.9,
+    id: 3, cat: 'OTC', name: 'Vitamina C 1000mg', sub: 'Frasco 30 cápsulas', price: 6990, priceOrig: 8990, badge: 'Oferta', iconKey: 'leaf_green', stars: 4.9, img: '/demos/farmacia/vitamina-c-1000mg.jpg',
     principioActivo: 'Ácido ascórbico 1.000 mg', formaFarm: 'Cápsula de gelatina dura', via: 'Oral',
     indicaciones: 'Suplementación de vitamina C. Apoyo al sistema inmune, síntesis de colágeno y protección antioxidante.',
     posologia: '1 cápsula al día, preferentemente con alimentos. No exceder 2.000 mg diarios sin indicación médica.',
@@ -67,7 +67,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP AS-33.789/2021',
   },
   {
-    id: 4, cat: 'OTC', name: 'Antigripal Noche', sub: 'Caja 10 sobres', price: 5490, badge: null, iconKey: 'pill_indigo', stars: 4.5,
+    id: 4, cat: 'OTC', name: 'Antigripal Noche', sub: 'Caja 10 sobres', price: 5490, badge: null, iconKey: 'pill_indigo', stars: 4.5, img: '/demos/farmacia/antigripal-noche.jpg',
     principioActivo: 'Paracetamol 600 mg + Clorfenamina 4 mg + Pseudoefedrina 60 mg', formaFarm: 'Granulado para solución oral', via: 'Oral',
     indicaciones: 'Alivio sintomático de resfriado y gripe: fiebre, congestión nasal, secreción nasal y malestar general.',
     posologia: '1 sobre disuelto en un vaso de agua caliente cada 6–8 horas. No exceder 4 sobres en 24 horas. Usar preferentemente por la noche.',
@@ -78,7 +78,7 @@ const PRODUCTS = [
   },
   // Dermocosmética
   {
-    id: 5, cat: 'Dermocosmética', name: 'Protector Solar SPF 50+', sub: 'Loción 200ml · Eucerin', price: 18990, badge: 'Premium', iconKey: 'sun_amber', stars: 4.9,
+    id: 5, cat: 'Dermocosmética', name: 'Protector Solar SPF 50+', sub: 'Loción 200ml · Eucerin', price: 18990, badge: 'Premium', iconKey: 'sun_amber', stars: 4.9, img: '/demos/farmacia/protector-solar-spf50.jpg',
     principioActivo: 'Dióxido de titanio 5% + Octinoxato 7.5% + Avobenzona 3%', formaFarm: 'Emulsión tópica', via: 'Tópica',
     indicaciones: 'Protección solar de amplio espectro (UVA/UVB) para uso diario. Indicado para pieles sensibles, atópicas o post-procedimiento.',
     posologia: 'Aplicar generosamente 20–30 minutos antes de la exposición solar. Reaplicar cada 2 horas y después del baño o sudoración intensa.',
@@ -88,7 +88,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP CS-11.987/2022',
   },
   {
-    id: 6, cat: 'Dermocosmética', name: 'Hidratante Facial', sub: 'Crema 50ml · Cetaphil', price: 14990, badge: null, iconKey: 'sparkles_pink', stars: 4.7,
+    id: 6, cat: 'Dermocosmética', name: 'Hidratante Facial', sub: 'Crema 50ml · Cetaphil', price: 14990, badge: null, iconKey: 'sparkles_pink', stars: 4.7, img: '/demos/farmacia/hidratante-facial.jpg',
     principioActivo: 'Glicerina 7.3% + Dimeticona 1.2% + Pantenol 0.5%', formaFarm: 'Crema emoliente', via: 'Tópica',
     indicaciones: 'Hidratación y restauración de la barrera cutánea en pieles secas, sensibles o atópicas. Apto para uso diario en rostro.',
     posologia: 'Aplicar una cantidad suficiente sobre rostro y cuello limpios, por la mañana y/o noche. Dar suaves masajes hasta absorción completa.',
@@ -98,7 +98,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP CS-08.341/2020',
   },
   {
-    id: 7, cat: 'Dermocosmética', name: 'Shampoo Anticaída', sub: 'Frasco 400ml', price: 9990, priceOrig: 12490, badge: 'Oferta', iconKey: 'wind_blue', stars: 4.4,
+    id: 7, cat: 'Dermocosmética', name: 'Shampoo Anticaída', sub: 'Frasco 400ml', price: 9990, priceOrig: 12490, badge: 'Oferta', iconKey: 'wind_blue', stars: 4.4, img: '/demos/farmacia/shampoo-anticaida.jpg',
     principioActivo: 'Biotina 0.2% + Arginina 2% + Queratina hidrolizada 1%', formaFarm: 'Champú líquido', via: 'Tópica capilar',
     indicaciones: 'Tratamiento de la caída del cabello de causa no hormonal. Fortalece la fibra capilar y estimula el cuero cabelludo.',
     posologia: 'Aplicar sobre cabello húmedo, masajear durante 2–3 minutos y enjuagar. Usar 3–4 veces por semana para mejores resultados.',
@@ -108,7 +108,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP CS-15.223/2021',
   },
   {
-    id: 8, cat: 'Dermocosmética', name: 'Vitamina E Facial', sub: 'Sérum 30ml', price: 11990, badge: null, iconKey: 'drops_purple', stars: 4.6,
+    id: 8, cat: 'Dermocosmética', name: 'Vitamina E Facial', sub: 'Sérum 30ml', price: 11990, badge: null, iconKey: 'drops_purple', stars: 4.6, img: '/demos/farmacia/vitamina-e-facial.jpg',
     principioActivo: 'Tocoferol (Vitamina E) 5% + Ácido hialurónico 1% + Niacinamida 3%', formaFarm: 'Sérum oleoso', via: 'Tópica',
     indicaciones: 'Antioxidante y antienvejecimiento. Reduce la aparición de líneas de expresión, manchas y mejora la luminosidad de la piel.',
     posologia: 'Aplicar 3–5 gotas sobre el rostro limpio por la noche. Dar suaves toquecitos con los dedos hasta absorción. Combinar con hidratante si se desea.',
@@ -119,7 +119,7 @@ const PRODUCTS = [
   },
   // Vitaminas
   {
-    id: 9, cat: 'Vitaminas', name: 'Omega 3 · 1000mg', sub: 'Frasco 60 cápsulas', price: 10392, priceOrig: 12990, badge: 'Más vendido', iconKey: 'fish_teal', stars: 4.8,
+    id: 9, cat: 'Vitaminas', name: 'Omega 3 · 1000mg', sub: 'Frasco 60 cápsulas', price: 10392, priceOrig: 12990, badge: 'Más vendido', iconKey: 'fish_teal', stars: 4.8, img: '/demos/farmacia/omega3-1000mg.jpg',
     principioActivo: 'EPA 180 mg + DHA 120 mg por cápsula (aceite de pescado 1.000 mg)', formaFarm: 'Cápsula blanda de gelatina', via: 'Oral',
     indicaciones: 'Suplementación de ácidos grasos omega-3. Apoyo a la salud cardiovascular, función cerebral y control de triglicéridos.',
     posologia: '1–2 cápsulas al día, preferentemente durante las comidas. No exceder 3 g/día sin indicación médica.',
@@ -129,7 +129,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP AS-27.654/2020',
   },
   {
-    id: 10, cat: 'Vitaminas', name: 'Magnesio B6', sub: 'Frasco 60 comprimidos', price: 8490, badge: null, iconKey: 'activity_org', stars: 4.5,
+    id: 10, cat: 'Vitaminas', name: 'Magnesio B6', sub: 'Frasco 60 comprimidos', price: 8490, badge: null, iconKey: 'activity_org', stars: 4.5, img: '/demos/farmacia/magnesio-b6.jpg',
     principioActivo: 'Citrato de magnesio 300 mg + Vitamina B6 (piridoxina) 5 mg', formaFarm: 'Comprimido', via: 'Oral',
     indicaciones: 'Suplementación de magnesio y vitamina B6. Ayuda a reducir el cansancio, los calambres musculares y apoya el sistema nervioso.',
     posologia: '1–2 comprimidos al día con agua, preferentemente con las comidas. En caso de calambres nocturnos, tomar por la noche.',
@@ -139,7 +139,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP AS-31.112/2021',
   },
   {
-    id: 11, cat: 'Vitaminas', name: 'Complejo B', sub: 'Frasco 30 cápsulas', price: 7290, badge: null, iconKey: 'activity_org', stars: 4.6,
+    id: 11, cat: 'Vitaminas', name: 'Complejo B', sub: 'Frasco 30 cápsulas', price: 7290, badge: null, iconKey: 'activity_org', stars: 4.6, img: '/demos/farmacia/complejo-b.jpg',
     principioActivo: 'B1 (tiamina) 100 mg + B2 (riboflavina) 50 mg + B3 (niacina) 50 mg + B5 25 mg + B6 50 mg + B9 400 µg + B12 100 µg', formaFarm: 'Cápsula', via: 'Oral',
     indicaciones: 'Suplementación del complejo B. Apoya el metabolismo energético, la función neurológica y la formación de glóbulos rojos.',
     posologia: '1 cápsula al día con el desayuno.',
@@ -149,7 +149,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP AS-29.008/2019',
   },
   {
-    id: 12, cat: 'Vitaminas', name: 'Zinc + Vitamina C', sub: 'Frasco 30 gummies', price: 9990, badge: 'Nuevo', iconKey: 'activity_org', stars: 4.7,
+    id: 12, cat: 'Vitaminas', name: 'Zinc + Vitamina C', sub: 'Frasco 30 gummies', price: 9990, badge: 'Nuevo', iconKey: 'activity_org', stars: 4.7, img: '/demos/farmacia/zinc-vitamina-c.jpg',
     principioActivo: 'Zinc (gluconato) 10 mg + Vitamina C (ácido ascórbico) 200 mg', formaFarm: 'Gummy masticable', via: 'Oral',
     indicaciones: 'Refuerzo del sistema inmunitario. Apoyo antioxidante y en la cicatrización de heridas. Mantención de cabello, piel y uñas.',
     posologia: '1 gummy al día. Masticar bien antes de tragar. No es un sustituto de una alimentación equilibrada.',
@@ -160,7 +160,7 @@ const PRODUCTS = [
   },
   // Bebé
   {
-    id: 13, cat: 'Bebé', name: 'Paracetamol Pediátrico', sub: 'Suspensión 100ml', price: 4990, badge: null, iconKey: 'heart_rose', stars: 4.9,
+    id: 13, cat: 'Bebé', name: 'Paracetamol Pediátrico', sub: 'Suspensión 100ml', price: 4990, badge: null, iconKey: 'heart_rose', stars: 4.9, img: '/demos/farmacia/paracetamol-pediatrico.jpg',
     principioActivo: 'Paracetamol 120 mg / 5 ml', formaFarm: 'Suspensión oral', via: 'Oral',
     indicaciones: 'Tratamiento de la fiebre y el dolor leve a moderado en niños desde los 2 meses de edad.',
     posologia: 'La dosis se calcula según el peso: 10–15 mg/kg cada 4–6 horas. Usar la jeringa dosificadora incluida. No exceder 5 dosis en 24 horas.',
@@ -170,7 +170,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP F-22.789/2020',
   },
   {
-    id: 14, cat: 'Bebé', name: 'Crema Pañal Bepanthen', sub: 'Tubo 100g', price: 8990, badge: 'Recomendado', iconKey: 'heart_rose', stars: 4.9,
+    id: 14, cat: 'Bebé', name: 'Crema Pañal Bepanthen', sub: 'Tubo 100g', price: 8990, badge: 'Recomendado', iconKey: 'heart_rose', stars: 4.9, img: '/demos/farmacia/crema-panal-bepanthen.jpg',
     principioActivo: 'Dexpantenol 5% (equivale a 5 g de provitamina B5 por 100 g)', formaFarm: 'Crema tópica', via: 'Tópica',
     indicaciones: 'Prevención y tratamiento de la dermatitis del pañal. Protege, calma e hidrata la piel sensible del bebé.',
     posologia: 'Aplicar en cada cambio de pañal sobre la piel limpia y seca. Cubrir bien toda la zona de contacto.',
@@ -180,7 +180,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP CS-04.567/2018',
   },
   {
-    id: 15, cat: 'Bebé', name: 'Suero Fisiológico', sub: 'Unidosis 5ml · 20 unid.', price: 5490, badge: null, iconKey: 'heart_rose', stars: 4.7,
+    id: 15, cat: 'Bebé', name: 'Suero Fisiológico', sub: 'Unidosis 5ml · 20 unid.', price: 5490, badge: null, iconKey: 'heart_rose', stars: 4.7, img: '/demos/farmacia/suero-fisiologico.jpg',
     principioActivo: 'Cloruro de sodio 9 mg/ml (solución isotónica 0,9%)', formaFarm: 'Solución para inhalación/lavado nasal', via: 'Nasal / inhalatoria',
     indicaciones: 'Higiene y desobstrucción nasal en bebés y niños. Humectación de mucosas nasales. Compatible con nebulizadores.',
     posologia: 'Lactantes: 1–2 gotas por fosa nasal 3–4 veces al día. Niños: aplicar unidosis completa en cada fosa nasal según necesidad.',
@@ -191,7 +191,7 @@ const PRODUCTS = [
   },
   // Higiene
   {
-    id: 16, cat: 'Higiene', name: 'Alcohol Gel 500ml', sub: 'Con hidratante', price: 3290, badge: null, iconKey: 'drops_cyan', stars: 4.4,
+    id: 16, cat: 'Higiene', name: 'Alcohol Gel 500ml', sub: 'Con hidratante', price: 3290, badge: null, iconKey: 'drops_cyan', stars: 4.4, img: '/demos/farmacia/alcohol-gel-500ml.jpg',
     principioActivo: 'Etanol 70% v/v + Glicerina 1.45% + Peróxido de hidrógeno 0.125%', formaFarm: 'Gel para uso tópico', via: 'Tópica (manos)',
     indicaciones: 'Desinfección higiénica de manos sin agua. Reduce la carga microbiana en situaciones donde no es posible el lavado con agua y jabón.',
     posologia: 'Aplicar una cantidad suficiente (3–5 ml) en la palma de la mano seca. Frotar durante al menos 20–30 segundos hasta secado completo.',
@@ -201,7 +201,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP DS-44.321/2020',
   },
   {
-    id: 17, cat: 'Higiene', name: 'Mascarillas KN95', sub: 'Caja 10 unidades', price: 4990, badge: null, iconKey: 'shield_slate', stars: 4.5,
+    id: 17, cat: 'Higiene', name: 'Mascarillas KN95', sub: 'Caja 10 unidades', price: 4990, badge: null, iconKey: 'shield_slate', stars: 4.5, img: '/demos/farmacia/mascarillas-kn95.jpg',
     principioActivo: 'N/A — Dispositivo de protección respiratoria', formaFarm: 'Mascarilla de filtración', via: 'Uso respiratorio',
     indicaciones: 'Protección respiratoria contra partículas y aerosoles. Filtración ≥95% de partículas no aceitosas ≥0.3 µm. Certificada KN95.',
     posologia: 'Ajustar el clip nasal y asegurarse de que el sello sea hermético alrededor del rostro. No reutilizar más de 8 horas de uso continuo.',
@@ -211,7 +211,7 @@ const PRODUCTS = [
     receta: false, registro: 'ISP DS-52.114/2021',
   },
   {
-    id: 18, cat: 'Higiene', name: 'Termómetro Digital', sub: 'Lectura en 10 segundos', price: 11990, priceOrig: 14990, badge: 'Oferta', iconKey: 'thermo_red', stars: 4.8,
+    id: 18, cat: 'Higiene', name: 'Termómetro Digital', sub: 'Lectura en 10 segundos', price: 11990, priceOrig: 14990, badge: 'Oferta', iconKey: 'thermo_red', stars: 4.8, img: '/demos/farmacia/termometro-digital.jpg',
     principioActivo: 'N/A — Dispositivo médico de diagnóstico', formaFarm: 'Termómetro electrónico', via: 'Axilar / oral / rectal',
     indicaciones: 'Medición precisa de la temperatura corporal en niños y adultos. Alarma de fiebre automática. Memoria del último registro.',
     posologia: 'Axilar: colocar bajo la axila seca durante 10 segundos. Oral: bajo la lengua con boca cerrada. Lavar el sensor después de cada uso.',
@@ -255,12 +255,19 @@ function Stars({ n }) {
   )
 }
 
-function ProductIcon({ iconKey }) {
+function ProductIcon({ iconKey, img }) {
   const cfg = ICON_MAP[iconKey] || { icon: Package, color: BRAND.green, bg: BRAND.light }
   const IconComp = cfg.icon
+  if (img) {
+    return (
+      <div className="h-44 overflow-hidden" style={{ background: cfg.bg }}>
+        <img src={img} alt="" className="w-full h-full object-contain p-3" />
+      </div>
+    )
+  }
   return (
     <div
-      className="h-36 flex items-center justify-center"
+      className="h-44 flex items-center justify-center"
       style={{ background: cfg.bg }}
     >
       <div
@@ -668,7 +675,7 @@ export default function DemoFarmacia() {
                 onClick={() => { setSelectedProduct(p); setDetailTab('descripcion') }}
               >
                 {/* Icon area */}
-                <ProductIcon iconKey={p.iconKey} />
+                <ProductIcon iconKey={p.iconKey} img={p.img} />
 
                 {/* Info */}
                 <div className="p-4 flex flex-col flex-1">
@@ -865,10 +872,13 @@ export default function DemoFarmacia() {
                 {/* Product hero */}
                 <div className="flex gap-5 p-5 items-start" style={{ background: cfg.bg }}>
                   <div
-                    className="w-24 h-24 rounded-2xl flex items-center justify-center shrink-0"
-                    style={{ background: cfg.color + '18' }}
+                    className="w-24 h-24 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden"
+                    style={{ background: p.img ? cfg.bg : cfg.color + '18' }}
                   >
-                    <IconComp size={44} color={cfg.color} strokeWidth={1.5} />
+                    {p.img
+                      ? <img src={p.img} alt={p.name} className="w-full h-full object-contain p-1" />
+                      : <IconComp size={44} color={cfg.color} strokeWidth={1.5} />
+                    }
                   </div>
                   <div className="flex-1 min-w-0">
                     {p.badge && (
