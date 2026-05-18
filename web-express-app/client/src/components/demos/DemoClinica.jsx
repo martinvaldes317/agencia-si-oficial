@@ -3,7 +3,7 @@ import {
   Phone, MapPin, Clock, MessageCircle, ArrowRight, Star, CheckCircle,
   ChevronDown, ChevronUp, Calendar, Shield, Award, Users, Zap,
   Stethoscope, Sparkles, Sun, AlignCenter, AlertCircle, Heart,
-  Gem, Scan, Activity, CreditCard
+  Gem, Scan, Activity, CreditCard, X
 } from 'lucide-react'
 
 const B = {
@@ -153,17 +153,27 @@ export default function DemoClinica() {
   const [sent, setSent] = useState(false)
   const [paying, setPaying] = useState(null)
   const [payStatus] = useState(() => new URLSearchParams(window.location.search).get('status'))
+  const [checkoutService, setCheckoutService] = useState(null)
+  const [checkoutForm, setCheckoutForm] = useState({ nombre: '', email: '', telefono: '', fecha: '', hora: '', notas: '' })
 
-  const bookService = async (servicio) => {
-    setPaying(servicio.name)
+  const bookService = (servicio) => {
+    setCheckoutService(servicio)
+    setCheckoutForm({ nombre: '', email: '', telefono: '', fecha: '', hora: '', notas: '' })
+  }
+
+  const confirmBooking = async () => {
+    if (!checkoutService) return
+    setPaying(checkoutService.name)
     try {
-      const unit_price = parseInt(servicio.precio.replace(/\D/g, ''), 10)
+      const unit_price = parseInt(checkoutService.precio.replace(/\D/g, ''), 10)
       const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/demos/checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type: 'clinica',
-          items: [{ title: servicio.name, quantity: 1, unit_price }],
+          items: [{ title: checkoutService.name, quantity: 1, unit_price }],
+          payer: { nombre: checkoutForm.nombre, email: checkoutForm.email, telefono: checkoutForm.telefono },
+          notas: [checkoutForm.fecha && `Fecha preferida: ${checkoutForm.fecha}`, checkoutForm.hora && `Hora: ${checkoutForm.hora}`, checkoutForm.notas].filter(Boolean).join(' | ') || undefined,
         }),
       })
       const data = await res.json()
@@ -729,6 +739,92 @@ export default function DemoClinica() {
       >
         <MessageCircle size={26} color="#fff" />
       </a>
+
+      {/* Checkout Modal */}
+      {checkoutService && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+            {/* Modal header */}
+            <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid #E5E7EB' }}>
+              <div>
+                <p className="font-black text-base" style={{ color: '#0C4A6E' }}>Reservar servicio</p>
+                <p className="text-xs" style={{ color: '#6B7280' }}>{checkoutService.name} · {checkoutService.precio}</p>
+              </div>
+              <button onClick={() => setCheckoutService(null)} className="p-1.5 rounded-xl hover:bg-gray-100">
+                <X size={18} style={{ color: '#6B7280' }} />
+              </button>
+            </div>
+
+            {/* Modal body */}
+            <div className="px-6 py-5 space-y-4">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#6B7280' }}>Tus datos</p>
+                <div className="space-y-3">
+                  <input required value={checkoutForm.nombre} onChange={e => setCheckoutForm(f => ({ ...f, nombre: e.target.value }))}
+                    placeholder="Nombre completo *"
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none"
+                    style={{ border: '1.5px solid #E5E7EB', background: '#FAFAFA' }} />
+                  <input required type="email" value={checkoutForm.email} onChange={e => setCheckoutForm(f => ({ ...f, email: e.target.value }))}
+                    placeholder="Email *"
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none"
+                    style={{ border: '1.5px solid #E5E7EB', background: '#FAFAFA' }} />
+                  <input required type="tel" value={checkoutForm.telefono} onChange={e => setCheckoutForm(f => ({ ...f, telefono: e.target.value }))}
+                    placeholder="Teléfono *"
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none"
+                    style={{ border: '1.5px solid #E5E7EB', background: '#FAFAFA' }} />
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#6B7280' }}>Preferencia de cita</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs mb-1 block" style={{ color: '#6B7280' }}>Fecha preferida</label>
+                    <input type="date" value={checkoutForm.fecha} onChange={e => setCheckoutForm(f => ({ ...f, fecha: e.target.value }))}
+                      min={new Date().toISOString().split('T')[0]}
+                      className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"
+                      style={{ border: '1.5px solid #E5E7EB', background: '#FAFAFA' }} />
+                  </div>
+                  <div>
+                    <label className="text-xs mb-1 block" style={{ color: '#6B7280' }}>Hora preferida</label>
+                    <select value={checkoutForm.hora} onChange={e => setCheckoutForm(f => ({ ...f, hora: e.target.value }))}
+                      className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"
+                      style={{ border: '1.5px solid #E5E7EB', background: '#FAFAFA' }}>
+                      <option value="">Selecciona</option>
+                      {['09:00','09:30','10:00','10:30','11:00','11:30','12:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00'].map(h => (
+                        <option key={h}>{h}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <textarea value={checkoutForm.notas} onChange={e => setCheckoutForm(f => ({ ...f, notas: e.target.value }))}
+                  placeholder="Notas adicionales (alergias, medicamentos, consultas previas…)"
+                  rows={2}
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none"
+                  style={{ border: '1.5px solid #E5E7EB', background: '#FAFAFA' }} />
+              </div>
+            </div>
+
+            {/* Modal footer */}
+            <div className="px-6 pb-6">
+              <button
+                onClick={confirmBooking}
+                disabled={paying === checkoutService.name || !checkoutForm.nombre || !checkoutForm.email || !checkoutForm.telefono}
+                className="w-full py-3.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-opacity hover:opacity-90 disabled:opacity-50"
+                style={{ background: '#2D2BB5' }}>
+                <CreditCard size={18} />
+                {paying === checkoutService.name ? 'Procesando…' : `Pagar ${checkoutService.precio} con MercadoPago`}
+              </button>
+              <p className="text-center text-[11px] mt-2" style={{ color: '#6B7280' }}>
+                Serás redirigido a MercadoPago para completar el pago
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
     </>
   )

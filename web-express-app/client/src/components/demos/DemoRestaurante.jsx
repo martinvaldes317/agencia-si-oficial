@@ -76,6 +76,8 @@ export default function DemoRestaurante() {
   const [resSent, setResSent]   = useState(false)
   const [paying, setPaying]   = useState(false)
   const [payStatus]           = useState(() => new URLSearchParams(window.location.search).get('status'))
+  const [step, setStep]       = useState('cart') // 'cart' | 'form'
+  const [form, setForm]       = useState({ nombre: '', email: '', telefono: '', direccion: '', notas: '' })
 
   const filtered   = useMemo(() => MENU.filter(p => cat === 'Todo' || p.cat === cat), [cat])
   const totalItems = Object.values(cart).reduce((a, b) => a + b, 0)
@@ -99,7 +101,6 @@ export default function DemoRestaurante() {
   }
 
   const goCheckout = async () => {
-    if (totalItems === 0) return
     setPaying(true)
     try {
       const items = MENU.filter(p => cart[p.id]).map(p => ({
@@ -110,7 +111,14 @@ export default function DemoRestaurante() {
       const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/demos/checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'restaurante', items }),
+        body: JSON.stringify({
+          type: 'restaurante',
+          items,
+          payer: { nombre: form.nombre, email: form.email, telefono: form.telefono },
+          entrega: tab,
+          direccion: tab === 'delivery' ? form.direccion : undefined,
+          notas: form.notas || undefined,
+        }),
       })
       const data = await res.json()
       if (data.init_point) window.location.assign(data.init_point)
@@ -589,100 +597,176 @@ export default function DemoRestaurante() {
       {/* ── Cart Drawer ─────────────────────────────────────────────────── */}
       {cartOpen && (
         <div className="fixed inset-0 z-50 flex">
-          <div className="flex-1 bg-black/50" onClick={() => setCartOpen(false)} />
+          <div className="flex-1 bg-black/50" onClick={() => { setCartOpen(false); setStep('cart') }} />
           <div className="w-full max-w-sm bg-white flex flex-col shadow-2xl">
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4"
-              style={{ borderBottom: `1px solid ${B.border}` }}>
-              <p className="font-black text-lg" style={{ color: B.dark }}>
-                Tu pedido ({totalItems})
-              </p>
-              <button onClick={() => setCartOpen(false)}
-                className="p-1 rounded-lg hover:bg-gray-100">
+            <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: `1px solid ${B.border}` }}>
+              <div className="flex items-center gap-2">
+                {step === 'form' && (
+                  <button onClick={() => setStep('cart')} className="p-1 rounded-lg hover:bg-gray-100 mr-1">
+                    <ArrowRight size={18} style={{ color: B.gray, transform: 'rotate(180deg)' }} />
+                  </button>
+                )}
+                <p className="font-black text-lg" style={{ color: B.dark }}>
+                  {step === 'cart' ? `Tu pedido (${totalItems})` : 'Datos de entrega'}
+                </p>
+              </div>
+              <button onClick={() => { setCartOpen(false); setStep('cart') }} className="p-1 rounded-lg hover:bg-gray-100">
                 <X size={20} />
               </button>
             </div>
 
-            {/* Delivery / Retiro toggle */}
-            <div className="flex mx-5 mt-4 rounded-xl overflow-hidden"
-              style={{ border: `1px solid ${B.border}` }}>
-              {[
-                ['delivery', <Truck size={13} />,   'Delivery'],
-                ['retiro',   <MapPin size={13} />,  'Retiro'],
-              ].map(([k, icon, label]) => (
-                <button key={k} onClick={() => setTab(k)}
-                  className="flex-1 py-2 text-xs font-bold transition-all flex items-center justify-center gap-1"
-                  style={tab === k
-                    ? { background: B.red, color: '#fff' }
-                    : { background: '#fff', color: B.gray }}>
-                  {icon} {label}
-                </button>
-              ))}
-            </div>
-
-            {/* Items list */}
-            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
-              {totalItems === 0 ? (
-                <div className="text-center py-16" style={{ color: B.gray }}>
-                  <ShoppingBag size={48} className="mx-auto mb-3 opacity-30" />
-                  <p className="font-semibold">Tu pedido está vacío</p>
-                  <p className="text-sm">Agrega platos del menú</p>
-                </div>
-              ) : MENU.filter(p => cart[p.id]).map(p => (
-                <div key={p.id} className="flex items-center gap-3">
-                  <img
-                    src={p.img}
-                    alt={p.name}
-                    className="w-12 h-12 object-cover rounded-xl shrink-0"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold truncate" style={{ color: B.black }}>{p.name}</p>
-                    <p className="text-xs" style={{ color: B.gray }}>{fmt(p.precio)} c/u</p>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <button onClick={() => remove(p.id)}
-                      className="w-6 h-6 rounded-full flex items-center justify-center"
-                      style={{ background: B.mid, color: B.dark }}>
-                      <Minus size={10} />
-                    </button>
-                    <span className="text-sm font-black w-4 text-center">{cart[p.id]}</span>
-                    <button onClick={() => add(p.id)}
-                      className="w-6 h-6 rounded-full flex items-center justify-center"
-                      style={{ background: B.red, color: '#fff' }}>
-                      <Plus size={10} />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Footer */}
-            {totalItems > 0 && (
-              <div className="px-5 py-4" style={{ borderTop: `1px solid ${B.border}` }}>
-                <div className="flex justify-between mb-4">
-                  <span className="font-semibold" style={{ color: B.gray }}>Total</span>
-                  <span className="text-xl font-black" style={{ color: B.dark }}>{fmt(totalPrice)}</span>
-                </div>
-                <button
-                  onClick={goCheckout}
-                  disabled={paying}
-                  className="w-full py-3.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-60"
-                  style={{ background: '#2D2BB5' }}
-                >
-                  <CreditCard size={18} />
-                  {paying ? 'Procesando…' : 'Pagar con MercadoPago'}
-                </button>
-                <button
-                  onClick={waOrder}
-                  className="w-full py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 hover:opacity-80 transition-opacity mt-2"
-                  style={{ border: '1.5px solid #25D366', color: '#25D366', background: 'transparent', fontSize: 13 }}
-                >
-                  <MessageCircle size={15} /> O pedir por WhatsApp
-                </button>
-                <p className="text-center text-[11px] mt-2" style={{ color: B.gray }}>
-                  Confirmamos tu pedido y tiempo de entrega al instante
-                </p>
+            {/* Delivery / Retiro toggle — only on cart step */}
+            {step === 'cart' && (
+              <div className="flex mx-5 mt-4 rounded-xl overflow-hidden"
+                style={{ border: `1px solid ${B.border}` }}>
+                {[
+                  ['delivery', <Truck size={13} />,   'Delivery'],
+                  ['retiro',   <MapPin size={13} />,  'Retiro'],
+                ].map(([k, icon, label]) => (
+                  <button key={k} onClick={() => setTab(k)}
+                    className="flex-1 py-2 text-xs font-bold transition-all flex items-center justify-center gap-1"
+                    style={tab === k
+                      ? { background: B.red, color: '#fff' }
+                      : { background: '#fff', color: B.gray }}>
+                    {icon} {label}
+                  </button>
+                ))}
               </div>
+            )}
+
+            {step === 'cart' ? (
+              <>
+                {/* Items list */}
+                <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+                  {totalItems === 0 ? (
+                    <div className="text-center py-16" style={{ color: B.gray }}>
+                      <ShoppingBag size={48} className="mx-auto mb-3 opacity-30" />
+                      <p className="font-semibold">Tu pedido está vacío</p>
+                      <p className="text-sm">Agrega platos del menú</p>
+                    </div>
+                  ) : MENU.filter(p => cart[p.id]).map(p => (
+                    <div key={p.id} className="flex items-center gap-3">
+                      <img
+                        src={p.img}
+                        alt={p.name}
+                        className="w-12 h-12 object-cover rounded-xl shrink-0"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold truncate" style={{ color: B.black }}>{p.name}</p>
+                        <p className="text-xs" style={{ color: B.gray }}>{fmt(p.precio)} c/u</p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button onClick={() => remove(p.id)}
+                          className="w-6 h-6 rounded-full flex items-center justify-center"
+                          style={{ background: B.mid, color: B.dark }}>
+                          <Minus size={10} />
+                        </button>
+                        <span className="text-sm font-black w-4 text-center">{cart[p.id]}</span>
+                        <button onClick={() => add(p.id)}
+                          className="w-6 h-6 rounded-full flex items-center justify-center"
+                          style={{ background: B.red, color: '#fff' }}>
+                          <Plus size={10} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Cart footer */}
+                {totalItems > 0 && (
+                  <div className="px-5 py-4" style={{ borderTop: `1px solid ${B.border}` }}>
+                    <div className="flex justify-between mb-4">
+                      <span className="font-semibold" style={{ color: B.gray }}>Total</span>
+                      <span className="text-xl font-black" style={{ color: B.dark }}>{fmt(totalPrice)}</span>
+                    </div>
+                    <button
+                      onClick={() => setStep('form')}
+                      className="w-full py-3.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
+                      style={{ background: '#2D2BB5' }}>
+                      <CreditCard size={18} /> Continuar con el pago
+                    </button>
+                    <button
+                      onClick={waOrder}
+                      className="w-full py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 hover:opacity-80 transition-opacity mt-2"
+                      style={{ border: '1.5px solid #25D366', color: '#25D366', background: 'transparent', fontSize: 13 }}
+                    >
+                      <MessageCircle size={15} /> O pedir por WhatsApp
+                    </button>
+                    <p className="text-center text-[11px] mt-2" style={{ color: B.gray }}>
+                      Confirmamos tu pedido y tiempo de entrega al instante
+                    </p>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                {/* Form body */}
+                <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4">
+                  {/* Order summary */}
+                  <div className="rounded-xl p-3 text-sm" style={{ background: B.light }}>
+                    <div className="flex justify-between font-bold" style={{ color: B.dark }}>
+                      <span>{totalItems} plato{totalItems !== 1 ? 's' : ''}</span>
+                      <span>{fmt(totalPrice)}</span>
+                    </div>
+                    <p className="text-xs mt-0.5" style={{ color: B.gray }}>
+                      {tab === 'delivery' ? 'Delivery a domicilio' : 'Retiro en el local'}
+                    </p>
+                  </div>
+
+                  {/* Personal data */}
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: B.gray }}>Tus datos</p>
+                    <div className="space-y-3">
+                      <input required value={form.nombre} onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))}
+                        placeholder="Nombre completo *"
+                        className="w-full px-4 py-3 rounded-xl text-sm outline-none"
+                        style={{ border: `1.5px solid ${B.border}`, background: '#FAFAFA' }} />
+                      <input required type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                        placeholder="Email *"
+                        className="w-full px-4 py-3 rounded-xl text-sm outline-none"
+                        style={{ border: `1.5px solid ${B.border}`, background: '#FAFAFA' }} />
+                      <input required type="tel" value={form.telefono} onChange={e => setForm(f => ({ ...f, telefono: e.target.value }))}
+                        placeholder="Teléfono *"
+                        className="w-full px-4 py-3 rounded-xl text-sm outline-none"
+                        style={{ border: `1.5px solid ${B.border}`, background: '#FAFAFA' }} />
+                    </div>
+                  </div>
+
+                  {/* Dirección (only if delivery) */}
+                  {tab === 'delivery' && (
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: B.gray }}>Dirección de entrega</p>
+                      <input value={form.direccion} onChange={e => setForm(f => ({ ...f, direccion: e.target.value }))}
+                        placeholder="Calle, número, comuna *"
+                        className="w-full px-4 py-3 rounded-xl text-sm outline-none"
+                        style={{ border: `1.5px solid ${B.border}`, background: '#FAFAFA' }} />
+                    </div>
+                  )}
+
+                  {/* Notas */}
+                  <textarea value={form.notas} onChange={e => setForm(f => ({ ...f, notas: e.target.value }))}
+                    placeholder="Notas del pedido (sin cebolla, término del punto, etc.)"
+                    rows={2}
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none"
+                    style={{ border: `1.5px solid ${B.border}`, background: '#FAFAFA' }} />
+                </div>
+
+                {/* Form footer */}
+                <div className="px-5 py-4" style={{ borderTop: `1px solid ${B.border}` }}>
+                  <button
+                    onClick={goCheckout}
+                    disabled={paying || !form.nombre || !form.email || !form.telefono || (tab === 'delivery' && !form.direccion)}
+                    className="w-full py-3.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
+                    style={{ background: '#2D2BB5' }}>
+                    <CreditCard size={18} />
+                    {paying ? 'Procesando…' : `Pagar ${fmt(totalPrice)} con MercadoPago`}
+                  </button>
+                  <p className="text-center text-[11px] mt-2" style={{ color: B.gray }}>
+                    Serás redirigido a MercadoPago para completar el pago
+                  </p>
+                </div>
+              </>
             )}
           </div>
         </div>

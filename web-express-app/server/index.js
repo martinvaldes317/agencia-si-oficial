@@ -441,19 +441,32 @@ app.post('/api/mp/create-preference', async (req, res) => {
 // MercadoPago: Demo checkout — creates a one-off preference for demo sites
 app.post('/api/demos/checkout', async (req, res) => {
   try {
-    const { type, items } = req.body;
+    const { type, items, payer, entrega, direccion, notas } = req.body;
     if (!type || !Array.isArray(items) || items.length === 0)
       return res.status(400).json({ success: false, message: 'type e items son requeridos' });
 
     const siteUrl = process.env.SITE_URL || 'https://agenciasi.cl';
+
+    const additionalInfo = [
+      entrega ? `Entrega: ${entrega}` : null,
+      direccion ? `Dirección: ${direccion}` : null,
+      notas ? `Notas: ${notas}` : null,
+    ].filter(Boolean).join(' | ');
+
     const preference = await mpPreference.create({
       body: {
         items: items.map(i => ({
-          title:      i.title,
-          quantity:   i.quantity,
-          unit_price: i.unit_price,
+          title:       i.title,
+          quantity:    i.quantity,
+          unit_price:  i.unit_price,
           currency_id: 'CLP',
         })),
+        payer: payer ? {
+          name:  payer.nombre || '',
+          email: payer.email  || '',
+          phone: { area_code: '56', number: (payer.telefono || '').replace(/\D/g, '') },
+        } : undefined,
+        additional_info: additionalInfo || undefined,
         back_urls: {
           success: `${siteUrl}/demos/${type}?status=approved`,
           failure: `${siteUrl}/demos/${type}?status=failure`,
