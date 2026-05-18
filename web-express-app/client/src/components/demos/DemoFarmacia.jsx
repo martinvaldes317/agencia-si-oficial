@@ -309,6 +309,7 @@ export default function DemoFarmacia() {
   const [form, setForm] = useState({ nombre: '', email: '', telefono: '', entrega: 'delivery', direccion: '', notas: '' })
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [detailTab, setDetailTab] = useState('descripcion')
+  const [searchOpen, setSearchOpen] = useState(false)
 
   const filtered = PRODUCTS.filter(p =>
     (cat === 'Todos' || p.cat === cat) &&
@@ -449,6 +450,9 @@ export default function DemoFarmacia() {
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
+              onFocus={() => setSearchOpen(true)}
+              onBlur={() => setTimeout(() => setSearchOpen(false), 180)}
+              onKeyDown={e => { if (e.key === 'Escape') { setSearch(''); setSearchOpen(false) } }}
               placeholder="Busca medicamentos, vitaminas, dermocosméticos…"
               className="w-full pl-9 pr-10 py-2.5 rounded-xl text-sm outline-none transition-all"
               style={{
@@ -459,9 +463,57 @@ export default function DemoFarmacia() {
             {search && (
               <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
                 <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: BRAND.green, color: '#fff' }}>{filtered.length}</span>
-                <button onClick={() => setSearch('')} className="p-0.5 rounded-full hover:bg-gray-200 transition-colors">
+                <button onClick={() => { setSearch(''); setSearchOpen(false) }} className="p-0.5 rounded-full hover:bg-gray-200 transition-colors">
                   <X size={13} style={{ color: BRAND.gray }} />
                 </button>
+              </div>
+            )}
+
+            {/* Search dropdown */}
+            {searchOpen && search && (
+              <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl shadow-2xl overflow-hidden"
+                style={{ border: `1px solid ${BRAND.border}`, zIndex: 60 }}>
+                {filtered.length === 0 ? (
+                  <div className="px-4 py-5 text-center">
+                    <p className="text-sm font-semibold mb-0.5" style={{ color: BRAND.black }}>Sin resultados para &ldquo;{search}&rdquo;</p>
+                    <p className="text-xs" style={{ color: BRAND.gray }}>Intenta con otro término o contáctanos por WhatsApp</p>
+                  </div>
+                ) : (
+                  <>
+                    {filtered.slice(0, 6).map(p => (
+                      <button
+                        key={p.id}
+                        onMouseDown={() => { setSelectedProduct(p); setDetailTab('descripcion'); setSearchOpen(false) }}
+                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+                        style={{ borderBottom: `1px solid ${BRAND.border}` }}
+                      >
+                        <div className="w-11 h-11 rounded-xl overflow-hidden shrink-0 flex items-center justify-center" style={{ background: '#F3F4F6' }}>
+                          <img src={p.img} alt="" className="w-full h-full object-contain p-1" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-bold truncate" style={{ color: BRAND.black }}>{p.name}</p>
+                          <p className="text-[11px]" style={{ color: BRAND.gray }}>{p.sub}</p>
+                        </div>
+                        <div className="shrink-0 text-right">
+                          {p.priceOrig && <p className="text-[10px] line-through" style={{ color: BRAND.gray }}>{fmt(p.priceOrig)}</p>}
+                          <p className="text-sm font-black" style={{ color: BRAND.green }}>{fmt(p.price)}</p>
+                        </div>
+                      </button>
+                    ))}
+                    {filtered.length > 6 ? (
+                      <button
+                        onMouseDown={() => { setSearchOpen(false); document.getElementById('productos')?.scrollIntoView({ behavior: 'smooth' }) }}
+                        className="w-full py-3 text-sm font-bold text-center hover:bg-gray-50 transition-colors"
+                        style={{ color: BRAND.green }}>
+                        Ver todos los {filtered.length} resultados →
+                      </button>
+                    ) : (
+                      <div className="px-4 py-2 text-center text-[11px]" style={{ color: BRAND.gray, background: '#FAFAFA' }}>
+                        {filtered.length} resultado{filtered.length !== 1 ? 's' : ''} · Haz clic para ver detalles
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
             )}
           </div>
