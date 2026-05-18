@@ -158,7 +158,7 @@ export default function DemoFarmacia() {
         quantity: cart[p.id],
         unit_price: p.price,
       }))
-      const res = await fetch('/api/demos/checkout', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/demos/checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'farmacia', items }),

@@ -158,7 +158,7 @@ export default function DemoClinica() {
     setPaying(servicio.name)
     try {
       const unit_price = parseInt(servicio.precio.replace(/\D/g, ''), 10)
-      const res = await fetch('/api/demos/checkout', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/demos/checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

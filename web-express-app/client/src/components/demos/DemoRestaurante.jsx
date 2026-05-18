@@ -107,7 +107,7 @@ export default function DemoRestaurante() {
         quantity: cart[p.id],
         unit_price: p.precio,
       }))
-      const res = await fetch('/api/demos/checkout', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/demos/checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'restaurante', items }),
