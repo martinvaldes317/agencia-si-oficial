@@ -576,55 +576,57 @@ export default function DemoFarmacia() {
       {/* Hero section with background image */}
       <div id="inicio" className="relative overflow-hidden" style={{ minHeight: 340 }}>
         <img
-          src="https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=1400&h=600&fit=crop&q=80"
+          src="/img/farmacia/hero-farmacia.jpg"
           alt="Farmacia Santa Clara"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ objectPosition: 'center' }}
         />
-        {/* Overlay */}
+        {/* Overlay: 0% izquierda → 80% derecha */}
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(90deg, rgba(20,83,45,0.90) 0%, rgba(22,163,74,0.70) 60%, rgba(22,163,74,0.30) 100%)' }}
+          style={{ background: 'linear-gradient(90deg, rgba(20,83,45,0) 0%, rgba(20,83,45,0.80) 100%)' }}
         />
         <div className="relative max-w-6xl mx-auto px-4 py-14 flex flex-col md:flex-row items-center justify-between gap-10">
-          {/* Copy */}
-          <div className="text-white max-w-lg">
-            <p className="text-xs font-bold uppercase tracking-widest opacity-70 mb-3">Farmacia Santa Clara</p>
-            <h1 className="text-3xl md:text-4xl font-black mb-4 leading-tight">
-              Tu salud,<br />a un clic de distancia
-            </h1>
-            <p className="text-sm opacity-80 mb-6 leading-relaxed max-w-sm">
-              Medicamentos, vitaminas y dermocosméticos con despacho a domicilio el mismo día en San Clemente y alrededores.
-            </p>
-            <a
-              href={WA}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-opacity hover:opacity-90"
-              style={{ background: '#fff', color: BRAND.dark }}
-            >
-              <MessageCircle size={16} style={{ color: '#25D366' }} />
-              Pedir por WhatsApp
-            </a>
-          </div>
-
-          {/* Feature badges */}
-          <div className="grid grid-cols-3 gap-3 shrink-0">
+          {/* Feature badges — izquierda, sobre imagen visible */}
+          <div className="grid grid-cols-3 gap-3 shrink-0 order-2 md:order-1">
             {[
-              { icon: <Truck size={22} color={BRAND.green} />,   title: 'Despacho',   sub: 'mismo día' },
-              { icon: <Shield size={22} color={BRAND.green} />,  title: 'Productos',  sub: '100% originales' },
-              { icon: <Tag size={22} color={BRAND.green} />,     title: 'Precios',    sub: 'convenientes' },
+              { icon: <Truck size={22} color="#fff" />,   title: 'Despacho',   sub: 'mismo día' },
+              { icon: <Shield size={22} color="#fff" />,  title: 'Productos',  sub: '100% originales' },
+              { icon: <Tag size={22} color="#fff" />,     title: 'Precios',    sub: 'convenientes' },
             ].map(b => (
               <div
                 key={b.title}
                 className="rounded-2xl p-4 text-center text-white"
-                style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.18)' }}
+                style={{ background: 'rgba(20,83,45,0.55)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.18)' }}
               >
                 <div className="flex justify-center mb-2">{b.icon}</div>
                 <p className="text-xs font-bold">{b.title}</p>
                 <p className="text-[10px] opacity-70 mt-0.5">{b.sub}</p>
               </div>
             ))}
+          </div>
+
+          {/* Copy — derecha, sobre overlay 80% */}
+          <div className="text-white max-w-lg order-1 md:order-2 text-right md:text-right">
+            <p className="text-xs font-bold uppercase tracking-widest opacity-70 mb-3">Farmacia Santa Clara</p>
+            <h1 className="text-3xl md:text-4xl font-black mb-4 leading-tight">
+              Tu salud,<br />a un clic de distancia
+            </h1>
+            <p className="text-sm opacity-85 mb-6 leading-relaxed">
+              Medicamentos, vitaminas y dermocosméticos con despacho a domicilio el mismo día en San Clemente y alrededores.
+            </p>
+            <div className="flex justify-end">
+              <a
+                href={WA}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-opacity hover:opacity-90"
+                style={{ background: '#fff', color: BRAND.dark }}
+              >
+                <MessageCircle size={16} style={{ color: '#25D366' }} />
+                Pedir por WhatsApp
+              </a>
+            </div>
           </div>
         </div>
       </div>
