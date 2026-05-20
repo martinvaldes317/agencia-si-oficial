@@ -41,6 +41,16 @@ const DEMOS = [
     bg:      '#FFF7ED',
     tags:    ['Menú', 'Pedidos', 'Reservas', 'Delivery'],
   },
+  {
+    slug:    '/demos/corredora',
+    label:   'Inmobiliaria',
+    name:    'Urbana Propiedades',
+    desc:    'Portal inmobiliario con catálogo de propiedades en venta y arriendo, filtros avanzados, detalle con galería, favoritos y contacto directo por WhatsApp.',
+    img:     'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=500&fit=crop&q=80',
+    color:   '#1756C5',
+    bg:      '#EEF4FF',
+    tags:    ['Catálogo', 'Filtros', 'Favoritos', 'WhatsApp'],
+  },
 ]
 
 const FEATURES = [
