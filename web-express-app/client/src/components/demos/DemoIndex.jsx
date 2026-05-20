@@ -51,12 +51,22 @@ const DEMOS = [
     bg:      '#EEF4FF',
     tags:    ['Catálogo', 'Filtros', 'Favoritos', 'WhatsApp'],
   },
+  {
+    slug:    '/demos/tienda',
+    label:   'Moda & Streetwear',
+    name:    'KULT. Store',
+    desc:    'E-commerce premium de ropa y zapatillas exclusivas con diseño oscuro, animaciones avanzadas, selección de tallas, carrito y pedido por WhatsApp.',
+    img:     'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=500&fit=crop&q=80',
+    color:   '#CCFF00',
+    bg:      '#1A1A00',
+    tags:    ['Catálogo', 'Tallas', 'Carrito', 'WhatsApp'],
+  },
 ]
 
 const FEATURES = [
-  { Icon: Globe,  title: 'Diseño a medida',    desc: 'Cada sitio refleja la identidad visual del negocio, no un template genérico.' },
-  { Icon: Zap,    title: 'Entrega en 5 días',  desc: 'Proceso ágil y directo. Del diagnóstico al sitio publicado en menos de una semana.' },
-  { Icon: Code2,  title: 'Código propio',       desc: 'React + Node.js. Sin constructores visuales. Rendimiento y escalabilidad real.' },
+  { icon: Globe,  title: 'Diseño a medida' },
+  { icon: Zap,    title: 'Entrega en 5 días' },
+  { icon: Code2,  title: 'Código propio' },
 ]
 
 export default function DemoIndex() {
@@ -105,16 +115,19 @@ export default function DemoIndex() {
           Tu negocio puede tener algo así en menos de una semana.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
-          {FEATURES.map(({ Icon, title, desc }) => (
+          {FEATURES.map(({ icon, title }) => {
+            const FeatureIcon = icon
+            return (
             <div
               key={title}
               className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
               style={{ background: T.white, border: `1px solid ${T.border}`, color: T.black }}
             >
-              <Icon size={14} style={{ color: T.blue }} />
+              <FeatureIcon size={14} style={{ color: T.blue }} />
               {title}
             </div>
-          ))}
+          )
+          })}
         </div>
       </section>
 
