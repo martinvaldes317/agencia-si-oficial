@@ -1,8 +1,9 @@
 import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import {
   ShoppingBag, X, Plus, Minus, ArrowRight, ArrowUpRight,
   Zap, Truck, RefreshCw, Shield, MessageCircle, Search,
-  Heart, Tag, Star,
+  Heart, Tag, Star, CreditCard, CheckCircle, Clock, AlertCircle,
 } from 'lucide-react'
 
 /* ─── Brand ─────────────────────────────────────────────── */
@@ -202,6 +203,44 @@ export default function DemoTienda() {
     const lines = cartItems.map(v => `• ${v.product.name} Talla ${v.size} x${v.qty} — ${fmt(v.product.price * v.qty)}`).join('\n')
     const msg = `Hola KULT STORE!\n\nQuiero hacer el siguiente pedido:\n\n${lines}\n\n*Total: ${fmt(totalPrice)}*`
     window.open(`${WA}?text=${encodeURIComponent(msg)}`, '_blank')
+  }
+
+  /* ── Mercado Pago ── */
+  const [checkout, setCheckout] = useState(false)
+  const [form, setForm] = useState({ nombre: '', email: '', telefono: '', entrega: 'despacho', direccion: '' })
+  const [mpLoading, setMpLoading] = useState(false)
+  const [mpError, setMpError] = useState('')
+  const [searchParams] = useSearchParams()
+  const payStatus = searchParams.get('status')
+
+  const handleCheckout = async (e) => {
+    e.preventDefault()
+    setMpLoading(true)
+    setMpError('')
+    try {
+      const items = cartItems.map(({ product: p, size, qty }) => ({
+        title: `${p.name} — Talla ${size}`,
+        quantity: qty,
+        unit_price: p.price,
+      }))
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/demos/checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'tienda',
+          items,
+          payer: { nombre: form.nombre, email: form.email, telefono: form.telefono },
+          entrega: form.entrega === 'despacho' ? 'Despacho' : 'Retiro en tienda',
+          direccion: form.entrega === 'despacho' ? form.direccion : undefined,
+        }),
+      })
+      const data = await res.json()
+      if (!data.success) throw new Error(data.message)
+      window.location.href = data.init_point
+    } catch (err) {
+      setMpError(err.message || 'Error al procesar el pago')
+      setMpLoading(false)
+    }
   }
 
   const MARQUEE_TEXT = Array(8).fill('KULT STORE · NUEVA COLECCIÓN SS25 · FREE SHIPPING +$50.000 · DROPS EXCLUSIVOS · ENTREGA 24H ·').join(' ')
@@ -773,14 +812,17 @@ export default function DemoTienda() {
                   <span className="text-2xl font-black" style={{ fontFamily: "'Bebas Neue', sans-serif", color: B.lime }}>{fmt(totalPrice)}</span>
                 </div>
                 <button
-                  onClick={waOrder}
+                  onClick={() => { setCartOpen(false); setCheckout(true) }}
                   className="lime-btn w-full py-4 font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2 mb-2"
                   style={{ background: B.lime, color: '#000' }}>
-                  <MessageCircle size={16} /> Pedir por WhatsApp
+                  <CreditCard size={16} /> Pagar con Mercado Pago
                 </button>
-                <p className="text-center text-[11px]" style={{ color: B.muted }}>
-                  Te enviamos el link de pago directamente
-                </p>
+                <button
+                  onClick={waOrder}
+                  className="ghost-btn w-full py-3 font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2"
+                  style={{ border: `1px solid ${B.border}`, color: B.muted, background: 'transparent' }}>
+                  <MessageCircle size={13} /> O pedir por WhatsApp
+                </button>
               </div>
             )}
           </div>
@@ -795,6 +837,182 @@ export default function DemoTienda() {
       </a>
 
     </div>
+
+    {/* ── CHECKOUT MODAL ── */}
+    {checkout && (
+      <div className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+        style={{ background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(16px)' }}>
+        <div className="w-full max-w-md rounded-2xl overflow-hidden"
+          style={{ background: B.card, border: `1px solid ${B.border}`, maxHeight: '96vh', overflowY: 'auto' }}>
+
+          {/* Header */}
+          <div className="flex items-start justify-between px-6 py-5" style={{ borderBottom: `1px solid ${B.border}` }}>
+            <div>
+              <p className="font-black text-2xl tracking-wider" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>CHECKOUT</p>
+              <p className="text-xs mt-0.5" style={{ color: B.muted }}>
+                {totalItems} producto{totalItems !== 1 ? 's' : ''} · <span style={{ color: B.lime }}>{fmt(totalPrice)}</span>
+              </p>
+            </div>
+            <button onClick={() => setCheckout(false)} className="p-1.5 rounded-lg hover:bg-white/10 mt-1">
+              <X size={18} style={{ color: B.muted }} />
+            </button>
+          </div>
+
+          {/* Order summary */}
+          <div className="px-6 pt-4 pb-0 space-y-2">
+            {cartItems.map(({ key, product: p, size, qty }) => (
+              <div key={key} className="flex items-center gap-3 py-2" style={{ borderBottom: `1px solid ${B.border}` }}>
+                <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0">
+                  <img src={p.img} alt={p.name} className="w-full h-full object-cover" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-black truncate tracking-wider" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 13 }}>{p.name}</p>
+                  <p className="text-[11px]" style={{ color: B.muted }}>Talla {size} · x{qty}</p>
+                </div>
+                <p className="text-sm font-bold shrink-0" style={{ color: B.lime }}>{fmt(p.price * qty)}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleCheckout} className="px-6 py-5 space-y-4">
+            <CheckoutInput label="Nombre completo" value={form.nombre} onChange={v => setForm(f => ({ ...f, nombre: v }))} placeholder="Juan Pérez" required />
+            <CheckoutInput label="Email" type="email" value={form.email} onChange={v => setForm(f => ({ ...f, email: v }))} placeholder="juan@email.com" required />
+            <CheckoutInput label="Teléfono" type="tel" value={form.telefono} onChange={v => setForm(f => ({ ...f, telefono: v }))} placeholder="+56 9 1234 5678" />
+
+            {/* Delivery type */}
+            <div>
+              <label className="text-[10px] font-bold uppercase tracking-widest block mb-2" style={{ color: B.muted }}>Tipo de entrega</label>
+              <div className="grid grid-cols-2 gap-2">
+                {[['despacho', 'Despacho a domicilio'], ['retiro', 'Retiro en tienda']].map(([val, lbl]) => (
+                  <button type="button" key={val}
+                    onClick={() => setForm(f => ({ ...f, entrega: val }))}
+                    className="py-3 text-xs font-bold tracking-wider uppercase transition-all"
+                    style={form.entrega === val
+                      ? { background: B.lime, color: '#000' }
+                      : { border: `1px solid ${B.border}`, color: B.muted, background: 'transparent' }}>
+                    {lbl}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {form.entrega === 'despacho' && (
+              <CheckoutInput label="Dirección de envío" value={form.direccion} onChange={v => setForm(f => ({ ...f, direccion: v }))} placeholder="Av. Providencia 1234, Santiago" required />
+            )}
+
+            {mpError && (
+              <p className="text-xs flex items-center gap-1.5" style={{ color: B.red }}>
+                <AlertCircle size={13} /> {mpError}
+              </p>
+            )}
+
+            <button type="submit" disabled={mpLoading}
+              className="lime-btn w-full py-4 font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2"
+              style={{ background: B.lime, color: '#000', opacity: mpLoading ? 0.75 : 1, cursor: mpLoading ? 'not-allowed' : 'pointer' }}>
+              <CreditCard size={16} />
+              {mpLoading ? 'Redirigiendo a Mercado Pago...' : `Pagar ${fmt(totalPrice)}`}
+            </button>
+
+            <div className="flex items-center justify-center gap-2 text-[11px]" style={{ color: B.muted }}>
+              <Shield size={11} style={{ color: B.lime }} />
+              Pago seguro con tarjeta, débito o transferencia
+            </div>
+          </form>
+        </div>
+      </div>
+    )}
+
+    {/* ── PAYMENT RETURN OVERLAY ── */}
+    {payStatus && (
+      <div className="fixed inset-0 z-[70] flex items-center justify-center p-4"
+        style={{ background: 'rgba(0,0,0,0.97)' }}>
+        <div className="w-full max-w-sm text-center px-8 py-12 rounded-2xl"
+          style={{ background: B.card, border: `1px solid ${B.border}` }}>
+
+          {payStatus === 'approved' && (
+            <>
+              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
+                style={{ background: B.lime }}>
+                <CheckCircle size={36} color="#000" strokeWidth={2.5} />
+              </div>
+              <h2 className="text-4xl font-black mb-3 tracking-wider" style={{ fontFamily: "'Bebas Neue', sans-serif", color: B.lime }}>
+                PAGO APROBADO
+              </h2>
+              <p className="text-sm leading-relaxed mb-8" style={{ color: B.muted }}>
+                Tu pedido fue confirmado. Recibirás un correo con los detalles y el seguimiento de tu compra.
+              </p>
+            </>
+          )}
+
+          {payStatus === 'failure' && (
+            <>
+              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
+                style={{ background: B.red }}>
+                <X size={36} color="#fff" strokeWidth={2.5} />
+              </div>
+              <h2 className="text-4xl font-black mb-3 tracking-wider" style={{ fontFamily: "'Bebas Neue', sans-serif", color: B.red }}>
+                PAGO FALLIDO
+              </h2>
+              <p className="text-sm leading-relaxed mb-8" style={{ color: B.muted }}>
+                No se realizó ningún cargo. Puedes intentarlo de nuevo o contactarnos por WhatsApp.
+              </p>
+            </>
+          )}
+
+          {payStatus === 'pending' && (
+            <>
+              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
+                style={{ background: '#D97706' }}>
+                <Clock size={36} color="#fff" strokeWidth={2.5} />
+              </div>
+              <h2 className="text-4xl font-black mb-3 tracking-wider" style={{ fontFamily: "'Bebas Neue', sans-serif", color: '#F59E0B' }}>
+                PAGO PENDIENTE
+              </h2>
+              <p className="text-sm leading-relaxed mb-8" style={{ color: B.muted }}>
+                Tu pago está siendo verificado. Te avisaremos por correo cuando se confirme.
+              </p>
+            </>
+          )}
+
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={() => window.history.replaceState({}, '', '/demos/tienda')}
+              className="lime-btn w-full py-4 font-bold uppercase tracking-widest text-sm"
+              style={{ background: B.lime, color: '#000' }}>
+              {payStatus === 'approved' ? 'Seguir comprando' : 'Volver a la tienda'}
+            </button>
+            {payStatus !== 'approved' && (
+              <a href={WA} target="_blank" rel="noreferrer"
+                className="ghost-btn w-full py-3 font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2"
+                style={{ border: `1px solid ${B.border}`, color: B.muted, background: 'transparent' }}>
+                <MessageCircle size={13} /> Contactar por WhatsApp
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    )}
+
     </>
+  )
+}
+
+function CheckoutInput({ label, type = 'text', value, onChange, placeholder, required }) {
+  return (
+    <div>
+      <label className="text-[10px] font-bold uppercase tracking-widest block mb-1.5" style={{ color: '#777777' }}>{label}</label>
+      <input
+        type={type}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        required={required}
+        className="w-full px-4 py-3 text-sm rounded-lg transition-all"
+        style={{ background: '#111111', border: '1px solid #222222', color: '#EFEFEF', outline: 'none' }}
+        onFocus={e => { e.target.style.borderColor = '#CCFF00' }}
+        onBlur={e => { e.target.style.borderColor = '#222222' }}
+      />
+    </div>
   )
 }
