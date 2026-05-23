@@ -24,7 +24,7 @@ const C = {
 const WA = 'https://wa.me/56932930812'
 const fmt = n => n >= 1000 ? `${(n / 1000).toFixed(1)}K` : n
 
-/* ── CSS ANIMATIONS ──────────────────────────────────────── */
+/* ── CSS ANIMATIONS + RESPONSIVE ────────────────────────── */
 const CSS_ANIM = `
   @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
   .ep-ticker { animation: ticker 38s linear infinite; display:flex; width:200%; }
@@ -34,11 +34,38 @@ const CSS_ANIM = `
   @keyframes epslide { from{opacity:0;transform:translateX(-12px)} to{opacity:1;transform:translateX(0)} }
   .ep-slide { animation: epslide .25s ease both }
   @keyframes epmodal { from{opacity:0;transform:scale(.97)} to{opacity:1;transform:scale(1)} }
-  .ep-modal { animation: epmodal .22s ease both }
+  .ep-modal-anim { animation: epmodal .22s ease both }
   .ep-art:hover img { transform:scale(1.04) }
   .ep-art img { transition: transform .5s ease }
   .ep-link:hover { color: ${C.red} !important }
   .ep-bookmark:hover { color: ${C.gold} !important }
+  /* Desktop defaults */
+  .ep-nav-desktop { display:flex; gap:4px; }
+  .ep-mobile-btn  { display:none; }
+  .ep-topbar      { display:flex; }
+  .ep-subscribe-label { display:inline; }
+  .ep-grid-main   { display:grid; grid-template-columns:1fr 300px; gap:36px; }
+  /* Mobile overrides */
+  @media (max-width: 640px) {
+    .ep-topbar         { display:none !important; }
+    .ep-nav-desktop    { display:none !important; }
+    .ep-mobile-btn     { display:flex !important; }
+    .ep-subscribe-label{ display:none !important; }
+    .ep-grid-main      { grid-template-columns:1fr !important; gap:24px !important; }
+    .ep-hero           { height:300px !important; }
+    .ep-hero-content   { padding:16px !important; }
+    .ep-hero-deck      { display:none !important; }
+    .ep-hero-meta      { gap:12px !important; flex-wrap:wrap; }
+    .ep-modal-wrap     { margin:0 !important; border-radius:0 !important; min-height:100vh; }
+    .ep-modal-img      { height:220px !important; }
+    .ep-modal-body     { padding:20px 16px !important; }
+    .ep-modal-meta     { flex-direction:column !important; align-items:flex-start !important; gap:10px !important; }
+    .ep-modal-actions  { flex-wrap:wrap !important; gap:8px !important; }
+    .ep-modal-actions button { flex:1 1 auto; justify-content:center; }
+    .ep-list-img       { width:80px !important; height:68px !important; }
+    .ep-list-author    { display:none !important; }
+    .ep-search-wrap    { margin:20px auto 0 !important; }
+  }
 `
 
 /* ── DATA ────────────────────────────────────────────────── */
@@ -220,10 +247,10 @@ export default function DemoNoticias() {
         </div>
       </div>
 
-      {/* ── TOP BAR ── */}
-      <div style={{ background: C.s1, borderBottom: `1px solid ${C.bdr}` }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 38 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+      {/* ── TOP BAR (oculta en móvil) ── */}
+      <div className="ep-topbar" style={{ background: C.s1, borderBottom: `1px solid ${C.bdr}` }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 38, width: '100%' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <span style={{ fontSize: 11, color: C.muted, display: 'flex', alignItems: 'center', gap: 5 }}>
               <MapPin size={10} /> Santiago, Chile
             </span>
@@ -258,7 +285,7 @@ export default function DemoNoticias() {
           </Link>
 
           {/* Center nav (desktop) */}
-          <nav className="hidden md:flex" style={{ display: 'flex', gap: 4 }}>
+          <nav className="ep-nav-desktop">
             {CATS.slice(0, 6).map(cat => (
               <button key={cat} onClick={() => setActiveCategory(cat)}
                 style={{ background: activeCategory === cat ? C.red : 'transparent', color: activeCategory === cat ? '#fff' : C.muted, border: 'none', cursor: 'pointer', padding: '6px 14px', borderRadius: 6, fontSize: 12, fontWeight: 600, transition: 'all .2s' }}>
@@ -273,29 +300,42 @@ export default function DemoNoticias() {
               style={{ background: C.s3, border: `1px solid ${C.bdr}`, color: C.muted, borderRadius: 8, width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
               <Search size={15} />
             </button>
-            <button
-              style={{ background: C.red, color: '#fff', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 12, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Bell size={13} /> Suscribirse
+            <button className="ep-subscribe-btn"
+              style={{ background: C.red, color: '#fff', border: 'none', borderRadius: 8, padding: '8px 14px', fontSize: 12, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Bell size={13} />
+              <span className="ep-subscribe-label">Suscribirse</span>
             </button>
-            <button onClick={() => setMobileNavOpen(!mobileNavOpen)}
-              style={{ display: 'none', background: C.s3, border: `1px solid ${C.bdr}`, color: C.white, borderRadius: 8, width: 36, height: 36, alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
-              className="ep-mobile-menu">
-              <Menu size={16} />
+            <button onClick={() => setMobileNavOpen(v => !v)}
+              className="ep-mobile-btn"
+              style={{ background: C.s3, border: `1px solid ${C.bdr}`, color: C.white, borderRadius: 8, width: 36, height: 36, alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+              {mobileNavOpen ? <X size={16} /> : <Menu size={16} />}
             </button>
           </div>
         </div>
 
         {/* Category bar */}
         <div style={{ borderTop: `1px solid ${C.bdr}`, background: C.bg }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', gap: 0, overflowX: 'auto', scrollbarWidth: 'none' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', gap: 0, overflowX: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {CATS.map(cat => (
-              <button key={cat} onClick={() => setActiveCategory(cat)}
-                style={{ whiteSpace: 'nowrap', padding: '10px 18px', fontSize: 12, fontWeight: 600, color: activeCategory === cat ? C.red : C.muted, borderBottom: activeCategory === cat ? `2px solid ${C.red}` : '2px solid transparent', background: 'none', border: 'none', borderBottomWidth: 2, borderBottomStyle: 'solid', borderBottomColor: activeCategory === cat ? C.red : 'transparent', cursor: 'pointer', transition: 'all .2s', letterSpacing: .3 }}>
+              <button key={cat} onClick={() => { setActiveCategory(cat); setMobileNavOpen(false) }}
+                style={{ whiteSpace: 'nowrap', padding: '10px 14px', fontSize: 12, fontWeight: 600, color: activeCategory === cat ? C.red : C.muted, borderBottom: '2px solid transparent', borderBottomColor: activeCategory === cat ? C.red : 'transparent', background: 'none', border: 'none', borderBottomWidth: 2, borderBottomStyle: 'solid', cursor: 'pointer', transition: 'all .2s', letterSpacing: .3 }}>
                 {cat}
               </button>
             ))}
           </div>
         </div>
+
+        {/* Mobile nav drawer */}
+        {mobileNavOpen && (
+          <div style={{ background: C.s2, borderTop: `1px solid ${C.bdr}`, padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {CATS.map(cat => (
+              <button key={cat} onClick={() => { setActiveCategory(cat); setMobileNavOpen(false) }}
+                style={{ textAlign: 'left', padding: '12px 14px', borderRadius: 8, fontSize: 14, fontWeight: 600, color: activeCategory === cat ? '#fff' : C.muted, background: activeCategory === cat ? C.red : 'transparent', border: 'none', cursor: 'pointer' }}>
+                {cat}
+              </button>
+            ))}
+          </div>
+        )}
       </header>
 
       {/* ── MAIN CONTENT ── */}
@@ -303,12 +343,12 @@ export default function DemoNoticias() {
 
         {/* HERO */}
         {hero && (
-          <div className="ep-art ep-fade" onClick={() => setActiveArticle(hero)}
-            style={{ cursor: 'pointer', marginBottom: 32, borderRadius: 12, overflow: 'hidden', position: 'relative', height: 520 }}>
+          <div className="ep-art ep-fade ep-hero" onClick={() => setActiveArticle(hero)}
+            style={{ cursor: 'pointer', marginBottom: 24, borderRadius: 12, overflow: 'hidden', position: 'relative', height: 520 }}>
             <img src={hero.img} alt={hero.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(5,5,10,.95) 40%, rgba(5,5,10,.2) 80%)' }} />
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '40px 40px 36px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+            <div className="ep-hero-content" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '40px 40px 36px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
                 <span style={{ background: C.red, color: '#fff', fontSize: 10, fontWeight: 800, padding: '4px 10px', borderRadius: 4, letterSpacing: 1.5, textTransform: 'uppercase' }}>
                   {hero.cat}
                 </span>
@@ -318,25 +358,22 @@ export default function DemoNoticias() {
                   </span>
                 )}
               </div>
-              <h1 style={{ fontSize: 'clamp(22px, 3vw, 36px)', fontWeight: 900, color: '#fff', lineHeight: 1.2, marginBottom: 12, maxWidth: 780 }}>
+              <h1 style={{ fontSize: 'clamp(18px, 4vw, 36px)', fontWeight: 900, color: '#fff', lineHeight: 1.2, marginBottom: 10, maxWidth: 780 }}>
                 {hero.title}
               </h1>
-              <p style={{ fontSize: 15, color: 'rgba(240,240,245,.75)', marginBottom: 20, maxWidth: 640, lineHeight: 1.6 }}>
+              <p className="ep-hero-deck" style={{ fontSize: 15, color: 'rgba(240,240,245,.75)', marginBottom: 16, maxWidth: 640, lineHeight: 1.6 }}>
                 {hero.deck}
               </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+              <div className="ep-hero-meta" style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
                 <span style={{ fontSize: 12, color: C.gold, fontWeight: 700 }}>{hero.author}</span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: C.muted }}>
                   <Clock size={11} /> {hero.time}
                 </span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: C.muted }}>
-                  <BookOpen size={11} /> {hero.readTime} lectura
+                  <BookOpen size={11} /> {hero.readTime}
                 </span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: C.muted }}>
                   <Eye size={11} /> {fmt(hero.views)}
-                </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: C.muted }}>
-                  <MessageCircle size={11} /> {hero.comments}
                 </span>
               </div>
             </div>
@@ -351,7 +388,7 @@ export default function DemoNoticias() {
         )}
 
         {/* MAIN GRID + SIDEBAR */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 36 }} className="ep-grid-main">
+        <div className="ep-grid-main">
           {/* Articles */}
           <div>
             {rest.length > 0 && (
@@ -598,8 +635,8 @@ function ArticleCardList({ art, onOpen, bookmarks, toggleBookmark, likes, toggle
         </div>
         <h3 style={{ fontSize: 15, fontWeight: 800, color: C.white, lineHeight: 1.35, marginBottom: 6 }} className="ep-link">{art.title}</h3>
         <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.6, marginBottom: 10, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{art.deck}</p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <span style={{ fontSize: 11, color: C.dim }}>{art.author}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span className="ep-list-author" style={{ fontSize: 11, color: C.dim }}>{art.author}</span>
           <span style={{ fontSize: 11, color: C.dim, display: 'flex', alignItems: 'center', gap: 3 }}><Eye size={10} />{fmt(art.views)}</span>
           <span style={{ fontSize: 11, color: C.dim, display: 'flex', alignItems: 'center', gap: 3 }}><MessageCircle size={10} />{art.comments}</span>
           <button onClick={e => { e.stopPropagation(); toggleBookmark(art.id) }}
@@ -609,7 +646,7 @@ function ArticleCardList({ art, onOpen, bookmarks, toggleBookmark, likes, toggle
           </button>
         </div>
       </div>
-      <div style={{ width: 110, height: 80, borderRadius: 8, overflow: 'hidden', flexShrink: 0 }}>
+      <div className="ep-list-img" style={{ width: 110, height: 80, borderRadius: 8, overflow: 'hidden', flexShrink: 0 }}>
         <img src={art.img} alt={art.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
       </div>
     </div>
@@ -622,10 +659,10 @@ function ArticleModal({ art, onClose, bookmarks, toggleBookmark, likes, toggleLi
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(5,5,10,.9)', zIndex: 100, overflowY: 'auto', backdropFilter: 'blur(6px)' }}
       onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="ep-modal" style={{ background: C.s1, maxWidth: 760, margin: '20px auto', borderRadius: 16, overflow: 'hidden', border: `1px solid ${C.bdr}` }}>
+      <div className="ep-modal-anim ep-modal-wrap" style={{ background: C.s1, maxWidth: 760, margin: '20px auto', borderRadius: 16, overflow: 'hidden', border: `1px solid ${C.bdr}` }}>
 
         {/* Image */}
-        <div style={{ position: 'relative', height: 380 }}>
+        <div className="ep-modal-img" style={{ position: 'relative', height: 380 }}>
           <img src={art.img} alt={art.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,.3) 0%, transparent 50%)' }} />
           <button onClick={onClose}
@@ -639,22 +676,22 @@ function ArticleModal({ art, onClose, bookmarks, toggleBookmark, likes, toggleLi
         </div>
 
         {/* Content */}
-        <div style={{ padding: '36px 40px' }}>
-          <h1 style={{ fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: 900, color: C.white, lineHeight: 1.25, marginBottom: 14 }}>{art.title}</h1>
-          <p style={{ fontSize: 16, color: C.muted, lineHeight: 1.7, marginBottom: 24, fontStyle: 'italic', borderLeft: `3px solid ${C.red}`, paddingLeft: 16 }}>{art.deck}</p>
+        <div className="ep-modal-body" style={{ padding: '32px 40px' }}>
+          <h1 style={{ fontSize: 'clamp(20px, 4vw, 28px)', fontWeight: 900, color: C.white, lineHeight: 1.25, marginBottom: 14 }}>{art.title}</h1>
+          <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.7, marginBottom: 24, fontStyle: 'italic', borderLeft: `3px solid ${C.red}`, paddingLeft: 16 }}>{art.deck}</p>
 
           {/* Author + meta */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 0', borderTop: `1px solid ${C.bdr}`, borderBottom: `1px solid ${C.bdr}`, marginBottom: 28, flexWrap: 'wrap', gap: 12 }}>
+          <div className="ep-modal-meta" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', borderTop: `1px solid ${C.bdr}`, borderBottom: `1px solid ${C.bdr}`, marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{ width: 40, height: 40, borderRadius: '50%', background: C.red + '25', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: 16, fontWeight: 900, color: C.red }}>{art.author[0]}</span>
+              <div style={{ width: 38, height: 38, borderRadius: '50%', background: C.red + '25', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span style={{ fontSize: 15, fontWeight: 900, color: C.red }}>{art.author[0]}</span>
               </div>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: C.white }}>{art.author}</div>
                 <div style={{ fontSize: 11, color: C.dim }}>{art.role}</div>
               </div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
               <span style={{ fontSize: 12, color: C.dim, display: 'flex', alignItems: 'center', gap: 4 }}><Clock size={12} />{art.time}</span>
               <span style={{ fontSize: 12, color: C.dim, display: 'flex', alignItems: 'center', gap: 4 }}><BookOpen size={12} />{art.readTime} lectura</span>
               <span style={{ fontSize: 12, color: C.dim, display: 'flex', alignItems: 'center', gap: 4 }}><Eye size={12} />{fmt(art.views)}</span>
@@ -663,23 +700,23 @@ function ArticleModal({ art, onClose, bookmarks, toggleBookmark, likes, toggleLi
           </div>
 
           {/* Body */}
-          <div style={{ fontSize: 16, color: '#D0D0DD', lineHeight: 1.85, marginBottom: 32 }}>
+          <div style={{ fontSize: 15, color: '#D0D0DD', lineHeight: 1.85, marginBottom: 28 }}>
             {art.body.split('\n\n').map((p, i) => (
-              <p key={i} style={{ marginBottom: 20 }}>{p}</p>
+              <p key={i} style={{ marginBottom: 18 }}>{p}</p>
             ))}
           </div>
 
           {/* Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '20px 0', borderTop: `1px solid ${C.bdr}`, marginBottom: 28 }}>
+          <div className="ep-modal-actions" style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '18px 0', borderTop: `1px solid ${C.bdr}`, marginBottom: 24 }}>
             <button onClick={() => toggleLike(art.id)}
-              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 18px', borderRadius: 8, border: `1px solid ${C.bdr}`, background: likes[art.id] ? C.red + '20' : 'transparent', color: likes[art.id] ? C.red : C.muted, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', borderRadius: 8, border: `1px solid ${C.bdr}`, background: likes[art.id] ? C.red + '20' : 'transparent', color: likes[art.id] ? C.red : C.muted, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>
               <Heart size={14} fill={likes[art.id] ? C.red : 'none'} /> Me gusta
             </button>
             <button onClick={() => toggleBookmark(art.id)}
-              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 18px', borderRadius: 8, border: `1px solid ${C.bdr}`, background: bookmarks.has(art.id) ? C.gold + '20' : 'transparent', color: bookmarks.has(art.id) ? C.gold : C.muted, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', borderRadius: 8, border: `1px solid ${C.bdr}`, background: bookmarks.has(art.id) ? C.gold + '20' : 'transparent', color: bookmarks.has(art.id) ? C.gold : C.muted, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>
               <Bookmark size={14} fill={bookmarks.has(art.id) ? C.gold : 'none'} /> Guardar
             </button>
-            <button style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 18px', borderRadius: 8, border: `1px solid ${C.bdr}`, background: 'transparent', color: C.muted, cursor: 'pointer', fontSize: 13, fontWeight: 600, marginLeft: 'auto' }}>
+            <button style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', borderRadius: 8, border: `1px solid ${C.bdr}`, background: 'transparent', color: C.muted, cursor: 'pointer', fontSize: 13, fontWeight: 600, marginLeft: 'auto' }}>
               <Share2 size={14} /> Compartir
             </button>
           </div>
@@ -717,7 +754,7 @@ function ArticleModal({ art, onClose, bookmarks, toggleBookmark, likes, toggleLi
 function SearchModal({ query, onChange, results, onClose, onOpen }) {
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(5,5,10,.95)', zIndex: 200, display: 'flex', flexDirection: 'column', backdropFilter: 'blur(8px)' }}>
-      <div className="ep-modal" style={{ maxWidth: 700, width: '100%', margin: '60px auto 0', padding: '0 20px' }}>
+      <div className="ep-modal-anim ep-search-wrap" style={{ maxWidth: 700, width: '100%', margin: '40px auto 0', padding: '0 16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, background: C.s2, border: `1px solid ${C.red}`, borderRadius: 14, padding: '16px 20px', marginBottom: 24 }}>
           <Search size={20} color={C.red} />
           <input autoFocus value={query} onChange={e => onChange(e.target.value)}
