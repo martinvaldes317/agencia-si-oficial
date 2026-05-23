@@ -28,6 +28,7 @@ import DemoClinica from './components/demos/DemoClinica'
 import DemoRestaurante from './components/demos/DemoRestaurante'
 import DemoCorredora from './components/demos/DemoCorredora'
 import DemoTienda from './components/demos/DemoTienda'
+import DemoNoticias from './components/demos/DemoNoticias'
 import DemoIndex from './components/demos/DemoIndex'
 
 const ScrollToTop = () => {
@@ -57,6 +58,7 @@ function App() {
           <Route path="/demos/restaurante" element={<DemoRestaurante />} />
           <Route path="/demos/corredora" element={<DemoCorredora />} />
           <Route path="/demos/tienda" element={<DemoTienda />} />
+          <Route path="/demos/noticias" element={<DemoNoticias />} />
 
           {/* Admin */}
           <Route path="/admin/si" element={<AdminDashboard />} />

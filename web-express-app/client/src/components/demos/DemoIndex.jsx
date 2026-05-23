@@ -61,6 +61,16 @@ const DEMOS = [
     bg:      '#1A1A00',
     tags:    ['Catálogo', 'Tallas', 'Carrito', 'WhatsApp'],
   },
+  {
+    slug:    '/demos/noticias',
+    label:   'Medios & Periodismo',
+    name:    'El Pulso',
+    desc:    'Portal periodístico digital con breaking news ticker, portada editorial, filtros por categoría, buscador, clima, trending, newsletter y artículos completos con modal de lectura.',
+    img:     'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=500&fit=crop&q=80',
+    color:   '#E63946',
+    bg:      '#1A0608',
+    tags:    ['Breaking News', 'Artículos', 'Búsqueda', 'Newsletter'],
+  },
 ]
 
 const FEATURES = [
