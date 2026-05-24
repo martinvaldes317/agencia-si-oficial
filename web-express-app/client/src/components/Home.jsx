@@ -451,8 +451,9 @@ export default function Home() {
                 </div>
             </div>
             <Helmet>
-                <title>AgenciaSi | Meta Ads, Google Ads e IA para empresas en Chile</title>
-                <meta name="description" content="AgenciaSi: asesoría 1:1 en Meta Ads y Google Ads con integración de IA. Control total de métricas, foco en rentabilidad y resultados medibles en Chile." />
+                <title>AgenciaSI | Desarrollo Web, Apps y Sistemas a Medida en Chile</title>
+                <meta name="description" content="Desarrollamos sitios web, aplicaciones y sistemas a medida en Chile. React, Node.js, e-commerce, integraciones con IA y automatizaciones. Entrega Web Express en 5 días hábiles." />
+                <meta name="keywords" content="desarrollo web chile, aplicaciones web chile, sistemas a medida chile, empresa desarrollo software chile, desarrollo react chile, tienda online chile, automatizacion IA chile, agencia digital chile, web express, diseño web profesional" />
                 <link rel="canonical" href="https://agenciasi.cl/" />
             </Helmet>
             <Navbar />
