@@ -1,0 +1,583 @@
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
+import {
+  Check, ArrowRight, Star, Globe, Settings, ShoppingCart,
+  LayoutDashboard, Users, Search, Clock, Shield, Smartphone,
+  MessageCircle, MapPin, Zap, Package, HeartHandshake,
+  Code2, ChevronRight, AlertCircle, CheckCircle2,
+  ExternalLink, Calendar, Wrench, BarChart3,
+  Building2, Utensils, Newspaper, Home, X
+} from 'lucide-react'
+
+/* ── BRAND ─────────────────────────────────────────────── */
+const T = {
+  blue:   '#2D2BB5',
+  blueD:  '#1E1C8A',
+  blueL:  '#EEF0FF',
+  black:  '#0A0A14',
+  dark:   '#1A1A2E',
+  gray:   '#4C4C68',
+  muted:  '#8080A0',
+  light:  '#F6F6FC',
+  border: '#E0E0EF',
+  white:  '#FFFFFF',
+  green:  '#16A34A',
+  greenL: '#F0FDF4',
+  gold:   '#F59E0B',
+}
+
+const WA      = 'https://wa.me/56932930812?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20me%20interesa%20cotizar%20una%20web%20para%20mi%20negocio.'
+const WA_REU  = 'https://wa.me/56932930812?text=Hola%2C%20me%20interesa%20agendar%20una%20reuni%C3%B3n%20para%20hablar%20de%20mi%20proyecto.'
+const fmt     = n => n.toLocaleString('es-CL')
+
+/* ── DATA ──────────────────────────────────────────────── */
+const DEMOS = [
+  { label: 'Farmacia', cat: 'E-commerce', url: '/demos/farmacia',    img: 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=700&h=420&fit=crop&q=80' },
+  { label: 'Clínica Dental', cat: 'Institucional', url: '/demos/clinica',     img: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=700&h=420&fit=crop&q=80' },
+  { label: 'Restaurante', cat: 'Gastronomía', url: '/demos/restaurante', img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&h=420&fit=crop&q=80' },
+  { label: 'Inmobiliaria', cat: 'Portal propiedades', url: '/demos/corredora',  img: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&h=420&fit=crop&q=80' },
+  { label: 'Tienda Online', cat: 'E-commerce moda', url: '/demos/tienda',     img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=700&h=420&fit=crop&q=80' },
+  { label: 'Portal de Noticias', cat: 'Medios digitales', url: '/demos/noticias',   img: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=700&h=420&fit=crop&q=80' },
+]
+
+const PROBLEMS = [
+  { icon: Search,         title: 'No apareces en Google', desc: 'Tus clientes buscan en Google, pero encuentran a la competencia.' },
+  { icon: AlertCircle,    title: 'Tu web se ve anticuada', desc: 'Una presencia poco profesional genera desconfianza y pierdes ventas.' },
+  { icon: MessageCircle,  title: 'Respondes lo mismo todo el día', desc: 'WhatsApp lleno de preguntas repetidas que podrías automatizar.' },
+  { icon: Clock,          title: 'Procesos manuales que roban tiempo', desc: 'Inventario, pedidos, clientes — todo a mano, con riesgo de errores.' },
+  { icon: Users,          title: 'Tu competencia ya lleva ventaja', desc: 'Mientras tú esperas, otros ya están captando tus clientes online.' },
+  { icon: Smartphone,     title: 'Tu sitio no funciona en el celular', desc: 'El 70% del tráfico web hoy es móvil. Si no es responsive, perdiste.' },
+]
+
+const WEBS = [
+  { icon: Zap,            name: 'Landing Page',          desc: 'Para captar clientes rápido. Una página clara con foco total en conversión.' },
+  { icon: Building2,      name: 'Web Corporativa',       desc: 'Imagen profesional de tu empresa, servicios, equipo y contacto.' },
+  { icon: ShoppingCart,   name: 'E-commerce',            desc: 'Tienda online con catálogo, carrito, Webpay y Mercado Pago.' },
+  { icon: Calendar,       name: 'Reservas y Agendas',    desc: 'Sistema de citas online para clínicas, servicios y profesionales.' },
+  { icon: Newspaper,      name: 'Blog y Contenido',      desc: 'Posicionamiento SEO a través de artículos y contenido de valor.' },
+  { icon: Globe,          name: 'Catálogo Digital',      desc: 'Muestra tus productos o servicios sin necesidad de carrito de compras.' },
+]
+
+const SISTEMAS = [
+  { icon: LayoutDashboard, name: 'Panel Administrativo',  desc: 'Controla tu negocio desde un dashboard con datos en tiempo real.' },
+  { icon: Package,         name: 'Gestión de Inventario', desc: 'Stock, alertas, entradas y salidas con reporte automático.' },
+  { icon: BarChart3,       name: 'CRM de Clientes',       desc: 'Historial, seguimiento y gestión de tu cartera de clientes.' },
+  { icon: Settings,        name: 'Automatizaciones',      desc: 'Flujos que trabajan solos: cobros, notificaciones, reportes.' },
+  { icon: Wrench,          name: 'Sistema de Órdenes',    desc: 'Para servicios técnicos, talleres o producción a pedido.' },
+  { icon: Users,           name: 'Portal de Clientes',    desc: 'Tus clientes acceden a su info, documentos y métricas en línea.' },
+]
+
+const PLANS = [
+  {
+    name: 'Landing Page',
+    price: 99990,
+    popular: false,
+    color: T.blue,
+    desc: 'Ideal para emprendedores y negocios que quieren empezar a vender online rápido.',
+    features: ['Diseño único a medida', 'Hasta 5 secciones', 'Formulario de contacto', 'Botón WhatsApp integrado', 'Optimización SEO básica', 'Responsive (celular/tablet)', 'Dominio .cl incluido (1 año)', 'Entrega en 5 días hábiles'],
+  },
+  {
+    name: 'Web Corporativa',
+    price: 199990,
+    popular: true,
+    color: T.blue,
+    desc: 'Para empresas que quieren transmitir profesionalismo y generar confianza.',
+    features: ['Todo lo de Landing Page', 'Hasta 10 páginas o secciones', 'Galería o portafolio', 'Blog / noticias', 'Integración Google Maps', 'Hosting incluido (1 año)', 'Panel de edición básico', 'Soporte por 2 meses'],
+  },
+  {
+    name: 'Sistema o E-commerce',
+    price: null,
+    popular: false,
+    color: '#1E1C8A',
+    desc: 'Para proyectos con lógica de negocio, catálogos, pagos o automatizaciones.',
+    features: ['Cotización personalizada', 'E-commerce desde $249.990', 'Sistema desde $349.990', 'Integración Webpay / MercadoPago', 'Panel administrador', 'Base de datos incluida', 'Capacitación del equipo', 'Soporte extendido'],
+  },
+]
+
+const STEPS = [
+  { n: '01', title: 'Reunión inicial',      desc: 'Hablamos de tu negocio, objetivos y qué necesitas. Sin costo ni compromiso.' },
+  { n: '02', title: 'Diseño y propuesta',   desc: 'Preparamos un prototipo visual para que veas cómo quedaría tu sitio.' },
+  { n: '03', title: 'Desarrollo',           desc: 'Construimos tu sitio o sistema con código propio y a tu medida.' },
+  { n: '04', title: 'Revisión contigo',     desc: 'Revisas, propones cambios y apruebas antes de publicar.' },
+  { n: '05', title: 'Publicación',          desc: 'Lanzamos y dejamos todo funcionando. Más soporte post-entrega incluido.' },
+]
+
+const INCLUDES = [
+  { icon: Globe,          text: 'Dominio .cl incluido' },
+  { icon: Shield,         text: 'Hosting seguro (SSL)' },
+  { icon: Smartphone,     text: '100% responsive' },
+  { icon: Search,         text: 'Indexación en Google' },
+  { icon: MessageCircle,  text: 'WhatsApp integrado' },
+  { icon: HeartHandshake, text: 'Soporte post-entrega' },
+  { icon: LayoutDashboard,text: 'Panel de administración' },
+  { icon: Calendar,       text: 'Capacitación incluida' },
+]
+
+const TESTIMONIALS = [
+  {
+    name: 'Rodrigo Muñoz',
+    biz:  'Ferretería El Clavo — Talca',
+    text: 'Antes nadie me encontraba en Google. Ahora llaman cada semana por el sitio. Vale cada peso.',
+    stars: 5,
+    initial: 'R',
+    color: '#EEF0FF',
+  },
+  {
+    name: 'Camila Soto',
+    biz:  'Centro Kinesiología Soto — Curicó',
+    text: 'El sistema de reservas me cambió la vida. Mis pacientes agendan solos y yo solo confirmo.',
+    stars: 5,
+    initial: 'C',
+    color: '#F0FDF4',
+  },
+  {
+    name: 'Felipe Arenas',
+    biz:  'Distribuidora Arenas — Santiago',
+    text: 'Profesionales, rápidos y honestos. Me explicaron todo sin tecnicismos. Muy recomendados.',
+    stars: 5,
+    initial: 'F',
+    color: '#FFF7ED',
+  },
+]
+
+/* ── COMPONENT ─────────────────────────────────────────── */
+export default function LandingWebSistemas() {
+  const [activePlan, setActivePlan] = useState(null)
+
+  return (
+    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.white, color: T.dark, overflowX: 'hidden' }}>
+      <Helmet>
+        <title>Páginas Web y Sistemas a Medida desde $99.990 | AgenciaSI Chile</title>
+        <meta name="description" content="Creamos páginas web y sistemas a medida para tu negocio en Chile desde $99.990. Entrega en 5 días, dominio incluido, soporte post-entrega. Cotiza por WhatsApp." />
+      </Helmet>
+
+      {/* ── STICKY HEADER ── */}
+      <header style={{ position: 'sticky', top: 0, zIndex: 50, background: T.white, borderBottom: `1px solid ${T.border}`, boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ background: T.blue, borderRadius: 8, width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Code2 size={16} color="#fff" />
+            </div>
+            <span style={{ fontWeight: 800, fontSize: 16, color: T.black, letterSpacing: -.3 }}>AgenciaSI</span>
+          </Link>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <a href="#precios" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }} className="lws-link">Ver precios</a>
+            <a href={WA} target="_blank" rel="noopener noreferrer"
+              style={{ background: '#25D366', color: T.white, fontWeight: 700, fontSize: 13, padding: '9px 18px', borderRadius: 30, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none', boxShadow: '0 4px 12px rgba(37,211,102,.35)' }}>
+              <MessageCircle size={15} /> Cotizar ahora
+            </a>
+          </div>
+        </div>
+      </header>
+
+      {/* ── HERO ── */}
+      <section style={{ background: `linear-gradient(135deg, ${T.black} 0%, #0F0F30 100%)`, padding: '72px 20px 80px', overflow: 'hidden', position: 'relative' }}>
+        {/* Background decoration */}
+        <div style={{ position: 'absolute', top: -100, right: -100, width: 500, height: 500, borderRadius: '50%', background: `${T.blue}15`, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: -80, left: -60, width: 300, height: 300, borderRadius: '50%', background: `${T.blue}10`, pointerEvents: 'none' }} />
+
+        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }} className="lws-hero-grid">
+          {/* Left */}
+          <div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: `${T.blue}25`, border: `1px solid ${T.blue}50`, borderRadius: 30, padding: '6px 14px', marginBottom: 24 }}>
+              <MapPin size={13} color={T.blue} />
+              <span style={{ fontSize: 12, fontWeight: 600, color: '#A0A0FF', letterSpacing: .5 }}>Atendemos todo Chile · Región del Maule</span>
+            </div>
+            <h1 style={{ fontSize: 'clamp(28px, 4vw, 50px)', fontWeight: 900, color: T.white, lineHeight: 1.15, marginBottom: 20, letterSpacing: -1 }}>
+              Tu negocio necesita una
+              <span style={{ display: 'block', background: `linear-gradient(90deg, #6E8EFF, #A78BFA)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                presencia digital que vende.
+              </span>
+            </h1>
+            <p style={{ fontSize: 18, color: '#C0C0D8', lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}>
+              Creamos <strong style={{ color: T.white }}>páginas web y sistemas a medida</strong> para empresas y emprendedores chilenos. Profesional, rápido y a un precio justo.
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 36 }}>
+              <a href={WA} target="_blank" rel="noopener noreferrer"
+                style={{ background: '#25D366', color: T.white, fontWeight: 700, fontSize: 16, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(37,211,102,.4)' }}>
+                <MessageCircle size={18} /> Cotizar por WhatsApp
+              </a>
+              <a href="#trabajos"
+                style={{ background: 'transparent', color: T.white, fontWeight: 600, fontSize: 15, padding: '14px 24px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: `1.5px solid rgba(255,255,255,.25)` }}>
+                Ver trabajos <ExternalLink size={15} />
+              </a>
+            </div>
+            {/* Social proof mini */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+              {[
+                { n: '+50', label: 'proyectos' },
+                { n: '5 días', label: 'entrega Web Express' },
+                { n: '100%', label: 'código propio' },
+              ].map(({ n, label }) => (
+                <div key={label} style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontSize: 22, fontWeight: 900, color: T.white, lineHeight: 1 }}>{n}</span>
+                  <span style={{ fontSize: 11, color: '#8080A0' }}>{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: demo mockups grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }} className="lws-demos-grid">
+            {DEMOS.slice(0, 4).map((d, i) => (
+              <Link key={d.url} to={d.url}
+                style={{ textDecoration: 'none', borderRadius: 10, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,.4)', border: '1px solid rgba(255,255,255,.1)', background: '#111', transform: i % 2 === 1 ? 'translateY(20px)' : 'none', transition: 'transform .3s, box-shadow .3s' }}
+                onMouseEnter={e => { e.currentTarget.style.transform = i % 2 === 1 ? 'translateY(14px) scale(1.02)' : 'scale(1.02)'; e.currentTarget.style.boxShadow = `0 12px 40px ${T.blue}50` }}
+                onMouseLeave={e => { e.currentTarget.style.transform = i % 2 === 1 ? 'translateY(20px)' : 'none'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,.4)' }}>
+                {/* Browser chrome */}
+                <div style={{ background: '#1E1E2C', padding: '7px 10px', display: 'flex', alignItems: 'center', gap: 5 }}>
+                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF5F57', display: 'block' }} />
+                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#FEBC2E', display: 'block' }} />
+                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#28C840', display: 'block' }} />
+                  <div style={{ flex: 1, background: '#2A2A3C', borderRadius: 3, height: 14, marginLeft: 6 }} />
+                </div>
+                <img src={d.img} alt={d.label} style={{ width: '100%', height: 110, objectFit: 'cover', display: 'block' }} />
+                <div style={{ padding: '8px 10px', background: '#0F0F18' }}>
+                  <div style={{ fontSize: 9, color: '#6060A0', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>{d.cat}</div>
+                  <div style={{ fontSize: 11, color: '#D0D0E8', fontWeight: 700 }}>{d.label}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PROBLEMAS ── */}
+      <section style={{ background: T.light, padding: '72px 20px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>¿Te identificas?</span>
+            <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 900, color: T.black, marginTop: 10, letterSpacing: -.5 }}>
+              Problemas que resolvemos
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+            {PROBLEMS.map(({ icon: Icon, title, desc }) => (
+              <div key={title} style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 14, padding: '22px 24px', display: 'flex', gap: 16, alignItems: 'flex-start', transition: 'box-shadow .25s, border-color .25s' }}
+                onMouseEnter={e => { e.currentTarget.style.boxShadow = `0 8px 24px ${T.blue}18`; e.currentTarget.style.borderColor = `${T.blue}50` }}
+                onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = T.border }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: T.blueL, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Icon size={18} color={T.blue} />
+                </div>
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: T.black, marginBottom: 4 }}>{title}</div>
+                  <div style={{ fontSize: 13, color: T.gray, lineHeight: 1.6 }}>{desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SERVICIOS ── */}
+      <section style={{ background: T.white, padding: '80px 20px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Lo que hacemos</span>
+            <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 900, color: T.black, marginTop: 10, letterSpacing: -.5 }}>
+              Dos grandes áreas, un solo equipo
+            </h2>
+            <p style={{ fontSize: 16, color: T.gray, marginTop: 12, maxWidth: 560, margin: '12px auto 0' }}>
+              No somos "el cabro que hace páginas". Somos un equipo que construye soluciones digitales completas.
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }} className="lws-services-grid">
+            {/* Webs */}
+            <div style={{ background: T.blueL, borderRadius: 20, padding: '36px 32px', border: `1px solid ${T.blue}25` }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
+                <div style={{ width: 46, height: 46, borderRadius: 12, background: T.blue, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Globe size={22} color="#fff" />
+                </div>
+                <div>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: T.black }}>Páginas Web</div>
+                  <div style={{ fontSize: 12, color: T.blue, fontWeight: 600 }}>Desde $99.990</div>
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {WEBS.map(({ icon: Icon, name, desc }) => (
+                  <div key={name} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 8, background: `${T.blue}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+                      <Icon size={15} color={T.blue} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: T.black }}>{name}</div>
+                      <div style={{ fontSize: 12, color: T.gray, lineHeight: 1.5 }}>{desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Sistemas */}
+            <div style={{ background: '#0A0A14', borderRadius: 20, padding: '36px 32px', border: `1px solid ${T.blue}30` }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
+                <div style={{ width: 46, height: 46, borderRadius: 12, background: `${T.blue}30`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Settings size={22} color="#A0A0FF" />
+                </div>
+                <div>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: T.white }}>Sistemas y Automatización</div>
+                  <div style={{ fontSize: 12, color: '#A0A0FF', fontWeight: 600 }}>Cotización personalizada</div>
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {SISTEMAS.map(({ icon: Icon, name, desc }) => (
+                  <div key={name} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 8, background: `${T.blue}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+                      <Icon size={15} color="#A0A0FF" />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>{name}</div>
+                      <div style={{ fontSize: 12, color: '#7070A0', lineHeight: 1.5 }}>{desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TRABAJOS / PORTFOLIO ── */}
+      <section id="trabajos" style={{ background: T.light, padding: '80px 20px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Trabajos reales</span>
+            <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 900, color: T.black, marginTop: 10, letterSpacing: -.5 }}>
+              Mira lo que construimos
+            </h2>
+            <p style={{ fontSize: 15, color: T.gray, marginTop: 10 }}>
+              Demos interactivas — entra y navega como si fuera real.
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
+            {DEMOS.map(d => (
+              <Link key={d.url} to={d.url} style={{ textDecoration: 'none', borderRadius: 14, overflow: 'hidden', background: T.white, border: `1px solid ${T.border}`, boxShadow: '0 2px 12px rgba(0,0,0,.06)', transition: 'transform .3s, box-shadow .3s', display: 'block' }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = `0 16px 40px ${T.blue}20` }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,.06)' }}>
+                {/* Browser bar */}
+                <div style={{ background: '#F3F4F6', padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 6, borderBottom: `1px solid ${T.border}` }}>
+                  <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#FF5F57', display: 'block' }} />
+                  <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#FEBC2E', display: 'block' }} />
+                  <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#28C840', display: 'block' }} />
+                  <div style={{ flex: 1, background: '#E5E7EB', borderRadius: 4, height: 16, marginLeft: 8, display: 'flex', alignItems: 'center', paddingLeft: 8 }}>
+                    <span style={{ fontSize: 9, color: '#9CA3AF', fontFamily: 'monospace' }}>agenciasi.cl{d.url}</span>
+                  </div>
+                </div>
+                <img src={d.img} alt={d.label} style={{ width: '100%', height: 180, objectFit: 'cover', display: 'block' }} />
+                <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div>
+                    <div style={{ fontSize: 11, color: T.blue, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 2 }}>{d.cat}</div>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: T.black }}>{d.label}</div>
+                  </div>
+                  <div style={{ background: T.blueL, borderRadius: 8, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: T.blue }}>
+                    Ver demo <ExternalLink size={12} />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRECIOS ── */}
+      <section id="precios" style={{ background: T.white, padding: '80px 20px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 52 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Precios transparentes</span>
+            <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 900, color: T.black, marginTop: 10, letterSpacing: -.5 }}>
+              Sin sorpresas. Sin letras chicas.
+            </h2>
+            <p style={{ fontSize: 15, color: T.gray, marginTop: 10 }}>
+              Precios en pesos chilenos (CLP) · IVA incluido
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
+            {PLANS.map(plan => (
+              <div key={plan.name}
+                style={{ borderRadius: 20, padding: '32px 28px', border: plan.popular ? `2px solid ${T.blue}` : `1px solid ${T.border}`, background: plan.popular ? `linear-gradient(145deg, ${T.blueL}, ${T.white})` : T.white, position: 'relative', boxShadow: plan.popular ? `0 12px 40px ${T.blue}20` : 'none' }}>
+                {plan.popular && (
+                  <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: T.blue, color: T.white, fontSize: 11, fontWeight: 800, padding: '4px 16px', borderRadius: 20, letterSpacing: 1, whiteSpace: 'nowrap' }}>
+                    ⭐ MÁS ELEGIDO
+                  </div>
+                )}
+                <div style={{ fontSize: 18, fontWeight: 800, color: T.black, marginBottom: 8 }}>{plan.name}</div>
+                <div style={{ marginBottom: 14 }}>
+                  {plan.price ? (
+                    <div>
+                      <span style={{ fontSize: 13, color: T.gray, fontWeight: 600 }}>desde </span>
+                      <span style={{ fontSize: 34, fontWeight: 900, color: T.blue, letterSpacing: -1 }}>${fmt(plan.price)}</span>
+                    </div>
+                  ) : (
+                    <span style={{ fontSize: 28, fontWeight: 900, color: T.blue }}>A cotizar</span>
+                  )}
+                </div>
+                <p style={{ fontSize: 13, color: T.gray, lineHeight: 1.6, marginBottom: 24 }}>{plan.desc}</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
+                  {plan.features.map(f => (
+                    <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                      <CheckCircle2 size={15} color={T.green} style={{ flexShrink: 0, marginTop: 1 }} />
+                      <span style={{ fontSize: 13, color: T.gray }}>{f}</span>
+                    </div>
+                  ))}
+                </div>
+                <a href={`${WA}&text=${encodeURIComponent(`Hola, me interesa cotizar: ${plan.name}`)}`} target="_blank" rel="noopener noreferrer"
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '13px', borderRadius: 12, background: plan.popular ? T.blue : T.black, color: T.white, fontWeight: 700, fontSize: 14, textDecoration: 'none', boxSizing: 'border-box' }}>
+                  <MessageCircle size={15} /> Cotizar este plan
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PROCESO ── */}
+      <section style={{ background: T.light, padding: '80px 20px' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 52 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Cómo trabajamos</span>
+            <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 900, color: T.black, marginTop: 10, letterSpacing: -.5 }}>
+              Un proceso claro y sin sorpresas
+            </h2>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            {STEPS.map((step, i) => (
+              <div key={step.n} style={{ display: 'flex', gap: 24, position: 'relative', paddingBottom: i < STEPS.length - 1 ? 32 : 0 }}>
+                {/* Line connector */}
+                {i < STEPS.length - 1 && (
+                  <div style={{ position: 'absolute', left: 23, top: 56, width: 2, height: 'calc(100% - 24px)', background: `linear-gradient(to bottom, ${T.blue}60, ${T.border})` }} />
+                )}
+                {/* Number */}
+                <div style={{ width: 48, height: 48, borderRadius: '50%', background: T.blue, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, zIndex: 1, boxShadow: `0 4px 16px ${T.blue}40` }}>
+                  <span style={{ fontSize: 13, fontWeight: 900, color: T.white }}>{step.n}</span>
+                </div>
+                {/* Content */}
+                <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 14, padding: '18px 22px', flex: 1 }}>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: T.black, marginBottom: 4 }}>{step.title}</div>
+                  <div style={{ fontSize: 13, color: T.gray, lineHeight: 1.65 }}>{step.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── QUÉ INCLUYE ── */}
+      <section style={{ background: T.white, padding: '80px 20px' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
+          <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Todo incluido</span>
+          <h2 style={{ fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 900, color: T.black, marginTop: 10, marginBottom: 8, letterSpacing: -.5 }}>
+            ¿Qué incluye tu proyecto?
+          </h2>
+          <p style={{ fontSize: 15, color: T.gray, marginBottom: 44 }}>
+            Nada queda suelto. Entregamos todo listo para funcionar.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16 }}>
+            {INCLUDES.map(({ icon: Icon, text }) => (
+              <div key={text} style={{ background: T.light, border: `1px solid ${T.border}`, borderRadius: 14, padding: '20px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: T.blueL, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Icon size={20} color={T.blue} />
+                </div>
+                <span style={{ fontSize: 13, fontWeight: 600, color: T.dark, textAlign: 'center', lineHeight: 1.4 }}>{text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TESTIMONIOS ── */}
+      <section style={{ background: T.light, padding: '80px 20px' }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Lo que dicen</span>
+            <h2 style={{ fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 900, color: T.black, marginTop: 10, letterSpacing: -.5 }}>
+              Clientes que confiaron en nosotros
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+            {TESTIMONIALS.map(t => (
+              <div key={t.name} style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 16, padding: '28px 24px' }}>
+                <div style={{ display: 'flex', gap: 2, marginBottom: 16 }}>
+                  {Array(t.stars).fill(0).map((_, i) => <Star key={i} size={14} fill={T.gold} color={T.gold} />)}
+                </div>
+                <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.7, fontStyle: 'italic', marginBottom: 20 }}>
+                  "{t.text}"
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 38, height: 38, borderRadius: '50%', background: t.color, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: `1px solid ${T.border}` }}>
+                    <span style={{ fontSize: 15, fontWeight: 800, color: T.blue }}>{t.initial}</span>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: T.black }}>{t.name}</div>
+                    <div style={{ fontSize: 11, color: T.muted }}>{t.biz}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA FINAL ── */}
+      <section style={{ background: `linear-gradient(135deg, ${T.black} 0%, #0F0F30 100%)`, padding: '88px 20px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 600, borderRadius: '50%', background: `${T.blue}10`, pointerEvents: 'none' }} />
+        <div style={{ position: 'relative', maxWidth: 600, margin: '0 auto' }}>
+          <div style={{ fontSize: 42, marginBottom: 16 }}>🚀</div>
+          <h2 style={{ fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900, color: T.white, letterSpacing: -1, marginBottom: 16, lineHeight: 1.2 }}>
+            ¿Listo para tener la<br />web que tu negocio merece?
+          </h2>
+          <p style={{ fontSize: 17, color: '#B0B0D0', marginBottom: 36, lineHeight: 1.7 }}>
+            Escríbenos ahora. Te respondemos en menos de 2 horas en horario laboral. Sin compromiso.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', marginBottom: 24 }}>
+            <a href={WA} target="_blank" rel="noopener noreferrer"
+              style={{ background: '#25D366', color: T.white, fontWeight: 800, fontSize: 17, padding: '16px 36px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 32px rgba(37,211,102,.45)' }}>
+              <MessageCircle size={20} /> Cotizar por WhatsApp
+            </a>
+            <a href={WA_REU} target="_blank" rel="noopener noreferrer"
+              style={{ background: 'transparent', color: T.white, fontWeight: 700, fontSize: 16, padding: '16px 28px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.3)' }}>
+              <Calendar size={17} /> Agendar reunión
+            </a>
+          </div>
+          <p style={{ fontSize: 13, color: '#6060A0' }}>
+            También puedes escribirnos al <strong style={{ color: '#A0A0FF' }}>+56 9 3293 0812</strong> · contacto@agenciasi.cl
+          </p>
+        </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer style={{ background: '#050508', padding: '28px 20px', borderTop: '1px solid #1A1A2E' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+            <div style={{ background: T.blue, borderRadius: 6, width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Code2 size={13} color="#fff" />
+            </div>
+            <span style={{ fontSize: 14, fontWeight: 700, color: T.white }}>AgenciaSI</span>
+          </Link>
+          <span style={{ fontSize: 12, color: '#404060' }}>© 2026 AgenciaSI · Desarrollo web y sistemas · Chile</span>
+          <Link to="/demos" style={{ fontSize: 12, color: '#404060', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
+            Ver todas las demos <ExternalLink size={11} />
+          </Link>
+        </div>
+      </footer>
+
+      {/* ── FLOATING WA BUTTON ── */}
+      <a href={WA} target="_blank" rel="noopener noreferrer"
+        style={{ position: 'fixed', bottom: 24, right: 24, background: '#25D366', color: T.white, width: 58, height: 58, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(37,211,102,.55)', zIndex: 100, textDecoration: 'none', fontSize: 26 }}>
+        💬
+      </a>
+
+      {/* ── MOBILE CSS ── */}
+      <style>{`
+        .lws-link:hover { color: #2D2BB5 !important; }
+        @media (max-width: 768px) {
+          .lws-hero-grid   { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .lws-demos-grid  { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+          .lws-services-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+          .lws-demos-grid  { display: none !important; }
+        }
+      `}</style>
+    </div>
+  )
+}

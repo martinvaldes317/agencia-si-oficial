@@ -30,6 +30,7 @@ import DemoCorredora from './components/demos/DemoCorredora'
 import DemoTienda from './components/demos/DemoTienda'
 import DemoNoticias from './components/demos/DemoNoticias'
 import DemoIndex from './components/demos/DemoIndex'
+import LandingWebSistemas from './components/LandingWebSistemas'
 
 const ScrollToTop = () => {
   const { pathname } = useLocation()
@@ -59,6 +60,7 @@ function App() {
           <Route path="/demos/corredora" element={<DemoCorredora />} />
           <Route path="/demos/tienda" element={<DemoTienda />} />
           <Route path="/demos/noticias" element={<DemoNoticias />} />
+          <Route path="/web" element={<LandingWebSistemas />} />
 
           {/* Admin */}
           <Route path="/admin/si" element={<AdminDashboard />} />
