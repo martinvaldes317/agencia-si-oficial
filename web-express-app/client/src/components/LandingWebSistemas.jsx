@@ -30,6 +30,7 @@ const T = {
 const WA      = 'https://wa.me/56932930812?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20me%20interesa%20cotizar%20una%20web%20para%20mi%20negocio.'
 const WA_REU  = 'https://wa.me/56932930812?text=Hola%2C%20me%20interesa%20agendar%20una%20reuni%C3%B3n%20para%20hablar%20de%20mi%20proyecto.'
 const fmt     = n => n.toLocaleString('es-CL')
+const trackWA = () => { if (typeof fbq !== 'undefined') fbq('track', 'Contact') }
 
 /* ── DATA ──────────────────────────────────────────────── */
 const DEMOS = [
@@ -163,7 +164,7 @@ export default function LandingWebSistemas() {
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <a href="#precios" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }} className="lws-link">Ver precios</a>
-            <a href={WA} target="_blank" rel="noopener noreferrer"
+            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
               style={{ background: '#25D366', color: T.white, fontWeight: 700, fontSize: 13, padding: '9px 18px', borderRadius: 30, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none', boxShadow: '0 4px 12px rgba(37,211,102,.35)' }}>
               <MessageCircle size={15} /> Cotizar ahora
             </a>
@@ -194,7 +195,7 @@ export default function LandingWebSistemas() {
               Creamos <strong style={{ color: T.white }}>páginas web y sistemas a medida</strong> para empresas y emprendedores chilenos. Profesional, rápido y a un precio justo.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 36 }}>
-              <a href={WA} target="_blank" rel="noopener noreferrer"
+              <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
                 style={{ background: '#25D366', color: T.white, fontWeight: 700, fontSize: 16, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(37,211,102,.4)' }}>
                 <MessageCircle size={18} /> Cotizar por WhatsApp
               </a>
@@ -420,7 +421,7 @@ export default function LandingWebSistemas() {
                     </div>
                   ))}
                 </div>
-                <a href={`${WA}&text=${encodeURIComponent(`Hola, me interesa cotizar: ${plan.name}`)}`} target="_blank" rel="noopener noreferrer"
+                <a href={`${WA}&text=${encodeURIComponent(`Hola, me interesa cotizar: ${plan.name}`)}`} target="_blank" rel="noopener noreferrer" onClick={trackWA}
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '13px', borderRadius: 12, background: plan.popular ? T.blue : T.black, color: T.white, fontWeight: 700, fontSize: 14, textDecoration: 'none', boxSizing: 'border-box' }}>
                   <MessageCircle size={15} /> Cotizar este plan
                 </a>
@@ -529,11 +530,11 @@ export default function LandingWebSistemas() {
             Escríbenos ahora. Te respondemos en menos de 2 horas en horario laboral. Sin compromiso.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', marginBottom: 24 }}>
-            <a href={WA} target="_blank" rel="noopener noreferrer"
+            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
               style={{ background: '#25D366', color: T.white, fontWeight: 800, fontSize: 17, padding: '16px 36px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 32px rgba(37,211,102,.45)' }}>
               <MessageCircle size={20} /> Cotizar por WhatsApp
             </a>
-            <a href={WA_REU} target="_blank" rel="noopener noreferrer"
+            <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={trackWA}
               style={{ background: 'transparent', color: T.white, fontWeight: 700, fontSize: 16, padding: '16px 28px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.3)' }}>
               <Calendar size={17} /> Agendar reunión
             </a>
@@ -561,7 +562,7 @@ export default function LandingWebSistemas() {
       </footer>
 
       {/* ── FLOATING WA BUTTON ── */}
-      <a href={WA} target="_blank" rel="noopener noreferrer"
+      <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
         style={{ position: 'fixed', bottom: 24, right: 24, background: '#25D366', color: T.white, width: 58, height: 58, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(37,211,102,.55)', zIndex: 100, textDecoration: 'none', fontSize: 26 }}>
         💬
       </a>
