@@ -192,7 +192,7 @@ export default function LandingWebSistemas() {
             <h1 style={{ fontSize: 'clamp(28px, 4vw, 50px)', fontWeight: 900, color: T.white, lineHeight: 1.15, marginBottom: 20, letterSpacing: -1 }}>
               Tu negocio necesita una
               <span style={{ display: 'block', background: `linear-gradient(90deg, #6E8EFF, #A78BFA)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                presencia digital que vende.
+                presencia digital que VENDA.
               </span>
             </h1>
             <p style={{ fontSize: 18, color: '#C0C0D8', lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}>
