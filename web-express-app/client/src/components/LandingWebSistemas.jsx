@@ -1,13 +1,13 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
-  Check, ArrowRight, Star, Globe, Settings, ShoppingCart,
+  Star, Globe, Settings, ShoppingCart,
   LayoutDashboard, Users, Search, Clock, Shield, Smartphone,
-  MessageCircle, MapPin, Zap, Package, HeartHandshake,
-  Code2, ChevronRight, AlertCircle, CheckCircle2,
+  MessageCircle, Zap, Package, HeartHandshake,
+  Code2, AlertCircle, CheckCircle2,
   ExternalLink, Calendar, Wrench, BarChart3,
-  Building2, Utensils, Newspaper, Home, X
+  Building2, Newspaper
 } from 'lucide-react'
 
 /* ── BRAND ─────────────────────────────────────────────── */
@@ -30,7 +30,10 @@ const T = {
 const WA      = 'https://wa.me/56932930812?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20me%20interesa%20cotizar%20una%20web%20para%20mi%20negocio.'
 const WA_REU  = 'https://wa.me/56932930812?text=Hola%2C%20me%20interesa%20agendar%20una%20reuni%C3%B3n%20para%20hablar%20de%20mi%20proyecto.'
 const fmt     = n => n.toLocaleString('es-CL')
-const trackWA = () => { if (typeof fbq !== 'undefined') fbq('track', 'Contact') }
+const px = (event, params) => { if (typeof fbq !== 'undefined') fbq('track', event, params) }
+const trackWA       = () => px('Contact')
+const trackSchedule = () => px('Schedule')
+const trackLead     = (planName) => px('Lead', { content_name: planName })
 
 /* ── DATA ──────────────────────────────────────────────── */
 const DEMOS = [
@@ -144,7 +147,7 @@ const TESTIMONIALS = [
 
 /* ── COMPONENT ─────────────────────────────────────────── */
 export default function LandingWebSistemas() {
-  const [activePlan, setActivePlan] = useState(null)
+  useEffect(() => { px('ViewContent', { content_name: 'Landing Web y Sistemas' }) }, [])
 
   return (
     <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.white, color: T.dark, overflowX: 'hidden' }}>
@@ -421,7 +424,7 @@ export default function LandingWebSistemas() {
                     </div>
                   ))}
                 </div>
-                <a href={`${WA}&text=${encodeURIComponent(`Hola, me interesa cotizar: ${plan.name}`)}`} target="_blank" rel="noopener noreferrer" onClick={trackWA}
+                <a href={`${WA}&text=${encodeURIComponent(`Hola, me interesa cotizar: ${plan.name}`)}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead(plan.name)}
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '13px', borderRadius: 12, background: plan.popular ? T.blue : T.black, color: T.white, fontWeight: 700, fontSize: 14, textDecoration: 'none', boxSizing: 'border-box' }}>
                   <MessageCircle size={15} /> Cotizar este plan
                 </a>
@@ -534,7 +537,7 @@ export default function LandingWebSistemas() {
               style={{ background: '#25D366', color: T.white, fontWeight: 800, fontSize: 17, padding: '16px 36px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 32px rgba(37,211,102,.45)' }}>
               <MessageCircle size={20} /> Cotizar por WhatsApp
             </a>
-            <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={trackWA}
+            <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={trackSchedule}
               style={{ background: 'transparent', color: T.white, fontWeight: 700, fontSize: 16, padding: '16px 28px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.3)' }}>
               <Calendar size={17} /> Agendar reunión
             </a>
