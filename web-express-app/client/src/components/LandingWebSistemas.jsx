@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import {
   Star, Globe, Settings, ShoppingCart,
   LayoutDashboard, Users, Search, Clock, Shield, Smartphone,
-  MessageCircle, Zap, Package, HeartHandshake,
+  MessageCircle, MapPin, Zap, Package, HeartHandshake,
   Code2, AlertCircle, CheckCircle2,
   ExternalLink, Calendar, Wrench, BarChart3,
   Building2, Newspaper
