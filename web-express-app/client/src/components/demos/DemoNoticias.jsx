@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Search, X, Menu, Clock, Eye, Heart, Share2, Bookmark,
-  ArrowRight, Facebook, Twitter, Instagram, Youtube,
-  TrendingUp, Zap, MessageCircle, ExternalLink, Code2,
+  ArrowRight, ArrowLeft, Facebook, Twitter, Instagram, Youtube,
+  TrendingUp, Zap, MessageCircle, Code2,
   Wind, Cloud, MapPin, Bell, ChevronRight, Mail, BookOpen,
   Sun, CloudRain
 } from 'lucide-react'
@@ -35,6 +35,8 @@ const CSS_ANIM = `
   .ep-slide { animation: epslide .25s ease both }
   @keyframes epmodal { from{opacity:0;transform:scale(.97)} to{opacity:1;transform:scale(1)} }
   .ep-modal-anim { animation: epmodal .22s ease both }
+  @keyframes eppage { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  .ep-page { animation: eppage .3s ease both }
   .ep-art:hover img { transform:scale(1.04) }
   .ep-art img { transition: transform .5s ease }
   .ep-link:hover { color: ${C.red} !important }
@@ -219,6 +221,15 @@ export default function DemoNoticias() {
   })
   const toggleLike = id => setLikes(prev => ({ ...prev, [id]: !prev[id] }))
 
+  const openArticle = art => {
+    setActiveArticle(art)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+  const closeArticle = () => {
+    setActiveArticle(null)
+    window.scrollTo({ top: 0, behavior: 'instant' })
+  }
+
   const displayed = activeCategory === 'Portada' ? ARTICLES : ARTICLES.filter(a => a.cat === activeCategory)
   const hero = displayed[0]
   const featured = displayed.slice(1, 4)
@@ -338,12 +349,22 @@ export default function DemoNoticias() {
         )}
       </header>
 
-      {/* ── MAIN CONTENT ── */}
+      {/* ── CONTENIDO PRINCIPAL O ARTÍCULO ── */}
+      {activeArticle ? (
+        <ArticlePage
+          art={activeArticle}
+          onBack={closeArticle}
+          onRelated={openArticle}
+          bookmarks={bookmarks} toggleBookmark={toggleBookmark}
+          likes={likes} toggleLike={toggleLike}
+        />
+      ) : (
+      <>
       <main style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 20px' }}>
 
         {/* HERO */}
         {hero && (
-          <div className="ep-art ep-fade ep-hero" onClick={() => setActiveArticle(hero)}
+          <div className="ep-art ep-fade ep-hero" onClick={() => openArticle(hero)}
             style={{ cursor: 'pointer', marginBottom: 24, borderRadius: 12, overflow: 'hidden', position: 'relative', height: 520 }}>
             <img src={hero.img} alt={hero.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(5,5,10,.95) 40%, rgba(5,5,10,.2) 80%)' }} />
@@ -383,7 +404,7 @@ export default function DemoNoticias() {
         {/* FEATURED ROW */}
         {featured.length > 0 && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20, marginBottom: 36 }}>
-            {featured.map(art => <ArticleCardMedium key={art.id} art={art} onOpen={setActiveArticle} bookmarks={bookmarks} toggleBookmark={toggleBookmark} likes={likes} toggleLike={toggleLike} />)}
+            {featured.map(art => <ArticleCardMedium key={art.id} art={art} onOpen={openArticle} bookmarks={bookmarks} toggleBookmark={toggleBookmark} likes={likes} toggleLike={toggleLike} />)}
           </div>
         )}
 
@@ -400,7 +421,7 @@ export default function DemoNoticias() {
                   </h2>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-                  {rest.map((art, i) => <ArticleCardList key={art.id} art={art} onOpen={setActiveArticle} bookmarks={bookmarks} toggleBookmark={toggleBookmark} likes={likes} toggleLike={toggleLike} last={i === rest.length - 1} />)}
+                  {rest.map((art, i) => <ArticleCardList key={art.id} art={art} onOpen={openArticle} bookmarks={bookmarks} toggleBookmark={toggleBookmark} likes={likes} toggleLike={toggleLike} last={i === rest.length - 1} />)}
                 </div>
               </>
             )}
@@ -492,7 +513,7 @@ export default function DemoNoticias() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
               {ARTICLES.filter(a => a.cat === 'Opinión').map(art => (
-                <div key={art.id} onClick={() => setActiveArticle(art)}
+                <div key={art.id} onClick={() => openArticle(art)}
                   style={{ background: C.s2, border: `1px solid ${C.bdr}`, borderRadius: 12, padding: 24, cursor: 'pointer', transition: 'border-color .2s' }}
                   onMouseEnter={e => e.currentTarget.style.borderColor = C.gold}
                   onMouseLeave={e => e.currentTarget.style.borderColor = C.bdr}>
@@ -560,19 +581,13 @@ export default function DemoNoticias() {
         </div>
       </footer>
 
-      {/* ── ARTICLE MODAL ── */}
-      {activeArticle && (
-        <ArticleModal art={activeArticle} onClose={() => setActiveArticle(null)}
-          bookmarks={bookmarks} toggleBookmark={toggleBookmark}
-          likes={likes} toggleLike={toggleLike}
-          onRelated={setActiveArticle} />
-      )}
+      </> )}
 
       {/* ── SEARCH MODAL ── */}
       {searchOpen && (
         <SearchModal query={searchQuery} onChange={setSearchQuery} results={searchResults}
           onClose={() => { setSearchOpen(false); setSearchQuery('') }}
-          onOpen={art => { setActiveArticle(art); setSearchOpen(false); setSearchQuery('') }} />
+          onOpen={art => { openArticle(art); setSearchOpen(false); setSearchQuery('') }} />
       )}
 
       {/* ── WA FLOAT ── */}
@@ -653,100 +668,133 @@ function ArticleCardList({ art, onOpen, bookmarks, toggleBookmark, likes, toggle
   )
 }
 
-function ArticleModal({ art, onClose, bookmarks, toggleBookmark, likes, toggleLike, onRelated }) {
+function ArticlePage({ art, onBack, onRelated, bookmarks, toggleBookmark, likes, toggleLike }) {
   const related = ARTICLES.filter(a => a.id !== art.id && a.cat === art.cat).slice(0, 3)
 
   return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(5,5,10,.9)', zIndex: 100, overflowY: 'auto', backdropFilter: 'blur(6px)' }}
-      onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="ep-modal-anim ep-modal-wrap" style={{ background: C.s1, maxWidth: 760, margin: '20px auto', borderRadius: 16, overflow: 'hidden', border: `1px solid ${C.bdr}` }}>
-
-        {/* Image */}
-        <div className="ep-modal-img" style={{ position: 'relative', height: 380 }}>
-          <img src={art.img} alt={art.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,.3) 0%, transparent 50%)' }} />
-          <button onClick={onClose}
-            style={{ position: 'absolute', top: 16, right: 16, background: 'rgba(0,0,0,.6)', border: 'none', borderRadius: '50%', width: 38, height: 38, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff' }}>
-            <X size={16} />
+    <div className="ep-page">
+      {/* Breadcrumb / volver */}
+      <div style={{ background: C.s1, borderBottom: `1px solid ${C.bdr}` }}>
+        <div style={{ maxWidth: 860, margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', gap: 10, height: 44 }}>
+          <button onClick={onBack}
+            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'none', border: 'none', color: C.muted, cursor: 'pointer', fontSize: 13, fontWeight: 600, padding: '6px 10px 6px 0' }}>
+            <ArrowLeft size={15} /> Volver
           </button>
-          <div style={{ position: 'absolute', top: 16, left: 16, display: 'flex', gap: 8 }}>
-            <span style={{ background: C.red, color: '#fff', fontSize: 10, fontWeight: 800, padding: '4px 10px', borderRadius: 4, letterSpacing: 1 }}>{art.cat}</span>
-            {art.tag && <span style={{ background: C.gold, color: '#000', fontSize: 10, fontWeight: 800, padding: '4px 10px', borderRadius: 4, letterSpacing: 1 }}>{art.tag}</span>}
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="ep-modal-body" style={{ padding: '32px 40px' }}>
-          <h1 style={{ fontSize: 'clamp(20px, 4vw, 28px)', fontWeight: 900, color: C.white, lineHeight: 1.25, marginBottom: 14 }}>{art.title}</h1>
-          <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.7, marginBottom: 24, fontStyle: 'italic', borderLeft: `3px solid ${C.red}`, paddingLeft: 16 }}>{art.deck}</p>
-
-          {/* Author + meta */}
-          <div className="ep-modal-meta" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', borderTop: `1px solid ${C.bdr}`, borderBottom: `1px solid ${C.bdr}`, marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{ width: 38, height: 38, borderRadius: '50%', background: C.red + '25', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <span style={{ fontSize: 15, fontWeight: 900, color: C.red }}>{art.author[0]}</span>
-              </div>
-              <div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: C.white }}>{art.author}</div>
-                <div style={{ fontSize: 11, color: C.dim }}>{art.role}</div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 12, color: C.dim, display: 'flex', alignItems: 'center', gap: 4 }}><Clock size={12} />{art.time}</span>
-              <span style={{ fontSize: 12, color: C.dim, display: 'flex', alignItems: 'center', gap: 4 }}><BookOpen size={12} />{art.readTime} lectura</span>
-              <span style={{ fontSize: 12, color: C.dim, display: 'flex', alignItems: 'center', gap: 4 }}><Eye size={12} />{fmt(art.views)}</span>
-              <span style={{ fontSize: 12, color: C.dim, display: 'flex', alignItems: 'center', gap: 4 }}><MessageCircle size={12} />{art.comments}</span>
-            </div>
-          </div>
-
-          {/* Body */}
-          <div style={{ fontSize: 15, color: '#D0D0DD', lineHeight: 1.85, marginBottom: 28 }}>
-            {art.body.split('\n\n').map((p, i) => (
-              <p key={i} style={{ marginBottom: 18 }}>{p}</p>
-            ))}
-          </div>
-
-          {/* Actions */}
-          <div className="ep-modal-actions" style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '18px 0', borderTop: `1px solid ${C.bdr}`, marginBottom: 24 }}>
-            <button onClick={() => toggleLike(art.id)}
-              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', borderRadius: 8, border: `1px solid ${C.bdr}`, background: likes[art.id] ? C.red + '20' : 'transparent', color: likes[art.id] ? C.red : C.muted, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>
-              <Heart size={14} fill={likes[art.id] ? C.red : 'none'} /> Me gusta
-            </button>
-            <button onClick={() => toggleBookmark(art.id)}
-              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', borderRadius: 8, border: `1px solid ${C.bdr}`, background: bookmarks.has(art.id) ? C.gold + '20' : 'transparent', color: bookmarks.has(art.id) ? C.gold : C.muted, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>
-              <Bookmark size={14} fill={bookmarks.has(art.id) ? C.gold : 'none'} /> Guardar
-            </button>
-            <button style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', borderRadius: 8, border: `1px solid ${C.bdr}`, background: 'transparent', color: C.muted, cursor: 'pointer', fontSize: 13, fontWeight: 600, marginLeft: 'auto' }}>
-              <Share2 size={14} /> Compartir
-            </button>
-          </div>
-
-          {/* Related */}
-          {related.length > 0 && (
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-                <div style={{ width: 3, height: 16, background: C.red, borderRadius: 2 }} />
-                <span style={{ fontSize: 11, fontWeight: 800, color: C.white, letterSpacing: 1.5, textTransform: 'uppercase' }}>Relacionadas</span>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {related.map(rel => (
-                  <div key={rel.id} onClick={() => onRelated(rel)}
-                    style={{ display: 'flex', gap: 14, padding: 12, background: C.s2, borderRadius: 10, cursor: 'pointer', border: `1px solid ${C.bdr}` }}
-                    onMouseEnter={e => e.currentTarget.style.borderColor = C.red + '60'}
-                    onMouseLeave={e => e.currentTarget.style.borderColor = C.bdr}>
-                    <img src={rel.img} alt={rel.title} style={{ width: 72, height: 52, borderRadius: 6, objectFit: 'cover', flexShrink: 0 }} />
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 10, color: C.red, fontWeight: 700, marginBottom: 4 }}>{rel.cat}</div>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: C.white, lineHeight: 1.35 }}>{rel.title}</div>
-                    </div>
-                    <ChevronRight size={16} color={C.dim} style={{ flexShrink: 0, alignSelf: 'center' }} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          <span style={{ color: C.bdr }}>›</span>
+          <span style={{ fontSize: 12, color: C.red, fontWeight: 700 }}>{art.cat}</span>
+          <span style={{ color: C.bdr }}>›</span>
+          <span style={{ fontSize: 12, color: C.dim, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>{art.title}</span>
         </div>
       </div>
+
+      {/* Hero image full width */}
+      <div style={{ width: '100%', position: 'relative', overflow: 'hidden', maxHeight: 480 }}>
+        <img src={art.img} alt={art.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', maxHeight: 480 }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(7,7,10,.7) 0%, transparent 60%)' }} />
+        <div style={{ position: 'absolute', bottom: 24, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 860, padding: '0 20px', display: 'flex', gap: 8 }}>
+          <span style={{ background: C.red, color: '#fff', fontSize: 10, fontWeight: 800, padding: '4px 12px', borderRadius: 4, letterSpacing: 1.5, textTransform: 'uppercase' }}>{art.cat}</span>
+          {art.tag && <span style={{ background: C.gold, color: '#000', fontSize: 10, fontWeight: 800, padding: '4px 12px', borderRadius: 4, letterSpacing: 1.5, textTransform: 'uppercase' }}>{art.tag}</span>}
+        </div>
+      </div>
+
+      {/* Article body */}
+      <div style={{ maxWidth: 860, margin: '0 auto', padding: '40px 20px 60px' }}>
+
+        {/* Headline */}
+        <h1 style={{ fontSize: 'clamp(24px, 4vw, 38px)', fontWeight: 900, color: C.white, lineHeight: 1.2, marginBottom: 16 }}>
+          {art.title}
+        </h1>
+
+        {/* Deck */}
+        <p style={{ fontSize: 18, color: C.muted, lineHeight: 1.7, marginBottom: 28, fontStyle: 'italic', borderLeft: `4px solid ${C.red}`, paddingLeft: 20 }}>
+          {art.deck}
+        </p>
+
+        {/* Author + meta */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 0', borderTop: `1px solid ${C.bdr}`, borderBottom: `1px solid ${C.bdr}`, marginBottom: 36, flexWrap: 'wrap', gap: 14 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ width: 44, height: 44, borderRadius: '50%', background: C.red + '25', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: `2px solid ${C.red}40` }}>
+              <span style={{ fontSize: 18, fontWeight: 900, color: C.red }}>{art.author[0]}</span>
+            </div>
+            <div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: C.white }}>{art.author}</div>
+              <div style={{ fontSize: 12, color: C.dim }}>{art.role}</div>
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
+            <span style={{ fontSize: 12, color: C.dim, display: 'flex', alignItems: 'center', gap: 5 }}><Clock size={13} />{art.time}</span>
+            <span style={{ fontSize: 12, color: C.dim, display: 'flex', alignItems: 'center', gap: 5 }}><BookOpen size={13} />{art.readTime} lectura</span>
+            <span style={{ fontSize: 12, color: C.dim, display: 'flex', alignItems: 'center', gap: 5 }}><Eye size={13} />{fmt(art.views)}</span>
+            <span style={{ fontSize: 12, color: C.dim, display: 'flex', alignItems: 'center', gap: 5 }}><MessageCircle size={13} />{art.comments} comentarios</span>
+          </div>
+        </div>
+
+        {/* Body text */}
+        <div style={{ fontSize: 17, color: '#CFCFDF', lineHeight: 1.9, marginBottom: 40 }}>
+          {art.body.split('\n\n').map((p, i) => (
+            <p key={i} style={{ marginBottom: 24 }}>{p}</p>
+          ))}
+        </div>
+
+        {/* Actions */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '20px 0', borderTop: `1px solid ${C.bdr}`, borderBottom: `1px solid ${C.bdr}`, marginBottom: 48, flexWrap: 'wrap' }}>
+          <button onClick={() => toggleLike(art.id)}
+            style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 8, border: `1px solid ${C.bdr}`, background: likes[art.id] ? C.red + '20' : 'transparent', color: likes[art.id] ? C.red : C.muted, cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>
+            <Heart size={15} fill={likes[art.id] ? C.red : 'none'} /> Me gusta
+          </button>
+          <button onClick={() => toggleBookmark(art.id)}
+            style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 8, border: `1px solid ${C.bdr}`, background: bookmarks.has(art.id) ? C.gold + '20' : 'transparent', color: bookmarks.has(art.id) ? C.gold : C.muted, cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>
+            <Bookmark size={15} fill={bookmarks.has(art.id) ? C.gold : 'none'} /> Guardar
+          </button>
+          <button style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 8, border: `1px solid ${C.bdr}`, background: 'transparent', color: C.muted, cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>
+            <Share2 size={15} /> Compartir
+          </button>
+          <button onClick={onBack}
+            style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 8, border: `1px solid ${C.bdr}`, background: 'transparent', color: C.muted, cursor: 'pointer', fontSize: 14, fontWeight: 600, marginLeft: 'auto' }}>
+            <ArrowLeft size={15} /> Volver al inicio
+          </button>
+        </div>
+
+        {/* Related articles */}
+        {related.length > 0 && (
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+              <div style={{ width: 4, height: 20, background: C.red, borderRadius: 2 }} />
+              <h2 style={{ fontSize: 13, fontWeight: 800, color: C.white, letterSpacing: 1.5, textTransform: 'uppercase' }}>Más en {art.cat}</h2>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
+              {related.map(rel => (
+                <div key={rel.id} onClick={() => onRelated(rel)}
+                  className="ep-art"
+                  style={{ background: C.s2, border: `1px solid ${C.bdr}`, borderRadius: 12, overflow: 'hidden', cursor: 'pointer', transition: 'border-color .2s' }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = C.red + '60'}
+                  onMouseLeave={e => e.currentTarget.style.borderColor = C.bdr}>
+                  <div style={{ height: 130, overflow: 'hidden' }}>
+                    <img src={rel.img} alt={rel.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  </div>
+                  <div style={{ padding: '14px 16px' }}>
+                    <div style={{ fontSize: 10, color: C.red, fontWeight: 700, marginBottom: 6 }}>{rel.cat} · {rel.time}</div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: C.white, lineHeight: 1.35 }}>{rel.title}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      <footer style={{ background: C.s1, borderTop: `1px solid ${C.bdr}`, padding: '32px 20px' }}>
+        <div style={{ maxWidth: 860, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+          <button onClick={onBack} style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'none', border: `1px solid ${C.bdr}`, color: C.muted, cursor: 'pointer', fontSize: 13, fontWeight: 600, padding: '8px 16px', borderRadius: 8 }}>
+            <ArrowLeft size={14} /> Volver a El Pulso
+          </button>
+          <span style={{ fontSize: 12, color: C.dim }}>© 2026 El Pulso · Diario Digital</span>
+          <Link to="/demos" style={{ fontSize: 12, color: C.dim, display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none' }} className="ep-link">
+            <Code2 size={12} /> Demo por AgenciaSI
+          </Link>
+        </div>
+      </footer>
     </div>
   )
 }
