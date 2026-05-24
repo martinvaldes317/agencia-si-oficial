@@ -75,7 +75,8 @@ const SISTEMAS = [
 const PLANS = [
   {
     name: 'Landing Page',
-    price: 99990,
+    price: 79990,
+    oldPrice: 99990,
     popular: false,
     color: T.blue,
     desc: 'Ideal para emprendedores y negocios que quieren empezar a vender online rápido.',
@@ -408,6 +409,12 @@ export default function LandingWebSistemas() {
                 <div style={{ marginBottom: 14 }}>
                   {plan.price ? (
                     <div>
+                      {plan.oldPrice && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+                          <span style={{ fontSize: 14, color: T.muted, textDecoration: 'line-through', fontWeight: 500 }}>${fmt(plan.oldPrice)}</span>
+                          <span style={{ fontSize: 11, fontWeight: 700, background: '#FEF2F2', color: '#DC2626', padding: '2px 7px', borderRadius: 20 }}>PROMO</span>
+                        </div>
+                      )}
                       <span style={{ fontSize: 13, color: T.gray, fontWeight: 600 }}>desde </span>
                       <span style={{ fontSize: 34, fontWeight: 900, color: T.blue, letterSpacing: -1 }}>${fmt(plan.price)}</span>
                     </div>
