@@ -153,8 +153,8 @@ export default function LandingWebSistemas() {
   return (
     <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.white, color: T.dark, overflowX: 'hidden' }}>
       <Helmet>
-        <title>Páginas Web y Sistemas a Medida desde $99.990 | AgenciaSI Chile</title>
-        <meta name="description" content="Creamos páginas web y sistemas a medida para tu negocio en Chile desde $99.990. Entrega en 5 días, dominio incluido, soporte post-entrega. Cotiza por WhatsApp." />
+        <title>Páginas Web y Sistemas a Medida desde $79.990 | AgenciaSI Chile</title>
+        <meta name="description" content="Creamos páginas web y sistemas a medida para tu negocio en Chile desde $79.990. Entrega en 5 días, dominio incluido, soporte post-entrega. Cotiza por WhatsApp." />
       </Helmet>
 
       {/* ── STICKY HEADER ── */}
@@ -296,7 +296,7 @@ export default function LandingWebSistemas() {
                 </div>
                 <div>
                   <div style={{ fontSize: 18, fontWeight: 800, color: T.black }}>Páginas Web</div>
-                  <div style={{ fontSize: 12, color: T.blue, fontWeight: 600 }}>Desde $99.990</div>
+                  <div style={{ fontSize: 12, color: T.blue, fontWeight: 600 }}>Desde $79.990</div>
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
