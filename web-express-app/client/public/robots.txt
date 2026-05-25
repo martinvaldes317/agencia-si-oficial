@@ -2,5 +2,11 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /portal/
+Disallow: /demos/farmacia
+Disallow: /demos/clinica
+Disallow: /demos/restaurante
+Disallow: /demos/corredora
+Disallow: /demos/tienda
+Disallow: /demos/noticias
 
 Sitemap: https://agenciasi.cl/sitemap.xml

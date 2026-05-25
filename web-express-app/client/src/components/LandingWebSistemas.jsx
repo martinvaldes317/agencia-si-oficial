@@ -155,6 +155,8 @@ export default function LandingWebSistemas() {
       <Helmet>
         <title>Páginas Web y Sistemas a Medida desde $79.990 | AgenciaSI Chile</title>
         <meta name="description" content="Creamos páginas web y sistemas a medida para tu negocio en Chile desde $79.990. Entrega en 5 días, dominio incluido, soporte post-entrega. Cotiza por WhatsApp." />
+        <link rel="canonical" href="https://agenciasi.cl/web" />
+        <meta name="robots" content="index, follow" />
       </Helmet>
 
       {/* ── STICKY HEADER ── */}
