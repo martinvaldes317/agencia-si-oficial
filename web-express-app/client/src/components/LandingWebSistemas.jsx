@@ -82,10 +82,12 @@ const PLANS = [
   },
   {
     name: 'E-commerce',
-    price: 349990,
+    price: 99990,
+    oldPrice: 349990,
+    cupos: 5,
     popular: false,
-    desc: 'Tienda online completa con catálogo, carrito de compras y pagos en línea.',
-    features: ['Todo lo de Web Corporativa', 'Catálogo de productos ilimitado', 'Carrito de compras', 'Webpay + MercadoPago', 'Panel de productos', 'Gestión de pedidos', 'Cupones de descuento', 'Soporte extendido 3 meses'],
+    desc: 'Tienda online con carga inicial de 25 productos, pagos en línea y despacho integrado.',
+    features: ['Diseño único a medida', 'Carga inicial 25 productos', 'Carrito de compras', 'MercadoPago integrado', 'BlueExpress como método de envío', 'Panel de productos', 'Gestión de pedidos', 'Dominio + Hosting 1 año gratis'],
   },
   {
     name: 'Sistema a Medida',
@@ -456,12 +458,25 @@ export default function LandingWebSistemas() {
                     ⭐ MÁS ELEGIDO
                   </div>
                 )}
+                {plan.cupos && (
+                  <div style={{ position: 'absolute', top: -13, left: '50%', transform: 'translateX(-50%)', background: '#DC2626', color: T.white, fontSize: 11, fontWeight: 800, padding: '4px 16px', borderRadius: 20, letterSpacing: .5, whiteSpace: 'nowrap' }}>
+                    🔥 SOLO {plan.cupos} CUPOS
+                  </div>
+                )}
                 <div style={{ fontSize: 17, fontWeight: 800, color: T.black, marginBottom: 6 }}>{plan.name}</div>
                 <div style={{ marginBottom: 12 }}>
                   {plan.price ? (
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                      <span style={{ fontSize: 12, color: T.gray, fontWeight: 600 }}>desde</span>
-                      <span style={{ fontSize: 30, fontWeight: 900, color: T.blue, letterSpacing: -1 }}>${fmt(plan.price)}</span>
+                    <div>
+                      {plan.oldPrice && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+                          <span style={{ fontSize: 13, color: T.muted, textDecoration: 'line-through', fontWeight: 500 }}>${fmt(plan.oldPrice)}</span>
+                          <span style={{ fontSize: 10, fontWeight: 700, background: '#FEF2F2', color: '#DC2626', padding: '2px 7px', borderRadius: 20 }}>SÚPER OFERTA</span>
+                        </div>
+                      )}
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                        <span style={{ fontSize: 12, color: T.gray, fontWeight: 600 }}>desde</span>
+                        <span style={{ fontSize: 30, fontWeight: 900, color: T.blue, letterSpacing: -1 }}>${fmt(plan.price)}</span>
+                      </div>
                     </div>
                   ) : (
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -479,9 +494,9 @@ export default function LandingWebSistemas() {
                     </div>
                   ))}
                 </div>
-                <a href={`${WA}&text=${encodeURIComponent(`Hola, me interesa cotizar: ${plan.name}`)}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead(plan.name)}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '12px', borderRadius: 12, background: plan.popular ? T.blue : T.black, color: T.white, fontWeight: 700, fontSize: 13, textDecoration: 'none', boxSizing: 'border-box' }}>
-                  <MessageCircle size={14} /> {plan.price ? 'Cotizar este plan' : 'Solicitar diagnóstico gratis'}
+                <a href={`${WA}&text=${encodeURIComponent(plan.cupos ? `Hola, me interesa la súper oferta de E-commerce a $99.990` : `Hola, me interesa cotizar: ${plan.name}`)}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead(plan.name)}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '12px', borderRadius: 12, background: plan.cupos ? '#DC2626' : plan.popular ? T.blue : T.black, color: T.white, fontWeight: 700, fontSize: 13, textDecoration: 'none', boxSizing: 'border-box' }}>
+                  <MessageCircle size={14} /> {plan.cupos ? '🔥 Quiero esta oferta' : plan.price ? 'Cotizar este plan' : 'Solicitar diagnóstico gratis'}
                 </a>
               </div>
             ))}
