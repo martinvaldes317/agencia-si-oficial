@@ -621,8 +621,8 @@ export default function LandingWebSistemas() {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #FFFFFF;
-            border: 1px solid #E8E8F0;
+            background: #F4F4F8;
+            border: 1px solid #E0E0EA;
             border-radius: 12px;
             padding: 12px 16px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
