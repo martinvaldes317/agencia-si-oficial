@@ -74,29 +74,25 @@ const SISTEMAS = [
 
 const PLANS = [
   {
-    name: 'Landing Page',
-    price: 79990,
-    oldPrice: 99990,
-    popular: false,
-    color: T.blue,
-    desc: 'Ideal para emprendedores y negocios que quieren empezar a vender online rápido.',
-    features: ['Diseño único a medida', 'Hasta 5 secciones', 'Formulario de contacto', 'Botón WhatsApp integrado', 'Optimización SEO básica', 'Responsive (celular/tablet)', 'Dominio .cl incluido (1 año)', 'Entrega en 5 días hábiles'],
-  },
-  {
     name: 'Web Corporativa',
-    price: 199990,
+    price: 149990,
     popular: true,
-    color: T.blue,
-    desc: 'Para empresas que quieren transmitir profesionalismo y generar confianza.',
-    features: ['Todo lo de Landing Page', 'Hasta 10 páginas o secciones', 'Galería o portafolio', 'Blog / noticias', 'Integración Google Maps', 'Hosting incluido (1 año)', 'Panel de edición básico', 'Soporte por 2 meses'],
+    desc: 'Imagen profesional completa. Ideal para empresas, comercios y servicios.',
+    features: ['Diseño único a medida', 'Hasta 10 páginas/secciones', 'Dominio .cl 1 año gratis', 'Hosting 1 año gratis', 'Google Maps integrado', '3 correos corporativos', 'Botón WhatsApp', 'Indexado en Google', 'Facturable', 'Soporte 2 meses'],
   },
   {
-    name: 'Sistema o E-commerce',
+    name: 'E-commerce',
+    price: 349990,
+    popular: false,
+    desc: 'Tienda online completa con catálogo, carrito de compras y pagos en línea.',
+    features: ['Todo lo de Web Corporativa', 'Catálogo de productos ilimitado', 'Carrito de compras', 'Webpay + MercadoPago', 'Panel de productos', 'Gestión de pedidos', 'Cupones de descuento', 'Soporte extendido 3 meses'],
+  },
+  {
+    name: 'Sistema a Medida',
     price: null,
     popular: false,
-    color: '#1E1C8A',
-    desc: 'Para proyectos con lógica de negocio, catálogos, pagos o automatizaciones.',
-    features: ['Cotización personalizada', 'E-commerce desde $249.990', 'Sistema desde $349.990', 'Integración Webpay / MercadoPago', 'Panel administrador', 'Base de datos incluida', 'Capacitación del equipo', 'Soporte extendido'],
+    desc: 'Automatizaciones, sistemas internos, portales o cualquier lógica de negocio específica.',
+    features: ['Diagnóstico sin costo', 'Cotización personalizada', 'CRM / gestión de clientes', 'Panel administrador', 'Base de datos incluida', 'Integraciones a medida', 'Capacitación del equipo', 'Soporte extendido'],
   },
 ]
 
@@ -387,55 +383,92 @@ export default function LandingWebSistemas() {
       </section>
 
       {/* ── PRECIOS ── */}
-      <section id="precios" style={{ background: T.white, padding: '80px 20px' }}>
+      <section id="precios" style={{ background: T.light, padding: '80px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 52 }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Precios transparentes</span>
             <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 900, color: T.black, marginTop: 10, letterSpacing: -.5 }}>
               Sin sorpresas. Sin letras chicas.
             </h2>
-            <p style={{ fontSize: 15, color: T.gray, marginTop: 10 }}>
-              Precios en pesos chilenos (CLP) · IVA incluido
-            </p>
+            <p style={{ fontSize: 15, color: T.gray, marginTop: 10 }}>Precios en pesos chilenos (CLP) · IVA incluido</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
+
+          {/* ── PROMO HERO CARD ── */}
+          <div style={{ background: `linear-gradient(135deg, #1A1AD4 0%, #2D2BB5 50%, #1565C0 100%)`, borderRadius: 24, padding: '48px 40px', marginBottom: 28, position: 'relative', overflow: 'hidden', boxShadow: '0 20px 60px rgba(45,43,181,.45)' }}>
+            <div style={{ position: 'absolute', top: -60, right: -60, width: 280, height: 280, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', bottom: -40, left: -40, width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 32, alignItems: 'center' }} className="lws-promo-grid">
+              <div>
+                <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 30, padding: '5px 16px', marginBottom: 16 }}>
+                  <span style={{ fontSize: 11, fontWeight: 800, color: '#A8FFEA', letterSpacing: 2, textTransform: 'uppercase' }}>⚡ Oferta exclusiva para pymes y profesionales</span>
+                </div>
+                <div style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontStyle: 'italic', fontWeight: 900, color: T.white, marginBottom: 8, letterSpacing: -.5 }}>Tu Sitio Web Profesional</div>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 10 }}>
+                  <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}>por solo</span>
+                  <span style={{ fontSize: 'clamp(42px, 6vw, 64px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$59.990</span>
+                  <span style={{ fontSize: 18, color: 'rgba(255,255,255,0.5)', textDecoration: 'line-through', fontWeight: 500 }}>$99.990</span>
+                </div>
+                <div style={{ display: 'inline-block', borderBottom: '2px solid #A8FFEA', paddingBottom: 2, marginBottom: 20 }}>
+                  <span style={{ fontSize: 16, fontStyle: 'italic', fontWeight: 700, color: '#A8FFEA' }}>Solo 10 Cupos Disponibles</span>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: '8px 16px' }}>
+                  {['Dominio .cl 1 año gratis','Hosting 1 año gratis','Hasta 5 secciones','Formulario de contacto','Botón WhatsApp','Google Maps','3 correos corporativos','Facturable','Desarrollado por profesionales','Sitio web indexado en Google'].map(f => (
+                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                      <CheckCircle2 size={13} color="#A8FFEA" style={{ flexShrink: 0 }} />
+                      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>{f}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 200 }} className="lws-promo-cta">
+                <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa la oferta de Landing Page a $59.990')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Promo')}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '16px 28px', borderRadius: 14, background: T.white, color: T.blue, fontWeight: 800, fontSize: 15, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.2)', whiteSpace: 'nowrap' }}>
+                  <MessageCircle size={17} /> Quiero esta oferta
+                </a>
+                <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={trackSchedule}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '13px 24px', borderRadius: 14, background: 'transparent', color: T.white, fontWeight: 700, fontSize: 13, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.4)', whiteSpace: 'nowrap' }}>
+                  <Calendar size={15} /> Agendar reunión
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* ── OTROS PLANES ── */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
             {PLANS.map(plan => (
               <div key={plan.name}
-                style={{ borderRadius: 20, padding: '32px 28px', border: plan.popular ? `2px solid ${T.blue}` : `1px solid ${T.border}`, background: plan.popular ? `linear-gradient(145deg, ${T.blueL}, ${T.white})` : T.white, position: 'relative', boxShadow: plan.popular ? `0 12px 40px ${T.blue}20` : 'none' }}>
+                style={{ borderRadius: 20, padding: '28px 24px', border: plan.popular ? `2px solid ${T.blue}` : `1px solid ${T.border}`, background: T.white, position: 'relative', boxShadow: plan.popular ? `0 12px 40px ${T.blue}20` : '0 2px 12px rgba(0,0,0,.04)' }}>
                 {plan.popular && (
-                  <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: T.blue, color: T.white, fontSize: 11, fontWeight: 800, padding: '4px 16px', borderRadius: 20, letterSpacing: 1, whiteSpace: 'nowrap' }}>
+                  <div style={{ position: 'absolute', top: -13, left: '50%', transform: 'translateX(-50%)', background: T.blue, color: T.white, fontSize: 11, fontWeight: 800, padding: '4px 16px', borderRadius: 20, letterSpacing: 1, whiteSpace: 'nowrap' }}>
                     ⭐ MÁS ELEGIDO
                   </div>
                 )}
-                <div style={{ fontSize: 18, fontWeight: 800, color: T.black, marginBottom: 8 }}>{plan.name}</div>
-                <div style={{ marginBottom: 14 }}>
+                <div style={{ fontSize: 17, fontWeight: 800, color: T.black, marginBottom: 6 }}>{plan.name}</div>
+                <div style={{ marginBottom: 12 }}>
                   {plan.price ? (
-                    <div>
-                      {plan.oldPrice && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
-                          <span style={{ fontSize: 14, color: T.muted, textDecoration: 'line-through', fontWeight: 500 }}>${fmt(plan.oldPrice)}</span>
-                          <span style={{ fontSize: 11, fontWeight: 700, background: '#FEF2F2', color: '#DC2626', padding: '2px 7px', borderRadius: 20 }}>PROMO</span>
-                        </div>
-                      )}
-                      <span style={{ fontSize: 13, color: T.gray, fontWeight: 600 }}>desde </span>
-                      <span style={{ fontSize: 34, fontWeight: 900, color: T.blue, letterSpacing: -1 }}>${fmt(plan.price)}</span>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                      <span style={{ fontSize: 12, color: T.gray, fontWeight: 600 }}>desde</span>
+                      <span style={{ fontSize: 30, fontWeight: 900, color: T.blue, letterSpacing: -1 }}>${fmt(plan.price)}</span>
                     </div>
                   ) : (
-                    <span style={{ fontSize: 28, fontWeight: 900, color: T.blue }}>A cotizar</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: 26, fontWeight: 900, color: T.blue }}>A cotizar</span>
+                      <span style={{ fontSize: 11, background: T.blueL, color: T.blue, fontWeight: 700, padding: '3px 8px', borderRadius: 10 }}>Gratis</span>
+                    </div>
                   )}
                 </div>
-                <p style={{ fontSize: 13, color: T.gray, lineHeight: 1.6, marginBottom: 24 }}>{plan.desc}</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
+                <p style={{ fontSize: 12, color: T.gray, lineHeight: 1.6, marginBottom: 20 }}>{plan.desc}</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
                   {plan.features.map(f => (
-                    <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                      <CheckCircle2 size={15} color={T.green} style={{ flexShrink: 0, marginTop: 1 }} />
-                      <span style={{ fontSize: 13, color: T.gray }}>{f}</span>
+                    <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+                      <CheckCircle2 size={13} color={T.green} style={{ flexShrink: 0, marginTop: 2 }} />
+                      <span style={{ fontSize: 12, color: T.gray }}>{f}</span>
                     </div>
                   ))}
                 </div>
                 <a href={`${WA}&text=${encodeURIComponent(`Hola, me interesa cotizar: ${plan.name}`)}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead(plan.name)}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '13px', borderRadius: 12, background: plan.popular ? T.blue : T.black, color: T.white, fontWeight: 700, fontSize: 14, textDecoration: 'none', boxSizing: 'border-box' }}>
-                  <MessageCircle size={15} /> Cotizar este plan
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '12px', borderRadius: 12, background: plan.popular ? T.blue : T.black, color: T.white, fontWeight: 700, fontSize: 13, textDecoration: 'none', boxSizing: 'border-box' }}>
+                  <MessageCircle size={14} /> {plan.price ? 'Cotizar este plan' : 'Solicitar diagnóstico gratis'}
                 </a>
               </div>
             ))}
@@ -669,12 +702,15 @@ export default function LandingWebSistemas() {
       <style>{`
         .lws-link:hover { color: #2D2BB5 !important; }
         @media (max-width: 768px) {
-          .lws-hero-grid   { grid-template-columns: 1fr !important; gap: 40px !important; }
-          .lws-demos-grid  { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+          .lws-hero-grid    { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .lws-demos-grid   { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
           .lws-services-grid { grid-template-columns: 1fr !important; }
+          .lws-promo-grid   { grid-template-columns: 1fr !important; }
+          .lws-promo-cta    { flex-direction: row !important; flex-wrap: wrap; min-width: unset !important; }
         }
         @media (max-width: 480px) {
           .lws-demos-grid  { display: none !important; }
+          .lws-promo-cta   { flex-direction: column !important; }
         }
       `}</style>
     </div>
