@@ -35,6 +35,12 @@ const trackWA       = () => px('Contact')
 const trackSchedule = () => px('Schedule')
 const trackLead     = (planName) => px('Lead', { content_name: planName })
 
+const WaIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+)
+
 /* ── DATA ──────────────────────────────────────────────── */
 const DEMOS = [
   { label: 'Farmacia', cat: 'E-commerce', url: '/demos/farmacia',    img: 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=700&h=420&fit=crop&q=80' },
@@ -169,8 +175,8 @@ export default function LandingWebSistemas() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <a href="#precios" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }} className="lws-link">Ver precios</a>
             <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
-              style={{ background: '#25D366', color: T.white, fontWeight: 700, fontSize: 13, padding: '9px 18px', borderRadius: 30, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none', boxShadow: '0 4px 12px rgba(37,211,102,.35)' }}>
-              <MessageCircle size={15} /> Cotizar ahora
+              style={{ background: '#25D366', color: T.white, fontWeight: 700, fontSize: 13, padding: '9px 18px', borderRadius: 30, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none', boxShadow: '0 4px 12px rgba(37,211,102,.35)' }} className="wa-btn">
+              <WaIcon size={15} /> Cotizar ahora
             </a>
           </div>
         </div>
@@ -214,8 +220,8 @@ export default function LandingWebSistemas() {
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
               <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa la oferta de Landing Page a $59.990')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Promo')}
-                style={{ background: T.white, color: T.blue, fontWeight: 800, fontSize: 15, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
-                <MessageCircle size={18} /> Quiero esta oferta
+                style={{ background: T.white, color: T.blue, fontWeight: 800, fontSize: 15, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }} className="wa-btn">
+                <WaIcon size={18} /> Quiero esta oferta
               </a>
               <a href="#trabajos"
                 style={{ background: 'transparent', color: T.white, fontWeight: 600, fontSize: 14, padding: '14px 22px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.35)' }}>
@@ -437,8 +443,8 @@ export default function LandingWebSistemas() {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 200 }} className="lws-promo-cta">
                 <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa la oferta de Landing Page a $59.990')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Promo')}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '16px 28px', borderRadius: 14, background: T.white, color: T.blue, fontWeight: 800, fontSize: 15, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.2)', whiteSpace: 'nowrap' }}>
-                  <MessageCircle size={17} /> Quiero esta oferta
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '16px 28px', borderRadius: 14, background: T.white, color: T.blue, fontWeight: 800, fontSize: 15, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.2)', whiteSpace: 'nowrap' }} className="wa-btn">
+                  <WaIcon size={17} /> Quiero esta oferta
                 </a>
                 <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={trackSchedule}
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '13px 24px', borderRadius: 14, background: 'transparent', color: T.white, fontWeight: 700, fontSize: 13, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.4)', whiteSpace: 'nowrap' }}>
@@ -495,8 +501,8 @@ export default function LandingWebSistemas() {
                   ))}
                 </div>
                 <a href={`${WA}&text=${encodeURIComponent(plan.cupos ? `Hola, me interesa la súper oferta de E-commerce a $99.990` : `Hola, me interesa cotizar: ${plan.name}`)}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead(plan.name)}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '12px', borderRadius: 12, background: plan.cupos ? '#DC2626' : plan.popular ? T.blue : T.black, color: T.white, fontWeight: 700, fontSize: 13, textDecoration: 'none', boxSizing: 'border-box' }}>
-                  <MessageCircle size={14} /> {plan.cupos ? '🔥 Quiero esta oferta' : plan.price ? 'Cotizar este plan' : 'Solicitar diagnóstico gratis'}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '12px', borderRadius: 12, background: plan.cupos ? '#DC2626' : plan.popular ? T.blue : T.black, color: T.white, fontWeight: 700, fontSize: 13, textDecoration: 'none', boxSizing: 'border-box' }} className="wa-btn">
+                  <WaIcon size={14} /> {plan.cupos ? '🔥 Quiero esta oferta' : plan.price ? 'Cotizar este plan' : 'Solicitar diagnóstico gratis'}
                 </a>
               </div>
             ))}
@@ -690,8 +696,8 @@ export default function LandingWebSistemas() {
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', marginBottom: 24 }}>
             <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
-              style={{ background: '#25D366', color: T.white, fontWeight: 800, fontSize: 17, padding: '16px 36px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 32px rgba(37,211,102,.45)' }}>
-              <MessageCircle size={20} /> Cotizar por WhatsApp
+              style={{ background: '#25D366', color: T.white, fontWeight: 800, fontSize: 17, padding: '16px 36px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 32px rgba(37,211,102,.45)' }} className="wa-btn">
+              <WaIcon size={20} /> Cotizar por WhatsApp
             </a>
             <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={trackSchedule}
               style={{ background: 'transparent', color: T.white, fontWeight: 700, fontSize: 16, padding: '16px 28px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.3)' }}>
@@ -722,12 +728,19 @@ export default function LandingWebSistemas() {
 
       {/* ── FLOATING WA BUTTON ── */}
       <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
-        style={{ position: 'fixed', bottom: 24, right: 24, background: '#25D366', color: T.white, width: 58, height: 58, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(37,211,102,.55)', zIndex: 100, textDecoration: 'none', fontSize: 26 }}>
-        💬
+        style={{ position: 'fixed', bottom: 24, right: 24, background: '#25D366', color: T.white, width: 58, height: 58, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(37,211,102,.55)', zIndex: 100, textDecoration: 'none' }} className="wa-btn">
+        <WaIcon size={28} />
       </a>
 
       {/* ── MOBILE CSS ── */}
       <style>{`
+        @keyframes wa-bounce {
+          0%, 100% { transform: scale(1); }
+          40% { transform: scale(1.10); }
+          60% { transform: scale(0.96); }
+        }
+        .wa-btn { animation: wa-bounce 2.4s ease-in-out infinite; }
+        .wa-btn:hover { animation-play-state: paused; transform: scale(1.05); }
         .lws-link:hover { color: #2D2BB5 !important; }
         @media (max-width: 768px) {
           .lws-hero-grid    { grid-template-columns: 1fr !important; gap: 40px !important; }
