@@ -545,17 +545,22 @@ export default function LandingWebSistemas() {
           .lws-marquee-track:hover { animation-play-state: paused; }
           .lws-logo-item {
             flex-shrink: 0;
-            width: 140px;
-            height: 72px;
-            margin: 0 20px;
+            width: 148px;
+            height: 80px;
+            margin: 0 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            filter: grayscale(100%) opacity(0.55);
-            transition: filter 0.3s;
+            background: #FFFFFF;
+            border: 1px solid #E8E8F0;
+            border-radius: 12px;
+            padding: 12px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            filter: grayscale(100%) opacity(0.6);
+            transition: filter 0.3s, box-shadow 0.3s;
           }
-          .lws-logo-item:hover { filter: grayscale(0%) opacity(1); }
-          .lws-logo-item img { max-width: 120px; max-height: 56px; object-fit: contain; }
+          .lws-logo-item:hover { filter: grayscale(0%) opacity(1); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+          .lws-logo-item img { max-width: 110px; max-height: 52px; object-fit: contain; }
         `}</style>
 
         <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center', marginBottom: 52 }}>

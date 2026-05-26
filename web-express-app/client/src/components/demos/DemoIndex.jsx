@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, ExternalLink, Globe, Code2, Zap } from 'lucide-react'
+import { ArrowRight, ExternalLink, Globe, Code2, Zap, Calendar } from 'lucide-react'
 
 const T = {
   blue:   '#2D2BB5',
@@ -147,6 +147,95 @@ export default function DemoIndex() {
           {DEMOS.map((d, i) => (
             <DemoCard key={d.slug} demo={d} reverse={i % 2 !== 0} />
           ))}
+        </div>
+      </section>
+
+      {/* Clientes */}
+      <section style={{ background: T.white, padding: '80px 0', overflow: 'hidden' }}>
+        <style>{`
+          @keyframes di-marquee {
+            0%   { transform: translateX(0) }
+            100% { transform: translateX(-50%) }
+          }
+          .di-marquee-track {
+            display: flex;
+            width: max-content;
+            animation: di-marquee 32s linear infinite;
+          }
+          .di-marquee-track:hover { animation-play-state: paused; }
+          .di-logo-item {
+            flex-shrink: 0;
+            width: 148px;
+            height: 80px;
+            margin: 0 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #FFFFFF;
+            border: 1px solid #E8E8F0;
+            border-radius: 12px;
+            padding: 12px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            filter: grayscale(100%) opacity(0.6);
+            transition: filter 0.3s, box-shadow 0.3s;
+          }
+          .di-logo-item:hover { filter: grayscale(0%) opacity(1); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+          .di-logo-item img { max-width: 110px; max-height: 52px; object-fit: contain; }
+        `}</style>
+
+        <div className="max-w-4xl mx-auto px-6 text-center" style={{ marginBottom: 48 }}>
+          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
+            style={{ background: T.blue + '15', color: T.blue }}>
+            Nuestros clientes
+          </span>
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-4" style={{ color: T.black }}>
+            Nuestra reputación nos importa.
+          </h2>
+          <p className="text-base max-w-xl mx-auto" style={{ color: T.gray }}>
+            Nos preocupamos de hacer diseños a medida, escuchando cada detalle de tu negocio. Cada cliente es un proyecto único — no usamos plantillas.
+          </p>
+        </div>
+
+        <div style={{ overflow: 'hidden' }}>
+          <div className="di-marquee-track">
+            {[
+              'astro-entretenimientos.svg','capitol-group.svg','espacio-cea.svg','guardias-cl.svg',
+              'premiumlav.svg','calces.svg','vision-eventos.svg','solar-espectaculo.svg',
+              'cft-araucania.svg','zona-plaga.svg','naturalpetworld.webp','hiiaka-dental.webp',
+              'valoramos.webp','pili-orfebre.webp','centro-kinesico.webp','pacifico-salud.webp',
+              'daza-maquinarias.webp','espacio-blue.webp','entrelluvias-sabores.webp','schopchile.webp',
+              'ambulancias-pacifico.webp','asysam.webp','consultora-lawen.webp','d-tolentino.webp',
+              'capitol-training.webp','limari-travel.webp','barras-pole-dance.webp','now-pos.png','lbepv.png',
+              'astro-entretenimientos.svg','capitol-group.svg','espacio-cea.svg','guardias-cl.svg',
+              'premiumlav.svg','calces.svg','vision-eventos.svg','solar-espectaculo.svg',
+              'cft-araucania.svg','zona-plaga.svg','naturalpetworld.webp','hiiaka-dental.webp',
+              'valoramos.webp','pili-orfebre.webp','centro-kinesico.webp','pacifico-salud.webp',
+              'daza-maquinarias.webp','espacio-blue.webp','entrelluvias-sabores.webp','schopchile.webp',
+              'ambulancias-pacifico.webp','asysam.webp','consultora-lawen.webp','d-tolentino.webp',
+              'capitol-training.webp','limari-travel.webp','barras-pole-dance.webp','now-pos.png','lbepv.png',
+            ].map((logo, i) => (
+              <div key={i} className="di-logo-item">
+                <img src={`/clientes/${logo}`} alt="cliente agenciasi" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="text-center" style={{ marginTop: 52, padding: '0 24px' }}>
+          <p className="text-base mb-2" style={{ color: T.gray }}>¿Quieres ser parte de nuestros clientes?</p>
+          <p className="text-sm mb-7 max-w-sm mx-auto" style={{ color: '#9CA3AF' }}>
+            Conversemos sin compromiso. Te mostramos cómo podemos llevar tu negocio al mundo digital.
+          </p>
+          <a
+            href="https://wa.me/56932930812?text=Hola%2C%20me%20interesa%20agendar%20una%20reuni%C3%B3n%20para%20hablar%20de%20mi%20proyecto."
+            target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold transition-opacity hover:opacity-90"
+            style={{ background: T.blue, color: T.white }}
+          >
+            <Calendar size={18} />
+            Agendar una reunión gratis
+          </a>
+          <p className="text-xs mt-3" style={{ color: '#9CA3AF' }}>Sin costo · Sin compromiso · Respondemos en menos de 2 horas</p>
         </div>
       </section>
 
