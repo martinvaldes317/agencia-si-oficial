@@ -365,12 +365,15 @@ export default function LandingWebSistemas() {
       <section id="trabajos" style={{ background: T.light, padding: '80px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Trabajos reales</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Demos interactivas</span>
             <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 900, color: T.black, marginTop: 10, letterSpacing: -.5 }}>
-              Mira lo que construimos
+              Así se verá tu sitio web
             </h2>
-            <p style={{ fontSize: 15, color: T.gray, marginTop: 10 }}>
-              Demos interactivas — entra y navega como si fuera real.
+            <p style={{ fontSize: 15, color: T.gray, marginTop: 10, maxWidth: 520, margin: '10px auto 0' }}>
+              Proyectos de ejemplo que construimos para mostrar nuestras capacidades — entra y navega como si fuera real.
+            </p>
+            <p style={{ fontSize: 13, color: T.muted, marginTop: 8 }}>
+              👇 Más abajo encontrarás los logos de nuestros <strong style={{ color: T.gray }}>clientes reales</strong>.
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
