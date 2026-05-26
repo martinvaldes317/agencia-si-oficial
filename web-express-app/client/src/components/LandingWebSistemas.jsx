@@ -530,6 +530,87 @@ export default function LandingWebSistemas() {
         </div>
       </section>
 
+      {/* ── CLIENTES ── */}
+      <section style={{ background: T.white, padding: '80px 20px', overflow: 'hidden' }}>
+        <style>{`
+          @keyframes marquee {
+            0%   { transform: translateX(0) }
+            100% { transform: translateX(-50%) }
+          }
+          .lws-marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 32s linear infinite;
+          }
+          .lws-marquee-track:hover { animation-play-state: paused; }
+          .lws-logo-item {
+            flex-shrink: 0;
+            width: 140px;
+            height: 72px;
+            margin: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: grayscale(100%) opacity(0.55);
+            transition: filter 0.3s;
+          }
+          .lws-logo-item:hover { filter: grayscale(0%) opacity(1); }
+          .lws-logo-item img { max-width: 120px; max-height: 56px; object-fit: contain; }
+        `}</style>
+
+        <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center', marginBottom: 52 }}>
+          <div style={{ display: 'inline-block', background: T.blueL, color: T.blue, fontWeight: 700, fontSize: 12, letterSpacing: 1.5, padding: '5px 14px', borderRadius: 20, marginBottom: 16 }}>NUESTROS CLIENTES</div>
+          <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 38px)', fontWeight: 900, color: T.black, letterSpacing: -0.5, marginBottom: 16, lineHeight: 1.2 }}>
+            Nuestra reputación<br />nos importa.
+          </h2>
+          <p style={{ fontSize: 16, color: T.gray, maxWidth: 560, margin: '0 auto 0' }}>
+            Nos preocupamos de hacer diseños a medida, escuchando cada detalle de tu negocio. Cada cliente es un proyecto único — no usamos plantillas.
+          </p>
+        </div>
+
+        {/* Logo marquee */}
+        <div style={{ overflow: 'hidden', margin: '0 -20px' }}>
+          <div className="lws-marquee-track">
+            {[
+              'astro-entretenimientos.svg','capitol-group.svg','espacio-cea.svg','guardias-cl.svg',
+              'premiumlav.svg','calces.svg','vision-eventos.svg','solar-espectaculo.svg',
+              'cft-araucania.svg','zona-plaga.svg','naturalpetworld.webp','hiiaka-dental.webp',
+              'valoramos.webp','pili-orfebre.webp','centro-kinesico.webp','pacifico-salud.webp',
+              'daza-maquinarias.webp','espacio-blue.webp','entrelluvias-sabores.webp','schopchile.webp',
+              'ambulancias-pacifico.webp','asysam.webp','consultora-lawen.webp','d-tolentino.webp',
+              'capitol-training.webp','limari-travel.webp','barras-pole-dance.webp','now-pos.png','lbepv.png',
+              // duplicate for seamless loop
+              'astro-entretenimientos.svg','capitol-group.svg','espacio-cea.svg','guardias-cl.svg',
+              'premiumlav.svg','calces.svg','vision-eventos.svg','solar-espectaculo.svg',
+              'cft-araucania.svg','zona-plaga.svg','naturalpetworld.webp','hiiaka-dental.webp',
+              'valoramos.webp','pili-orfebre.webp','centro-kinesico.webp','pacifico-salud.webp',
+              'daza-maquinarias.webp','espacio-blue.webp','entrelluvias-sabores.webp','schopchile.webp',
+              'ambulancias-pacifico.webp','asysam.webp','consultora-lawen.webp','d-tolentino.webp',
+              'capitol-training.webp','limari-travel.webp','barras-pole-dance.webp','now-pos.png','lbepv.png',
+            ].map((logo, i) => (
+              <div key={i} className="lws-logo-item">
+                <img src={`/clientes/${logo}`} alt="cliente agenciasi" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div style={{ textAlign: 'center', marginTop: 56 }}>
+          <p style={{ fontSize: 17, color: T.gray, marginBottom: 8 }}>
+            ¿Quieres ser parte de nuestros clientes?
+          </p>
+          <p style={{ fontSize: 14, color: T.muted, marginBottom: 28, maxWidth: 400, margin: '0 auto 28px' }}>
+            Conversemos sin compromiso. Te mostramos cómo podemos llevar tu negocio al mundo digital.
+          </p>
+          <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={trackSchedule}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: T.blue, color: T.white, fontWeight: 700, fontSize: 16, padding: '14px 32px', borderRadius: 12, textDecoration: 'none', boxShadow: `0 8px 24px ${T.blue}40` }}>
+            <Calendar size={18} /> Agendar una reunión gratis
+          </a>
+          <p style={{ fontSize: 12, color: T.muted, marginTop: 12 }}>Sin costo · Sin compromiso · Respondemos en menos de 2 horas</p>
+        </div>
+      </section>
+
       {/* ── CTA FINAL ── */}
       <section style={{ background: `linear-gradient(135deg, ${T.black} 0%, #0F0F30 100%)`, padding: '88px 20px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 600, borderRadius: '50%', background: `${T.blue}10`, pointerEvents: 'none' }} />
