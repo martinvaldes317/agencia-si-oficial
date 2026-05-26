@@ -174,48 +174,62 @@ export default function LandingWebSistemas() {
         </div>
       </header>
 
+      {/* ── PROMO STRIP ── */}
+      <div style={{ background: '#A8FFEA', padding: '10px 20px', textAlign: 'center' }}>
+        <span style={{ fontSize: 13, fontWeight: 800, color: T.blueD, letterSpacing: .3 }}>
+          ⚡ OFERTA EXCLUSIVA · Tu sitio web desde <strong>$59.990</strong> · Solo 10 cupos disponibles ·{' '}
+        </span>
+        <a href="#precios" style={{ fontSize: 13, fontWeight: 800, color: T.blueD, textDecoration: 'underline' }}>Ver oferta →</a>
+      </div>
+
       {/* ── HERO ── */}
-      <section style={{ background: `linear-gradient(135deg, ${T.black} 0%, #0F0F30 100%)`, padding: '72px 20px 80px', overflow: 'hidden', position: 'relative' }}>
-        {/* Background decoration */}
-        <div style={{ position: 'absolute', top: -100, right: -100, width: 500, height: 500, borderRadius: '50%', background: `${T.blue}15`, pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: -80, left: -60, width: 300, height: 300, borderRadius: '50%', background: `${T.blue}10`, pointerEvents: 'none' }} />
+      <section style={{ background: `linear-gradient(135deg, #1212CC 0%, #2D2BB5 45%, #1A4FC4 100%)`, padding: '68px 20px 80px', overflow: 'hidden', position: 'relative' }}>
+        <div style={{ position: 'absolute', top: -80, right: -80, width: 420, height: 420, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: -60, left: -40, width: 260, height: 260, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }} className="lws-hero-grid">
           {/* Left */}
           <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: `${T.blue}25`, border: `1px solid ${T.blue}50`, borderRadius: 30, padding: '6px 14px', marginBottom: 24 }}>
-              <MapPin size={13} color={T.blue} />
-              <span style={{ fontSize: 12, fontWeight: 600, color: '#A0A0FF', letterSpacing: .5 }}>Atendemos todo Chile · Región del Maule</span>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 30, padding: '6px 14px', marginBottom: 20 }}>
+              <MapPin size={13} color="#A8FFEA" />
+              <span style={{ fontSize: 12, fontWeight: 700, color: '#A8FFEA', letterSpacing: .5 }}>Para Pymes y Profesionales · Chile</span>
             </div>
-            <h1 style={{ fontSize: 'clamp(28px, 4vw, 50px)', fontWeight: 900, color: T.white, lineHeight: 1.15, marginBottom: 20, letterSpacing: -1 }}>
-              Tu negocio necesita una
-              <span style={{ display: 'block', background: `linear-gradient(90deg, #6E8EFF, #A78BFA)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                presencia digital que VENDA.
-              </span>
+            <h1 style={{ fontSize: 'clamp(32px, 4.5vw, 58px)', fontWeight: 900, color: T.white, lineHeight: 1.08, marginBottom: 16, letterSpacing: -1.5, fontStyle: 'italic' }}>
+              Tu Sitio Web<br />
+              <span style={{ fontStyle: 'normal', fontSize: '0.72em', fontWeight: 900, letterSpacing: -.5 }}>Profesional</span>
             </h1>
-            <p style={{ fontSize: 18, color: '#C0C0D8', lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}>
-              Creamos <strong style={{ color: T.white }}>páginas web y sistemas a medida</strong> para empresas y emprendedores chilenos. Profesional, rápido y a un precio justo.
+            {/* Promo price */}
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 8 }}>
+              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>por solo</span>
+              <span style={{ fontSize: 'clamp(36px, 5vw, 52px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$59.990</span>
+              <span style={{ fontSize: 18, color: 'rgba(255,255,255,0.45)', textDecoration: 'line-through', fontWeight: 500 }}>$99.990</span>
+            </div>
+            <div style={{ display: 'inline-block', borderBottom: '2px solid #A8FFEA', paddingBottom: 2, marginBottom: 24 }}>
+              <span style={{ fontSize: 15, fontStyle: 'italic', fontWeight: 700, color: '#A8FFEA' }}>Solo 10 Cupos Disponibles</span>
+            </div>
+            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.8)', lineHeight: 1.65, marginBottom: 28, maxWidth: 460 }}>
+              Diseño único a medida, dominio + hosting gratis, WhatsApp integrado e indexación en Google. <strong style={{ color: T.white }}>Entrega en 5 días hábiles.</strong>
             </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 36 }}>
-              <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
-                style={{ background: '#25D366', color: T.white, fontWeight: 700, fontSize: 16, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(37,211,102,.4)' }}>
-                <MessageCircle size={18} /> Cotizar por WhatsApp
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
+              <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa la oferta de Landing Page a $59.990')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Promo')}
+                style={{ background: T.white, color: T.blue, fontWeight: 800, fontSize: 15, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
+                <MessageCircle size={18} /> Quiero esta oferta
               </a>
               <a href="#trabajos"
-                style={{ background: 'transparent', color: T.white, fontWeight: 600, fontSize: 15, padding: '14px 24px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: `1.5px solid rgba(255,255,255,.25)` }}>
+                style={{ background: 'transparent', color: T.white, fontWeight: 600, fontSize: 14, padding: '14px 22px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.35)' }}>
                 Ver trabajos <ExternalLink size={15} />
               </a>
             </div>
-            {/* Social proof mini */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+            {/* Social proof */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
               {[
-                { n: '+50', label: 'proyectos' },
+                { n: '+50', label: 'proyectos entregados' },
                 { n: '5 días', label: 'entrega Web Express' },
                 { n: '100%', label: 'código propio' },
               ].map(({ n, label }) => (
                 <div key={label} style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: 22, fontWeight: 900, color: T.white, lineHeight: 1 }}>{n}</span>
-                  <span style={{ fontSize: 11, color: '#8080A0' }}>{label}</span>
+                  <span style={{ fontSize: 20, fontWeight: 900, color: T.white, lineHeight: 1 }}>{n}</span>
+                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)' }}>{label}</span>
                 </div>
               ))}
             </div>
@@ -225,10 +239,9 @@ export default function LandingWebSistemas() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }} className="lws-demos-grid">
             {DEMOS.slice(0, 4).map((d, i) => (
               <Link key={d.url} to={d.url}
-                style={{ textDecoration: 'none', borderRadius: 10, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,.4)', border: '1px solid rgba(255,255,255,.1)', background: '#111', transform: i % 2 === 1 ? 'translateY(20px)' : 'none', transition: 'transform .3s, box-shadow .3s' }}
-                onMouseEnter={e => { e.currentTarget.style.transform = i % 2 === 1 ? 'translateY(14px) scale(1.02)' : 'scale(1.02)'; e.currentTarget.style.boxShadow = `0 12px 40px ${T.blue}50` }}
+                style={{ textDecoration: 'none', borderRadius: 10, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,.4)', border: '1px solid rgba(255,255,255,.15)', background: '#111', transform: i % 2 === 1 ? 'translateY(20px)' : 'none', transition: 'transform .3s, box-shadow .3s' }}
+                onMouseEnter={e => { e.currentTarget.style.transform = i % 2 === 1 ? 'translateY(14px) scale(1.02)' : 'scale(1.02)'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(168,255,234,0.3)' }}
                 onMouseLeave={e => { e.currentTarget.style.transform = i % 2 === 1 ? 'translateY(20px)' : 'none'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,.4)' }}>
-                {/* Browser chrome */}
                 <div style={{ background: '#1E1E2C', padding: '7px 10px', display: 'flex', alignItems: 'center', gap: 5 }}>
                   <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF5F57', display: 'block' }} />
                   <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#FEBC2E', display: 'block' }} />
