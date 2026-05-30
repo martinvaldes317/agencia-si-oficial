@@ -506,10 +506,6 @@ export default function Home() {
                                         <Icon size={14} style={{ color: T.blue }} /> {text}
                                     </div>
                                 ))}
-                                <div className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: T.gray }}>
-                                    <img src="/proveedor-del-estado.png" alt="Proveedor del Estado ChileCompra" style={{ height: 20, objectFit: 'contain', filter: 'grayscale(100%) opacity(0.55)' }} />
-                                    Proveedor del Estado
-                                </div>
                             </div>
                         </div>
 
