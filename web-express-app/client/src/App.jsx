@@ -31,6 +31,17 @@ import DemoTienda from './components/demos/DemoTienda'
 import DemoNoticias from './components/demos/DemoNoticias'
 import DemoIndex from './components/demos/DemoIndex'
 import LandingWebSistemas from './components/LandingWebSistemas'
+import LandingSEOLocal from './components/seo/LandingSEOLocal'
+
+const CITIES = {
+  'talca':        { name: 'Talca',        slug: 'talca',        region: 'Región del Maule',         context: 'ferreterías, clínicas, restaurantes y comercios del Maule' },
+  'rancagua':     { name: 'Rancagua',     slug: 'rancagua',     region: "Región de O'Higgins",       context: "pymes, profesionales y comercios de O'Higgins" },
+  'santiago':     { name: 'Santiago',     slug: 'santiago',     region: 'Región Metropolitana',      context: 'empresas, startups y profesionales de Santiago' },
+  'vina-del-mar': { name: 'Viña del Mar', slug: 'vina-del-mar', region: 'Región de Valparaíso',      context: 'hoteles, restaurantes, comercios y servicios de Viña del Mar' },
+  'pucon':        { name: 'Pucón',        slug: 'pucon',        region: 'Región de La Araucanía',    context: 'hostales, actividades turísticas y negocios de Pucón' },
+  'temuco':       { name: 'Temuco',       slug: 'temuco',       region: 'Región de La Araucanía',    context: 'pymes, clínicas, comercios y profesionales de Temuco' },
+  'las-condes':   { name: 'Las Condes',   slug: 'las-condes',   region: 'Región Metropolitana',      context: 'empresas, consultorios y negocios premium de Las Condes' },
+}
 
 const ScrollToTop = () => {
   const { pathname } = useLocation()
@@ -61,6 +72,9 @@ function App() {
           <Route path="/demos/tienda" element={<DemoTienda />} />
           <Route path="/demos/noticias" element={<DemoNoticias />} />
           <Route path="/web" element={<LandingWebSistemas />} />
+          {Object.values(CITIES).map(city => (
+            <Route key={city.slug} path={`/web/${city.slug}`} element={<LandingSEOLocal city={city} />} />
+          ))}
 
           {/* Admin */}
           <Route path="/admin/si" element={<AdminDashboard />} />

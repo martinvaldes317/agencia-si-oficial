@@ -506,6 +506,10 @@ export default function Home() {
                                         <Icon size={14} style={{ color: T.blue }} /> {text}
                                     </div>
                                 ))}
+                                <div className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: T.gray }}>
+                                    <img src="/proveedor-del-estado.png" alt="Proveedor del Estado ChileCompra" style={{ height: 16, objectFit: 'contain' }} />
+                                    Proveedor del Estado
+                                </div>
                             </div>
                         </div>
 
@@ -563,6 +567,32 @@ export default function Home() {
                     </div>
                 </div>
             </div>
+
+            {/* ═══ DIGITALIZANDO CHILE + PROVEEDOR ESTADO ═════════════════════ */}
+            <section style={{ background: 'linear-gradient(135deg, #1212CC 0%, #2D2BB5 50%, #1A4FC4 100%)', padding: '60px 20px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: -80, left: '10%', width: 300, height: 300, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', bottom: -60, right: '8%', width: 220, height: 220, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
+                <div style={{ position: 'relative', maxWidth: 800, margin: '0 auto' }}>
+                    <div style={{ fontSize: 'clamp(38px, 6vw, 72px)', fontWeight: 900, color: '#FFFFFF', letterSpacing: -2, lineHeight: 1, marginBottom: 12 }}>
+                        #DigitalizandoChile 🇨🇱
+                    </div>
+                    <p style={{ fontSize: 'clamp(14px, 1.8vw, 18px)', color: 'rgba(255,255,255,0.80)', fontWeight: 500, maxWidth: 520, margin: '0 auto 28px', lineHeight: 1.6, fontFamily: 'Poppins, sans-serif' }}>
+                        Llevamos negocios chilenos al mundo digital. Con tecnología real, diseño a medida y resultados concretos.
+                    </p>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 12, padding: '10px 18px', marginBottom: 24 }}>
+                        <img src="/proveedor-del-estado.png" alt="Proveedor del Estado ChileCompra" style={{ height: 30, objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+                        <div style={{ textAlign: 'left' }}>
+                            <div style={{ fontSize: 12, fontWeight: 800, color: '#FFFFFF', letterSpacing: .3, fontFamily: 'Poppins, sans-serif' }}>Proveedor del Estado</div>
+                            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.65)', fontFamily: 'Poppins, sans-serif' }}>Registrados en ChileCompra · MercadoPúblico</div>
+                        </div>
+                    </div>
+                    <br />
+                    <a href="#contact"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#A8FFEA', color: '#1212CC', fontWeight: 800, fontSize: 15, padding: '14px 32px', borderRadius: 40, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)', fontFamily: 'Poppins, sans-serif' }}>
+                        Digitaliza tu negocio ahora →
+                    </a>
+                </div>
+            </section>
 
             {/* ═══ PROPUESTA ══════════════════════════════════════════════════ */}
             <section className="py-24 md:py-32 px-5 md:px-10">
