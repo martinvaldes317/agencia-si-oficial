@@ -185,7 +185,7 @@ export default function LandingWebSistemas() {
       {/* ── PROMO STRIP ── */}
       <div style={{ background: '#A8FFEA', padding: '10px 20px', textAlign: 'center' }}>
         <span style={{ fontSize: 13, fontWeight: 800, color: T.blueD, letterSpacing: .3 }}>
-          ⚡ OFERTA EXCLUSIVA · Tu sitio web desde <strong>$59.990</strong> · Solo 10 cupos disponibles ·{' '}
+          🛒 CYBER DAY · Tu sitio web por solo <strong>$79.990</strong> · Precio especial por pocos días ·{' '}
         </span>
         <a href="#precios" style={{ fontSize: 13, fontWeight: 800, color: T.blueD, textDecoration: 'underline' }}>Ver oferta →</a>
       </div>
@@ -209,17 +209,17 @@ export default function LandingWebSistemas() {
             {/* Promo price */}
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 8 }}>
               <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>por solo</span>
-              <span style={{ fontSize: 'clamp(36px, 5vw, 52px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$59.990</span>
+              <span style={{ fontSize: 'clamp(36px, 5vw, 52px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$79.990</span>
               <span style={{ fontSize: 18, color: 'rgba(255,255,255,0.45)', textDecoration: 'line-through', fontWeight: 500 }}>$99.990</span>
             </div>
             <div style={{ display: 'inline-block', borderBottom: '2px solid #A8FFEA', paddingBottom: 2, marginBottom: 24 }}>
-              <span style={{ fontSize: 15, fontStyle: 'italic', fontWeight: 700, color: '#A8FFEA' }}>Solo 10 Cupos Disponibles</span>
+              <span style={{ fontSize: 15, fontStyle: 'italic', fontWeight: 700, color: '#A8FFEA' }}>🛒 Precio Cyber Day por pocos días</span>
             </div>
             <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.8)', lineHeight: 1.65, marginBottom: 28, maxWidth: 460 }}>
               Diseño único a medida, dominio + hosting gratis, WhatsApp integrado e indexación en Google. <strong style={{ color: T.white }}>Entrega en 5 días hábiles.</strong>
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
-              <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa la oferta de Landing Page a $59.990')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Promo')}
+              <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa la oferta Cyber Day a $79.990')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Cyber Day')}
                 style={{ background: T.white, color: T.blue, fontWeight: 800, fontSize: 15, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }} className="wa-btn">
                 <WaIcon size={18} /> Quiero esta oferta
               </a>
@@ -424,16 +424,16 @@ export default function LandingWebSistemas() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 32, alignItems: 'center' }} className="lws-promo-grid">
               <div>
                 <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 30, padding: '5px 16px', marginBottom: 16 }}>
-                  <span style={{ fontSize: 11, fontWeight: 800, color: '#A8FFEA', letterSpacing: 2, textTransform: 'uppercase' }}>⚡ Oferta exclusiva para pymes y profesionales</span>
+                  <span style={{ fontSize: 11, fontWeight: 800, color: '#A8FFEA', letterSpacing: 2, textTransform: 'uppercase' }}>🛒 Cyber Day · Oferta exclusiva para pymes y profesionales</span>
                 </div>
                 <div style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontStyle: 'italic', fontWeight: 900, color: T.white, marginBottom: 8, letterSpacing: -.5 }}>Tu Sitio Web Profesional</div>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 10 }}>
                   <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}>por solo</span>
-                  <span style={{ fontSize: 'clamp(42px, 6vw, 64px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$59.990</span>
+                  <span style={{ fontSize: 'clamp(42px, 6vw, 64px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$79.990</span>
                   <span style={{ fontSize: 18, color: 'rgba(255,255,255,0.5)', textDecoration: 'line-through', fontWeight: 500 }}>$99.990</span>
                 </div>
                 <div style={{ display: 'inline-block', borderBottom: '2px solid #A8FFEA', paddingBottom: 2, marginBottom: 20 }}>
-                  <span style={{ fontSize: 16, fontStyle: 'italic', fontWeight: 700, color: '#A8FFEA' }}>Solo 10 Cupos Disponibles</span>
+                  <span style={{ fontSize: 16, fontStyle: 'italic', fontWeight: 700, color: '#A8FFEA' }}>🛒 Precio Cyber Day por pocos días</span>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: '8px 16px' }}>
                   {['Dominio .cl 1 año gratis','Hosting 1 año gratis','Hasta 5 secciones','Formulario de contacto','Botón WhatsApp','Google Maps','3 correos corporativos','Facturable','Desarrollado por profesionales','Sitio web indexado en Google'].map(f => (
@@ -445,7 +445,7 @@ export default function LandingWebSistemas() {
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 200 }} className="lws-promo-cta">
-                <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa la oferta de Landing Page a $59.990')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Promo')}
+                <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa la oferta Cyber Day a $79.990')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Cyber Day')}
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '16px 28px', borderRadius: 14, background: T.white, color: T.blue, fontWeight: 800, fontSize: 15, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.2)', whiteSpace: 'nowrap' }} className="wa-btn">
                   <WaIcon size={17} /> Quiero esta oferta
                 </a>
