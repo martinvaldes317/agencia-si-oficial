@@ -32,6 +32,7 @@ import DemoNoticias from './components/demos/DemoNoticias'
 import DemoIndex from './components/demos/DemoIndex'
 import LandingWebSistemas from './components/LandingWebSistemas'
 import LandingSEOLocal from './components/seo/LandingSEOLocal'
+import HomeSEOLocal from './components/seo/HomeSEOLocal'
 
 const CITIES = {
   'talca':        { name: 'Talca',        slug: 'talca',        region: 'Región del Maule',         context: 'ferreterías, clínicas, restaurantes y comercios del Maule' },
@@ -74,6 +75,9 @@ function App() {
           <Route path="/web" element={<LandingWebSistemas />} />
           {Object.values(CITIES).map(city => (
             <Route key={city.slug} path={`/web/${city.slug}`} element={<LandingSEOLocal city={city} />} />
+          ))}
+          {Object.values(CITIES).map(city => (
+            <Route key={`agencia-${city.slug}`} path={`/agencia/${city.slug}`} element={<HomeSEOLocal city={city} />} />
           ))}
 
           {/* Admin */}
