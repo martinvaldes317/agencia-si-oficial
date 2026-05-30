@@ -294,6 +294,24 @@ export default function LandingWebSistemas() {
         </div>
       </section>
 
+      {/* ── DIGITALIZANDO CHILE ── */}
+      <section style={{ background: 'linear-gradient(135deg, #1212CC 0%, #2D2BB5 50%, #1A4FC4 100%)', padding: '64px 20px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: -80, left: '10%', width: 300, height: 300, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: -60, right: '8%', width: 220, height: 220, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
+        <div style={{ position: 'relative', maxWidth: 800, margin: '0 auto' }}>
+          <div style={{ fontSize: 'clamp(42px, 7vw, 80px)', fontWeight: 900, color: '#FFFFFF', letterSpacing: -2, lineHeight: 1, marginBottom: 12 }}>
+            #DigitalizandoChile 🇨🇱
+          </div>
+          <p style={{ fontSize: 'clamp(15px, 2vw, 20px)', color: 'rgba(255,255,255,0.80)', fontWeight: 500, maxWidth: 560, margin: '0 auto 28px', lineHeight: 1.6 }}>
+            Llevamos negocios chilenos al mundo digital. Con tecnología real, diseño a medida y resultados concretos.
+          </p>
+          <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#A8FFEA', color: '#1212CC', fontWeight: 800, fontSize: 15, padding: '14px 32px', borderRadius: 40, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }} className="wa-btn">
+            <WaIcon size={18} /> Digitaliza tu negocio ahora
+          </a>
+        </div>
+      </section>
+
       {/* ── SERVICIOS ── */}
       <section style={{ background: T.white, padding: '80px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
