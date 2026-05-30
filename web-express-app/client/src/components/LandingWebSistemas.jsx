@@ -241,6 +241,15 @@ export default function LandingWebSistemas() {
                 </div>
               ))}
             </div>
+
+            {/* Sello MercadoPúblico */}
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 12, padding: '10px 16px', marginTop: 24 }}>
+              <img src="/proveedor-del-estado.png" alt="Proveedor del Estado ChileCompra" style={{ height: 32, objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 800, color: T.white, letterSpacing: .3 }}>Proveedor del Estado</div>
+                <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.65)', fontWeight: 500 }}>Registrados en ChileCompra · MercadoPúblico</div>
+              </div>
+            </div>
           </div>
 
           {/* Right: demo mockups grid */}
@@ -423,6 +432,29 @@ export default function LandingWebSistemas() {
           </div>
         </div>
       </section>
+
+      {/* ── TRUST BAR ── */}
+      <div style={{ background: '#EEF4FF', borderTop: '1px solid #D0D8F0', borderBottom: '1px solid #D0D8F0', padding: '18px 20px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <img src="/proveedor-del-estado.png" alt="ChileCompra MercadoPúblico" style={{ height: 40, objectFit: 'contain' }} />
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 800, color: '#1A2A6C' }}>Proveedor del Estado</div>
+              <div style={{ fontSize: 11, color: '#4A5A8C', fontWeight: 500 }}>Empresa registrada en ChileCompra · MercadoPúblico</div>
+            </div>
+          </div>
+          <div style={{ width: 1, height: 36, background: '#C0C8E0' }} className="lws-trust-divider" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Shield size={18} color="#2D2BB5" />
+            <span style={{ fontSize: 13, fontWeight: 600, color: '#1A2A6C' }}>Empresa formal · Emitimos facturas</span>
+          </div>
+          <div style={{ width: 1, height: 36, background: '#C0C8E0' }} className="lws-trust-divider" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <CheckCircle2 size={18} color="#16A34A" />
+            <span style={{ fontSize: 13, fontWeight: 600, color: '#1A2A6C' }}>+50 proyectos entregados en Chile</span>
+          </div>
+        </div>
+      </div>
 
       {/* ── PRECIOS ── */}
       <section id="precios" style={{ background: T.light, padding: '80px 20px' }}>
@@ -763,6 +795,7 @@ export default function LandingWebSistemas() {
         .wa-btn { animation: wa-bounce 2.4s ease-in-out infinite; }
         .wa-btn:hover { animation-play-state: paused; transform: scale(1.05); }
         .lws-link:hover { color: #2D2BB5 !important; }
+        @media (max-width: 640px) { .lws-trust-divider { display: none !important; } }
         @media (max-width: 768px) {
           .lws-hero-grid    { grid-template-columns: 1fr !important; gap: 40px !important; }
           .lws-demos-grid   { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
