@@ -250,7 +250,7 @@ export default function LandingSEOLocal({ city }) {
           <div style={{ fontSize: 'clamp(22px, 3vw, 30px)', fontStyle: 'italic', fontWeight: 900, color: T.white, marginBottom: 8 }}>Tu Sitio Web Profesional</div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 8 }}>
             <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}>por solo</span>
-            <span style={{ fontSize: 'clamp(48px, 7vw, 68px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$79.990</span>
+            <span style={{ fontSize: 'clamp(48px, 7vw, 68px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$74.990</span>
             <span style={{ fontSize: 18, color: 'rgba(255,255,255,0.5)', textDecoration: 'line-through', fontWeight: 500 }}>$99.990</span>
           </div>
           <div style={{ display: 'inline-block', borderBottom: '2px solid #A8FFEA', paddingBottom: 2, marginBottom: 24 }}>
