@@ -47,7 +47,12 @@ const CITIES = {
 
 const ScrollToTop = () => {
   const { pathname } = useLocation()
-  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'page_view', { page_path: pathname, page_title: document.title })
+    }
+  }, [pathname])
   return null
 }
 

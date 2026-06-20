@@ -81,6 +81,7 @@ export default function MarketingSEOLocal({ city }) {
 
   useEffect(() => {
     px('ViewContent', { content_name: `Marketing SEO ${city.name}` })
+    ga('view_item', { item_name: `Marketing SEO ${city.name}`, item_category: 'marketing_local' })
   }, [city.name])
 
   const schema = {
@@ -140,7 +141,7 @@ export default function MarketingSEOLocal({ city }) {
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <Link to="/" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }}>Inicio</Link>
-            <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => px('Contact')}
+            <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
               style={{ background: T.blue, color: T.white, fontWeight: 700, fontSize: 13, padding: '10px 20px', borderRadius: 30, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none' }}>
               Cotización gratuita <ArrowRight size={14} />
             </a>
@@ -166,11 +167,11 @@ export default function MarketingSEOLocal({ city }) {
             Publicidad en Meta Ads, SEO en Google y estrategia digital integral para {city.context}. Sin promesas vacías — métricas reales y resultados medibles.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 40 }}>
-            <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => px('Lead', { content_name: `Marketing CTA ${city.name}` })}
+            <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `Marketing CTA ${city.name}` }); ga('generate_lead', { item_name: `Marketing CTA ${city.name}` }) }}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#A8FFEA', color: '#1212CC', fontWeight: 800, fontSize: 15, padding: '14px 30px', borderRadius: 40, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
               <WaIcon size={17} /> Cotización gratuita
             </a>
-            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => px('Schedule')}
+            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Schedule'); ga('schedule_appointment') }}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: T.white, fontWeight: 600, fontSize: 14, padding: '14px 24px', borderRadius: 40, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.35)' }}>
               <Calendar size={15} /> Agendar reunión
             </a>
@@ -282,7 +283,7 @@ export default function MarketingSEOLocal({ city }) {
             ].map(item => (
               <div key={item} style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', marginBottom: 8 }}>{item}</div>
             ))}
-            <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => px('Contact')}
+            <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
               style={{ marginTop: 24, display: 'inline-flex', alignItems: 'center', gap: 8, background: '#A8FFEA', color: '#1212CC', fontWeight: 800, fontSize: 14, padding: '12px 24px', borderRadius: 30, textDecoration: 'none' }}>
               <WaIcon size={16} /> Cotizar ahora
             </a>
@@ -334,7 +335,7 @@ export default function MarketingSEOLocal({ city }) {
             Cotiza gratis. Te respondemos en menos de 2 horas con una propuesta personalizada.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 20 }}>
-            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => px('Contact')}
+            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
               style={{ background: '#25D366', color: T.white, fontWeight: 800, fontSize: 16, padding: '16px 32px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 32px rgba(37,211,102,.4)' }}>
               <WaIcon size={20} /> Cotizar en {city.name}
             </a>
@@ -364,7 +365,7 @@ export default function MarketingSEOLocal({ city }) {
       </footer>
 
       {/* FLOATING WA */}
-      <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => px('Contact')}
+      <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
         style={{ position: 'fixed', bottom: 24, right: 24, background: '#25D366', color: T.white, width: 56, height: 56, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(37,211,102,.55)', zIndex: 100, textDecoration: 'none' }}>
         <WaIcon size={26} />
       </a>

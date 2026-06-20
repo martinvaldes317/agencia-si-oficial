@@ -19,6 +19,7 @@ const T = {
 const WA_BASE = 'https://wa.me/56932930812?text='
 
 const px = (event, params) => { if (typeof fbq !== 'undefined') fbq('track', event, params) }
+const ga = (event, params) => { if (typeof gtag !== 'undefined') gtag('event', event, params) }
 
 const WaIcon = ({ size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
@@ -58,6 +59,7 @@ export default function HomeSEOLocal({ city }) {
 
   useEffect(() => {
     px('ViewContent', { content_name: `Home SEO ${city.name}` })
+    ga('view_item', { item_name: `Home SEO ${city.name}`, item_category: 'agencia_local' })
   }, [city.name])
 
   const schema = {
@@ -109,7 +111,7 @@ export default function HomeSEOLocal({ city }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <Link to="/" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }}>Inicio</Link>
             <Link to="/web" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }}>Precios</Link>
-            <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => px('Contact')}
+            <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
               style={{ background: T.blue, color: T.white, fontWeight: 700, fontSize: 13, padding: '10px 20px', borderRadius: 30, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none' }}>
               Cotización gratuita <ArrowRight size={14} />
             </a>
@@ -135,7 +137,7 @@ export default function HomeSEOLocal({ city }) {
               Construimos sitios web, plataformas y sistemas a medida para {city.context}. Sin templates, sin humo — código propio y resultados medibles.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 40 }}>
-              <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => px('Lead', { content_name: `Home SEO CTA ${city.name}` })}
+              <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `Home SEO CTA ${city.name}` }); ga('generate_lead', { item_name: `Home SEO CTA ${city.name}` }) }}
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.blue, color: T.white, fontWeight: 700, fontSize: 14, padding: '14px 28px', borderRadius: 30, textDecoration: 'none' }}>
                 Cotización gratuita <ArrowRight size={16} />
               </a>
@@ -220,7 +222,7 @@ export default function HomeSEOLocal({ city }) {
             </div>
           </div>
           <br />
-          <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => px('Contact')}
+          <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
             style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#A8FFEA', color: '#1212CC', fontWeight: 800, fontSize: 15, padding: '14px 32px', borderRadius: 40, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
             <WaIcon size={17} /> Digitaliza tu negocio en {city.name}
           </a>
@@ -351,7 +353,7 @@ export default function HomeSEOLocal({ city }) {
             Escríbenos ahora. Te respondemos en menos de 2 horas en horario laboral.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 20 }}>
-            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => px('Contact')}
+            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
               style={{ background: '#25D366', color: T.white, fontWeight: 800, fontSize: 16, padding: '16px 32px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 32px rgba(37,211,102,.4)' }}>
               <WaIcon size={20} /> Cotizar en {city.name}
             </a>
@@ -381,7 +383,7 @@ export default function HomeSEOLocal({ city }) {
       </footer>
 
       {/* FLOATING WA */}
-      <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => px('Contact')}
+      <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
         style={{ position: 'fixed', bottom: 24, right: 24, background: '#25D366', color: T.white, width: 56, height: 56, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(37,211,102,.55)', zIndex: 100, textDecoration: 'none' }}>
         <WaIcon size={26} />
       </a>

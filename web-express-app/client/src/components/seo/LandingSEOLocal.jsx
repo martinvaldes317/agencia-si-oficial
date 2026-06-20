@@ -24,6 +24,7 @@ const WA_BASE = 'https://wa.me/56932930812?text='
 const fmt = n => n.toLocaleString('es-CL')
 
 const px = (event, params) => { if (typeof fbq !== 'undefined') fbq('track', event, params) }
+const ga = (event, params) => { if (typeof gtag !== 'undefined') gtag('event', event, params) }
 
 const WaIcon = ({ size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
@@ -56,6 +57,7 @@ export default function LandingSEOLocal({ city }) {
 
   useEffect(() => {
     px('ViewContent', { content_name: `Landing SEO ${city.name}` })
+    ga('view_item', { item_name: `Landing SEO ${city.name}`, item_category: 'web_local' })
   }, [city.name])
 
   const schema = {
@@ -111,7 +113,7 @@ export default function LandingSEOLocal({ city }) {
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <Link to="/web" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }}>Ver precios</Link>
-            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => px('Contact')}
+            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
               style={{ background: '#25D366', color: T.white, fontWeight: 700, fontSize: 13, padding: '9px 18px', borderRadius: 30, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none', boxShadow: '0 4px 12px rgba(37,211,102,.35)' }}>
               <WaIcon size={15} /> Cotizar en {city.name}
             </a>
@@ -135,11 +137,11 @@ export default function LandingSEOLocal({ city }) {
             Creamos sitios web profesionales para {city.context}. Diseño único, dominio .cl gratis y entrega en <strong style={{ color: T.white }}>5 días hábiles.</strong>
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 36 }}>
-            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => px('Lead', { content_name: `SEO Local ${city.name}` })}
+            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `SEO Local ${city.name}` }); ga('generate_lead', { item_name: `SEO Local ${city.name}` }) }}
               style={{ background: T.white, color: T.blue, fontWeight: 800, fontSize: 15, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
               <WaIcon size={18} /> Cotizar ahora — es gratis
             </a>
-            <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={() => px('Schedule')}
+            <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={() => { px('Schedule'); ga('schedule_appointment') }}
               style={{ background: 'transparent', color: T.white, fontWeight: 600, fontSize: 14, padding: '14px 22px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.35)' }}>
               <Calendar size={15} /> Agendar reunión
             </a>
@@ -264,7 +266,7 @@ export default function LandingSEOLocal({ city }) {
               </div>
             ))}
           </div>
-          <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => px('Lead', { content_name: `Precio Cyber Day ${city.name}` })}
+          <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `Precio Cyber Day ${city.name}` }); ga('generate_lead', { item_name: `Precio Cyber Day ${city.name}` }) }}
             style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: T.white, color: T.blue, fontWeight: 800, fontSize: 16, padding: '16px 32px', borderRadius: 14, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
             <WaIcon size={18} /> Quiero esta oferta en {city.name}
           </a>
@@ -323,11 +325,11 @@ export default function LandingSEOLocal({ city }) {
             Escríbenos ahora. Te respondemos en menos de 2 horas.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 20 }}>
-            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => px('Contact')}
+            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
               style={{ background: '#25D366', color: T.white, fontWeight: 800, fontSize: 16, padding: '16px 32px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 32px rgba(37,211,102,.45)' }}>
               <WaIcon size={20} /> Cotizar en {city.name}
             </a>
-            <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={() => px('Schedule')}
+            <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={() => { px('Schedule'); ga('schedule_appointment') }}
               style={{ background: 'transparent', color: T.white, fontWeight: 700, fontSize: 15, padding: '16px 24px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.3)' }}>
               <Calendar size={16} /> Agendar reunión
             </a>
@@ -355,7 +357,7 @@ export default function LandingSEOLocal({ city }) {
       </footer>
 
       {/* FLOATING WA */}
-      <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => px('Contact')}
+      <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
         style={{ position: 'fixed', bottom: 24, right: 24, background: '#25D366', color: T.white, width: 56, height: 56, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(37,211,102,.55)', zIndex: 100, textDecoration: 'none' }}>
         <WaIcon size={26} />
       </a>

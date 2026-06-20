@@ -31,9 +31,10 @@ const WA      = 'https://wa.me/56932930812?text=Hola%2C%20vi%20su%20p%C3%A1gina%
 const WA_REU  = 'https://wa.me/56932930812?text=Hola%2C%20me%20interesa%20agendar%20una%20reuni%C3%B3n%20para%20hablar%20de%20mi%20proyecto.'
 const fmt     = n => n.toLocaleString('es-CL')
 const px = (event, params) => { if (typeof fbq !== 'undefined') fbq('track', event, params) }
-const trackWA       = () => px('Contact')
-const trackSchedule = () => px('Schedule')
-const trackLead     = (planName) => px('Lead', { content_name: planName })
+const ga = (event, params) => { if (typeof gtag !== 'undefined') gtag('event', event, params) }
+const trackWA       = () => { px('Contact');                     ga('contact', { method: 'whatsapp' }) }
+const trackSchedule = () => { px('Schedule');                    ga('schedule_appointment') }
+const trackLead     = (planName) => { px('Lead', { content_name: planName }); ga('generate_lead', { item_name: planName }) }
 
 const WaIcon = ({ size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
@@ -152,7 +153,10 @@ const TESTIMONIALS = [
 
 /* ── COMPONENT ─────────────────────────────────────────── */
 export default function LandingWebSistemas() {
-  useEffect(() => { px('ViewContent', { content_name: 'Landing Web y Sistemas' }) }, [])
+  useEffect(() => {
+    px('ViewContent', { content_name: 'Landing Web y Sistemas' })
+    ga('view_item', { item_name: 'Landing Web y Sistemas', item_category: 'web' })
+  }, [])
 
   return (
     <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.white, color: T.dark, overflowX: 'hidden' }}>
