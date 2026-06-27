@@ -88,6 +88,69 @@ const PRODUCTOS = [
   },
 ]
 
+const SECTORES = [
+  {
+    emoji: '🏥',
+    titulo: 'Salud & Bienestar',
+    rubros: 'Clínicas · Dentistas · Psicólogos · Pilates · Yoga · Centros de estética',
+    desc: 'Tu letrero comunica profesionalismo antes de que el paciente cruce la puerta. Acrílico blanco, señalética limpia, tipografía seria. La primera impresión decide si confían en ti.',
+    producto: 'Letras acrílico blanco · Señalética interna · Ploteo de vitrina',
+    color: '#64B5F6',
+    bg: '#040C18',
+    cls: '',
+  },
+  {
+    emoji: '🍸',
+    titulo: 'Nightlife & Entretenimiento',
+    rubros: 'Discotecas · Pubs · Bares · Karaoke · Salones de eventos · Casinos',
+    desc: 'Aquí sí puedes gritar en colores. Letreros que se roban la noche: LED de colores, cajas de luz llamativas y fachadas que se ven desde el otro lado de la calle.',
+    producto: 'LED RGB · Caja de luz · Letreros iluminados · Vinilos de impacto',
+    color: '#CE93D8',
+    bg: '#0E0A1A',
+    cls: 'nightlife',
+  },
+  {
+    emoji: '💆',
+    titulo: 'Spa & Estética Premium',
+    rubros: 'Spas · Centros de belleza · Peluquerías · Salones · Dermatología estética',
+    desc: 'La clienta que entra a un spa ya está juzgando por la puerta. Letras en MDF doradas o en acrílico espejo, señalética elegante que dice "aquí se viene a mimar".',
+    producto: 'Letras MDF doradas · Acrílico espejo · Señalética premium',
+    color: '#F4C2A1',
+    bg: '#1A0D08',
+    cls: '',
+  },
+  {
+    emoji: '💪',
+    titulo: 'Gym & Fitness',
+    rubros: 'Gimnasios · CrossFit · Artes marciales · Natación · Spinning · Padel',
+    desc: 'Grande, bold y que se vea desde el estacionamiento. Tu letrero tiene que motivar antes de que el cliente entre. Sin timidez — este letrero tiene que competir con la calle.',
+    producto: 'Letras alto impacto oversized · Tótem exterior · Vinilos de pared',
+    color: '#EF5350',
+    bg: '#1A0606',
+    cls: '',
+  },
+  {
+    emoji: '🍽️',
+    titulo: 'Gastronomía',
+    rubros: 'Restaurantes · Cafés · Panaderías · Sushi · Pizzerías · Cocina de autor',
+    desc: 'El letrero que hace parar al transeúnte hambriento. Cálido, apetitoso y visible de día y de noche. Tu nombre en la fachada es tu cartel de bienvenida permanente.',
+    producto: 'LED cálido · Letras MDF barnizadas · Tótem exterior · Carta luminosa',
+    color: '#FFB74D',
+    bg: '#1A0E00',
+    cls: '',
+  },
+  {
+    emoji: '🏢',
+    titulo: 'Corporativo & Servicios',
+    rubros: 'Oficinas · Notarías · Contadores · Seguros · Inmobiliarias · Colegios',
+    desc: 'La seriedad de tu empresa empieza por la puerta. Señalética corporativa, directorio de oficinas y fachada institucional que proyectan trayectoria y confianza desde el exterior.',
+    producto: 'Letras PVC negro o blanco · Señalética directorio · Fachada corporativa',
+    color: '#90CAF9',
+    bg: '#06101A',
+    cls: '',
+  },
+]
+
 const PASOS = [
   { n: '01', titulo: 'Nos mandas una foto de tu fachada',    desc: 'Por WhatsApp, gratis y sin compromiso. Con eso nos basta para darte un presupuesto real en menos de 24 horas.' },
   { n: '02', titulo: 'Ves el diseño antes de pagar un peso', desc: 'Te enviamos cómo quedaría el letrero en TU local real. Apruebas cada detalle — solo entonces producimos.' },
@@ -246,19 +309,16 @@ const WaIcon = ({ size = 18 }) => (
 
 /* ─── GLOBAL CSS ─────────────────────────────────────────── */
 const CSS = `
-  @keyframes neon-flicker {
-    0%,92%,100% { opacity:1; text-shadow:0 0 12px #FF6B00,0 0 28px #FF6B00,0 0 60px #FF6B0060; }
-    93%          { opacity:.6; text-shadow:none; }
-    94%          { opacity:1; text-shadow:0 0 12px #FF6B00,0 0 28px #FF6B00; }
-    96%          { opacity:.5; text-shadow:none; }
-  }
   @keyframes lst-marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-  @keyframes fade-up { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes nightlife-pulse {
+    0%,100% { box-shadow:0 0 0 1px #CE93D830, 0 8px 32px #CE93D815; }
+    50%      { box-shadow:0 0 0 1px #CE93D870, 0 8px 48px #CE93D840; }
+  }
 
-  .neon-word {
+  .accent-word {
     color:#FF6B00;
-    text-shadow:0 0 12px #FF6B00,0 0 28px #FF6B00,0 0 60px #FF6B0060;
-    animation:neon-flicker 6s infinite;
+    font-style:italic;
+    font-weight:400;
   }
   .lst-track { display:flex; width:max-content; animation:lst-marquee 34s linear infinite; }
   .lst-track:hover { animation-play-state:paused; }
@@ -312,15 +372,27 @@ const CSS = `
     font-weight:700;
     line-height:1;
     color:transparent;
-    -webkit-text-stroke:1px #333;
+    -webkit-text-stroke:1px #2A2A2A;
     margin-bottom:4px;
     transition:color .3s,-webkit-text-stroke-color .3s;
   }
   .step-wrap:hover .step-n {
     color:#FF6B00;
     -webkit-text-stroke-color:#FF6B00;
-    text-shadow:0 0 20px #FF6B0080;
   }
+
+  /* Sector cards */
+  .sector-card {
+    border-radius:16px;
+    padding:28px 24px;
+    border:1px solid #1A1A1A;
+    transition:border-color .3s, transform .25s;
+    position:relative;
+    overflow:hidden;
+  }
+  .sector-card:hover { transform:translateY(-4px); }
+  .sector-card.nightlife { animation:nightlife-pulse 3s ease-in-out infinite; }
+  .sector-card.nightlife:hover { animation:none; box-shadow:0 0 0 1px #CE93D880, 0 16px 48px #CE93D830; }
 
   @media(max-width:900px) {
     .gal-grid { grid-template-columns:repeat(2,1fr); grid-template-rows:auto; }
@@ -418,9 +490,9 @@ export default function LetrerosSEOLocal({ city }) {
             <span style={{ fontSize: 11, fontWeight: 700, color: '#FF6B00', letterSpacing: 1.5 }}>LETREROS · {city.name.toUpperCase()} · REGIÓN DEL MAULE</span>
           </div>
 
-          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2.6rem, 7vw, 5.5rem)', fontWeight: 700, lineHeight: 1.0, marginBottom: 24, letterSpacing: -1 }}>
-            <span style={{ color: '#fff' }}>Si no te ven,</span><br />
-            <span className="neon-word">no te compran.</span>
+          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2.6rem, 7vw, 5.2rem)', fontWeight: 700, lineHeight: 1.05, marginBottom: 24, letterSpacing: -1 }}>
+            <span style={{ color: '#fff' }}>Lo que proyectas desde afuera</span><br />
+            <span className="accent-word">define lo que vendes adentro.</span>
           </h1>
 
           <p style={{ fontSize: 'clamp(14px, 2vw, 17px)', color: '#666', lineHeight: 1.8, maxWidth: 540, margin: '0 auto 14px', fontWeight: 300 }}>
@@ -467,7 +539,7 @@ export default function LetrerosSEOLocal({ city }) {
           {[
             { v: '+300',   l: 'Negocios con más visibilidad', s: 'letreros fabricados en el Maule' },
             { v: '5 días', l: 'Y tu letrero está listo',   s: 'desde que apruebas el diseño' },
-            { v: '10+',    l: 'Años de vida útil',          s: 'acrílico y PVC de calidad garantizada' },
+            { v: '+10',    l: 'Años de vida útil',            s: 'acrílico y PVC de calidad garantizada' },
             { v: '30',     l: 'Comunas que atendemos',      s: 'llegamos a todo el Maule' },
           ].map(s => (
             <div key={s.l}>
@@ -485,7 +557,7 @@ export default function LetrerosSEOLocal({ city }) {
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
             <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 14 }}>Trabajos realizados</p>
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.8rem,3vw,3rem)', fontWeight: 700, color: '#fff', lineHeight: 1.0, marginBottom: 12 }}>
-              Así se ve un negocio<br /><span className="neon-word" style={{ fontSize: '0.85em' }}>que no pasa desapercibido.</span>
+              Así se ve un negocio<br /><span className="accent-word" style={{ fontSize: '0.85em' }}>que no pasa desapercibido.</span>
             </h2>
             <p style={{ fontSize: 13, color: '#444', maxWidth: 420, margin: '0 auto' }}>Pasa el cursor sobre cada pieza. Así se verá el tuyo.</p>
           </div>
@@ -523,6 +595,60 @@ export default function LetrerosSEOLocal({ city }) {
               onClick={() => { px('Lead', { content_name: `Galeria ${city.name}` }); ga('generate_lead', { item_name: `Galeria ${city.name}` }) }}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: 'transparent', color: '#FF6B00', fontWeight: 800, fontSize: 14, padding: '12px 24px', borderRadius: 30, textDecoration: 'none', border: '1px solid #FF6B0060', boxShadow: '0 0 20px #FF6B0030' }}>
               <WaIcon size={15} /> Enviar referencia por WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECTORES ── */}
+      <section style={{ background: '#060606', padding: '96px 24px', borderTop: '1px solid #111' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 60 }}>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 14 }}>Nos adaptamos a tu rubro</p>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.8rem,3vw,2.8rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 12 }}>
+              Cada industria pide<br /><span className="accent-word">un lenguaje visual distinto.</span>
+            </h2>
+            <p style={{ fontSize: 14, color: '#444', maxWidth: 480, margin: '0 auto', lineHeight: 1.75 }}>
+              No hacemos el mismo letrero para una clínica y para un bar. Conocemos lo que cada rubro necesita proyectar.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }} className="sec-grid">
+            {SECTORES.map(s => (
+              <div
+                key={s.titulo}
+                className={`sector-card${s.cls ? ` ${s.cls}` : ''}`}
+                style={{ background: s.bg, borderColor: `${s.color}20` }}
+              >
+                {/* Top accent line */}
+                <div style={{ position: 'absolute', top: 0, left: 24, right: 24, height: 2, background: `linear-gradient(90deg, transparent, ${s.color}80, transparent)`, borderRadius: 2 }} />
+
+                <div style={{ fontSize: 36, marginBottom: 16, filter: `drop-shadow(0 0 12px ${s.color}60)` }}>{s.emoji}</div>
+
+                <div style={{ fontSize: 15, fontWeight: 700, color: '#e8e8e8', marginBottom: 6 }}>{s.titulo}</div>
+                <div style={{ fontSize: 10, fontWeight: 600, color: s.color, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 14 }}>{s.rubros}</div>
+                <div style={{ fontSize: 12, color: '#4A4A4A', lineHeight: 1.8, marginBottom: 20 }}>{s.desc}</div>
+
+                <div style={{ borderTop: '1px solid #1A1A1A', paddingTop: 14 }}>
+                  <div style={{ fontSize: 9, fontWeight: 700, color: '#333', letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 5 }}>Recomendamos</div>
+                  <div style={{ fontSize: 11, color: s.color, fontWeight: 600 }}>{s.producto}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <style>{`
+            .sec-grid { }
+            @media(max-width:900px) { .sec-grid { grid-template-columns:repeat(2,1fr) !important; } }
+            @media(max-width:540px) { .sec-grid { grid-template-columns:1fr !important; } }
+          `}</style>
+
+          <div style={{ textAlign: 'center', marginTop: 44 }}>
+            <p style={{ fontSize: 13, color: '#333', marginBottom: 16 }}>¿No ves tu rubro? Igual podemos ayudarte.</p>
+            <a href={WA} target="_blank" rel="noopener noreferrer"
+              onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: '#FF6B00', fontWeight: 700, fontSize: 13, padding: '11px 22px', borderRadius: 30, textDecoration: 'none', border: '1px solid #FF6B0050' }}>
+              <WaIcon size={14} /> Cuéntanos tu caso
             </a>
           </div>
         </div>
@@ -650,7 +776,7 @@ export default function LetrerosSEOLocal({ city }) {
         <div style={{ position: 'relative', maxWidth: 560, margin: '0 auto' }}>
           <div style={{ fontSize: 52, marginBottom: 20, filter: 'drop-shadow(0 0 24px #FF6B00)' }}>🪧</div>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(2rem,4.5vw,3.2rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 14 }}>
-            ¿Cuántos clientes estás perdiendo hoy<br /><span className="neon-word">porque no te ven?</span>
+            ¿Cuántos clientes estás perdiendo hoy<br /><span className="accent-word">porque no te ven?</span>
           </h2>
           <p style={{ fontSize: 14, color: '#444', marginBottom: 36, lineHeight: 1.8 }}>
             Mándanos una foto de tu fachada ahora. En menos de 24 horas tienes el diseño de tu letrero y el precio exacto — sin compromisos, sin letra chica.
