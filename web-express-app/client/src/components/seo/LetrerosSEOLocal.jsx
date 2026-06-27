@@ -1,34 +1,16 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
-  ArrowRight, MapPin, CheckCircle2, Star, Shield,
-  Zap, Package, Lightbulb, Layers, SquareStack,
-  Monitor, Tag, ExternalLink, Calendar, Code2
+  ArrowRight, MapPin, CheckCircle2, Shield,
+  Zap, Lightbulb, Layers, SquareStack,
+  Monitor, Tag, ExternalLink, Code2
 } from 'lucide-react'
 
-const T = {
-  dark:   '#0D0D0D',
-  gray:   '#1A1A1A',
-  mid:    '#2E2E2E',
-  border: '#3A3A3A',
-  orange: '#F97316',
-  orangeL:'#FFF7ED',
-  blue:   '#2D2BB5',
-  white:  '#FFFFFF',
-  muted:  '#A0A0A0',
-  light:  '#F5F5F5',
-}
-
+/* ─── CONSTANTS ─────────────────────────────────────────── */
 const WA_BASE = 'https://wa.me/56932930812?text='
-const px = (event, params) => { if (typeof fbq !== 'undefined') fbq('track', event, params) }
-const ga = (event, params) => { if (typeof gtag !== 'undefined') gtag('event', event, params) }
-
-const WaIcon = ({ size = 18 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-  </svg>
-)
+const px = (ev, p) => { if (typeof fbq !== 'undefined') fbq('track', ev, p) }
+const ga = (ev, p) => { if (typeof gtag !== 'undefined') gtag('event', ev, p) }
 
 const LOGOS = [
   'astro-entretenimientos.svg','capitol-group.svg','espacio-cea.svg','guardias-cl.svg',
@@ -40,79 +22,277 @@ const LOGOS = [
   'capitol-training.webp','limari-travel.webp','barras-pole-dance.webp','now-pos.png','lbepv.png',
 ]
 
+const GALERIA = [
+  { slug: 'letras-acrilico-fachada',  label: 'Letras Volumétricas',  sub: 'Acrílico · Corte láser',     glow: '#FF6B00', emoji: '🔤', span: 'big' },
+  { slug: 'letrero-led-tienda',        label: 'Letreros LED',          sub: 'Backlit · Frontlit · 24/7',  glow: '#FFD700', emoji: '💡', span: '' },
+  { slug: 'vinilo-vitrina',            label: 'Vinilos y Ploteo',      sub: 'Corte · Impresión UV',       glow: '#FF00FF', emoji: '🎨', span: '' },
+  { slug: 'totem-publicitario',        label: 'Tótem Publicitario',    sub: 'PVC · Foam · Estructural',   glow: '#00FFAA', emoji: '🏢', span: 'wide' },
+  { slug: 'letras-mdf-restaurante',   label: 'Letras MDF / Madera',   sub: 'Doradas · Pintadas',         glow: '#FF8C00', emoji: '🪵', span: '' },
+  { slug: 'senaletica-oficina',        label: 'Señalética Corp.',      sub: 'Interior · Exterior',        glow: '#00CFFF', emoji: '🔖', span: '' },
+]
+
 const PRODUCTOS = [
-  {
-    icon: SquareStack,
-    nombre: 'Letras Volumétricas en Acrílico',
-    desc: 'Letras y logos en acrílico cristal, lechoso o de color. Alta precisión en corte láser. Montaje directo en fachada.',
-    tag: 'Más vendido',
-  },
-  {
-    icon: Layers,
-    nombre: 'Letras de Alto Impacto (PVC)',
-    desc: 'PVC expandido de alta rigidez. Ideal para interiores y locales comerciales. Duradero, liviano y económico.',
-    tag: null,
-  },
-  {
-    icon: Lightbulb,
-    nombre: 'Letreros Luminosos LED',
-    desc: 'Caja de luz, backlit y frontlit con tecnología LED. Visibles 24/7 y bajo consumo energético.',
-    tag: 'Popular',
-  },
-  {
-    icon: Package,
-    nombre: 'Letras en MDF y Madera',
-    desc: 'Perfecto para ambientes premium, restaurantes, hoteles y oficinas. Acabados pintados, dorados o barnizados.',
-    tag: null,
-  },
-  {
-    icon: Zap,
-    nombre: 'Tótem Publicitario',
-    desc: 'Estructura vertical independiente en PVC o foam. Ideal para locales en galería, ferias y eventos.',
-    tag: null,
-  },
-  {
-    icon: Monitor,
-    nombre: 'Fachada Corporativa Completa',
-    desc: 'Diseño e instalación de identidad visual en fachada: letreros, vinilos, señalética y rotulación integrados.',
-    tag: 'Completo',
-  },
-  {
-    icon: Tag,
-    nombre: 'Vinilos Decorativos y Ploteo',
-    desc: 'Corte o impresión digital. Para vidrieras, paredes, autos y eventos. Interior o exterior con laminado UV.',
-    tag: null,
-  },
-  {
-    icon: Star,
-    nombre: 'Señalética y Rotulación',
-    desc: 'Señales de emergencia, directorio de oficinas, numeración y señalética corporativa a medida.',
-    tag: null,
-  },
-  {
-    icon: ArrowRight,
-    nombre: 'Banners, Roll-Ups y Lonas',
-    desc: 'Impresión en lona con bastidor. Banners de alta resolución para eventos, ferias, y puntos de venta.',
-    tag: null,
-  },
+  { icon: SquareStack, nombre: 'Letras Volumétricas en Acrílico', desc: 'Corte láser de precisión. Acrílico cristal, lechoso o de color. Montaje directo en fachada.', glow: '#FF6B00', tag: 'Más vendido' },
+  { icon: Layers,      nombre: 'Letras de Alto Impacto (PVC)',     desc: 'PVC expandido rígido. Liviano, económico y duradero. Ideal para interiores y fachadas.', glow: '#FF4500', tag: null },
+  { icon: Lightbulb,   nombre: 'Letreros Luminosos LED',           desc: 'Caja de luz, backlit y frontlit. Tecnología LED de bajo consumo. Visibles las 24 horas.', glow: '#FFD700', tag: 'Popular' },
+  { icon: Monitor,     nombre: 'Fachada Corporativa Completa',     desc: 'Diseño e instalación integral: letras, vinilos, señalética. Tu identidad en fachada.', glow: '#FF6B00', tag: 'Completo' },
+  { icon: Zap,         nombre: 'Tótem Publicitario',               desc: 'Estructura vertical independiente. PVC o foam de alta densidad. Para galerías y eventos.', glow: '#00FFAA', tag: null },
+  { icon: Tag,         nombre: 'Vinilos Decorativos y Ploteo',     desc: 'Corte o impresión digital. Interior/exterior. Vidrieras, paredes, vehículos y eventos.', glow: '#FF00FF', tag: null },
+  { icon: SquareStack, nombre: 'Letras en MDF y Madera',           desc: 'Para ambientes premium: restaurantes, hoteles, oficinas. Pintadas, doradas o barnizadas.', glow: '#FF8C00', tag: null },
+  { icon: ExternalLink,nombre: 'Señalética y Rotulación',          desc: 'Directorio de oficinas, señales de emergencia, numeración. Corporativa a medida.', glow: '#00CFFF', tag: null },
+  { icon: ArrowRight,  nombre: 'Banners, Roll-Ups y Lonas',        desc: 'Impresión digital de alta resolución. Para eventos, ferias y puntos de venta.', glow: '#A855F7', tag: null },
 ]
 
 const PASOS = [
-  { n: '01', titulo: 'Cotización gratis',   desc: 'Envíanos por WhatsApp el nombre, logo y medidas aproximadas.' },
-  { n: '02', titulo: 'Diseño digital',       desc: 'Te enviamos una propuesta visual antes de producir.' },
-  { n: '03', titulo: 'Producción',           desc: 'Fabricamos en taller con materiales de calidad comprobada.' },
-  { n: '04', titulo: 'Entrega e instalación',desc: 'Instalamos en tu local o coordinas retiro en Talca.' },
+  { n: '01', titulo: 'Cotización gratis',    desc: 'Envía por WhatsApp el nombre, logo y medidas aproximadas. Respuesta en menos de 24h.' },
+  { n: '02', titulo: 'Diseño digital',        desc: 'Antes de producir te enviamos visualización 3D del letrero en tu fachada.' },
+  { n: '03', titulo: 'Producción en taller', desc: 'Fabricamos con materiales certificados. Control de calidad pieza a pieza.' },
+  { n: '04', titulo: 'Entrega e instalación',desc: 'Instalamos en tu local o coordinas retiro. Cubrimos toda la Región del Maule.' },
 ]
 
-const STATS = [
-  { value: '+300', label: 'Letreros fabricados', sub: 'en la Región del Maule' },
-  { value: '5 días', label: 'Tiempo promedio',   sub: 'desde aprobación a entrega' },
-  { value: '100%',  label: 'Sin metálicos',       sub: 'acrílico, PVC, madera, foam' },
-  { value: '30',    label: 'Comunas',             sub: 'atendemos toda la región' },
-]
+/* ─── PARTICLE CANVAS ───────────────────────────────────── */
+function ParticleCanvas() {
+  const canvasRef = useRef(null)
 
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    let animId
+    const mouse = { x: -9999, y: -9999 }
+
+    const resize = () => {
+      canvas.width  = canvas.offsetWidth
+      canvas.height = canvas.offsetHeight
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    const onMove = e => {
+      const r = canvas.getBoundingClientRect()
+      mouse.x = e.clientX - r.left
+      mouse.y = e.clientY - r.top
+    }
+    canvas.addEventListener('mousemove', onMove)
+
+    const N = window.innerWidth < 600 ? 40 : 80
+    const pts = Array.from({ length: N }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - .5) * .45,
+      vy: (Math.random() - .5) * .45,
+      r: Math.random() * 1.8 + .4,
+    }))
+
+    const frame = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      for (const p of pts) {
+        const dx = p.x - mouse.x
+        const dy = p.y - mouse.y
+        const d  = Math.hypot(dx, dy)
+        if (d < 110) {
+          p.vx += (dx / d) * .28
+          p.vy += (dy / d) * .28
+        }
+        const spd = Math.hypot(p.vx, p.vy)
+        if (spd > 1.6) { p.vx *= .94; p.vy *= .94 }
+        p.x += p.vx; p.y += p.vy
+        if (p.x < 0 || p.x > canvas.width)  p.vx *= -1
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1
+
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fillStyle = 'rgba(249,115,22,.85)'
+        ctx.fill()
+      }
+
+      // particle-to-particle lines
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+          const d = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y)
+          if (d < 130) {
+            ctx.beginPath()
+            ctx.moveTo(pts[i].x, pts[i].y)
+            ctx.lineTo(pts[j].x, pts[j].y)
+            ctx.strokeStyle = `rgba(249,115,22,${.18 * (1 - d / 130)})`
+            ctx.lineWidth = .6
+            ctx.stroke()
+          }
+        }
+      }
+
+      // particle-to-cursor lines
+      for (const p of pts) {
+        const d = Math.hypot(p.x - mouse.x, p.y - mouse.y)
+        if (d < 160) {
+          ctx.beginPath()
+          ctx.moveTo(p.x, p.y)
+          ctx.lineTo(mouse.x, mouse.y)
+          ctx.strokeStyle = `rgba(249,115,22,${.45 * (1 - d / 160)})`
+          ctx.lineWidth = .9
+          ctx.stroke()
+        }
+      }
+
+      animId = requestAnimationFrame(frame)
+    }
+
+    frame()
+    return () => {
+      cancelAnimationFrame(animId)
+      window.removeEventListener('resize', resize)
+      canvas.removeEventListener('mousemove', onMove)
+    }
+  }, [])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block' }}
+    />
+  )
+}
+
+/* ─── 3D TILT CARD ──────────────────────────────────────── */
+function TiltCard({ children, glow, style = {} }) {
+  const ref = useRef(null)
+
+  const onMove = useCallback(e => {
+    const el  = ref.current
+    const r   = el.getBoundingClientRect()
+    const rx  = ((e.clientY - r.top)  / r.height - .5) * -22
+    const ry  = ((e.clientX - r.left) / r.width  - .5) *  22
+    el.style.transform  = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.04)`
+    el.style.boxShadow  = `0 24px 64px ${glow}55, 0 0 0 1px ${glow}40, inset 0 0 40px ${glow}08`
+  }, [glow])
+
+  const onLeave = useCallback(() => {
+    const el = ref.current
+    el.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg) scale(1)'
+    el.style.boxShadow = `0 6px 24px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06)`
+  }, [])
+
+  return (
+    <div
+      ref={ref}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      style={{
+        borderRadius: 18,
+        overflow: 'hidden',
+        cursor: 'pointer',
+        transition: 'transform .18s ease, box-shadow .3s ease',
+        boxShadow: '0 6px 24px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06)',
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+/* ─── WAICON ────────────────────────────────────────────── */
+const WaIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+)
+
+/* ─── GLOBAL CSS ─────────────────────────────────────────── */
+const CSS = `
+  @keyframes neon-flicker {
+    0%,92%,100% { opacity:1; text-shadow:0 0 12px #FF6B00,0 0 28px #FF6B00,0 0 60px #FF6B0060; }
+    93%          { opacity:.6; text-shadow:none; }
+    94%          { opacity:1; text-shadow:0 0 12px #FF6B00,0 0 28px #FF6B00; }
+    96%          { opacity:.5; text-shadow:none; }
+  }
+  @keyframes lst-marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+  @keyframes fade-up { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+  .neon-word {
+    color:#FF6B00;
+    text-shadow:0 0 12px #FF6B00,0 0 28px #FF6B00,0 0 60px #FF6B0060;
+    animation:neon-flicker 6s infinite;
+  }
+  .lst-track { display:flex; width:max-content; animation:lst-marquee 34s linear infinite; }
+  .lst-track:hover { animation-play-state:paused; }
+  .lst-logo { flex-shrink:0;width:148px;height:80px;margin:0 10px;display:flex;align-items:center;justify-content:center;
+    background:#111;border:1px solid #222;border-radius:12px;padding:12px 16px;
+    filter:grayscale(100%) opacity(.45);transition:filter .3s,border-color .3s; }
+  .lst-logo:hover { filter:grayscale(0%) opacity(1); border-color:#F97316; }
+  .lst-logo img { max-width:108px;max-height:50px;object-fit:contain; }
+
+  /* Gallery grid */
+  .gal-grid {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    grid-template-rows:240px 240px;
+    gap:14px;
+  }
+  .gal-big  { grid-column:span 2; grid-row:span 2; }
+  .gal-wide { grid-column:span 2; }
+
+  /* Product neon cards */
+  .prod-card {
+    background:#0A0A0A;
+    border:1px solid #1C1C1C;
+    border-radius:16px;
+    padding:28px 22px;
+    transition:border-color .3s, box-shadow .3s, transform .25s;
+    position:relative;
+    overflow:hidden;
+  }
+  .prod-card::before {
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:16px;
+    background:var(--glow);
+    opacity:0;
+    transition:opacity .35s;
+    pointer-events:none;
+  }
+  .prod-card:hover::before { opacity:.05; }
+  .prod-card:hover {
+    border-color:var(--accent);
+    box-shadow:0 0 0 1px var(--accent), 0 8px 32px var(--glow);
+    transform:translateY(-4px);
+  }
+
+  /* Process steps */
+  .step-n {
+    font-family:'Playfair Display',serif;
+    font-size:72px;
+    font-weight:700;
+    line-height:1;
+    color:transparent;
+    -webkit-text-stroke:1px #333;
+    margin-bottom:4px;
+    transition:color .3s,-webkit-text-stroke-color .3s;
+  }
+  .step-wrap:hover .step-n {
+    color:#FF6B00;
+    -webkit-text-stroke-color:#FF6B00;
+    text-shadow:0 0 20px #FF6B0080;
+  }
+
+  @media(max-width:900px) {
+    .gal-grid { grid-template-columns:repeat(2,1fr); grid-template-rows:auto; }
+    .gal-big  { grid-column:span 2; min-height:260px; grid-row:span 1; }
+    .gal-wide { grid-column:span 2; min-height:200px; }
+  }
+  @media(max-width:540px) {
+    .gal-grid { grid-template-columns:1fr; }
+    .gal-big,.gal-wide { grid-column:span 1; min-height:200px; }
+    .lst-stats { grid-template-columns:1fr 1fr !important; }
+    .lst-grid  { grid-template-columns:1fr !important; }
+  }
+`
+
+/* ─── MAIN COMPONENT ─────────────────────────────────────── */
 export default function LetrerosSEOLocal({ city }) {
-  const WA = `${WA_BASE}${encodeURIComponent(`Hola, me interesa cotizar un letrero volumétrico para mi negocio en ${city.name}. ¿Pueden ayudarme?`)}`
+  const WA      = `${WA_BASE}${encodeURIComponent(`Hola, me interesa cotizar un letrero volumétrico para mi negocio en ${city.name}. ¿Pueden ayudarme?`)}`
   const WA_FAST = `${WA_BASE}${encodeURIComponent(`Hola, quiero información sobre letreros y gráficas en ${city.name}.`)}`
 
   useEffect(() => {
@@ -123,12 +303,10 @@ export default function LetrerosSEOLocal({ city }) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    '@id': `https://agenciasi.cl/letreros/${city.slug}`,
     name: 'AgenciaSI Gráficas y Letreros',
     url: `https://agenciasi.cl/letreros/${city.slug}`,
     logo: 'https://agenciasi.cl/favicon.png',
-    image: 'https://agenciasi.cl/favicon.png',
-    description: `Letreros volumétricos en ${city.name}: acrílico, PVC, madera, LED y foam. Fabricación e instalación en toda la Región del Maule. Cotiza gratis por WhatsApp.`,
+    description: `Letreros volumétricos en ${city.name}: acrílico, PVC, LED, madera y foam. Fabricación e instalación en toda la Región del Maule. Cotización gratis.`,
     telephone: '+56932930812',
     email: 'contacto@agenciasi.cl',
     priceRange: '$$',
@@ -142,21 +320,10 @@ export default function LetrerosSEOLocal({ city }) {
       addressRegion: 'Región del Maule',
       addressCountry: 'CL',
     },
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: `Letreros y Gráficas en ${city.name}`,
-      itemListElement: [
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Letras Volumétricas en Acrílico' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Letreros Luminosos LED' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Fachada Corporativa Completa' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Vinilos y Ploteos' } },
-      ],
-    },
-    sameAs: ['https://agenciasi.cl'],
   }
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.white, color: T.dark, overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: '#000', color: '#fff', overflowX: 'hidden' }}>
       <Helmet>
         <title>Letreros Volumétricos en {city.name} | AgenciaSI Gráficas · Región del Maule</title>
         <meta name="description" content={`Letreros volumétricos en ${city.name}: acrílico, PVC, LED, madera y foam. Fabricamos e instalamos en ${city.name} y toda la Región del Maule. Cotización gratis por WhatsApp.`} />
@@ -167,411 +334,257 @@ export default function LetrerosSEOLocal({ city }) {
         <meta property="og:url" content={`https://agenciasi.cl/letreros/${city.slug}`} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
+      <style>{CSS}</style>
 
-      {/* NAV */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: T.dark, borderBottom: `1px solid ${T.border}` }}>
+      {/* ── NAV ── */}
+      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(0,0,0,.88)', backdropFilter: 'blur(14px)', borderBottom: '1px solid #1A1A1A' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ background: T.orange, borderRadius: 8, width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Code2 size={16} color="#fff" />
+            <div style={{ background: '#FF6B00', borderRadius: 8, width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 14px #FF6B0080' }}>
+              <Code2 size={15} color="#000" />
             </div>
             <div>
-              <div style={{ fontWeight: 800, fontSize: 14, color: T.white, letterSpacing: -.3 }}>AgenciaSI</div>
-              <div style={{ fontSize: 9, color: T.muted, marginTop: -2 }}>Gráficas y Letreros · Maule</div>
+              <div style={{ fontWeight: 800, fontSize: 13, color: '#fff', letterSpacing: -.2 }}>AgenciaSI</div>
+              <div style={{ fontSize: 9, color: '#555', marginTop: -2 }}>Gráficas y Letreros · Maule</div>
             </div>
           </Link>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ fontSize: 12, color: T.muted, display: 'flex', alignItems: 'center', gap: 5 }}>
-              <MapPin size={12} color={T.orange} /> {city.name}
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 11, color: '#555', display: 'flex', alignItems: 'center', gap: 4 }}>
+              <MapPin size={11} color="#FF6B00" /> {city.name}
+            </span>
             <a href={WA_FAST} target="_blank" rel="noopener noreferrer"
               onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
-              style={{ background: T.orange, color: T.white, fontWeight: 700, fontSize: 12, padding: '9px 18px', borderRadius: 30, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none' }}>
+              style={{ background: '#FF6B00', color: '#000', fontWeight: 800, fontSize: 12, padding: '9px 18px', borderRadius: 30, display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none', boxShadow: '0 0 18px #FF6B0060' }}>
               Cotizar gratis <ArrowRight size={13} />
             </a>
           </div>
         </div>
       </nav>
 
-      {/* HERO */}
-      <section style={{ background: T.dark, padding: '80px 24px 72px', position: 'relative', overflow: 'hidden' }}>
-        {/* Decorative grid */}
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(249,115,22,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.06) 1px, transparent 1px)', backgroundSize: '48px 48px', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', top: -120, right: -80, width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(249,115,22,0.18) 0%, transparent 70%)', pointerEvents: 'none' }} />
-        <div style={{ maxWidth: 860, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(249,115,22,0.4)', borderRadius: 30, padding: '6px 16px', marginBottom: 24 }}>
-            <MapPin size={12} color={T.orange} />
-            <span style={{ fontSize: 11, fontWeight: 700, color: T.orange, letterSpacing: 1 }}>Letreros · {city.name} · Región del Maule</span>
+      {/* ── HERO + PARTÍCULAS ── */}
+      <section style={{ position: 'relative', minHeight: '92vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000', overflow: 'hidden' }}>
+        <ParticleCanvas />
+        {/* Radial glow behind text */}
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 700, height: 700, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,107,0,.09) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+        <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 24px', maxWidth: 860, margin: '0 auto' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '1px solid #FF6B0050', borderRadius: 30, padding: '6px 16px', marginBottom: 28, background: 'rgba(255,107,0,.07)' }}>
+            <MapPin size={11} color="#FF6B00" />
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#FF6B00', letterSpacing: 1.5 }}>LETREROS · {city.name.toUpperCase()} · REGIÓN DEL MAULE</span>
           </div>
-          <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(2.2rem, 5.5vw, 4.2rem)', fontWeight: 700, color: T.white, lineHeight: 1.05, marginBottom: 18, letterSpacing: -.5 }}>
-            Letreros Volumétricos<br />
-            <em style={{ fontWeight: 400, color: T.orange }}>en {city.name}</em>
+
+          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2.6rem, 7vw, 5.5rem)', fontWeight: 700, lineHeight: 1.0, marginBottom: 24, letterSpacing: -1 }}>
+            <span style={{ color: '#fff' }}>Letreros que</span><br />
+            <span className="neon-word">brillan solos.</span>
           </h1>
-          <p style={{ fontSize: 'clamp(14px, 2vw, 17px)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, marginBottom: 12, maxWidth: 560, margin: '0 auto 12px' }}>
-            Fabricamos letreros de <strong style={{ color: T.white }}>acrílico, PVC, LED, madera y foam</strong> para {city.context}. Diseño, fabricación e instalación — todo en uno.
+
+          <p style={{ fontSize: 'clamp(14px, 2vw, 17px)', color: '#666', lineHeight: 1.8, maxWidth: 520, margin: '0 auto 16px', fontWeight: 300 }}>
+            Fabricamos letreros volumétricos en <strong style={{ color: '#999', fontWeight: 600 }}>acrílico, PVC, LED, madera y foam</strong> para {city.context}.<br />Sin piezas metálicas.
           </p>
-          <p style={{ fontSize: 13, color: T.orange, fontWeight: 700, marginBottom: 36 }}>Sin letreros metálicos · 100% plástico, madera y luz LED</p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 48 }}>
+          <p style={{ fontSize: 12, color: '#FF6B00', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 44 }}>
+            Diseño · Fabricación · Instalación en {city.name}
+          </p>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 60 }}>
             <a href={WA} target="_blank" rel="noopener noreferrer"
               onClick={() => { px('Lead', { content_name: `Letreros Hero ${city.name}` }); ga('generate_lead', { item_name: `Letreros Hero ${city.name}` }) }}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: T.orange, color: T.white, fontWeight: 800, fontSize: 15, padding: '14px 30px', borderRadius: 12, textDecoration: 'none', boxShadow: '0 8px 28px rgba(249,115,22,0.45)' }}>
-              <WaIcon size={18} /> Cotizar mi letrero
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#FF6B00', color: '#000', fontWeight: 800, fontSize: 14, padding: '14px 30px', borderRadius: 40, textDecoration: 'none', boxShadow: '0 0 32px #FF6B0070, 0 8px 24px rgba(0,0,0,.5)' }}>
+              <WaIcon size={17} /> Cotizar mi letrero
             </a>
             <a href={WA_FAST} target="_blank" rel="noopener noreferrer"
               onClick={() => { px('Schedule'); ga('schedule_appointment') }}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: T.white, fontWeight: 600, fontSize: 14, padding: '14px 24px', borderRadius: 12, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.25)' }}>
-              <Calendar size={15} /> Ver ejemplos
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: '#999', fontWeight: 600, fontSize: 14, padding: '14px 24px', borderRadius: 40, textDecoration: 'none', border: '1px solid #2A2A2A' }}>
+              Ver catálogo
             </a>
           </div>
+
+          {/* Trust row */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: 32, flexWrap: 'wrap' }}>
             {[
-              { icon: CheckCircle2, text: 'Cotización gratis en 24h' },
+              { icon: CheckCircle2, text: 'Cotización en 24h' },
               { icon: Shield,       text: 'Empresa formal · Facturamos' },
-              { icon: Star,         text: 'Proveedor del Estado' },
+              { icon: CheckCircle2, text: 'Proveedor del Estado' },
             ].map(({ icon: Icon, text }) => (
-              <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.55)' }}>
-                <Icon size={13} color={T.orange} /> {text}
+              <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#444' }}>
+                <Icon size={12} color="#FF6B00" /> {text}
               </div>
             ))}
           </div>
         </div>
+
+        {/* Bottom fade */}
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 120, background: 'linear-gradient(to bottom, transparent, #000)', pointerEvents: 'none' }} />
       </section>
 
-      {/* STATS */}
-      <div style={{ background: T.orange, padding: '24px' }}>
-        <div style={{ maxWidth: 960, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16, textAlign: 'center' }} className="lst-stats">
-          {STATS.map(s => (
-            <div key={s.label}>
-              <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 28, fontWeight: 700, color: T.white, lineHeight: 1, marginBottom: 4 }}>{s.value}</div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.9)', marginBottom: 2 }}>{s.label}</div>
-              <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.65)' }}>{s.sub}</div>
+      {/* ── STATS BAR ── */}
+      <div style={{ background: '#000', borderTop: '1px solid #1A1A1A', borderBottom: '1px solid #1A1A1A', padding: '32px 24px' }}>
+        <div style={{ maxWidth: 960, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 20, textAlign: 'center' }} className="lst-stats">
+          {[
+            { v: '+300',   l: 'Letreros fabricados',   s: 'en la Región del Maule' },
+            { v: '5 días', l: 'Entrega promedio',       s: 'desde aprobación del diseño' },
+            { v: '0%',     l: 'Metálicos',              s: 'solo plástico, madera y LED' },
+            { v: '30',     l: 'Comunas del Maule',      s: 'cobertura total en la región' },
+          ].map(s => (
+            <div key={s.l}>
+              <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 30, fontWeight: 700, color: '#FF6B00', textShadow: '0 0 18px #FF6B0060', marginBottom: 4 }}>{s.v}</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#ccc', marginBottom: 2 }}>{s.l}</div>
+              <div style={{ fontSize: 10, color: '#444' }}>{s.s}</div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* PRODUCTOS */}
-      <section style={{ background: T.light, padding: '80px 24px' }}>
+      {/* ── GALERÍA 3D TILT ── */}
+      <section style={{ background: '#030303', padding: '88px 24px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.orange, marginBottom: 12 }}>Catálogo de productos</p>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', fontWeight: 700, color: T.dark, lineHeight: 1.1, marginBottom: 12 }}>
-              Todo lo que tu negocio en {city.name} necesita para destacar.
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 14 }}>Galería de trabajos</p>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.8rem,3vw,3rem)', fontWeight: 700, color: '#fff', lineHeight: 1.0, marginBottom: 12 }}>
+              Cada letrero,<br /><span className="neon-word" style={{ fontSize: '0.85em' }}>único.</span>
             </h2>
-            <p style={{ fontSize: 14, color: '#555', maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>
-              No fabricamos piezas metálicas. Nos especializamos en materiales plásticos, madera, foam y tecnología LED.
-            </p>
+            <p style={{ fontSize: 13, color: '#444', maxWidth: 380, margin: '0 auto' }}>Mueve el cursor sobre cada pieza — arrastra la luz.</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 20 }}>
-            {PRODUCTOS.map(({ icon: Icon, nombre, desc, tag }) => (
-              <div key={nombre} style={{ background: T.white, border: `1px solid #E8E8E8`, borderRadius: 16, padding: '26px 22px', position: 'relative', transition: 'box-shadow .25s, border-color .25s' }}
-                onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 28px rgba(249,115,22,.14)'; e.currentTarget.style.borderColor = 'rgba(249,115,22,.4)' }}
-                onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = '#E8E8E8' }}>
-                {tag && (
-                  <span style={{ position: 'absolute', top: 18, right: 18, background: T.orange, color: T.white, fontSize: 9, fontWeight: 800, padding: '3px 8px', borderRadius: 20, letterSpacing: .5 }}>{tag}</span>
-                )}
-                <div style={{ width: 46, height: 46, borderRadius: 12, background: 'rgba(249,115,22,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                  <Icon size={21} color={T.orange} />
+
+          <div className="gal-grid">
+            {GALERIA.map(item => (
+              <TiltCard key={item.slug} glow={item.glow} style={item.span === 'big' ? { gridColumn: 'span 2', gridRow: 'span 2' } : item.span === 'wide' ? { gridColumn: 'span 2' } : {}}>
+                <div style={{ width: '100%', height: '100%', minHeight: 240, position: 'relative', background: '#0A0A0A' }}>
+                  {/* Real image (shows when available) */}
+                  <img
+                    src={`/galeria/letreros/${item.slug}.jpg`}
+                    alt={item.label}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', position: 'absolute', inset: 0, transition: 'opacity .4s' }}
+                    onError={e => { e.target.style.opacity = 0 }}
+                  />
+                  {/* Placeholder / overlay */}
+                  <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                    <div style={{ fontSize: item.span === 'big' ? 72 : 44, lineHeight: 1, filter: `drop-shadow(0 0 20px ${item.glow})` }}>{item.emoji}</div>
+                  </div>
+                  {/* Bottom label with neon line */}
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '24px 20px 18px', background: 'linear-gradient(to top, rgba(0,0,0,.92) 0%, transparent 100%)' }}>
+                    <div style={{ width: 32, height: 2, background: item.glow, boxShadow: `0 0 10px ${item.glow}`, borderRadius: 2, marginBottom: 8 }} />
+                    <div style={{ fontSize: item.span === 'big' ? 17 : 13, fontWeight: 700, color: '#fff', marginBottom: 3 }}>{item.label}</div>
+                    <div style={{ fontSize: 11, color: item.glow, fontWeight: 600 }}>{item.sub}</div>
+                  </div>
+                  {/* Glow border on hover (via parent TiltCard's boxShadow) */}
                 </div>
-                <div style={{ fontWeight: 700, fontSize: 14, color: T.dark, marginBottom: 8 }}>{nombre}</div>
-                <div style={{ fontSize: 13, color: '#666', lineHeight: 1.7 }}>{desc}</div>
+              </TiltCard>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: 40 }}>
+            <p style={{ fontSize: 13, color: '#444', marginBottom: 16 }}>¿Tienes una referencia o idea? La hacemos realidad.</p>
+            <a href={WA} target="_blank" rel="noopener noreferrer"
+              onClick={() => { px('Lead', { content_name: `Galeria ${city.name}` }); ga('generate_lead', { item_name: `Galeria ${city.name}` }) }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: 'transparent', color: '#FF6B00', fontWeight: 800, fontSize: 14, padding: '12px 24px', borderRadius: 30, textDecoration: 'none', border: '1px solid #FF6B0060', boxShadow: '0 0 20px #FF6B0030' }}>
+              <WaIcon size={15} /> Enviar referencia por WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRODUCTOS NEON ── */}
+      <section style={{ background: '#000', padding: '88px 24px', borderTop: '1px solid #111' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 52 }}>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 14 }}>Sin piezas metálicas</p>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.8rem,3vw,2.8rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1 }}>
+              Lo que fabricamos en {city.name}.
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 16 }}>
+            {PRODUCTOS.map(({ icon: Icon, nombre, desc, glow, tag }) => (
+              <div key={nombre} className="prod-card" style={{ '--accent': glow, '--glow': `${glow}30` }}>
+                {tag && <span style={{ position: 'absolute', top: 18, right: 18, background: glow, color: '#000', fontSize: 9, fontWeight: 800, padding: '3px 9px', borderRadius: 20, letterSpacing: .5 }}>{tag}</span>}
+                <div style={{ width: 44, height: 44, borderRadius: 12, border: `1px solid ${glow}40`, background: `${glow}10`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16, boxShadow: `0 0 14px ${glow}30` }}>
+                  <Icon size={20} color={glow} />
+                </div>
+                <div style={{ fontWeight: 700, fontSize: 14, color: '#e8e8e8', marginBottom: 8 }}>{nombre}</div>
+                <div style={{ fontSize: 12, color: '#555', lineHeight: 1.75 }}>{desc}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* GALERÍA */}
-      <section style={{ background: T.dark, padding: '80px 24px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.orange, marginBottom: 12 }}>Nuestro trabajo</p>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', fontWeight: 700, color: T.white, lineHeight: 1.1, marginBottom: 10 }}>
-              Galería de proyectos realizados.
-            </h2>
-            <p style={{ fontSize: 14, color: T.muted, maxWidth: 420, margin: '0 auto' }}>
-              Cada pieza fabricada a medida. ¿Tienes algo en mente? Te hacemos una propuesta visual gratis.
-            </p>
-          </div>
-
-          {/* Grid masonry */}
-          <style>{`
-            .gal-grid {
-              display: grid;
-              grid-template-columns: repeat(4, 1fr);
-              grid-template-rows: 220px 220px;
-              gap: 12px;
-            }
-            .gal-item {
-              position: relative;
-              border-radius: 16px;
-              overflow: hidden;
-              cursor: pointer;
-            }
-            .gal-item img {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              display: block;
-              transition: transform .45s ease;
-            }
-            .gal-item:hover img { transform: scale(1.06); }
-            .gal-overlay {
-              position: absolute;
-              inset: 0;
-              background: linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,0) 55%);
-              display: flex;
-              flex-direction: column;
-              justify-content: flex-end;
-              padding: 20px;
-              opacity: 0;
-              transition: opacity .3s;
-            }
-            .gal-item:hover .gal-overlay { opacity: 1; }
-            .gal-placeholder {
-              width: 100%;
-              height: 100%;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              gap: 10px;
-              position: relative;
-            }
-            .gal-placeholder-label {
-              position: absolute;
-              bottom: 0; left: 0; right: 0;
-              background: linear-gradient(to top, rgba(0,0,0,.7) 0%, transparent 100%);
-              padding: 20px 16px 14px;
-            }
-            /* Tamaños especiales */
-            .gal-big   { grid-column: span 2; grid-row: span 2; }
-            .gal-tall  { grid-row: span 2; }
-            .gal-wide  { grid-column: span 2; }
-            @media(max-width: 860px) {
-              .gal-grid { grid-template-columns: repeat(2,1fr); grid-template-rows: auto; }
-              .gal-big  { grid-column: span 2; grid-row: span 1; min-height: 240px; }
-              .gal-tall { grid-row: span 1; min-height: 200px; }
-              .gal-wide { grid-column: span 2; }
-            }
-            @media(max-width: 480px) {
-              .gal-grid { grid-template-columns: 1fr; }
-              .gal-big, .gal-wide { grid-column: span 1; }
-            }
-          `}</style>
-
-          <div className="gal-grid">
-            {/* 1 — grande, ocupa 2x2 */}
-            <div className="gal-item gal-big" style={{ background: 'linear-gradient(135deg,#1a0a00,#3d1a00)' }}>
-              <img src="/galeria/letreros/letras-acrilico-fachada.jpg"
-                alt="Letras volumétricas en acrílico para fachada de local comercial"
-                onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }} />
-              <div className="gal-placeholder" style={{ display: 'none' }}>
-                <div style={{ fontSize: 52 }}>🔤</div>
-                <div className="gal-placeholder-label">
-                  <div style={{ fontSize: 10, fontWeight: 700, color: T.orange, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 4 }}>Destacado</div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: T.white }}>Letras Volumétricas en Acrílico</div>
-                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,.65)', marginTop: 2 }}>Fachada corporativa completa</div>
-                </div>
-              </div>
-              <div className="gal-overlay">
-                <div style={{ fontSize: 10, fontWeight: 700, color: T.orange, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 4 }}>Destacado</div>
-                <div style={{ fontSize: 15, fontWeight: 700, color: T.white }}>Letras Volumétricas en Acrílico</div>
-                <div style={{ fontSize: 12, color: 'rgba(255,255,255,.65)', marginTop: 2 }}>Fachada corporativa completa</div>
-              </div>
-            </div>
-
-            {/* 2 — normal */}
-            <div className="gal-item" style={{ background: 'linear-gradient(135deg,#0a0a2e,#1a1a5c)' }}>
-              <img src="/galeria/letreros/letrero-led-tienda.jpg"
-                alt="Letrero luminoso LED para tienda"
-                onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }} />
-              <div className="gal-placeholder" style={{ display: 'none' }}>
-                <div style={{ fontSize: 36 }}>💡</div>
-                <div className="gal-placeholder-label">
-                  <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Letrero Luminoso LED</div>
-                </div>
-              </div>
-              <div className="gal-overlay">
-                <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Letrero Luminoso LED</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.6)' }}>Visible 24/7 · Bajo consumo</div>
-              </div>
-            </div>
-
-            {/* 3 — normal */}
-            <div className="gal-item" style={{ background: 'linear-gradient(135deg,#1a0a1a,#3d1a3d)' }}>
-              <img src="/galeria/letreros/vinilo-vitrina.jpg"
-                alt="Vinilo decorativo en vitrina de local"
-                onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }} />
-              <div className="gal-placeholder" style={{ display: 'none' }}>
-                <div style={{ fontSize: 36 }}>🎨</div>
-                <div className="gal-placeholder-label">
-                  <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Vinilo Decorativo</div>
-                </div>
-              </div>
-              <div className="gal-overlay">
-                <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Vinilo Decorativo</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.6)' }}>Vitrina · Corte láser</div>
-              </div>
-            </div>
-
-            {/* 4 — ancho, ocupa 2 columnas */}
-            <div className="gal-item gal-wide" style={{ background: 'linear-gradient(135deg,#0a1a0a,#0d3d1a)' }}>
-              <img src="/galeria/letreros/totem-publicitario.jpg"
-                alt="Tótem publicitario para local comercial"
-                onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }} />
-              <div className="gal-placeholder" style={{ display: 'none' }}>
-                <div style={{ fontSize: 36 }}>🏢</div>
-                <div className="gal-placeholder-label">
-                  <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Tótem Publicitario</div>
-                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,.6)', marginTop: 2 }}>PVC · Foam · Estructural</div>
-                </div>
-              </div>
-              <div className="gal-overlay">
-                <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Tótem Publicitario</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.6)' }}>PVC · Foam · Estructural</div>
-              </div>
-            </div>
-
-            {/* 5 — normal */}
-            <div className="gal-item" style={{ background: 'linear-gradient(135deg,#1a1000,#3d2800)' }}>
-              <img src="/galeria/letreros/letras-mdf-restaurante.jpg"
-                alt="Letras en MDF para restaurante"
-                onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }} />
-              <div className="gal-placeholder" style={{ display: 'none' }}>
-                <div style={{ fontSize: 36 }}>🪵</div>
-                <div className="gal-placeholder-label">
-                  <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Letras MDF / Madera</div>
-                </div>
-              </div>
-              <div className="gal-overlay">
-                <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Letras MDF / Madera</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.6)' }}>Barnizadas · Pintadas · Doradas</div>
-              </div>
-            </div>
-
-            {/* 6 — normal */}
-            <div className="gal-item" style={{ background: 'linear-gradient(135deg,#001a1a,#003d3d)' }}>
-              <img src="/galeria/letreros/senaletica-oficina.jpg"
-                alt="Señalética corporativa para oficinas"
-                onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }} />
-              <div className="gal-placeholder" style={{ display: 'none' }}>
-                <div style={{ fontSize: 36 }}>🔖</div>
-                <div className="gal-placeholder-label">
-                  <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Señalética Corporativa</div>
-                </div>
-              </div>
-              <div className="gal-overlay">
-                <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Señalética Corporativa</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.6)' }}>Interior · Exterior · Emergencia</div>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA debajo de galería */}
-          <div style={{ textAlign: 'center', marginTop: 36 }}>
-            <p style={{ fontSize: 14, color: T.muted, marginBottom: 16 }}>¿Tienes fotos de referencia o una idea en mente?</p>
-            <a href={WA} target="_blank" rel="noopener noreferrer"
-              onClick={() => { px('Lead', { content_name: `Letreros Galeria ${city.name}` }); ga('generate_lead', { item_name: `Letreros Galeria ${city.name}` }) }}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: T.orange, color: T.white, fontWeight: 800, fontSize: 14, padding: '13px 26px', borderRadius: 30, textDecoration: 'none' }}>
-              <WaIcon size={16} /> Enviar mi referencia por WhatsApp
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* PROCESO */}
-      <section style={{ background: T.white, padding: '80px 24px' }}>
+      {/* ── PROCESO ── */}
+      <section style={{ background: '#030303', padding: '88px 24px', borderTop: '1px solid #111' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 52 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.orange, marginBottom: 12 }}>Cómo trabajamos</p>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', fontWeight: 700, color: T.dark, lineHeight: 1.1 }}>
+          <div style={{ textAlign: 'center', marginBottom: 60 }}>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 14 }}>Proceso simple</p>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1 }}>
               Tu letrero en {city.name} en 4 pasos.
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(210px,1fr))', gap: 32 }}>
             {PASOS.map(({ n, titulo, desc }) => (
-              <div key={n} style={{ textAlign: 'center', padding: '28px 16px' }}>
-                <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 52, fontWeight: 700, color: 'rgba(249,115,22,0.15)', lineHeight: 1, marginBottom: 8 }}>{n}</div>
-                <div style={{ fontWeight: 700, fontSize: 14, color: T.dark, marginBottom: 8, marginTop: -16 }}>{titulo}</div>
-                <div style={{ fontSize: 13, color: '#666', lineHeight: 1.7 }}>{desc}</div>
+              <div key={n} className="step-wrap" style={{ padding: '8px 0', borderTop: '1px solid #1A1A1A', cursor: 'default' }}>
+                <div className="step-n">{n}</div>
+                <div style={{ fontWeight: 700, fontSize: 14, color: '#ddd', marginBottom: 10 }}>{titulo}</div>
+                <div style={{ fontSize: 12, color: '#444', lineHeight: 1.8 }}>{desc}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* BANNER PROVEEDOR ESTADO + COBERTURA */}
-      <section style={{ background: 'linear-gradient(135deg, #0D0D0D 0%, #1A1A1A 100%)', padding: '72px 24px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }} className="lst-grid">
+      {/* ── COBERTURA + PROVEEDOR ESTADO ── */}
+      <section style={{ background: '#000', padding: '88px 24px', borderTop: '1px solid #111' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }} className="lst-grid">
           <div>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.orange, marginBottom: 16 }}>Cobertura total</p>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', fontWeight: 700, color: T.white, lineHeight: 1.1, marginBottom: 20 }}>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 16 }}>Cobertura total</p>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 18 }}>
               Atendemos las 30 comunas de la Región del Maule.
             </h2>
-            <p style={{ fontSize: 14, color: T.muted, lineHeight: 1.75, marginBottom: 24 }}>
-              Desde Talca hasta Vichuquén, desde Curicó hasta Cauquenes. Fabricamos en taller y coordinamos entrega e instalación en toda la región.
+            <p style={{ fontSize: 13, color: '#444', lineHeight: 1.8, marginBottom: 28 }}>
+              Desde Talca hasta Vichuquén, desde Curicó hasta Cauquenes. Fabricamos en taller y coordinamos entrega e instalación donde lo necesites.
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {[
-                'Provincia de Talca (10 comunas)',
-                'Provincia de Curicó (9 comunas)',
-                'Provincia de Linares (8 comunas)',
-                'Provincia de Cauquenes (3 comunas)',
-              ].map(item => (
-                <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <CheckCircle2 size={15} color={T.orange} />
-                  <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>{item}</span>
-                </div>
-              ))}
-            </div>
+            {['Provincia de Talca (10 comunas)','Provincia de Curicó (9 comunas)','Provincia de Linares (8 comunas)','Provincia de Cauquenes (3 comunas)'].map(i => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#FF6B00', boxShadow: '0 0 8px #FF6B00', flexShrink: 0 }} />
+                <span style={{ fontSize: 13, color: '#555' }}>{i}</span>
+              </div>
+            ))}
           </div>
-          <div style={{ background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.25)', borderRadius: 20, padding: '36px 32px' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 12, padding: '10px 16px', marginBottom: 24 }}>
-              <img src="/proveedor-del-estado.png" alt="Proveedor del Estado" style={{ height: 26, objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+          <div style={{ background: '#0A0A0A', border: '1px solid #1A1A1A', borderRadius: 20, padding: '36px 32px', boxShadow: '0 0 60px rgba(255,107,0,.06)' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#111', border: '1px solid #222', borderRadius: 12, padding: '10px 16px', marginBottom: 24 }}>
+              <img src="/proveedor-del-estado.png" alt="Proveedor del Estado" style={{ height: 26, objectFit: 'contain', filter: 'brightness(0) invert(.55)' }} />
               <div>
-                <div style={{ fontSize: 11, fontWeight: 800, color: T.white }}>Proveedor del Estado</div>
-                <div style={{ fontSize: 9, color: T.muted }}>Registrados en ChileCompra · MercadoPúblico</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#ccc' }}>Proveedor del Estado</div>
+                <div style={{ fontSize: 9, color: '#444' }}>Registrados en ChileCompra · MercadoPúblico</div>
               </div>
             </div>
-            <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 700, color: T.white, marginBottom: 20 }}>¿Por qué elegirnos?</h3>
+            <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: '1.4rem', fontWeight: 700, color: '#fff', marginBottom: 20 }}>¿Por qué elegirnos?</h3>
             {[
-              '✔ Materiales certificados y duraderos',
-              '✔ Diseño profesional incluido',
-              '✔ Presupuesto sin compromiso en 24h',
-              '✔ Instalación coordinada en tu comuna',
-              '✔ Facturamos — empresa formal',
-              '✔ Sin letreros metálicos (especialidad plástico, madera y LED)',
+              'Materiales certificados y duraderos',
+              'Diseño profesional incluido',
+              'Presupuesto en menos de 24h',
+              'Instalación coordinada en tu comuna',
+              'Facturamos — empresa formal',
+              'Sin letreros metálicos',
             ].map(item => (
-              <div key={item} style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', marginBottom: 9 }}>{item}</div>
+              <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                <CheckCircle2 size={13} color="#FF6B00" style={{ flexShrink: 0 }} />
+                <span style={{ fontSize: 13, color: '#555' }}>{item}</span>
+              </div>
             ))}
             <a href={WA} target="_blank" rel="noopener noreferrer"
               onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
-              style={{ marginTop: 24, display: 'inline-flex', alignItems: 'center', gap: 8, background: T.orange, color: T.white, fontWeight: 800, fontSize: 14, padding: '12px 24px', borderRadius: 30, textDecoration: 'none' }}>
-              <WaIcon size={16} /> Cotizar ahora
+              style={{ marginTop: 28, display: 'inline-flex', alignItems: 'center', gap: 8, background: '#FF6B00', color: '#000', fontWeight: 800, fontSize: 13, padding: '12px 22px', borderRadius: 30, textDecoration: 'none', boxShadow: '0 0 22px #FF6B0060' }}>
+              <WaIcon size={15} /> Cotizar ahora
             </a>
           </div>
         </div>
       </section>
 
-      {/* CLIENTES */}
-      <section style={{ background: T.light, padding: '72px 0', overflow: 'hidden' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center', padding: '0 24px', marginBottom: 40 }}>
-          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.orange, marginBottom: 12 }}>Empresas que confían en nosotros</p>
-          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', fontWeight: 700, color: T.dark, marginBottom: 10 }}>
-            Negocios de la Región del Maule y todo Chile.
+      {/* ── MARQUEE CLIENTES ── */}
+      <section style={{ background: '#030303', padding: '72px 0', overflow: 'hidden', borderTop: '1px solid #111' }}>
+        <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center', padding: '0 24px', marginBottom: 40 }}>
+          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 12 }}>Empresas que confían en nosotros</p>
+          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 700, color: '#fff' }}>
+            Negocios de la Región del Maule y Chile.
           </h2>
         </div>
-        <style>{`
-          @keyframes lst-marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-          .lst-track { display:flex; width:max-content; animation:lst-marquee 34s linear infinite; }
-          .lst-track:hover { animation-play-state:paused; }
-          .lst-logo { flex-shrink:0; width:148px; height:80px; margin:0 10px; display:flex; align-items:center; justify-content:center; background:#fff; border:1px solid #E8E8E8; border-radius:12px; padding:12px 16px; filter:grayscale(100%) opacity(0.55); transition:filter .3s; }
-          .lst-logo:hover { filter:grayscale(0%) opacity(1); }
-          .lst-logo img { max-width:108px; max-height:50px; object-fit:contain; }
-          @media(max-width:860px) { .lst-grid{grid-template-columns:1fr!important;} }
-          @media(max-width:580px) { .lst-stats{grid-template-columns:1fr 1fr!important;} }
-        `}</style>
         <div style={{ overflow: 'hidden' }}>
           <div className="lst-track">
             {[...LOGOS, ...LOGOS].map((logo, i) => (
@@ -583,51 +596,52 @@ export default function LetrerosSEOLocal({ city }) {
         </div>
       </section>
 
-      {/* CTA FINAL */}
-      <section style={{ background: T.orange, padding: '80px 24px', textAlign: 'center' }}>
-        <div style={{ maxWidth: 600, margin: '0 auto' }}>
-          <div style={{ fontSize: 40, marginBottom: 16 }}>🪧</div>
-          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 700, color: T.white, lineHeight: 1.15, marginBottom: 14 }}>
-            Dale identidad a tu negocio en {city.name}.
+      {/* ── CTA FINAL ── */}
+      <section style={{ background: '#000', padding: '100px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden', borderTop: '1px solid #111' }}>
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 400, background: 'radial-gradient(ellipse, rgba(255,107,0,.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'relative', maxWidth: 560, margin: '0 auto' }}>
+          <div style={{ fontSize: 52, marginBottom: 20, filter: 'drop-shadow(0 0 24px #FF6B00)' }}>🪧</div>
+          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(2rem,4.5vw,3.2rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 14 }}>
+            Dale identidad a tu negocio<br /><span className="neon-word">en {city.name}.</span>
           </h2>
-          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.85)', marginBottom: 32, lineHeight: 1.7 }}>
-            Cotiza tu letrero gratis. Te respondemos con presupuesto y diseño en menos de 24 horas.
+          <p style={{ fontSize: 14, color: '#444', marginBottom: 36, lineHeight: 1.8 }}>
+            Presupuesto gratis con propuesta de diseño incluida. Respondemos en menos de 24 horas.
           </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 20 }}>
             <a href={WA} target="_blank" rel="noopener noreferrer"
-              onClick={() => { px('Lead', { content_name: `Letreros CTA Final ${city.name}` }); ga('generate_lead', { item_name: `Letreros Final ${city.name}` }) }}
-              style={{ background: T.white, color: T.orange, fontWeight: 800, fontSize: 15, padding: '15px 30px', borderRadius: 12, display: 'inline-flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.2)' }}>
-              <WaIcon size={18} /> Quiero mi letrero
+              onClick={() => { px('Lead', { content_name: `Letreros Final ${city.name}` }); ga('generate_lead', { item_name: `Letreros Final ${city.name}` }) }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#FF6B00', color: '#000', fontWeight: 800, fontSize: 15, padding: '16px 32px', borderRadius: 40, textDecoration: 'none', boxShadow: '0 0 40px #FF6B0070, 0 8px 24px rgba(0,0,0,.5)' }}>
+              <WaIcon size={19} /> Quiero mi letrero
             </a>
             <Link to="/"
-              style={{ background: 'transparent', color: T.white, fontWeight: 600, fontSize: 14, padding: '15px 24px', borderRadius: 12, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '2px solid rgba(255,255,255,.5)' }}>
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: '#555', fontWeight: 600, fontSize: 14, padding: '16px 24px', borderRadius: 40, textDecoration: 'none', border: '1px solid #222' }}>
               Ver más servicios →
             </Link>
           </div>
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', marginTop: 20 }}>+56 9 3293 0812 · contacto@agenciasi.cl</p>
+          <p style={{ fontSize: 11, color: '#333' }}>+56 9 3293 0812 · contacto@agenciasi.cl</p>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ background: T.dark, padding: '20px 24px', borderTop: `1px solid ${T.border}` }}>
+      {/* ── FOOTER ── */}
+      <footer style={{ background: '#000', padding: '20px 24px', borderTop: '1px solid #111' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-            <div style={{ background: T.orange, borderRadius: 6, width: 26, height: 26, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Code2 size={12} color="#fff" />
+            <div style={{ background: '#FF6B00', borderRadius: 6, width: 26, height: 26, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Code2 size={12} color="#000" />
             </div>
-            <span style={{ fontSize: 13, fontWeight: 700, color: T.white }}>AgenciaSI Gráficas</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#666' }}>AgenciaSI Gráficas</span>
           </Link>
-          <span style={{ fontSize: 12, color: T.muted }}>© 2026 AgenciaSI · Letreros en {city.name} · Región del Maule · Chile</span>
-          <Link to="/" style={{ fontSize: 12, color: T.muted, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
-            Inicio <ExternalLink size={11} />
+          <span style={{ fontSize: 11, color: '#2A2A2A' }}>© 2026 AgenciaSI · Letreros en {city.name} · Región del Maule</span>
+          <Link to="/" style={{ fontSize: 11, color: '#2A2A2A', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
+            Inicio <ExternalLink size={10} />
           </Link>
         </div>
       </footer>
 
-      {/* FLOATING WA */}
+      {/* ── FLOATING WA ── */}
       <a href={WA} target="_blank" rel="noopener noreferrer"
         onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
-        style={{ position: 'fixed', bottom: 24, right: 24, background: '#25D366', color: T.white, width: 56, height: 56, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(37,211,102,.55)', zIndex: 100, textDecoration: 'none' }}>
+        style={{ position: 'fixed', bottom: 24, right: 24, background: '#25D366', color: '#fff', width: 56, height: 56, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(37,211,102,.55)', zIndex: 100, textDecoration: 'none' }}>
         <WaIcon size={26} />
       </a>
     </div>
