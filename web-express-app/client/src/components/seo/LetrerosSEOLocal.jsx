@@ -281,6 +281,205 @@ export default function LetrerosSEOLocal({ city }) {
         </div>
       </section>
 
+      {/* GALERÍA */}
+      <section style={{ background: T.dark, padding: '80px 24px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.orange, marginBottom: 12 }}>Nuestro trabajo</p>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', fontWeight: 700, color: T.white, lineHeight: 1.1, marginBottom: 10 }}>
+              Galería de proyectos realizados.
+            </h2>
+            <p style={{ fontSize: 14, color: T.muted, maxWidth: 420, margin: '0 auto' }}>
+              Cada pieza fabricada a medida. ¿Tienes algo en mente? Te hacemos una propuesta visual gratis.
+            </p>
+          </div>
+
+          {/* Grid masonry */}
+          <style>{`
+            .gal-grid {
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              grid-template-rows: 220px 220px;
+              gap: 12px;
+            }
+            .gal-item {
+              position: relative;
+              border-radius: 16px;
+              overflow: hidden;
+              cursor: pointer;
+            }
+            .gal-item img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              display: block;
+              transition: transform .45s ease;
+            }
+            .gal-item:hover img { transform: scale(1.06); }
+            .gal-overlay {
+              position: absolute;
+              inset: 0;
+              background: linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,0) 55%);
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-end;
+              padding: 20px;
+              opacity: 0;
+              transition: opacity .3s;
+            }
+            .gal-item:hover .gal-overlay { opacity: 1; }
+            .gal-placeholder {
+              width: 100%;
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              gap: 10px;
+              position: relative;
+            }
+            .gal-placeholder-label {
+              position: absolute;
+              bottom: 0; left: 0; right: 0;
+              background: linear-gradient(to top, rgba(0,0,0,.7) 0%, transparent 100%);
+              padding: 20px 16px 14px;
+            }
+            /* Tamaños especiales */
+            .gal-big   { grid-column: span 2; grid-row: span 2; }
+            .gal-tall  { grid-row: span 2; }
+            .gal-wide  { grid-column: span 2; }
+            @media(max-width: 860px) {
+              .gal-grid { grid-template-columns: repeat(2,1fr); grid-template-rows: auto; }
+              .gal-big  { grid-column: span 2; grid-row: span 1; min-height: 240px; }
+              .gal-tall { grid-row: span 1; min-height: 200px; }
+              .gal-wide { grid-column: span 2; }
+            }
+            @media(max-width: 480px) {
+              .gal-grid { grid-template-columns: 1fr; }
+              .gal-big, .gal-wide { grid-column: span 1; }
+            }
+          `}</style>
+
+          <div className="gal-grid">
+            {/* 1 — grande, ocupa 2x2 */}
+            <div className="gal-item gal-big" style={{ background: 'linear-gradient(135deg,#1a0a00,#3d1a00)' }}>
+              <img src="/galeria/letreros/letras-acrilico-fachada.jpg"
+                alt="Letras volumétricas en acrílico para fachada de local comercial"
+                onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }} />
+              <div className="gal-placeholder" style={{ display: 'none' }}>
+                <div style={{ fontSize: 52 }}>🔤</div>
+                <div className="gal-placeholder-label">
+                  <div style={{ fontSize: 10, fontWeight: 700, color: T.orange, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 4 }}>Destacado</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: T.white }}>Letras Volumétricas en Acrílico</div>
+                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,.65)', marginTop: 2 }}>Fachada corporativa completa</div>
+                </div>
+              </div>
+              <div className="gal-overlay">
+                <div style={{ fontSize: 10, fontWeight: 700, color: T.orange, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 4 }}>Destacado</div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: T.white }}>Letras Volumétricas en Acrílico</div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,.65)', marginTop: 2 }}>Fachada corporativa completa</div>
+              </div>
+            </div>
+
+            {/* 2 — normal */}
+            <div className="gal-item" style={{ background: 'linear-gradient(135deg,#0a0a2e,#1a1a5c)' }}>
+              <img src="/galeria/letreros/letrero-led-tienda.jpg"
+                alt="Letrero luminoso LED para tienda"
+                onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }} />
+              <div className="gal-placeholder" style={{ display: 'none' }}>
+                <div style={{ fontSize: 36 }}>💡</div>
+                <div className="gal-placeholder-label">
+                  <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Letrero Luminoso LED</div>
+                </div>
+              </div>
+              <div className="gal-overlay">
+                <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Letrero Luminoso LED</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.6)' }}>Visible 24/7 · Bajo consumo</div>
+              </div>
+            </div>
+
+            {/* 3 — normal */}
+            <div className="gal-item" style={{ background: 'linear-gradient(135deg,#1a0a1a,#3d1a3d)' }}>
+              <img src="/galeria/letreros/vinilo-vitrina.jpg"
+                alt="Vinilo decorativo en vitrina de local"
+                onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }} />
+              <div className="gal-placeholder" style={{ display: 'none' }}>
+                <div style={{ fontSize: 36 }}>🎨</div>
+                <div className="gal-placeholder-label">
+                  <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Vinilo Decorativo</div>
+                </div>
+              </div>
+              <div className="gal-overlay">
+                <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Vinilo Decorativo</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.6)' }}>Vitrina · Corte láser</div>
+              </div>
+            </div>
+
+            {/* 4 — ancho, ocupa 2 columnas */}
+            <div className="gal-item gal-wide" style={{ background: 'linear-gradient(135deg,#0a1a0a,#0d3d1a)' }}>
+              <img src="/galeria/letreros/totem-publicitario.jpg"
+                alt="Tótem publicitario para local comercial"
+                onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }} />
+              <div className="gal-placeholder" style={{ display: 'none' }}>
+                <div style={{ fontSize: 36 }}>🏢</div>
+                <div className="gal-placeholder-label">
+                  <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Tótem Publicitario</div>
+                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,.6)', marginTop: 2 }}>PVC · Foam · Estructural</div>
+                </div>
+              </div>
+              <div className="gal-overlay">
+                <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Tótem Publicitario</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.6)' }}>PVC · Foam · Estructural</div>
+              </div>
+            </div>
+
+            {/* 5 — normal */}
+            <div className="gal-item" style={{ background: 'linear-gradient(135deg,#1a1000,#3d2800)' }}>
+              <img src="/galeria/letreros/letras-mdf-restaurante.jpg"
+                alt="Letras en MDF para restaurante"
+                onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }} />
+              <div className="gal-placeholder" style={{ display: 'none' }}>
+                <div style={{ fontSize: 36 }}>🪵</div>
+                <div className="gal-placeholder-label">
+                  <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Letras MDF / Madera</div>
+                </div>
+              </div>
+              <div className="gal-overlay">
+                <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Letras MDF / Madera</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.6)' }}>Barnizadas · Pintadas · Doradas</div>
+              </div>
+            </div>
+
+            {/* 6 — normal */}
+            <div className="gal-item" style={{ background: 'linear-gradient(135deg,#001a1a,#003d3d)' }}>
+              <img src="/galeria/letreros/senaletica-oficina.jpg"
+                alt="Señalética corporativa para oficinas"
+                onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }} />
+              <div className="gal-placeholder" style={{ display: 'none' }}>
+                <div style={{ fontSize: 36 }}>🔖</div>
+                <div className="gal-placeholder-label">
+                  <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Señalética Corporativa</div>
+                </div>
+              </div>
+              <div className="gal-overlay">
+                <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>Señalética Corporativa</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.6)' }}>Interior · Exterior · Emergencia</div>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA debajo de galería */}
+          <div style={{ textAlign: 'center', marginTop: 36 }}>
+            <p style={{ fontSize: 14, color: T.muted, marginBottom: 16 }}>¿Tienes fotos de referencia o una idea en mente?</p>
+            <a href={WA} target="_blank" rel="noopener noreferrer"
+              onClick={() => { px('Lead', { content_name: `Letreros Galeria ${city.name}` }); ga('generate_lead', { item_name: `Letreros Galeria ${city.name}` }) }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: T.orange, color: T.white, fontWeight: 800, fontSize: 14, padding: '13px 26px', borderRadius: 30, textDecoration: 'none' }}>
+              <WaIcon size={16} /> Enviar mi referencia por WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* PROCESO */}
       <section style={{ background: T.white, padding: '80px 24px' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
