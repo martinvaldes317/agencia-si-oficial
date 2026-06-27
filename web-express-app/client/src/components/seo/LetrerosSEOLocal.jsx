@@ -23,31 +23,76 @@ const LOGOS = [
 ]
 
 const GALERIA = [
-  { slug: 'letras-acrilico-fachada',  label: 'Letras Volumétricas',  sub: 'Acrílico · Corte láser',     glow: '#FF6B00', emoji: '🔤', span: 'big' },
-  { slug: 'letrero-led-tienda',        label: 'Letreros LED',          sub: 'Backlit · Frontlit · 24/7',  glow: '#FFD700', emoji: '💡', span: '' },
-  { slug: 'vinilo-vitrina',            label: 'Vinilos y Ploteo',      sub: 'Corte · Impresión UV',       glow: '#FF00FF', emoji: '🎨', span: '' },
-  { slug: 'totem-publicitario',        label: 'Tótem Publicitario',    sub: 'PVC · Foam · Estructural',   glow: '#00FFAA', emoji: '🏢', span: 'wide' },
-  { slug: 'letras-mdf-restaurante',   label: 'Letras MDF / Madera',   sub: 'Doradas · Pintadas',         glow: '#FF8C00', emoji: '🪵', span: '' },
-  { slug: 'senaletica-oficina',        label: 'Señalética Corp.',      sub: 'Interior · Exterior',        glow: '#00CFFF', emoji: '🔖', span: '' },
+  { slug: 'letras-acrilico-fachada', label: 'El letrero que para a la gente',  sub: 'Letras volumétricas · Acrílico · Tu logo en 3D', glow: '#FF6B00', emoji: '🔤', span: 'big' },
+  { slug: 'letrero-led-tienda',       label: 'Vende también de noche',           sub: 'Letreros LED · Backlit · Visible las 24h',       glow: '#FFD700', emoji: '💡', span: '' },
+  { slug: 'vinilo-vitrina',           label: 'Transforma cualquier superficie',  sub: 'Vinilos · Ploteo · Corte láser',                  glow: '#FF00FF', emoji: '🎨', span: '' },
+  { slug: 'totem-publicitario',       label: 'Te ubican desde la calle',         sub: 'Tótem · PVC · Foam · Señalización exterior',      glow: '#00FFAA', emoji: '🏢', span: 'wide' },
+  { slug: 'letras-mdf-restaurante',  label: 'Transmite calidad en cada detalle', sub: 'MDF · Madera · Doradas · Barnizadas',            glow: '#FF8C00', emoji: '🪵', span: '' },
+  { slug: 'senaletica-oficina',       label: 'Guía a tus clientes adentro',      sub: 'Señalética · Directorio · Rotulación interna',    glow: '#00CFFF', emoji: '🔖', span: '' },
 ]
 
 const PRODUCTOS = [
-  { icon: SquareStack, nombre: 'Letras Volumétricas en Acrílico', desc: 'Corte láser de precisión. Acrílico cristal, lechoso o de color. Montaje directo en fachada.', glow: '#FF6B00', tag: 'Más vendido' },
-  { icon: Layers,      nombre: 'Letras de Alto Impacto (PVC)',     desc: 'PVC expandido rígido. Liviano, económico y duradero. Ideal para interiores y fachadas.', glow: '#FF4500', tag: null },
-  { icon: Lightbulb,   nombre: 'Letreros Luminosos LED',           desc: 'Caja de luz, backlit y frontlit. Tecnología LED de bajo consumo. Visibles las 24 horas.', glow: '#FFD700', tag: 'Popular' },
-  { icon: Monitor,     nombre: 'Fachada Corporativa Completa',     desc: 'Diseño e instalación integral: letras, vinilos, señalética. Tu identidad en fachada.', glow: '#FF6B00', tag: 'Completo' },
-  { icon: Zap,         nombre: 'Tótem Publicitario',               desc: 'Estructura vertical independiente. PVC o foam de alta densidad. Para galerías y eventos.', glow: '#00FFAA', tag: null },
-  { icon: Tag,         nombre: 'Vinilos Decorativos y Ploteo',     desc: 'Corte o impresión digital. Interior/exterior. Vidrieras, paredes, vehículos y eventos.', glow: '#FF00FF', tag: null },
-  { icon: SquareStack, nombre: 'Letras en MDF y Madera',           desc: 'Para ambientes premium: restaurantes, hoteles, oficinas. Pintadas, doradas o barnizadas.', glow: '#FF8C00', tag: null },
-  { icon: ExternalLink,nombre: 'Señalética y Rotulación',          desc: 'Directorio de oficinas, señales de emergencia, numeración. Corporativa a medida.', glow: '#00CFFF', tag: null },
-  { icon: ArrowRight,  nombre: 'Banners, Roll-Ups y Lonas',        desc: 'Impresión digital de alta resolución. Para eventos, ferias y puntos de venta.', glow: '#A855F7', tag: null },
+  {
+    icon: SquareStack,
+    nombre: 'Letras Volumétricas en Acrílico',
+    desc: 'Tu logo o nombre en 3D, visible desde 50 metros. El material preferido por los negocios que quieren transmitir calidad desde la calle. Dura más de 10 años sin decolorarse.',
+    glow: '#FF6B00', tag: 'El más pedido',
+  },
+  {
+    icon: Lightbulb,
+    nombre: 'Letreros Luminosos LED',
+    desc: 'Tu negocio trabaja mientras tú duermes. Caja de luz backlit o frontlit — visible a cualquier hora, con un consumo eléctrico mínimo. Ideal si abres de noche o en locales cerrados.',
+    glow: '#FFD700', tag: 'Efecto inmediato',
+  },
+  {
+    icon: Monitor,
+    nombre: 'Fachada Corporativa Completa',
+    desc: 'La primera impresión lo es todo. Diseñamos e instalamos toda tu identidad en fachada: letras, vinilos, señalética y más. Un solo proveedor, un solo precio, cero dolores de cabeza.',
+    glow: '#FF6B00', tag: 'Todo incluido',
+  },
+  {
+    icon: Layers,
+    nombre: 'Letras de Alto Impacto (PVC)',
+    desc: 'La opción inteligente para quienes necesitan calidad sin pagar de más. PVC rígido de alta densidad — se ve profesional, aguanta la intemperie y no pesa nada en tu fachada.',
+    glow: '#FF4500', tag: null,
+  },
+  {
+    icon: Zap,
+    nombre: 'Tótem Publicitario',
+    desc: '¿Tu local está en galería o no tiene fachada propia? El tótem te pone en el mapa. Estructura vertical independiente que se ubica donde más te convenga.',
+    glow: '#00FFAA', tag: null,
+  },
+  {
+    icon: Tag,
+    nombre: 'Vinilos y Ploteo',
+    desc: 'La forma más económica de transformar una vitrina, pared o vehículo en publicidad. Corte láser o impresión digital de alta resolución con laminado UV que no se despega.',
+    glow: '#FF00FF', tag: null,
+  },
+  {
+    icon: SquareStack,
+    nombre: 'Letras en MDF y Madera',
+    desc: 'Para los negocios que quieren transmitir calidez y exclusividad: restaurantes, hoteles, spas, clínicas. Pintadas, doradas o barnizadas según tu identidad de marca.',
+    glow: '#FF8C00', tag: null,
+  },
+  {
+    icon: ExternalLink,
+    nombre: 'Señalética y Rotulación',
+    desc: 'Un cliente que no sabe dónde ir dentro de tu local, se va. Señalética clara de directorio, numeración, emergencia y corporativa. Guía, no confundas.',
+    glow: '#00CFFF', tag: null,
+  },
+  {
+    icon: ArrowRight,
+    nombre: 'Banners, Roll-Ups y Lonas',
+    desc: 'Para ferias, eventos, aperturas y promociones. Impresión de alta resolución con bastidor o sin él. Se monta en minutos y genera impacto visual inmediato.',
+    glow: '#A855F7', tag: null,
+  },
 ]
 
 const PASOS = [
-  { n: '01', titulo: 'Cotización gratis',    desc: 'Envía por WhatsApp el nombre, logo y medidas aproximadas. Respuesta en menos de 24h.' },
-  { n: '02', titulo: 'Diseño digital',        desc: 'Antes de producir te enviamos visualización 3D del letrero en tu fachada.' },
-  { n: '03', titulo: 'Producción en taller', desc: 'Fabricamos con materiales certificados. Control de calidad pieza a pieza.' },
-  { n: '04', titulo: 'Entrega e instalación',desc: 'Instalamos en tu local o coordinas retiro. Cubrimos toda la Región del Maule.' },
+  { n: '01', titulo: 'Nos mandas una foto de tu fachada',    desc: 'Por WhatsApp, gratis y sin compromiso. Con eso nos basta para darte un presupuesto real en menos de 24 horas.' },
+  { n: '02', titulo: 'Ves el diseño antes de pagar un peso', desc: 'Te enviamos cómo quedaría el letrero en TU local real. Apruebas cada detalle — solo entonces producimos.' },
+  { n: '03', titulo: 'Producción con garantía de calidad',   desc: 'Cada pieza sale revisada de nuestro taller. Sabes exactamente cuándo llega antes de que salga.' },
+  { n: '04', titulo: 'Lo instalamos donde necesitas',         desc: 'Coordinamos la instalación directamente contigo. Sin sorpresas, sin retrasos. En todo el Maule.' },
 ]
 
 /* ─── PARTICLE CANVAS ───────────────────────────────────── */
@@ -374,15 +419,15 @@ export default function LetrerosSEOLocal({ city }) {
           </div>
 
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2.6rem, 7vw, 5.5rem)', fontWeight: 700, lineHeight: 1.0, marginBottom: 24, letterSpacing: -1 }}>
-            <span style={{ color: '#fff' }}>Letreros que</span><br />
-            <span className="neon-word">brillan solos.</span>
+            <span style={{ color: '#fff' }}>Si no te ven,</span><br />
+            <span className="neon-word">no te compran.</span>
           </h1>
 
-          <p style={{ fontSize: 'clamp(14px, 2vw, 17px)', color: '#666', lineHeight: 1.8, maxWidth: 520, margin: '0 auto 16px', fontWeight: 300 }}>
-            Fabricamos letreros volumétricos en <strong style={{ color: '#999', fontWeight: 600 }}>acrílico, PVC, LED, madera y foam</strong> para {city.context}.<br />Sin piezas metálicas.
+          <p style={{ fontSize: 'clamp(14px, 2vw, 17px)', color: '#666', lineHeight: 1.8, maxWidth: 540, margin: '0 auto 14px', fontWeight: 300 }}>
+            Cada día que {city.context} pasan frente a tu local sin entrar, es dinero que se va a la competencia. Un letrero volumétrico que llame la atención lo cambia todo — y nosotros lo fabricamos e instalamos en {city.name}.
           </p>
           <p style={{ fontSize: 12, color: '#FF6B00', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 44 }}>
-            Diseño · Fabricación · Instalación en {city.name}
+            Diseño incluido · Instalación en {city.name} · Listo en 5 días
           </p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 60 }}>
@@ -420,10 +465,10 @@ export default function LetrerosSEOLocal({ city }) {
       <div style={{ background: '#000', borderTop: '1px solid #1A1A1A', borderBottom: '1px solid #1A1A1A', padding: '32px 24px' }}>
         <div style={{ maxWidth: 960, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 20, textAlign: 'center' }} className="lst-stats">
           {[
-            { v: '+300',   l: 'Letreros fabricados',   s: 'en la Región del Maule' },
-            { v: '5 días', l: 'Entrega promedio',       s: 'desde aprobación del diseño' },
-            { v: '0%',     l: 'Metálicos',              s: 'solo plástico, madera y LED' },
-            { v: '30',     l: 'Comunas del Maule',      s: 'cobertura total en la región' },
+            { v: '+300',   l: 'Negocios con más visibilidad', s: 'letreros fabricados en el Maule' },
+            { v: '5 días', l: 'Y tu letrero está listo',   s: 'desde que apruebas el diseño' },
+            { v: '10+',    l: 'Años de vida útil',          s: 'acrílico y PVC de calidad garantizada' },
+            { v: '30',     l: 'Comunas que atendemos',      s: 'llegamos a todo el Maule' },
           ].map(s => (
             <div key={s.l}>
               <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 30, fontWeight: 700, color: '#FF6B00', textShadow: '0 0 18px #FF6B0060', marginBottom: 4 }}>{s.v}</div>
@@ -438,11 +483,11 @@ export default function LetrerosSEOLocal({ city }) {
       <section style={{ background: '#030303', padding: '88px 24px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 14 }}>Galería de trabajos</p>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 14 }}>Trabajos realizados</p>
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.8rem,3vw,3rem)', fontWeight: 700, color: '#fff', lineHeight: 1.0, marginBottom: 12 }}>
-              Cada letrero,<br /><span className="neon-word" style={{ fontSize: '0.85em' }}>único.</span>
+              Así se ve un negocio<br /><span className="neon-word" style={{ fontSize: '0.85em' }}>que no pasa desapercibido.</span>
             </h2>
-            <p style={{ fontSize: 13, color: '#444', maxWidth: 380, margin: '0 auto' }}>Mueve el cursor sobre cada pieza — arrastra la luz.</p>
+            <p style={{ fontSize: 13, color: '#444', maxWidth: 420, margin: '0 auto' }}>Pasa el cursor sobre cada pieza. Así se verá el tuyo.</p>
           </div>
 
           <div className="gal-grid">
@@ -473,7 +518,7 @@ export default function LetrerosSEOLocal({ city }) {
           </div>
 
           <div style={{ textAlign: 'center', marginTop: 40 }}>
-            <p style={{ fontSize: 13, color: '#444', marginBottom: 16 }}>¿Tienes una referencia o idea? La hacemos realidad.</p>
+            <p style={{ fontSize: 13, color: '#444', marginBottom: 16 }}>¿Tienes una foto de referencia o una idea en mente? Mándanosla — te respondemos con precio en menos de 24 horas.</p>
             <a href={WA} target="_blank" rel="noopener noreferrer"
               onClick={() => { px('Lead', { content_name: `Galeria ${city.name}` }); ga('generate_lead', { item_name: `Galeria ${city.name}` }) }}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: 'transparent', color: '#FF6B00', fontWeight: 800, fontSize: 14, padding: '12px 24px', borderRadius: 30, textDecoration: 'none', border: '1px solid #FF6B0060', boxShadow: '0 0 20px #FF6B0030' }}>
@@ -487,10 +532,11 @@ export default function LetrerosSEOLocal({ city }) {
       <section style={{ background: '#000', padding: '88px 24px', borderTop: '1px solid #111' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 14 }}>Sin piezas metálicas</p>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.8rem,3vw,2.8rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1 }}>
-              Lo que fabricamos en {city.name}.
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 14 }}>Qué fabricamos</p>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.8rem,3vw,2.8rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 10 }}>
+              Elige el letrero que necesita<br />tu negocio en {city.name}.
             </h2>
+            <p style={{ fontSize: 13, color: '#444', maxWidth: 460, margin: '0 auto' }}>No trabajamos con piezas metálicas — solo materiales que se ven premium, no pesan en la fachada y duran más de 10 años.</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 16 }}>
             {PRODUCTOS.map(({ icon: Icon, nombre, desc, glow, tag }) => (
@@ -511,10 +557,11 @@ export default function LetrerosSEOLocal({ city }) {
       <section style={{ background: '#030303', padding: '88px 24px', borderTop: '1px solid #111' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 60 }}>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 14 }}>Proceso simple</p>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1 }}>
-              Tu letrero en {city.name} en 4 pasos.
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 14 }}>Sin riesgos, sin sorpresas</p>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 10 }}>
+              Ves el diseño antes de pagar un peso.
             </h2>
+            <p style={{ fontSize: 13, color: '#444', maxWidth: 440, margin: '0 auto' }}>Así funciona con nosotros: transparente, rápido y sin letra chica.</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(210px,1fr))', gap: 32 }}>
             {PASOS.map(({ n, titulo, desc }) => (
@@ -532,12 +579,12 @@ export default function LetrerosSEOLocal({ city }) {
       <section style={{ background: '#000', padding: '88px 24px', borderTop: '1px solid #111' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }} className="lst-grid">
           <div>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 16 }}>Cobertura total</p>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 16 }}>Llegamos donde estés</p>
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 18 }}>
-              Atendemos las 30 comunas de la Región del Maule.
+              No importa en qué rincón del Maule esté tu negocio.
             </h2>
             <p style={{ fontSize: 13, color: '#444', lineHeight: 1.8, marginBottom: 28 }}>
-              Desde Talca hasta Vichuquén, desde Curicó hasta Cauquenes. Fabricamos en taller y coordinamos entrega e instalación donde lo necesites.
+              Fabricamos en taller propio y coordinamos la instalación en las 30 comunas de la región — sin que tengas que preocuparte de nada. Tú apruebas el diseño, nosotros hacemos el resto.
             </p>
             {['Provincia de Talca (10 comunas)','Provincia de Curicó (9 comunas)','Provincia de Linares (8 comunas)','Provincia de Cauquenes (3 comunas)'].map(i => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
@@ -554,14 +601,14 @@ export default function LetrerosSEOLocal({ city }) {
                 <div style={{ fontSize: 9, color: '#444' }}>Registrados en ChileCompra · MercadoPúblico</div>
               </div>
             </div>
-            <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: '1.4rem', fontWeight: 700, color: '#fff', marginBottom: 20 }}>¿Por qué elegirnos?</h3>
+            <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: '1.4rem', fontWeight: 700, color: '#fff', marginBottom: 20 }}>Lo que otros no te dicen.</h3>
             {[
-              'Materiales certificados y duraderos',
-              'Diseño profesional incluido',
-              'Presupuesto en menos de 24h',
-              'Instalación coordinada en tu comuna',
-              'Facturamos — empresa formal',
-              'Sin letreros metálicos',
+              '¿No tienes logo? Lo diseñamos nosotros',
+              'Ves el diseño antes de pagar un peso',
+              'Precio claro desde el primer mensaje',
+              'Instalación coordinada, sin que muevas un dedo',
+              'Facturamos — empresa registrada en ChileCompra',
+              'Sin letreros metálicos: más livianos, más duraderos',
             ].map(item => (
               <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
                 <CheckCircle2 size={13} color="#FF6B00" style={{ flexShrink: 0 }} />
@@ -580,10 +627,11 @@ export default function LetrerosSEOLocal({ city }) {
       {/* ── MARQUEE CLIENTES ── */}
       <section style={{ background: '#030303', padding: '72px 0', overflow: 'hidden', borderTop: '1px solid #111' }}>
         <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center', padding: '0 24px', marginBottom: 40 }}>
-          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 12 }}>Empresas que confían en nosotros</p>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 700, color: '#fff' }}>
-            Negocios de la Región del Maule y Chile.
+          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#FF6B00', marginBottom: 12 }}>Nos eligen en todo Chile</p>
+          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 700, color: '#fff', marginBottom: 8 }}>
+            Más de 300 negocios ya decidieron ser vistos.
           </h2>
+          <p style={{ fontSize: 13, color: '#333', maxWidth: 400, margin: '0 auto' }}>¿Cuándo es tu turno?</p>
         </div>
         <div style={{ overflow: 'hidden' }}>
           <div className="lst-track">
@@ -602,16 +650,16 @@ export default function LetrerosSEOLocal({ city }) {
         <div style={{ position: 'relative', maxWidth: 560, margin: '0 auto' }}>
           <div style={{ fontSize: 52, marginBottom: 20, filter: 'drop-shadow(0 0 24px #FF6B00)' }}>🪧</div>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(2rem,4.5vw,3.2rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: 14 }}>
-            Dale identidad a tu negocio<br /><span className="neon-word">en {city.name}.</span>
+            ¿Cuántos clientes estás perdiendo hoy<br /><span className="neon-word">porque no te ven?</span>
           </h2>
           <p style={{ fontSize: 14, color: '#444', marginBottom: 36, lineHeight: 1.8 }}>
-            Presupuesto gratis con propuesta de diseño incluida. Respondemos en menos de 24 horas.
+            Mándanos una foto de tu fachada ahora. En menos de 24 horas tienes el diseño de tu letrero y el precio exacto — sin compromisos, sin letra chica.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 20 }}>
             <a href={WA} target="_blank" rel="noopener noreferrer"
               onClick={() => { px('Lead', { content_name: `Letreros Final ${city.name}` }); ga('generate_lead', { item_name: `Letreros Final ${city.name}` }) }}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#FF6B00', color: '#000', fontWeight: 800, fontSize: 15, padding: '16px 32px', borderRadius: 40, textDecoration: 'none', boxShadow: '0 0 40px #FF6B0070, 0 8px 24px rgba(0,0,0,.5)' }}>
-              <WaIcon size={19} /> Quiero mi letrero
+              <WaIcon size={19} /> Cotizar gratis ahora
             </a>
             <Link to="/"
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: '#555', fontWeight: 600, fontSize: 14, padding: '16px 24px', borderRadius: 40, textDecoration: 'none', border: '1px solid #222' }}>
