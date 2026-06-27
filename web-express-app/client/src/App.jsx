@@ -34,6 +34,46 @@ import LandingWebSistemas from './components/LandingWebSistemas'
 import LandingSEOLocal from './components/seo/LandingSEOLocal'
 import HomeSEOLocal from './components/seo/HomeSEOLocal'
 import MarketingSEOLocal from './components/seo/MarketingSEOLocal'
+import LetrerosSEOLocal from './components/seo/LetrerosSEOLocal'
+
+const MAULE_COMUNAS = {
+  // Provincia de Talca
+  'talca':          { name: 'Talca',          slug: 'talca',          provincia: 'Talca',      context: 'comercios, clínicas, restaurantes y empresas de Talca' },
+  'constitucion':   { name: 'Constitución',   slug: 'constitucion',   provincia: 'Talca',      context: 'negocios y comercios de Constitución' },
+  'curepto':        { name: 'Curepto',        slug: 'curepto',        provincia: 'Talca',      context: 'comercios y empresas locales de Curepto' },
+  'empedrado':      { name: 'Empedrado',      slug: 'empedrado',      provincia: 'Talca',      context: 'negocios de Empedrado y alrededores' },
+  'maule':          { name: 'Maule',          slug: 'maule',          provincia: 'Talca',      context: 'comercios y empresas de la comuna de Maule' },
+  'pelarco':        { name: 'Pelarco',        slug: 'pelarco',        provincia: 'Talca',      context: 'negocios locales de Pelarco' },
+  'pencahue':       { name: 'Pencahue',       slug: 'pencahue',       provincia: 'Talca',      context: 'comercios de Pencahue' },
+  'rio-claro':      { name: 'Río Claro',      slug: 'rio-claro',      provincia: 'Talca',      context: 'empresas y locales de Río Claro' },
+  'san-clemente':   { name: 'San Clemente',   slug: 'san-clemente',   provincia: 'Talca',      context: 'negocios y comercios de San Clemente' },
+  'san-rafael':     { name: 'San Rafael',     slug: 'san-rafael',     provincia: 'Talca',      context: 'locales comerciales de San Rafael' },
+  // Provincia de Curicó
+  'curico':         { name: 'Curicó',         slug: 'curico',         provincia: 'Curicó',     context: 'comercios, empresas y negocios de Curicó' },
+  'hualane':        { name: 'Hualañé',        slug: 'hualane',        provincia: 'Curicó',     context: 'negocios locales de Hualañé' },
+  'licanten':       { name: 'Licantén',       slug: 'licanten',       provincia: 'Curicó',     context: 'comercios de Licantén' },
+  'molina':         { name: 'Molina',         slug: 'molina',         provincia: 'Curicó',     context: 'empresas, bodegas y comercios de Molina' },
+  'rauco':          { name: 'Rauco',          slug: 'rauco',          provincia: 'Curicó',     context: 'locales y negocios de Rauco' },
+  'romeral':        { name: 'Romeral',        slug: 'romeral',        provincia: 'Curicó',     context: 'comercios de Romeral' },
+  'sagrada-familia':{ name: 'Sagrada Familia',slug: 'sagrada-familia',provincia: 'Curicó',     context: 'negocios y locales de Sagrada Familia' },
+  'teno':           { name: 'Teno',           slug: 'teno',           provincia: 'Curicó',     context: 'empresas y comercios de Teno' },
+  'vichuquen':      { name: 'Vichuquén',      slug: 'vichuquen',      provincia: 'Curicó',     context: 'negocios turísticos y comercios de Vichuquén' },
+  // Provincia de Linares
+  'linares':        { name: 'Linares',        slug: 'linares',        provincia: 'Linares',    context: 'comercios, empresas y negocios de Linares' },
+  'colbun':         { name: 'Colbún',         slug: 'colbun',         provincia: 'Linares',    context: 'negocios y comercios de Colbún' },
+  'longavi':        { name: 'Longaví',        slug: 'longavi',        provincia: 'Linares',    context: 'empresas agrícolas y comercios de Longaví' },
+  'parral':         { name: 'Parral',         slug: 'parral',         provincia: 'Linares',    context: 'comercios, empresas y locales de Parral' },
+  'retiro':         { name: 'Retiro',         slug: 'retiro',         provincia: 'Linares',    context: 'negocios locales de Retiro' },
+  'san-javier':     { name: 'San Javier',     slug: 'san-javier',     provincia: 'Linares',    context: 'viñas, comercios y empresas de San Javier' },
+  'villa-alegre':   { name: 'Villa Alegre',   slug: 'villa-alegre',   provincia: 'Linares',    context: 'negocios y locales de Villa Alegre' },
+  'yerbas-buenas':  { name: 'Yerbas Buenas',  slug: 'yerbas-buenas',  provincia: 'Linares',    context: 'comercios de Yerbas Buenas' },
+  // Provincia de Cauquenes
+  'cauquenes':      { name: 'Cauquenes',      slug: 'cauquenes',      provincia: 'Cauquenes',  context: 'comercios, empresas y negocios de Cauquenes' },
+  'chanco':         { name: 'Chanco',         slug: 'chanco',         provincia: 'Cauquenes',  context: 'negocios de Chanco' },
+  'pelluhue':       { name: 'Pelluhue',       slug: 'pelluhue',       provincia: 'Cauquenes',  context: 'negocios turísticos y comercios de Pelluhue' },
+  // Sector especial
+  'las-rastras':    { name: 'Sector Las Rastras', slug: 'las-rastras', provincia: 'Talca',   context: 'locales, talleres y comercios del Sector Las Rastras, Talca' },
+}
 
 const CITIES = {
   'talca':        { name: 'Talca',        slug: 'talca',        region: 'Región del Maule',         context: 'ferreterías, clínicas, restaurantes y comercios del Maule' },
@@ -87,6 +127,9 @@ function App() {
           ))}
           <Route path="/marketing/talca"    element={<MarketingSEOLocal city={CITIES['talca']} />} />
           <Route path="/marketing/rancagua" element={<MarketingSEOLocal city={CITIES['rancagua']} />} />
+          {Object.values(MAULE_COMUNAS).map(city => (
+            <Route key={`letreros-${city.slug}`} path={`/letreros/${city.slug}`} element={<LetrerosSEOLocal city={city} />} />
+          ))}
 
           {/* Admin */}
           <Route path="/admin/si" element={<AdminDashboard />} />

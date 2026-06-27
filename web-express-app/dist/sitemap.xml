@@ -120,4 +120,36 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <!-- Letreros Volumétricos · 30 comunas Región del Maule + Las Rastras -->
+  <url><loc>https://agenciasi.cl/letreros/talca</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/curico</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/linares</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/cauquenes</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/parral</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/san-javier</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/molina</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/constitucion</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/san-clemente</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/longavi</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/colbun</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/retiro</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/villa-alegre</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/yerbas-buenas</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/teno</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/sagrada-familia</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/romeral</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/rauco</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/hualane</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/licanten</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/vichuquen</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/rio-claro</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/pelarco</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/pencahue</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/maule</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/empedrado</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/curepto</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/san-rafael</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/chanco</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/pelluhue</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/las-rastras</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
 </urlset>
