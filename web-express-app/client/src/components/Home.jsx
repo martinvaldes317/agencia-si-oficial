@@ -261,11 +261,6 @@ const Navbar = () => {
                                 {l.label}
                             </a>
                         ))}
-                        <Link to="/digitalizacion-express"
-                            className="text-[12px] font-bold px-3.5 py-1.5 rounded-full transition-all hover:opacity-80"
-                            style={{ background: T.blue + '12', color: T.blue, fontFamily: 'Poppins, sans-serif' }}>
-                            Web Express
-                        </Link>
                     </div>
 
                     <div className="hidden md:flex items-center gap-3">
@@ -295,12 +290,6 @@ const Navbar = () => {
                             {l.label} <ArrowRight size={18} style={{ color: T.blue }} />
                         </a>
                     ))}
-                    <Link to="/digitalizacion-express"
-                        className="text-xl font-bold py-4 border-b flex items-center justify-between"
-                        style={{ color: T.blue, borderColor: T.border, fontFamily: 'Playfair Display, serif' }}
-                        onClick={() => setOpen(false)}>
-                        Web Express <ArrowRight size={18} />
-                    </Link>
                     <div className="pt-6 flex flex-col gap-3">
                         <Link to="/portal"
                             className="flex items-center justify-center gap-2 py-3.5 rounded-full font-semibold text-sm border-2"
@@ -452,7 +441,7 @@ export default function Home() {
             </div>
             <Helmet>
                 <title>AgenciaSI | Desarrollo Web, Apps y Sistemas a Medida en Chile</title>
-                <meta name="description" content="Desarrollamos sitios web, aplicaciones y sistemas a medida en Chile. React, Node.js, e-commerce, integraciones con IA y automatizaciones. Entrega Web Express en 5 días hábiles." />
+                <meta name="description" content="Desarrollamos sitios web, aplicaciones y sistemas a medida en Chile. React, Node.js, e-commerce, integraciones con IA y automatizaciones. Plazos claros y resultados medibles." />
                 <meta name="keywords" content="desarrollo web chile, aplicaciones web chile, sistemas a medida chile, empresa desarrollo software chile, desarrollo react chile, tienda online chile, automatizacion IA chile, agencia digital chile, web express, diseño web profesional" />
                 <link rel="canonical" href="https://agenciasi.cl/" />
             </Helmet>
@@ -521,7 +510,7 @@ export default function Home() {
                                 <div className="grid grid-cols-2 gap-px bg-gray-100">
                                     {[
                                         { label: 'Proyectos entregados', value: '40+',   sub: 'sitios, sistemas y apps', up: true },
-                                        { label: 'Tiempo de entrega',    value: '5 días', sub: 'Web Express promedio',    up: true },
+                                        { label: 'Presencia digital',    value: 'Chile',  sub: 'y clientes en LATAM',       up: true },
                                         { label: 'Clientes activos',     value: '24+',   sub: 'en Chile y LATAM',        up: null },
                                         { label: 'Tecnologías',          value: '12+',   sub: 'React, Node, IA y más',   up: null },
                                     ].map(stat => (
@@ -551,7 +540,7 @@ export default function Home() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
                         {[
                             { value: '40+',    label: 'Proyectos entregados' },
-                            { value: '5 días', label: 'Entrega promedio Web Express' },
+                            { value: 'LATAM',  label: 'Clientes en Chile y LATAM' },
                             { value: '24+',    label: 'Clientes activos' },
                             { value: '100%',   label: 'Código propio, sin templates' },
                         ].map(s => (
@@ -606,7 +595,7 @@ export default function Home() {
                             <div className="space-y-5">
                                 {[
                                     { icon: Code2,      title: 'Desarrollo a medida',     desc: 'Cada proyecto es único. Diseñamos y construimos la solución exacta que tu negocio necesita.' },
-                                    { icon: Zap,        title: 'Entrega rápida y real',    desc: 'Web Express en 5 días hábiles. Proyectos complejos con plazos claros y cumplidos.' },
+                                    { icon: Zap,        title: 'Entrega rápida y real',    desc: 'Plazos claros desde el primer día. Proyectos complejos entregados a tiempo, siempre.' },
                                     { icon: BrainCircuit, title: 'Integración con IA',     desc: 'Automatizaciones, chatbots y flujos inteligentes que reducen tu carga operativa.' },
                                     { icon: TrendingUp, title: 'Foco en conversión',       desc: 'No solo "se ve bien". Cada sitio y sistema está diseñado para generar clientes y ventas.' },
                                 ].map(({ icon: Icon, title, desc }) => (
@@ -641,7 +630,7 @@ export default function Home() {
                                 <div className="grid grid-cols-3 gap-3 mb-7">
                                     {[
                                         { val: '40+',    lbl: 'Proyectos entregados' },
-                                        { val: '5 días', lbl: 'Entrega Web Express' },
+                                        { val: 'LATAM',  lbl: 'Clientes en LATAM' },
                                         { val: '24+',    lbl: 'Clientes activos' },
                                     ].map(s => (
                                         <div key={s.lbl} className="rounded-xl p-4 text-center" style={{ background: 'rgba(0,0,0,0.2)' }}>
@@ -712,11 +701,6 @@ export default function Home() {
                                 Todo lo que tu empresa necesita para crecer.
                             </H2>
                         </div>
-                        <Link to="/digitalizacion-express"
-                            className="inline-flex items-center gap-2 text-sm font-bold transition-colors hover:opacity-70 shrink-0"
-                            style={{ color: T.blue }}>
-                            Ver Web Express <ArrowRight size={15} />
-                        </Link>
                     </div>
 
                     {/* Featured service */}

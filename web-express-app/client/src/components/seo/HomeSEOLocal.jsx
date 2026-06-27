@@ -43,12 +43,12 @@ const SERVICES = [
   { icon: Settings,     title: 'Sistemas a Medida',         desc: 'CRM, paneles administrativos, portales de clientes y automatizaciones.' },
   { icon: BrainCircuit, title: 'Integración con IA',        desc: 'Chatbots, flujos automáticos y procesos inteligentes para tu negocio.' },
   { icon: Search,       title: 'SEO y Posicionamiento',     desc: `Aparecer primero en Google cuando buscan tu rubro en ${'{city}'}.` },
-  { icon: Zap,          title: 'Web Express 5 Días',        desc: 'Sitio web profesional listo en 5 días hábiles. Dominio y hosting incluidos.' },
+  { icon: Zap,          title: 'Entrega Rápida y Real',      desc: 'Plazos claros desde el primer día. Entregamos a tiempo, siempre.' },
 ]
 
 const WHY = [
   { icon: Code2,       title: 'Desarrollo a medida',   desc: 'Cada proyecto es único. Sin plantillas compradas ni soluciones genéricas.' },
-  { icon: Zap,         title: 'Entrega rápida y real',  desc: 'Web Express en 5 días hábiles. Plazos claros y cumplidos siempre.' },
+  { icon: Zap,         title: 'Entrega rápida y real',  desc: 'Plazos claros desde el primer día. Proyectos entregados a tiempo, siempre.' },
   { icon: TrendingUp,  title: 'Foco en conversión',    desc: 'Cada sitio está diseñado para generar clientes y ventas, no solo verse bien.' },
   { icon: Shield,      title: 'Empresa formal',         desc: 'Emitimos facturas. Registrados en ChileCompra · Proveedor del Estado.' },
 ]
@@ -168,7 +168,7 @@ export default function HomeSEOLocal({ city }) {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: T.border }}>
               {[
                 { label: 'Proyectos entregados', value: '50+',    sub: 'sitios, sistemas y apps', hi: true },
-                { label: 'Tiempo de entrega',    value: '5 días', sub: 'Web Express promedio',    hi: true },
+                { label: 'Presencia',            value: 'LATAM',  sub: 'clientes en Chile y LATAM', hi: true },
                 { label: 'Clientes activos',     value: '24+',    sub: 'en Chile y LATAM',        hi: false },
                 { label: 'Tecnologías',          value: '12+',    sub: 'React, Node, IA y más',   hi: false },
               ].map(s => (
@@ -192,7 +192,7 @@ export default function HomeSEOLocal({ city }) {
         <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, textAlign: 'center' }} className="hsl-stats-grid">
           {[
             { value: '50+',    label: 'Proyectos entregados' },
-            { value: '5 días', label: 'Entrega Web Express' },
+            { value: 'LATAM',  label: 'Clientes en Chile y LATAM' },
             { value: '24+',    label: 'Clientes activos' },
             { value: '100%',   label: 'Código propio' },
           ].map(s => (

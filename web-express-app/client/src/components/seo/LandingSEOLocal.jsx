@@ -147,7 +147,7 @@ export default function LandingSEOLocal({ city }) {
             </a>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 32, flexWrap: 'wrap' }}>
-            {[{ n: '+50', label: 'proyectos entregados' }, { n: '5 días', label: 'entrega Web Express' }, { n: '100%', label: 'código propio' }].map(({ n, label }) => (
+            {[{ n: '+50', label: 'proyectos entregados' }, { n: 'LATAM', label: 'clientes en Chile y LATAM' }, { n: '100%', label: 'código propio' }].map(({ n, label }) => (
               <div key={label} style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: 22, fontWeight: 900, color: T.white, lineHeight: 1 }}>{n}</div>
                 <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)' }}>{label}</div>

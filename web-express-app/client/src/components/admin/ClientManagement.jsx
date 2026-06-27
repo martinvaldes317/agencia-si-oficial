@@ -1189,9 +1189,7 @@ function LicitacionesView({ onBack, authFetch }) {
   )
 }
 
-// ─── Web Express Orders ───────────────────────────────────────────────────────
-
-function WebOrdersView({ onBack, authFetch }) {
+function _WebOrdersView_DELETED({ onBack, authFetch }) {
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
   const [expandedId, setExpandedId] = useState(null)
@@ -1439,7 +1437,6 @@ export default function ClientManagement() {
   const [generating, setGenerating] = useState(false)
   const [generateResult, setGenerateResult] = useState(null)
   const [showLicitaciones, setShowLicitaciones] = useState(false)
-  const [showWebOrders, setShowWebOrders] = useState(false)
 
   const [newClient, setNewClient] = useState({ name: '', email: '', company: '', phone: '', plan: 'ads' })
   const [creating, setCreating] = useState(false)
@@ -1686,10 +1683,6 @@ export default function ClientManagement() {
     )
   }
 
-  if (showWebOrders) {
-    return <WebOrdersView onBack={() => setShowWebOrders(false)} authFetch={adminFetch} />
-  }
-
   if (showLicitaciones) {
     return <LicitacionesView onBack={() => setShowLicitaciones(false)} authFetch={adminFetch} />
   }
@@ -1713,14 +1706,6 @@ export default function ClientManagement() {
             <h1 className="text-2xl font-bold text-white">Gestión de clientes</h1>
           </div>
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setShowWebOrders(true)}
-              className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-500 px-3 py-2 rounded-lg text-sm transition-colors"
-              title="Ver pedidos Web Express"
-            >
-              <Globe size={14} />
-              <span className="hidden sm:inline">Web Express</span>
-            </button>
             <button
               onClick={() => setShowLicitaciones(true)}
               className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-500 px-3 py-2 rounded-lg text-sm transition-colors"

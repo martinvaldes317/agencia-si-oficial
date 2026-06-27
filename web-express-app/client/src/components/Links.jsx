@@ -30,13 +30,6 @@ const services = [
         variant: 'white',
     },
     {
-        icon: Code2,
-        label: 'Desarrollo Web Express',
-        sub: 'Diseño a medida · Entrega en 5 días hábiles',
-        to: '/digitalizacion-express',
-        variant: 'primary',
-    },
-    {
         icon: BrainCircuit,
         label: 'Ecosistemas con IA',
         sub: 'Automatizaciones y CRM inteligente',

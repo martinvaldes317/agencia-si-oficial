@@ -2,11 +2,8 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import { AuthProvider } from './context/AuthContext'
 
-import Wizard from './components/Wizard'
 import Home from './components/Home'
-import DigitalizationLanding from './components/DigitalizationLanding'
 import AdminDashboard from './components/AdminDashboard'
-import ClientStatus from './components/ClientStatus'
 import ClientManagement from './components/admin/ClientManagement'
 import ResetAdminPassword from './components/admin/ResetAdminPassword'
 import DiagnosticoSEO from './components/DiagnosticoSEO'
@@ -22,7 +19,6 @@ import PortalPayments from './components/portal/PortalPayments'
 import PortalCalendar from './components/portal/PortalCalendar'
 import PortalFiles from './components/portal/PortalFiles'
 import PortalTickets from './components/portal/PortalTickets'
-import PaymentReturn from './components/PaymentReturn'
 import DemoFarmacia from './components/demos/DemoFarmacia'
 import DemoClinica from './components/demos/DemoClinica'
 import DemoRestaurante from './components/demos/DemoRestaurante'
@@ -104,11 +100,6 @@ function App() {
         <Routes>
           {/* Public */}
           <Route path="/" element={<Home />} />
-          <Route path="/digitalizacion-express" element={<DigitalizationLanding />} />
-          <Route path="/digitalizacion-express/wizard" element={<Wizard />} />
-          <Route path="/digitalizacion-express/pago" element={<PaymentReturn />} />
-          <Route path="/status/:orderId" element={<ClientStatus />} />
-          <Route path="/pack-express" element={<Wizard />} />
           <Route path="/diagnostico-seo" element={<DiagnosticoSEO />} />
           <Route path="/links" element={<Links />} />
           <Route path="/demos" element={<DemoIndex />} />

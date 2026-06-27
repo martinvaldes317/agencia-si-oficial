@@ -71,7 +71,7 @@ const SERVICES = [
 const RESULTS = [
   { value: '+50',   label: 'Proyectos entregados',      sub: 'sitios, sistemas y campañas' },
   { value: '24+',   label: 'Clientes activos',           sub: 'en Chile y LATAM' },
-  { value: '5 días',label: 'Entrega Web Express',        sub: 'sitio web listo en 5 días' },
+  { value: 'IA',     label: 'Integración con IA',         sub: 'automatizaciones y flujos inteligentes' },
   { value: '100%',  label: 'Resultados medibles',        sub: 'métricas reales, sin humo' },
 ]
 
