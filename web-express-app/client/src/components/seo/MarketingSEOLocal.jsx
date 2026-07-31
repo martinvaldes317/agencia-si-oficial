@@ -18,6 +18,7 @@ const T = {
 
 const WA_BASE = 'https://wa.me/56932930812?text='
 const px = (event, params) => { if (typeof fbq !== 'undefined') fbq('track', event, params) }
+const ga = (event, params) => { if (typeof gtag !== 'undefined') gtag('event', event, params) }
 
 const WaIcon = ({ size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
