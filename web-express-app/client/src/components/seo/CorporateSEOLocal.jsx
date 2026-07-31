@@ -2,9 +2,10 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
-  ArrowRight, Code2, Building2, ShieldCheck, LineChart, Users2,
-  FileCheck2, Handshake, BarChart4, Target, Globe2, Layers,
+  ArrowRight, Code2, Building2, ShieldCheck, Users2,
+  FileCheck2, Handshake, BarChart4, Layers,
   MapPin, Calendar, CheckCircle2, ExternalLink, Network, Award,
+  Clock, BadgeCheck, DollarSign,
 } from 'lucide-react'
 
 const T = {
@@ -81,10 +82,10 @@ const PROCESO = [
 ]
 
 const RESULTADOS = [
-  { value: '+50',  label: 'Proyectos entregados',  sub: 'para empresas y pymes en Chile' },
-  { value: 'SLA',  label: 'Tiempos de respuesta',  sub: 'comprometidos por contrato' },
-  { value: '30+',  label: 'Comunas con cobertura',  sub: 'Región del Maule y otras regiones' },
-  { value: '100%', label: 'Facturación electrónica', sub: 'empresa formal, sin informalidad' },
+  { value: '100%', label: 'Cumplimiento de plazos', sub: 'entregamos cuando decimos que entregamos' },
+  { value: '+50',  label: 'Proyectos entregados',    sub: 'con el mismo estándar de calidad' },
+  { value: 'SLA',  label: 'Tiempos de respuesta',    sub: 'comprometidos por contrato' },
+  { value: '30+',  label: 'Comunas con cobertura',   sub: 'Región del Maule y otras regiones' },
 ]
 
 export default function CorporateSEOLocal({ city }) {
@@ -188,10 +189,10 @@ export default function CorporateSEOLocal({ city }) {
             <span style={{ fontSize: 11, fontWeight: 700, color: T.silver, letterSpacing: 1.2 }}>PUBLICIDAD CORPORATIVA · {city.name.toUpperCase()} · {city.region.toUpperCase()}</span>
           </div>
           <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(2.2rem, 4.6vw, 3.8rem)', fontWeight: 700, color: T.white, lineHeight: 1.15, marginBottom: 22, letterSpacing: -.5 }}>
-            Publicidad para empresas que operan<br /><em style={{ fontWeight: 400, color: T.grayLt }}>a volumen en {city.name}.</em>
+            Lo que toda empresa busca en una agencia:<br /><em style={{ fontWeight: 400, color: T.grayLt }}>cumplir, con calidad y a buen precio.</em>
           </h1>
           <p style={{ fontSize: 'clamp(14px, 1.8vw, 17px)', color: T.gray, lineHeight: 1.75, maxWidth: 620, margin: '0 auto 36px' }}>
-            Gestionamos campañas, contenido y reporting para empresas con múltiples sucursales, equipos internos y procesos de compra formales en {city.context}. Un solo proveedor para toda la operación.
+            Sabemos lo que se evalúa antes de contratar en {city.name}: que cumplas los plazos, que la calidad sea consistente, que el trato sea profesional de principio a fin y que el precio sea justo. Así trabajamos, campaña tras campaña, con empresas de {city.context}.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 40 }}>
             <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `Corporate CTA ${city.name}` }); ga('generate_lead', { item_name: `Corporate CTA ${city.name}` }) }}
@@ -206,9 +207,9 @@ export default function CorporateSEOLocal({ city }) {
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 32, flexWrap: 'wrap' }}>
             {[
-              { icon: FileCheck2,   text: 'Facturación electrónica' },
-              { icon: ShieldCheck,  text: 'Proveedor del Estado · ChileCompra' },
-              { icon: Handshake,    text: 'SLA de respuesta por contrato' },
+              { icon: Clock,        text: 'Entregas a tiempo, siempre' },
+              { icon: BadgeCheck,   text: 'Calidad consistente, sin variaciones' },
+              { icon: DollarSign,   text: 'Precios justos y transparentes' },
             ].map(({ icon: Icon, text }) => (
               <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: T.grayLt }}>
                 <Icon size={14} color={T.silver} /> {text}
@@ -240,7 +241,7 @@ export default function CorporateSEOLocal({ city }) {
               Infraestructura de marketing<br />pensada para operar a escala.
             </h2>
             <p style={{ fontSize: 15, color: T.gray, maxWidth: 520, margin: '14px auto 0', lineHeight: 1.75 }}>
-              No competimos por precio con freelancers. Competimos en capacidad de ejecución, consistencia de marca y reporting que tu directorio pueda revisar.
+              Sabemos lo que se busca al elegir agencia en {city.name}: cumplimiento, calidad, profesionalismo y precios justos. Construimos procesos que lo garantizan, no promesas de venta.
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 20 }} className="csl-grid">
@@ -263,20 +264,20 @@ export default function CorporateSEOLocal({ city }) {
           <div>
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.silver, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{ width: 20, height: 2, background: T.silver, display: 'inline-block', borderRadius: 2 }} />
-              Por qué empresas grandes trabajan con nosotros
+              Lo que se busca al elegir agencia en la zona
             </p>
             <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 700, color: T.white, lineHeight: 1.15, marginBottom: 20 }}>
-              Un solo proveedor para toda tu operación en {city.name}.
+              Cumplimiento, calidad y trato profesional — sin excusas.
             </h2>
             <p style={{ fontSize: 15, color: T.gray, lineHeight: 1.8, marginBottom: 28 }}>
-              Coordinar múltiples freelancers o agencias distintas por sucursal genera inconsistencia de marca y cero visibilidad para gerencia. Nosotros centralizamos ejecución, aprobación y reporting bajo un mismo estándar.
+              Coordinar múltiples freelancers o agencias distintas por sucursal termina en plazos incumplidos, calidad dispareja y cero visibilidad para gerencia. Nosotros centralizamos ejecución, aprobación y reporting bajo un mismo estándar — y a un precio que se sostiene en el tiempo.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {[
-                { icon: LineChart,  text: 'KPIs de negocio, no vanity metrics' },
-                { icon: Users2,     text: 'Ejecutivo de cuenta único, sin rotación' },
-                { icon: Target,     text: 'Segmentación por sucursal o zona en {city}' },
-                { icon: Globe2,     text: 'Cobertura en toda la Región del Maule y más' },
+                { icon: Clock,      text: 'Cumplimos los plazos que prometemos' },
+                { icon: BadgeCheck, text: 'Calidad consistente en cada entrega' },
+                { icon: Handshake,  text: 'Profesionalismo de principio a fin' },
+                { icon: DollarSign, text: 'Precios justos, sin letra chica' },
               ].map(({ icon: Icon, text }) => (
                 <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                   <div style={{ width: 36, height: 36, borderRadius: 10, background: T.panel2, border: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -299,11 +300,12 @@ export default function CorporateSEOLocal({ city }) {
               Listos para procesos de compra formales.
             </h3>
             {[
+              'Plazos comprometidos por escrito, no de palabra',
               'Facturación electrónica y contratos formales',
               'Documentación lista para licitaciones públicas',
               'Acuerdos de confidencialidad cuando se requieran',
               'Reporting mensual con tu equipo de marketing o gerencia',
-              'Escalable a nuevas sucursales sin renegociar todo el contrato',
+              'Precios claros desde la primera cotización, sin sorpresas',
             ].map(item => (
               <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 11 }}>
                 <CheckCircle2 size={13} color={T.silver} style={{ flexShrink: 0 }} />
@@ -384,7 +386,7 @@ export default function CorporateSEOLocal({ city }) {
             Hablemos de tu operación en {city.name}.
           </h2>
           <p style={{ fontSize: 15, color: T.gray, marginBottom: 34, lineHeight: 1.75 }}>
-            Cuéntanos cuántas sucursales, marcas o campañas necesitas coordinar. Te respondemos con una propuesta y un SLA claro — sin presión de venta.
+            Cuéntanos qué necesitas mover. Te respondemos con una propuesta, plazos y precio claros desde el primer contacto — sin presión de venta.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 20 }}>
             <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
