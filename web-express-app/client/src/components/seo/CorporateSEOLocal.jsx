@@ -2,10 +2,10 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
-  ArrowRight, Code2, Building2, ShieldCheck, Users2,
-  FileCheck2, Handshake, BarChart4, Layers,
-  MapPin, Calendar, CheckCircle2, ExternalLink, Network, Award,
+  ArrowRight, Code2, Building2, Handshake, Mail,
+  MapPin, CheckCircle2, ExternalLink, Award,
   Clock, BadgeCheck, DollarSign,
+  Image, Navigation, Type, Receipt, Shirt, PanelTop, IdCard, Ticket, ShoppingBag, Trophy,
 } from 'lucide-react'
 
 const T = {
@@ -41,60 +41,41 @@ const LOGOS = [
   'capitol-training.webp','limari-travel.webp','barras-pole-dance.webp','now-pos.png','lbepv.png',
 ]
 
-const SERVICIOS = [
-  {
-    icon: Network,
-    title: 'Pauta Multi-Sucursal',
-    desc: 'Un solo panel para coordinar campañas de Meta Ads y Google Ads en todas tus sucursales o puntos de venta en {city}, sin duplicar esfuerzo interno.',
-  },
-  {
-    icon: Users2,
-    title: 'Ejecutivo de Cuenta Dedicado',
-    desc: 'Un solo interlocutor técnico y comercial para tu empresa. Sin tickets, sin rotación de encargados, sin explicar tu negocio dos veces.',
-  },
-  {
-    icon: BarChart4,
-    title: 'Reporting Ejecutivo',
-    desc: 'Dashboards mensuales con KPIs de negocio (no vanity metrics): costo por adquisición, retorno de inversión y comparativo entre sucursales.',
-  },
-  {
-    icon: FileCheck2,
-    title: 'Licitaciones y ChileCompra',
-    desc: 'Empresa formal, registrada en MercadoPúblico. Facturación electrónica, contratos y documentación lista para procesos de compra corporativos.',
-  },
-  {
-    icon: Layers,
-    title: 'Producción de Contenido a Escala',
-    desc: 'Piezas gráficas, video y sitios web bajo un mismo manual de marca, replicables para cada sucursal o unidad de negocio sin perder consistencia.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Gobernanza de Marca',
-    desc: 'Lineamientos claros de uso de marca, aprobación centralizada de piezas y control de calidad antes de que cualquier campaña salga al aire.',
-  },
+const PRODUCTOS = [
+  { icon: Image,       title: 'Tela PVC y Lonas',            desc: 'Gigantografías, banners y fachadas en lona PVC de alta resolución, listas para exterior en {city}.' },
+  { icon: Navigation,  title: 'Señaléticas',                  desc: 'Directorios, numeración y señalética normativa para oficinas, locales y edificios corporativos.' },
+  { icon: Type,        title: 'Letreros Volumétricos',        desc: 'Acrílico, PVC y LED para fachadas que se ven desde la calle. Fabricación e instalación incluida.' },
+  { icon: Receipt,     title: 'Talonarios y Facturación',     desc: 'Boletas, guías de despacho y recibos numerados, impresos y foliados según lo que necesite tu empresa.' },
+  { icon: Shirt,       title: 'Ropa Corporativa',              desc: 'Poleras, chalecos y uniformes bordados o estampados con tu logo, en la cantidad que tu equipo requiera.' },
+  { icon: PanelTop,    title: 'Pendones y Roller Screens',     desc: 'Ideal para ferias, eventos y puntos de venta en {city}. Estructura y gráfica lista para armar en minutos.' },
+  { icon: IdCard,      title: 'Tarjetas de Presentación',      desc: 'Impresión offset o digital, con o sin barniz UV, para todo tu equipo comercial.' },
+  { icon: Ticket,      title: 'Lanyards Personalizados',       desc: 'Para congresos, capacitaciones y acreditaciones de eventos corporativos.' },
+  { icon: ShoppingBag, title: 'Bolsas TNT',                    desc: 'Bolsas ecológicas personalizadas para regalos corporativos, ferias o retail.' },
+  { icon: Trophy,      title: 'Trofeos y Galvanos',            desc: 'Reconocimientos y premiaciones para aniversarios, metas de venta y eventos internos.' },
 ]
 
 const PROCESO = [
-  { n: '01', t: 'Diagnóstico corporativo', d: 'Levantamos objetivos por área o sucursal y el volumen real que necesitas mover en {city} y la región.' },
-  { n: '02', t: 'Propuesta y SLA', d: 'Plan de trabajo con alcance, tiempos de respuesta comprometidos y KPIs claros — sin letra chica.' },
-  { n: '03', t: 'Implementación coordinada', d: 'Desplegamos campañas y contenido en todas tus unidades bajo un mismo estándar de marca.' },
-  { n: '04', t: 'Reporting mensual', d: 'Reunión de resultados con tu equipo, ajustes de estrategia y proyección del siguiente ciclo.' },
+  { n: '01', t: 'Nos cuentas qué necesitas',          d: 'Cantidad, plazo y presupuesto. Cotizamos por WhatsApp en menos de 24 horas.' },
+  { n: '02', t: 'Ves la muestra antes de producir',    d: 'Apruebas diseño y muestra antes de fabricar el volumen completo — sin sorpresas.' },
+  { n: '03', t: 'Producción con control de calidad',   d: 'Cada pieza sale revisada de nuestro taller, bajo el mismo estándar en todo el pedido.' },
+  { n: '04', t: 'Entrega en la fecha comprometida',    d: 'Despacho a tus oficinas, sucursales o directo al evento — cuando dijimos que llegaría.' },
 ]
 
 const RESULTADOS = [
   { value: '100%', label: 'Cumplimiento de plazos', sub: 'entregamos cuando decimos que entregamos' },
-  { value: '+50',  label: 'Proyectos entregados',    sub: 'con el mismo estándar de calidad' },
-  { value: 'SLA',  label: 'Tiempos de respuesta',    sub: 'comprometidos por contrato' },
+  { value: '10+',  label: 'Líneas de productos',     sub: 'imprenta, señalética, textil y merchandising' },
   { value: '30+',  label: 'Comunas con cobertura',   sub: 'Región del Maule y otras regiones' },
+  { value: '100%', label: 'Facturación electrónica', sub: 'empresa formal, sin informalidad' },
 ]
 
 export default function CorporateSEOLocal({ city }) {
-  const WA      = `${WA_BASE}${encodeURIComponent(`Hola, represento a una empresa en ${city.name} y me interesa evaluar una propuesta de publicidad y marketing a nivel corporativo.`)}`
-  const WA_FAST = `${WA_BASE}${encodeURIComponent(`Hola, quiero agendar una reunión comercial para publicidad corporativa en ${city.name}.`)}`
+  const WA      = `${WA_BASE}${encodeURIComponent(`Hola, represento a una empresa en ${city.name} y me interesa cotizar productos de publicidad corporativa (señalética, ropa, tarjetas, lanyards, etc.) a volumen.`)}`
+  const WA_FAST = `${WA_BASE}${encodeURIComponent(`Hola, quiero cotizar productos de publicidad e imprenta corporativa para mi empresa en ${city.name}.`)}`
+  const EMAIL   = `mailto:contacto@agenciasi.cl?subject=${encodeURIComponent(`Cotización publicidad corporativa — ${city.name}`)}&body=${encodeURIComponent(`Hola, represento a una empresa en ${city.name} y quiero cotizar productos de publicidad corporativa (señalética, ropa, tarjetas, lanyards, etc.) a volumen.`)}`
 
   useEffect(() => {
     px('ViewContent', { content_name: `Corporate SEO ${city.name}` })
-    ga('view_item', { item_name: `Corporate SEO ${city.name}`, item_category: 'publicidad_corporativa' })
+    ga('view_item', { item_name: `Corporate SEO ${city.name}`, item_category: 'imprenta_corporativa' })
   }, [city.name])
 
   const schema = {
@@ -103,7 +84,7 @@ export default function CorporateSEOLocal({ city }) {
     name: 'AgenciaSI',
     url: `https://agenciasi.cl/publicidad-corporativa/${city.slug}`,
     logo: 'https://agenciasi.cl/favicon.png',
-    description: `Publicidad y marketing corporativo en ${city.name} para empresas grandes: gestión de pauta multi-sucursal, cuenta ejecutiva dedicada, reporting y licitaciones. Trabajamos a volumen.`,
+    description: `Publicidad e imprenta corporativa en ${city.name}: tela PVC, señalética, letreros, talonarios, ropa corporativa, pendones, tarjetas, lanyards, bolsas TNT, trofeos y galvanos. Producción a volumen para empresas.`,
     telephone: '+56932930812',
     email: 'contacto@agenciasi.cl',
     areaServed: [
@@ -118,24 +99,23 @@ export default function CorporateSEOLocal({ city }) {
     },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: `Publicidad Corporativa en ${city.name}`,
-      itemListElement: [
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: `Pauta multi-sucursal en ${city.name}`, description: `Gestión de campañas a volumen para empresas de ${city.name}.` } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: `Cuenta ejecutiva dedicada`, description: `Ejecutivo de cuenta único para empresas de ${city.name}.` } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: `Licitaciones y ChileCompra`, description: `Proveedor formal para procesos de compra corporativos en ${city.region}.` } },
-      ],
+      name: `Publicidad e Imprenta Corporativa en ${city.name}`,
+      itemListElement: PRODUCTOS.map(p => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Product', name: p.title, description: p.desc.replace('{city}', city.name) },
+      })),
     },
   }
 
   return (
     <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.bg, color: T.white, overflowX: 'hidden' }}>
       <Helmet>
-        <title>Publicidad Corporativa en {city.name} | AgenciaSI Empresas</title>
-        <meta name="description" content={`Agencia de publicidad corporativa en ${city.name}: pauta multi-sucursal, cuenta ejecutiva dedicada, reporting y licitaciones. Trabajamos a volumen con empresas grandes.`} />
+        <title>Publicidad Corporativa en {city.name} | Imprenta y Merchandising — AgenciaSI</title>
+        <meta name="description" content={`Señalética, letreros, ropa corporativa, tarjetas, pendones, lanyards, bolsas TNT y trofeos en ${city.name}. Producción a volumen con cumplimiento de plazos y precios justos.`} />
         <link rel="canonical" href={`https://agenciasi.cl/publicidad-corporativa/${city.slug}`} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content={`Publicidad Corporativa en ${city.name} | AgenciaSI Empresas`} />
-        <meta property="og:description" content={`Gestión de publicidad y marketing a volumen para empresas grandes de ${city.name}. SLA, reporting ejecutivo y facturación formal.`} />
+        <meta property="og:title" content={`Publicidad Corporativa en ${city.name} | AgenciaSI`} />
+        <meta property="og:description" content={`Imprenta y merchandising corporativo para empresas de ${city.name}: señalética, ropa, tarjetas, lanyards, trofeos y más — a volumen y con precios justos.`} />
         <meta property="og:url" content={`https://agenciasi.cl/publicidad-corporativa/${city.slug}`} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
@@ -153,6 +133,7 @@ export default function CorporateSEOLocal({ city }) {
         .csl-cta-primary:hover { background:${T.silver}; }
         @media(max-width:900px) { .csl-hero-grid{grid-template-columns:1fr!important;} .csl-grid{grid-template-columns:1fr!important;} }
         @media(max-width:640px) { .csl-stats{grid-template-columns:1fr 1fr!important;} }
+        @media(max-width:480px) { .csl-nav-city{display:none!important;} }
       `}</style>
 
       {/* NAV */}
@@ -164,17 +145,22 @@ export default function CorporateSEOLocal({ city }) {
             </div>
             <div>
               <div style={{ fontWeight: 800, fontSize: 15, color: T.white, letterSpacing: -.3 }}>AgenciaSI</div>
-              <div style={{ fontSize: 9, color: T.gray, marginTop: -2 }}>Publicidad corporativa · Empresas</div>
+              <div style={{ fontSize: 9, color: T.gray, marginTop: -2 }}>Imprenta y publicidad corporativa</div>
             </div>
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 11, color: T.gray, display: 'flex', alignItems: 'center', gap: 4 }}>
+            <span style={{ fontSize: 11, color: T.gray, display: 'flex', alignItems: 'center', gap: 4 }} className="csl-nav-city">
               <MapPin size={11} color={T.silver} /> {city.name}
             </span>
+            <a href={EMAIL} onClick={() => { px('Contact'); ga('contact', { method: 'email' }) }}
+              style={{ width: 38, height: 38, borderRadius: 8, border: `1px solid ${T.border2}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: T.white, textDecoration: 'none', flexShrink: 0 }}
+              aria-label="Escribir al correo" title="Escribir al correo">
+              <Mail size={15} />
+            </a>
             <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
               className="csl-cta-primary"
               style={{ fontWeight: 700, fontSize: 13, padding: '10px 20px', borderRadius: 8, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none' }}>
-              Agendar reunión <ArrowRight size={14} />
+              Cotizar por WhatsApp <ArrowRight size={14} />
             </a>
           </div>
         </div>
@@ -186,23 +172,23 @@ export default function CorporateSEOLocal({ city }) {
         <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.panel, border: `1px solid ${T.border2}`, borderRadius: 30, padding: '6px 16px', marginBottom: 26 }}>
             <Building2 size={13} color={T.silver} />
-            <span style={{ fontSize: 11, fontWeight: 700, color: T.silver, letterSpacing: 1.2 }}>PUBLICIDAD CORPORATIVA · {city.name.toUpperCase()} · {city.region.toUpperCase()}</span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: T.silver, letterSpacing: 1.2 }}>IMPRENTA Y PUBLICIDAD CORPORATIVA · {city.name.toUpperCase()} · {city.region.toUpperCase()}</span>
           </div>
           <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(2.2rem, 4.6vw, 3.8rem)', fontWeight: 700, color: T.white, lineHeight: 1.15, marginBottom: 22, letterSpacing: -.5 }}>
-            Lo que toda empresa busca en una agencia:<br /><em style={{ fontWeight: 400, color: T.grayLt }}>cumplir, con calidad y a buen precio.</em>
+            Lo que toda empresa busca en un proveedor:<br /><em style={{ fontWeight: 400, color: T.grayLt }}>cumplir, con calidad y a buen precio.</em>
           </h1>
           <p style={{ fontSize: 'clamp(14px, 1.8vw, 17px)', color: T.gray, lineHeight: 1.75, maxWidth: 620, margin: '0 auto 36px' }}>
-            Sabemos lo que se evalúa antes de contratar en {city.name}: que cumplas los plazos, que la calidad sea consistente, que el trato sea profesional de principio a fin y que el precio sea justo. Así trabajamos, campaña tras campaña, con empresas de {city.context}.
+            Fabricamos e imprimimos a volumen para empresas de {city.name}: señalética, letreros, ropa corporativa, tarjetas, pendones, lanyards, bolsas TNT, trofeos y más — con el mismo estándar de calidad en cada pedido, entregado en la fecha que prometemos.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 40 }}>
             <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `Corporate CTA ${city.name}` }); ga('generate_lead', { item_name: `Corporate CTA ${city.name}` }) }}
               className="csl-cta-primary"
               style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontWeight: 800, fontSize: 14, padding: '14px 30px', borderRadius: 8, textDecoration: 'none' }}>
-              <Calendar size={16} /> Agendar reunión comercial
+              <WaIcon size={16} /> Cotizar por WhatsApp
             </a>
-            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Schedule'); ga('schedule_appointment') }}
+            <a href={EMAIL} onClick={() => { px('Contact'); ga('contact', { method: 'email' }) }}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: T.white, fontWeight: 600, fontSize: 14, padding: '14px 24px', borderRadius: 8, textDecoration: 'none', border: `1.5px solid ${T.border2}` }}>
-              <WaIcon size={15} /> Escribir por WhatsApp
+              <Mail size={15} /> Escribir al correo
             </a>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 32, flexWrap: 'wrap' }}>
@@ -232,20 +218,20 @@ export default function CorporateSEOLocal({ city }) {
         </div>
       </div>
 
-      {/* SERVICIOS */}
+      {/* PRODUCTOS */}
       <section style={{ background: T.bg, padding: '84px 24px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.silver, marginBottom: 12 }}>Cómo trabajamos con empresas en {city.name}</p>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.silver, marginBottom: 12 }}>Qué producimos para tu empresa en {city.name}</p>
             <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', fontWeight: 700, color: T.white, lineHeight: 1.15 }}>
-              Infraestructura de marketing<br />pensada para operar a escala.
+              Imprenta y merchandising corporativo,<br />todo bajo un mismo proveedor.
             </h2>
             <p style={{ fontSize: 15, color: T.gray, maxWidth: 520, margin: '14px auto 0', lineHeight: 1.75 }}>
-              Sabemos lo que se busca al elegir agencia en {city.name}: cumplimiento, calidad, profesionalismo y precios justos. Construimos procesos que lo garantizan, no promesas de venta.
+              Sabemos lo que se busca al elegir proveedor en {city.name}: cumplimiento, calidad, profesionalismo y precios justos. Trabajamos con procesos que lo garantizan, pedido tras pedido.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 20 }} className="csl-grid">
-            {SERVICIOS.map(({ icon: Icon, title, desc }) => (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }} className="csl-grid">
+            {PRODUCTOS.map(({ icon: Icon, title, desc }) => (
               <div key={title} className="csl-svc-card">
                 <div style={{ width: 48, height: 48, borderRadius: 12, background: T.panel2, border: `1px solid ${T.border2}`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
                   <Icon size={22} color={T.silver} />
@@ -254,6 +240,13 @@ export default function CorporateSEOLocal({ city }) {
                 <div style={{ fontSize: 13, color: T.gray, lineHeight: 1.7 }}>{desc.replace('{city}', city.name)}</div>
               </div>
             ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 40 }}>
+            <p style={{ fontSize: 13, color: T.gray, marginBottom: 16 }}>¿No ves lo que necesitas en la lista? Igual podemos ayudarte.</p>
+            <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: 'transparent', color: T.white, fontWeight: 700, fontSize: 13, padding: '11px 22px', borderRadius: 30, textDecoration: 'none', border: `1px solid ${T.border2}` }}>
+              <WaIcon size={14} /> Cuéntanos qué necesitas
+            </a>
           </div>
         </div>
       </section>
@@ -264,13 +257,13 @@ export default function CorporateSEOLocal({ city }) {
           <div>
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.silver, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{ width: 20, height: 2, background: T.silver, display: 'inline-block', borderRadius: 2 }} />
-              Lo que se busca al elegir agencia en la zona
+              Lo que se busca al elegir proveedor en la zona
             </p>
             <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 700, color: T.white, lineHeight: 1.15, marginBottom: 20 }}>
               Cumplimiento, calidad y trato profesional — sin excusas.
             </h2>
             <p style={{ fontSize: 15, color: T.gray, lineHeight: 1.8, marginBottom: 28 }}>
-              Coordinar múltiples freelancers o agencias distintas por sucursal termina en plazos incumplidos, calidad dispareja y cero visibilidad para gerencia. Nosotros centralizamos ejecución, aprobación y reporting bajo un mismo estándar — y a un precio que se sostiene en el tiempo.
+              Comprar señalética, ropa, tarjetas y merchandising a proveedores distintos termina en plazos que no calzan, calidad dispareja entre productos y precios que cambian pedido a pedido. Nosotros centralizamos la producción bajo un mismo estándar — y a un precio que se sostiene en el tiempo.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {[
@@ -283,7 +276,7 @@ export default function CorporateSEOLocal({ city }) {
                   <div style={{ width: 36, height: 36, borderRadius: 10, background: T.panel2, border: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <Icon size={16} color={T.silver} />
                   </div>
-                  <span style={{ fontSize: 13, fontWeight: 500, color: T.white }}>{text.replace('{city}', city.name)}</span>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: T.white }}>{text}</span>
                 </div>
               ))}
             </div>
@@ -297,14 +290,14 @@ export default function CorporateSEOLocal({ city }) {
               </div>
             </div>
             <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.3rem, 2.2vw, 1.9rem)', fontWeight: 700, color: T.white, lineHeight: 1.2, marginBottom: 22 }}>
-              Listos para procesos de compra formales.
+              Listos para pedidos corporativos y licitaciones.
             </h3>
             {[
               'Plazos comprometidos por escrito, no de palabra',
               'Facturación electrónica y contratos formales',
               'Documentación lista para licitaciones públicas',
-              'Acuerdos de confidencialidad cuando se requieran',
-              'Reporting mensual con tu equipo de marketing o gerencia',
+              'Muestra de diseño antes de producir el volumen completo',
+              'Despacho coordinado a tus oficinas o sucursales',
               'Precios claros desde la primera cotización, sin sorpresas',
             ].map(item => (
               <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 11 }}>
@@ -315,7 +308,7 @@ export default function CorporateSEOLocal({ city }) {
             <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
               className="csl-cta-primary"
               style={{ marginTop: 26, display: 'inline-flex', alignItems: 'center', gap: 8, fontWeight: 800, fontSize: 13, padding: '12px 22px', borderRadius: 8, textDecoration: 'none' }}>
-              <Calendar size={15} /> Agendar reunión
+              <WaIcon size={15} /> Cotizar por WhatsApp
             </a>
           </div>
         </div>
@@ -325,9 +318,9 @@ export default function CorporateSEOLocal({ city }) {
       <section style={{ background: T.bg, padding: '84px 24px' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.silver, marginBottom: 12 }}>Onboarding empresarial</p>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.silver, marginBottom: 12 }}>Cómo funciona tu pedido</p>
             <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 2.8vw, 2.3rem)', fontWeight: 700, color: T.white, lineHeight: 1.15 }}>
-              Así se estructura el trabajo con tu empresa.
+              Así se produce tu pedido, paso a paso.
             </h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(210px,1fr))', gap: 28 }}>
@@ -335,7 +328,7 @@ export default function CorporateSEOLocal({ city }) {
               <div key={n} style={{ padding: '6px 0', borderTop: `2px solid ${T.border}` }}>
                 <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 40, fontWeight: 700, color: T.silver, lineHeight: 1, marginBottom: 10 }}>{n}</div>
                 <div style={{ fontWeight: 700, fontSize: 14, color: T.white, marginBottom: 8 }}>{t}</div>
-                <div style={{ fontSize: 12, color: T.gray, lineHeight: 1.75 }}>{d.replace('{city}', city.name)}</div>
+                <div style={{ fontSize: 12, color: T.gray, lineHeight: 1.75 }}>{d}</div>
               </div>
             ))}
           </div>
@@ -350,7 +343,7 @@ export default function CorporateSEOLocal({ city }) {
             No importa cuántas sucursales tengas en {city.region}.
           </h2>
           <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.8 }}>
-            Operamos en las 30 comunas de la Región del Maule y coordinamos también con empresas que tienen presencia en otras regiones de Chile. Un mismo equipo, un mismo estándar, sin importar cuántos puntos tengas que cubrir.
+            Operamos en las 30 comunas de la Región del Maule y despachamos también a empresas con presencia en otras regiones de Chile. Mismo estándar de calidad, sin importar cuántas oficinas, locales o sucursales tengas que abastecer.
           </p>
         </div>
       </section>
@@ -383,23 +376,26 @@ export default function CorporateSEOLocal({ city }) {
             </div>
           </div>
           <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3.6vw, 2.6rem)', fontWeight: 700, color: T.white, lineHeight: 1.2, marginBottom: 16 }}>
-            Hablemos de tu operación en {city.name}.
+            Hablemos de tu próximo pedido en {city.name}.
           </h2>
           <p style={{ fontSize: 15, color: T.gray, marginBottom: 34, lineHeight: 1.75 }}>
-            Cuéntanos qué necesitas mover. Te respondemos con una propuesta, plazos y precio claros desde el primer contacto — sin presión de venta.
+            Cuéntanos qué necesitas producir — señalética, ropa, tarjetas, trofeos o cualquier otra pieza corporativa. Respondemos por WhatsApp o correo con plazos y precio claros desde el primer mensaje.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 20 }}>
             <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
               className="csl-cta-primary"
               style={{ fontWeight: 800, fontSize: 15, padding: '15px 30px', borderRadius: 8, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-              <Calendar size={17} /> Agendar reunión comercial
+              <WaIcon size={17} /> Cotizar por WhatsApp
             </a>
-            <Link to="/"
+            <a href={EMAIL} onClick={() => { px('Contact'); ga('contact', { method: 'email' }) }}
               style={{ background: 'transparent', color: T.white, fontWeight: 700, fontSize: 14, padding: '15px 24px', borderRadius: 8, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: `1.5px solid ${T.border2}` }}>
-              Ver todos los servicios →
-            </Link>
+              <Mail size={16} /> Escribir al correo
+            </a>
           </div>
-          <p style={{ fontSize: 12, color: T.gray }}>+56 9 3293 0812 · contacto@agenciasi.cl</p>
+          <p style={{ fontSize: 12, color: T.gray }}>+56 9 3293 0812 · <a href={EMAIL} style={{ color: T.gray, textDecoration: 'underline' }}>contacto@agenciasi.cl</a></p>
+          <Link to="/" style={{ fontSize: 12, color: T.grayDk, textDecoration: 'none', display: 'inline-block', marginTop: 10 }}>
+            Ver todos los servicios →
+          </Link>
         </div>
       </section>
 
