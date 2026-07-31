@@ -8,14 +8,16 @@ import {
 } from 'lucide-react'
 
 const T = {
-  navy:   '#0B1220',
-  blue:   '#2D2BB5',
-  steel:  '#3E4C6E',
-  gray:   '#5C5C6E',
-  light:  '#F5F6FA',
-  white:  '#FFFFFF',
-  border: '#E4E6EF',
-  gold:   '#B89654',
+  bg:      '#000000',
+  panel:   '#0A0A0A',
+  panel2:  '#0D0D0D',
+  border:  '#1E1E1E',
+  border2: '#2A2A2A',
+  white:   '#F2F2F2',
+  gray:    '#8C8C8C',
+  grayLt:  '#B5B5B5',
+  grayDk:  '#4A4A4A',
+  silver:  '#C9C9C9',
 }
 
 const WA_BASE = 'https://wa.me/56932930812?text='
@@ -125,7 +127,7 @@ export default function CorporateSEOLocal({ city }) {
   }
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.white, color: T.navy, overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.bg, color: T.white, overflowX: 'hidden' }}>
       <Helmet>
         <title>Publicidad Corporativa en {city.name} | AgenciaSI Empresas</title>
         <meta name="description" content={`Agencia de publicidad corporativa en ${city.name}: pauta multi-sucursal, cuenta ejecutiva dedicada, reporting y licitaciones. Trabajamos a volumen con empresas grandes.`} />
@@ -141,33 +143,36 @@ export default function CorporateSEOLocal({ city }) {
         @keyframes csl-marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
         .csl-track { display:flex; width:max-content; animation:csl-marquee 34s linear infinite; }
         .csl-track:hover { animation-play-state:paused; }
-        .csl-logo { flex-shrink:0; width:148px; height:80px; margin:0 10px; display:flex; align-items:center; justify-content:center; background:#F4F4F8; border:1px solid #E0E0EA; border-radius:12px; padding:12px 16px; filter:grayscale(100%) opacity(0.6); transition:filter .3s; }
-        .csl-logo:hover { filter:grayscale(0%) opacity(1); }
+        .csl-logo { flex-shrink:0; width:148px; height:80px; margin:0 10px; display:flex; align-items:center; justify-content:center; background:#0E0E0E; border:1px solid ${T.border}; border-radius:12px; padding:12px 16px; filter:grayscale(100%) opacity(.5); transition:filter .3s, border-color .3s; }
+        .csl-logo:hover { filter:grayscale(0%) opacity(1); border-color:${T.border2}; }
         .csl-logo img { max-width:108px; max-height:50px; object-fit:contain; }
-        .csl-svc-card { border:1px solid ${T.border}; border-radius:16px; padding:28px 24px; transition:box-shadow .25s, border-color .25s, transform .2s; }
-        .csl-svc-card:hover { box-shadow:0 10px 30px rgba(11,18,32,.10); border-color:${T.navy}30; transform:translateY(-3px); }
+        .csl-svc-card { background:${T.panel}; border:1px solid ${T.border}; border-radius:16px; padding:28px 24px; transition:border-color .3s, transform .2s, background .3s; }
+        .csl-svc-card:hover { border-color:${T.border2}; background:${T.panel2}; transform:translateY(-3px); }
+        .csl-cta-primary { background:${T.white}; color:#000; }
+        .csl-cta-primary:hover { background:${T.silver}; }
         @media(max-width:900px) { .csl-hero-grid{grid-template-columns:1fr!important;} .csl-grid{grid-template-columns:1fr!important;} }
         @media(max-width:640px) { .csl-stats{grid-template-columns:1fr 1fr!important;} }
       `}</style>
 
       {/* NAV */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: T.white, borderBottom: `1px solid ${T.border}`, boxShadow: '0 1px 8px rgba(0,0,0,.05)' }}>
+      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(0,0,0,.9)', backdropFilter: 'blur(12px)', borderBottom: `1px solid ${T.border}` }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ background: T.navy, borderRadius: 8, width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Code2 size={16} color="#fff" />
+            <div style={{ background: T.white, borderRadius: 8, width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Code2 size={16} color="#000" />
             </div>
             <div>
-              <div style={{ fontWeight: 800, fontSize: 15, color: T.navy, letterSpacing: -.3 }}>AgenciaSI</div>
+              <div style={{ fontWeight: 800, fontSize: 15, color: T.white, letterSpacing: -.3 }}>AgenciaSI</div>
               <div style={{ fontSize: 9, color: T.gray, marginTop: -2 }}>Publicidad corporativa · Empresas</div>
             </div>
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ fontSize: 11, color: T.gray, display: 'flex', alignItems: 'center', gap: 4 }}>
-              <MapPin size={11} color={T.gold} /> {city.name}
+              <MapPin size={11} color={T.silver} /> {city.name}
             </span>
             <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
-              style={{ background: T.navy, color: T.white, fontWeight: 700, fontSize: 13, padding: '10px 20px', borderRadius: 8, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none' }}>
+              className="csl-cta-primary"
+              style={{ fontWeight: 700, fontSize: 13, padding: '10px 20px', borderRadius: 8, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none' }}>
               Agendar reunión <ArrowRight size={14} />
             </a>
           </div>
@@ -175,26 +180,27 @@ export default function CorporateSEOLocal({ city }) {
       </nav>
 
       {/* HERO */}
-      <section style={{ background: `linear-gradient(160deg, ${T.navy} 0%, #14203A 60%, #1B2A4A 100%)`, padding: '96px 24px 88px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: -120, right: -120, width: 480, height: 480, borderRadius: '50%', background: `${T.gold}10`, pointerEvents: 'none' }} />
+      <section style={{ background: T.bg, padding: '96px 24px 88px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: -140, left: '50%', transform: 'translateX(-50%)', width: 700, height: 700, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,.045) 0%, transparent 70%)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', border: `1px solid ${T.gold}50`, borderRadius: 30, padding: '6px 16px', marginBottom: 26 }}>
-            <Building2 size={13} color={T.gold} />
-            <span style={{ fontSize: 11, fontWeight: 700, color: T.gold, letterSpacing: 1.2 }}>PUBLICIDAD CORPORATIVA · {city.name.toUpperCase()} · {city.region.toUpperCase()}</span>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.panel, border: `1px solid ${T.border2}`, borderRadius: 30, padding: '6px 16px', marginBottom: 26 }}>
+            <Building2 size={13} color={T.silver} />
+            <span style={{ fontSize: 11, fontWeight: 700, color: T.silver, letterSpacing: 1.2 }}>PUBLICIDAD CORPORATIVA · {city.name.toUpperCase()} · {city.region.toUpperCase()}</span>
           </div>
           <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(2.2rem, 4.6vw, 3.8rem)', fontWeight: 700, color: T.white, lineHeight: 1.15, marginBottom: 22, letterSpacing: -.5 }}>
-            Publicidad para empresas que operan<br /><em style={{ fontWeight: 400, color: T.gold }}>a volumen en {city.name}.</em>
+            Publicidad para empresas que operan<br /><em style={{ fontWeight: 400, color: T.grayLt }}>a volumen en {city.name}.</em>
           </h1>
-          <p style={{ fontSize: 'clamp(14px, 1.8vw, 17px)', color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, maxWidth: 620, margin: '0 auto 36px' }}>
+          <p style={{ fontSize: 'clamp(14px, 1.8vw, 17px)', color: T.gray, lineHeight: 1.75, maxWidth: 620, margin: '0 auto 36px' }}>
             Gestionamos campañas, contenido y reporting para empresas con múltiples sucursales, equipos internos y procesos de compra formales en {city.context}. Un solo proveedor para toda la operación.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 40 }}>
             <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `Corporate CTA ${city.name}` }); ga('generate_lead', { item_name: `Corporate CTA ${city.name}` }) }}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: T.gold, color: T.navy, fontWeight: 800, fontSize: 14, padding: '14px 30px', borderRadius: 8, textDecoration: 'none' }}>
+              className="csl-cta-primary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontWeight: 800, fontSize: 14, padding: '14px 30px', borderRadius: 8, textDecoration: 'none' }}>
               <Calendar size={16} /> Agendar reunión comercial
             </a>
             <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Schedule'); ga('schedule_appointment') }}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: T.white, fontWeight: 600, fontSize: 14, padding: '14px 24px', borderRadius: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.3)' }}>
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: T.white, fontWeight: 600, fontSize: 14, padding: '14px 24px', borderRadius: 8, textDecoration: 'none', border: `1.5px solid ${T.border2}` }}>
               <WaIcon size={15} /> Escribir por WhatsApp
             </a>
           </div>
@@ -204,8 +210,8 @@ export default function CorporateSEOLocal({ city }) {
               { icon: ShieldCheck,  text: 'Proveedor del Estado · ChileCompra' },
               { icon: Handshake,    text: 'SLA de respuesta por contrato' },
             ].map(({ icon: Icon, text }) => (
-              <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.68)' }}>
-                <Icon size={14} color={T.gold} /> {text}
+              <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: T.grayLt }}>
+                <Icon size={14} color={T.silver} /> {text}
               </div>
             ))}
           </div>
@@ -213,12 +219,12 @@ export default function CorporateSEOLocal({ city }) {
       </section>
 
       {/* STATS */}
-      <div style={{ borderBottom: `1px solid ${T.border}`, background: T.light, padding: '28px 24px' }}>
+      <div style={{ borderTop: `1px solid ${T.border}`, borderBottom: `1px solid ${T.border}`, background: T.panel, padding: '28px 24px' }}>
         <div style={{ maxWidth: 960, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16, textAlign: 'center' }} className="csl-stats">
           {RESULTADOS.map(s => (
             <div key={s.label}>
-              <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 30, fontWeight: 700, color: T.navy, lineHeight: 1, marginBottom: 4 }}>{s.value}</div>
-              <div style={{ fontSize: 12, fontWeight: 600, color: T.navy, marginBottom: 2 }}>{s.label}</div>
+              <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 30, fontWeight: 700, color: T.white, lineHeight: 1, marginBottom: 4 }}>{s.value}</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: T.grayLt, marginBottom: 2 }}>{s.label}</div>
               <div style={{ fontSize: 11, color: T.gray }}>{s.sub}</div>
             </div>
           ))}
@@ -226,11 +232,11 @@ export default function CorporateSEOLocal({ city }) {
       </div>
 
       {/* SERVICIOS */}
-      <section style={{ background: T.white, padding: '84px 24px' }}>
+      <section style={{ background: T.bg, padding: '84px 24px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.gold, marginBottom: 12 }}>Cómo trabajamos con empresas en {city.name}</p>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', fontWeight: 700, color: T.navy, lineHeight: 1.15 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.silver, marginBottom: 12 }}>Cómo trabajamos con empresas en {city.name}</p>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', fontWeight: 700, color: T.white, lineHeight: 1.15 }}>
               Infraestructura de marketing<br />pensada para operar a escala.
             </h2>
             <p style={{ fontSize: 15, color: T.gray, maxWidth: 520, margin: '14px auto 0', lineHeight: 1.75 }}>
@@ -240,10 +246,10 @@ export default function CorporateSEOLocal({ city }) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 20 }} className="csl-grid">
             {SERVICIOS.map(({ icon: Icon, title, desc }) => (
               <div key={title} className="csl-svc-card">
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: `${T.navy}0D`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
-                  <Icon size={22} color={T.navy} />
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: T.panel2, border: `1px solid ${T.border2}`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
+                  <Icon size={22} color={T.silver} />
                 </div>
-                <div style={{ fontWeight: 700, fontSize: 15, color: T.navy, marginBottom: 8 }}>{title}</div>
+                <div style={{ fontWeight: 700, fontSize: 15, color: T.white, marginBottom: 8 }}>{title}</div>
                 <div style={{ fontSize: 13, color: T.gray, lineHeight: 1.7 }}>{desc.replace('{city}', city.name)}</div>
               </div>
             ))}
@@ -252,14 +258,14 @@ export default function CorporateSEOLocal({ city }) {
       </section>
 
       {/* POR QUÉ / OFERTA CORPORATIVA */}
-      <section style={{ background: T.light, padding: '84px 24px' }}>
+      <section style={{ background: T.panel, padding: '84px 24px', borderTop: `1px solid ${T.border}` }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }} className="csl-hero-grid">
           <div>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.gold, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ width: 20, height: 2, background: T.gold, display: 'inline-block', borderRadius: 2 }} />
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.silver, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ width: 20, height: 2, background: T.silver, display: 'inline-block', borderRadius: 2 }} />
               Por qué empresas grandes trabajan con nosotros
             </p>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 700, color: T.navy, lineHeight: 1.15, marginBottom: 20 }}>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 700, color: T.white, lineHeight: 1.15, marginBottom: 20 }}>
               Un solo proveedor para toda tu operación en {city.name}.
             </h2>
             <p style={{ fontSize: 15, color: T.gray, lineHeight: 1.8, marginBottom: 28 }}>
@@ -273,20 +279,20 @@ export default function CorporateSEOLocal({ city }) {
                 { icon: Globe2,     text: 'Cobertura en toda la Región del Maule y más' },
               ].map(({ icon: Icon, text }) => (
                 <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: `${T.navy}0D`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <Icon size={16} color={T.navy} />
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: T.panel2, border: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Icon size={16} color={T.silver} />
                   </div>
-                  <span style={{ fontSize: 13, fontWeight: 500, color: T.navy }}>{text.replace('{city}', city.name)}</span>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: T.white }}>{text.replace('{city}', city.name)}</span>
                 </div>
               ))}
             </div>
           </div>
-          <div style={{ background: T.navy, borderRadius: 20, padding: '40px 36px' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.08)', border: `1px solid ${T.gold}40`, borderRadius: 12, padding: '10px 16px', marginBottom: 28 }}>
+          <div style={{ background: T.bg, border: `1px solid ${T.border2}`, borderRadius: 20, padding: '40px 36px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: T.panel2, border: `1px solid ${T.border2}`, borderRadius: 12, padding: '10px 16px', marginBottom: 28 }}>
               <img src="/proveedor-del-estado.png" alt="Proveedor del Estado" style={{ height: 26, objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
               <div>
                 <div style={{ fontSize: 12, fontWeight: 800, color: T.white }}>Proveedor del Estado</div>
-                <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)' }}>Registrados en ChileCompra · MercadoPúblico</div>
+                <div style={{ fontSize: 10, color: T.gray }}>Registrados en ChileCompra · MercadoPúblico</div>
               </div>
             </div>
             <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.3rem, 2.2vw, 1.9rem)', fontWeight: 700, color: T.white, lineHeight: 1.2, marginBottom: 22 }}>
@@ -300,12 +306,13 @@ export default function CorporateSEOLocal({ city }) {
               'Escalable a nuevas sucursales sin renegociar todo el contrato',
             ].map(item => (
               <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 11 }}>
-                <CheckCircle2 size={13} color={T.gold} style={{ flexShrink: 0 }} />
-                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.82)' }}>{item}</span>
+                <CheckCircle2 size={13} color={T.silver} style={{ flexShrink: 0 }} />
+                <span style={{ fontSize: 13, color: T.grayLt }}>{item}</span>
               </div>
             ))}
             <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
-              style={{ marginTop: 26, display: 'inline-flex', alignItems: 'center', gap: 8, background: T.gold, color: T.navy, fontWeight: 800, fontSize: 13, padding: '12px 22px', borderRadius: 8, textDecoration: 'none' }}>
+              className="csl-cta-primary"
+              style={{ marginTop: 26, display: 'inline-flex', alignItems: 'center', gap: 8, fontWeight: 800, fontSize: 13, padding: '12px 22px', borderRadius: 8, textDecoration: 'none' }}>
               <Calendar size={15} /> Agendar reunión
             </a>
           </div>
@@ -313,19 +320,19 @@ export default function CorporateSEOLocal({ city }) {
       </section>
 
       {/* PROCESO */}
-      <section style={{ background: T.white, padding: '84px 24px' }}>
+      <section style={{ background: T.bg, padding: '84px 24px' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.gold, marginBottom: 12 }}>Onboarding empresarial</p>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 2.8vw, 2.3rem)', fontWeight: 700, color: T.navy, lineHeight: 1.15 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.silver, marginBottom: 12 }}>Onboarding empresarial</p>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 2.8vw, 2.3rem)', fontWeight: 700, color: T.white, lineHeight: 1.15 }}>
               Así se estructura el trabajo con tu empresa.
             </h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(210px,1fr))', gap: 28 }}>
             {PROCESO.map(({ n, t, d }) => (
-              <div key={n} style={{ padding: '6px 0', borderTop: `2px solid ${T.navy}15` }}>
-                <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 40, fontWeight: 700, color: T.gold, lineHeight: 1, marginBottom: 10 }}>{n}</div>
-                <div style={{ fontWeight: 700, fontSize: 14, color: T.navy, marginBottom: 8 }}>{t}</div>
+              <div key={n} style={{ padding: '6px 0', borderTop: `2px solid ${T.border}` }}>
+                <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 40, fontWeight: 700, color: T.silver, lineHeight: 1, marginBottom: 10 }}>{n}</div>
+                <div style={{ fontWeight: 700, fontSize: 14, color: T.white, marginBottom: 8 }}>{t}</div>
                 <div style={{ fontSize: 12, color: T.gray, lineHeight: 1.75 }}>{d.replace('{city}', city.name)}</div>
               </div>
             ))}
@@ -334,23 +341,23 @@ export default function CorporateSEOLocal({ city }) {
       </section>
 
       {/* COBERTURA */}
-      <section style={{ background: T.navy, padding: '80px 24px' }}>
+      <section style={{ background: T.panel, padding: '80px 24px', borderTop: `1px solid ${T.border}`, borderBottom: `1px solid ${T.border}` }}>
         <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
-          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.gold, marginBottom: 14 }}>Cobertura</p>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.silver, marginBottom: 14 }}>Cobertura</p>
           <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.6rem, 2.8vw, 2.3rem)', fontWeight: 700, color: T.white, lineHeight: 1.2, marginBottom: 16 }}>
             No importa cuántas sucursales tengas en {city.region}.
           </h2>
-          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.68)', lineHeight: 1.8 }}>
+          <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.8 }}>
             Operamos en las 30 comunas de la Región del Maule y coordinamos también con empresas que tienen presencia en otras regiones de Chile. Un mismo equipo, un mismo estándar, sin importar cuántos puntos tengas que cubrir.
           </p>
         </div>
       </section>
 
       {/* CLIENTES */}
-      <section style={{ background: T.white, padding: '72px 0', overflow: 'hidden' }}>
+      <section style={{ background: T.bg, padding: '72px 0', overflow: 'hidden' }}>
         <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center', padding: '0 24px', marginBottom: 40 }}>
-          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.gold, marginBottom: 12 }}>Empresas que confían en nosotros</p>
-          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.5rem, 2.5vw, 2.1rem)', fontWeight: 700, color: T.navy, marginBottom: 10 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.silver, marginBottom: 12 }}>Empresas que confían en nosotros</p>
+          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.5rem, 2.5vw, 2.1rem)', fontWeight: 700, color: T.white, marginBottom: 10 }}>
             Desde pymes hasta operaciones multi-sucursal.
           </h2>
         </div>
@@ -366,14 +373,14 @@ export default function CorporateSEOLocal({ city }) {
       </section>
 
       {/* CTA FINAL */}
-      <section style={{ background: T.light, padding: '88px 24px', textAlign: 'center' }}>
+      <section style={{ background: T.panel, padding: '88px 24px', textAlign: 'center', borderTop: `1px solid ${T.border}` }}>
         <div style={{ maxWidth: 600, margin: '0 auto' }}>
           <div style={{ marginBottom: 18, display: 'flex', justifyContent: 'center' }}>
-            <div style={{ width: 56, height: 56, borderRadius: 14, background: T.navy, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Award size={26} color={T.gold} />
+            <div style={{ width: 56, height: 56, borderRadius: 14, background: T.bg, border: `1px solid ${T.border2}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Award size={26} color={T.silver} />
             </div>
           </div>
-          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3.6vw, 2.6rem)', fontWeight: 700, color: T.navy, lineHeight: 1.2, marginBottom: 16 }}>
+          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3.6vw, 2.6rem)', fontWeight: 700, color: T.white, lineHeight: 1.2, marginBottom: 16 }}>
             Hablemos de tu operación en {city.name}.
           </h2>
           <p style={{ fontSize: 15, color: T.gray, marginBottom: 34, lineHeight: 1.75 }}>
@@ -381,11 +388,12 @@ export default function CorporateSEOLocal({ city }) {
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 20 }}>
             <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
-              style={{ background: T.navy, color: T.white, fontWeight: 800, fontSize: 15, padding: '15px 30px', borderRadius: 8, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+              className="csl-cta-primary"
+              style={{ fontWeight: 800, fontSize: 15, padding: '15px 30px', borderRadius: 8, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
               <Calendar size={17} /> Agendar reunión comercial
             </a>
             <Link to="/"
-              style={{ background: 'transparent', color: T.navy, fontWeight: 700, fontSize: 14, padding: '15px 24px', borderRadius: 8, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: `1.5px solid ${T.navy}30` }}>
+              style={{ background: 'transparent', color: T.white, fontWeight: 700, fontSize: 14, padding: '15px 24px', borderRadius: 8, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: `1.5px solid ${T.border2}` }}>
               Ver todos los servicios →
             </Link>
           </div>
@@ -394,16 +402,16 @@ export default function CorporateSEOLocal({ city }) {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ background: T.navy, padding: '24px', borderTop: `1px solid rgba(255,255,255,0.08)` }}>
+      <footer style={{ background: T.bg, padding: '24px', borderTop: `1px solid ${T.border}` }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-            <div style={{ background: T.gold, borderRadius: 6, width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Code2 size={13} color={T.navy} />
+            <div style={{ background: T.white, borderRadius: 6, width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Code2 size={13} color="#000" />
             </div>
             <span style={{ fontSize: 14, fontWeight: 700, color: T.white }}>AgenciaSI</span>
           </Link>
-          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>© 2026 AgenciaSI · Publicidad corporativa en {city.name} · Chile</span>
-          <Link to="/" style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
+          <span style={{ fontSize: 12, color: T.grayDk }}>© 2026 AgenciaSI · Publicidad corporativa en {city.name} · Chile</span>
+          <Link to="/" style={{ fontSize: 12, color: T.grayDk, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
             Inicio <ExternalLink size={11} />
           </Link>
         </div>
@@ -411,7 +419,7 @@ export default function CorporateSEOLocal({ city }) {
 
       {/* FLOATING WA */}
       <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
-        style={{ position: 'fixed', bottom: 24, right: 24, background: '#25D366', color: T.white, width: 56, height: 56, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(37,211,102,.55)', zIndex: 100, textDecoration: 'none' }}>
+        style={{ position: 'fixed', bottom: 24, right: 24, background: '#25D366', color: '#fff', width: 56, height: 56, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(37,211,102,.55)', zIndex: 100, textDecoration: 'none' }}>
         <WaIcon size={26} />
       </a>
     </div>
