@@ -31,6 +31,7 @@ import LandingSEOLocal from './components/seo/LandingSEOLocal'
 import HomeSEOLocal from './components/seo/HomeSEOLocal'
 import MarketingSEOLocal from './components/seo/MarketingSEOLocal'
 import LetrerosSEOLocal from './components/seo/LetrerosSEOLocal'
+import CorporateSEOLocal from './components/seo/CorporateSEOLocal'
 
 const MAULE_REGION = 'Región del Maule'
 
@@ -83,6 +84,11 @@ const CITIES = {
   'las-condes':   { name: 'Las Condes',   slug: 'las-condes',   region: 'Región Metropolitana',      context: 'empresas, consultorios y negocios premium de Las Condes' },
 }
 
+const CORPORATE_CITIES = {
+  ...MAULE_COMUNAS,
+  ...Object.fromEntries(Object.entries(CITIES).filter(([slug]) => !MAULE_COMUNAS[slug])),
+}
+
 const ScrollToTop = () => {
   const { pathname } = useLocation()
   useEffect(() => {
@@ -124,6 +130,9 @@ function App() {
           ))}
           {Object.values(MAULE_COMUNAS).map(city => (
             <Route key={`letreros-${city.slug}`} path={`/letreros/${city.slug}`} element={<LetrerosSEOLocal city={city} />} />
+          ))}
+          {Object.values(CORPORATE_CITIES).map(city => (
+            <Route key={`corporativa-${city.slug}`} path={`/publicidad-corporativa/${city.slug}`} element={<CorporateSEOLocal city={city} />} />
           ))}
 
           {/* Admin */}
