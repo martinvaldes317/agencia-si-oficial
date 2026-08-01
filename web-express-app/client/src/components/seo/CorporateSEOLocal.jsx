@@ -149,8 +149,8 @@ export default function CorporateSEOLocal({ city }) {
             </div>
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 11, color: T.gray, display: 'flex', alignItems: 'center', gap: 4 }} className="csl-nav-city">
-              <MapPin size={11} color={T.silver} /> {city.name}
+            <span style={{ fontSize: 14, fontWeight: 600, color: T.grayLt, display: 'flex', alignItems: 'center', gap: 6 }} className="csl-nav-city">
+              <MapPin size={16} color={T.silver} /> {city.name}
             </span>
             <a href={EMAIL} onClick={() => { px('Contact'); ga('contact', { method: 'email' }) }}
               style={{ width: 38, height: 38, borderRadius: 8, border: `1px solid ${T.border2}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: T.white, textDecoration: 'none', flexShrink: 0 }}
