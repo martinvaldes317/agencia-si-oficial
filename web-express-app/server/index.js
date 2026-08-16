@@ -10,6 +10,7 @@ const PDFDocument = require('pdfkit');
 const archiver = require('archiver');
 const prisma = require('./lib/prisma');
 const mailer = require('./lib/mailer');
+const { getSeoMeta } = require('./lib/seoLocalPages');
 const { authenticateAdmin, JWT_SECRET } = require('./middleware/auth');
 const { MercadoPagoConfig, Preference, Payment: MPPayment } = require('mercadopago');
 
@@ -616,7 +617,28 @@ app.get('/api/orders/:orderId/download', authenticateAdmin, async (req, res) => 
 const distPath = path.join(__dirname, '../dist');
 if (fs.existsSync(distPath)) {
   app.use(express.static(distPath));
-  app.get('*', (_req, res) => res.sendFile(path.join(distPath, 'index.html')));
+
+  const indexPath = path.join(distPath, 'index.html');
+  const indexHtmlTemplate = fs.readFileSync(indexPath, 'utf-8');
+
+  app.get('*', (req, res) => {
+    const meta = getSeoMeta(req.path);
+    if (!meta) return res.sendFile(indexPath);
+
+    // Inject per-route title/description/canonical into the SPA shell so
+    // Googlebot's raw HTML fetch (pre-JS) already carries the right signal —
+    // otherwise every local SEO page shares the same generic head tags.
+    const html = indexHtmlTemplate
+      .replace(/<title>[^<]*<\/title>/, `<title>${meta.title}</title>`)
+      .replace(/<meta name="description" content="[^"]*"\s*\/>/, `<meta name="description" content="${meta.description}" />`)
+      .replace(/<meta property="og:title" content="[^"]*"\s*\/>/, `<meta property="og:title" content="${meta.title}" />`)
+      .replace(/<meta property="og:description" content="[^"]*"\s*\/>/, `<meta property="og:description" content="${meta.description}" />`)
+      .replace(/<meta property="og:url" content="[^"]*"\s*\/>/, `<meta property="og:url" content="${meta.canonical}" />`)
+      .replace('</head>', `  <link rel="canonical" href="${meta.canonical}" />\n</head>`);
+
+    res.set('Content-Type', 'text/html');
+    res.send(html);
+  });
 } else {
   app.use((_req, res) => res.status(404).json({ success: false, message: 'Not found' }));
 }
