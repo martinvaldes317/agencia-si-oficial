@@ -71,4 +71,22 @@ function getSeoMeta(pathname) {
   return null
 }
 
-module.exports = { getSeoMeta }
+// Returns every known SEO local page as { pathname, title, description, canonical }.
+// pathname has no trailing slash, e.g. "/marketing/curico".
+function getAllSeoRoutes() {
+  const routes = [];
+  for (const type of PAGE_TYPES) {
+    for (const [slug, name] of Object.entries(type.cities)) {
+      const pathname = `${type.prefix}${slug}`;
+      routes.push({
+        pathname,
+        title: type.title(name),
+        description: type.description(name),
+        canonical: `https://agenciasi.cl${pathname}`,
+      });
+    }
+  }
+  return routes;
+}
+
+module.exports = { getSeoMeta, getAllSeoRoutes }
