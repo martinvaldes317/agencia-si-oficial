@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
@@ -26,7 +26,17 @@ export const PRICE_ONLINE   = 49990
 export const PRICE_WHATSAPP = 74990
 export const PRICE_STORE    = 25990
 
-export const px = (event, params) => { if (typeof fbq !== 'undefined') fbq('track', event, params) }
+// Pixel de Meta dedicado a la campaña "Tu Sitio Web Profesional" — el pixel
+// general del sitio ya carga en index.html; este solo recibe eventos de las
+// páginas /sitio-web vía trackSingle, sin mezclarse con el resto del sitio.
+export const META_PIXEL_SITIO_WEB = '1383902153896953'
+
+export const px = (event, params) => {
+  if (typeof fbq === 'undefined') return
+  fbq('track', event, params)
+  fbq('trackSingle', META_PIXEL_SITIO_WEB, event, params)
+}
+export const pxPageView = () => { if (typeof fbq !== 'undefined') fbq('trackSingle', META_PIXEL_SITIO_WEB, 'PageView') }
 export const ga = (event, params) => { if (typeof gtag !== 'undefined') gtag('event', event, params) }
 export const fmt = n => n.toLocaleString('es-CL')
 
@@ -95,6 +105,8 @@ function Section({ children, style }) {
 
 export default function SitioWebLanding() {
   const [openFaq, setOpenFaq] = useState(null)
+
+  useEffect(() => { pxPageView() }, [])
 
   const WA_ONLINE   = `${WA_BASE}${encodeURIComponent('Hola, quiero crear mi sitio web. Vi la oferta de $49.990 + IVA.')}`
   const WA_ASISTIDA = `${WA_BASE}${encodeURIComponent('Hola, quiero contratar mi sitio web por WhatsApp ($74.990 + IVA).')}`

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { CheckCircle2, Clock, XCircle, Code2, ArrowRight } from 'lucide-react'
-import { T, WA_BASE, WaIcon, fmt, px, ga } from './SitioWebLanding'
+import { T, WA_BASE, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
 
 export default function SitioWebConfirmacion() {
   const [params] = useSearchParams()
@@ -12,6 +12,8 @@ export default function SitioWebConfirmacion() {
   const orderIdFromUrl = params.get('external_reference') || params.get('orderId')
 
   useEffect(() => {
+    pxPageView()
+
     try {
       const raw = localStorage.getItem('agenciasi_last_web_order')
       if (raw) {

@@ -5,7 +5,7 @@ import {
   ArrowLeft, ArrowRight, Check, Upload, X, Loader2, Store,
   ShieldCheck, Code2, ChevronDown,
 } from 'lucide-react'
-import { T, PRICE_ONLINE, PRICE_STORE, WaIcon, fmt, px, ga } from './SitioWebLanding'
+import { T, PRICE_ONLINE, PRICE_STORE, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
 
 const TOTAL_STEPS = 6
 const DRAFT_KEY = 'agenciasi_sitio_web_draft'
@@ -121,6 +121,7 @@ export default function SitioWebWizard() {
   }, [data])
 
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }, [step])
+  useEffect(() => { pxPageView() }, [])
 
   const set = patch => setData(d => ({ ...d, ...patch }))
 
