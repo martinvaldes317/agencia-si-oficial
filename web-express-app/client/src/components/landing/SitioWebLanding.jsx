@@ -32,13 +32,20 @@ export const PRICE_STORE    = 25990
 // como indica el instalador de Meta, para quedar reconocido como instalado
 // de forma estándar y recibir los mismos eventos (PageView, Lead, Purchase).
 export const META_PIXEL_SITIO_WEB = '1383902153896953'
-let metaPixelSitioWebInited = false
+// The static HTML for each /sitio-web page already runs fbq('init', ...) +
+// fbq('track','PageView') synchronously, before React even mounts (that's
+// what makes Meta's raw-HTML installation checker detect it — see
+// generate-seo-html.cjs). Calling fbq('init', ...) again here would just log
+// a harmless "Duplicate Pixel ID" warning, and firing PageView again would
+// double-count the very first view. This flag skips exactly that first call
+// per page load and fires normally on every SPA-internal navigation after.
+let metaPixelSitioWebFirstViewHandled = false
 
 export const pxPageView = () => {
   if (typeof fbq === 'undefined') return
-  if (!metaPixelSitioWebInited) {
-    fbq('init', META_PIXEL_SITIO_WEB)
-    metaPixelSitioWebInited = true
+  if (!metaPixelSitioWebFirstViewHandled) {
+    metaPixelSitioWebFirstViewHandled = true
+    return
   }
   fbq('track', 'PageView')
 }
