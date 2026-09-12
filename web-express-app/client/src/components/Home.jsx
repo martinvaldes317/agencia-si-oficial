@@ -348,9 +348,17 @@ const Footer = () => (
                 <p className="text-xs" style={{ color: '#333', fontFamily: 'Poppins, sans-serif' }}>
                     © 2026 AgenciaSi — Diseño y desarrollo integral
                 </p>
-                <Link to="/portal" className="text-xs hover:text-white transition-colors" style={{ color: '#333', fontFamily: 'Poppins, sans-serif' }}>
-                    Portal clientes →
-                </Link>
+                <div className="flex items-center gap-5 flex-wrap justify-center">
+                    <Link to="/terminos-condiciones" className="text-xs hover:text-white transition-colors" style={{ color: '#333', fontFamily: 'Poppins, sans-serif' }}>
+                        Términos y Condiciones
+                    </Link>
+                    <Link to="/politica-privacidad" className="text-xs hover:text-white transition-colors" style={{ color: '#333', fontFamily: 'Poppins, sans-serif' }}>
+                        Privacidad
+                    </Link>
+                    <Link to="/portal" className="text-xs hover:text-white transition-colors" style={{ color: '#333', fontFamily: 'Poppins, sans-serif' }}>
+                        Portal clientes →
+                    </Link>
+                </div>
             </div>
         </div>
     </footer>

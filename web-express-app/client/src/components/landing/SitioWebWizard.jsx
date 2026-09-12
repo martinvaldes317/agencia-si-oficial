@@ -684,7 +684,12 @@ export default function SitioWebWizard() {
               )}
               <label style={{ display: 'flex', alignItems: 'flex-start', gap: 9, fontSize: 13, color: T.navy, cursor: 'pointer' }}>
                 <input type="checkbox" checked={data.aceptaCondiciones} onChange={e => set({ aceptaCondiciones: e.target.checked })} style={{ marginTop: 3 }} />
-                He revisado la información ingresada y acepto las condiciones del servicio.
+                <span>
+                  He revisado la información ingresada y acepto los{' '}
+                  <a href="/terminos-condiciones" target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ color: T.violet, fontWeight: 700 }}>Términos y Condiciones</a>
+                  {' '}y la{' '}
+                  <a href="/politica-privacidad" target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ color: T.violet, fontWeight: 700 }}>Política de Privacidad</a>.
+                </span>
               </label>
             </div>
 

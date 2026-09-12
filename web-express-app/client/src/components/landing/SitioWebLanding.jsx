@@ -443,11 +443,15 @@ export default function SitioWebLanding() {
 
       {/* FOOTER */}
       <footer style={{ background: T.black, padding: '22px 20px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14 }}>
           <span style={{ fontSize: 12, color: 'rgba(255,255,255,.4)' }}>© 2026 AgenciaSI · Diseño y desarrollo integral</span>
-          <Link to="/" style={{ fontSize: 12, color: 'rgba(255,255,255,.4)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
-            Inicio <ExternalLink size={11} />
-          </Link>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
+            <Link to="/terminos-condiciones" style={{ fontSize: 12, color: 'rgba(255,255,255,.4)', textDecoration: 'none' }}>Términos y Condiciones</Link>
+            <Link to="/politica-privacidad" style={{ fontSize: 12, color: 'rgba(255,255,255,.4)', textDecoration: 'none' }}>Privacidad</Link>
+            <Link to="/" style={{ fontSize: 12, color: 'rgba(255,255,255,.4)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
+              Inicio <ExternalLink size={11} />
+            </Link>
+          </div>
         </div>
       </footer>
 

@@ -35,6 +35,9 @@ import CorporateSEOLocal from './components/seo/CorporateSEOLocal'
 import SitioWebLanding from './components/landing/SitioWebLanding'
 import SitioWebWizard from './components/landing/SitioWebWizard'
 import SitioWebConfirmacion from './components/landing/SitioWebConfirmacion'
+import PoliticaPrivacidad from './components/legal/PoliticaPrivacidad'
+import TerminosCondiciones from './components/legal/TerminosCondiciones'
+import CookieConsent from './components/legal/CookieConsent'
 
 const MAULE_REGION = 'Región del Maule'
 
@@ -113,6 +116,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/diagnostico-seo" element={<DiagnosticoSEO />} />
           <Route path="/links" element={<Links />} />
+          <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
+          <Route path="/terminos-condiciones" element={<TerminosCondiciones />} />
           <Route path="/demos" element={<DemoIndex />} />
           <Route path="/demos/farmacia" element={<DemoFarmacia />} />
           <Route path="/demos/clinica" element={<DemoClinica />} />
@@ -158,6 +163,7 @@ function App() {
             <Route path="tickets" element={<PortalTickets />} />
           </Route>
         </Routes>
+        <CookieConsent />
       </BrowserRouter>
     </AuthProvider>
   )
