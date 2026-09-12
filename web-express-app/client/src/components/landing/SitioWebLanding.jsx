@@ -25,6 +25,8 @@ export const WA_BASE = 'https://wa.me/56932930812?text='
 export const PRICE_ONLINE   = 49990
 export const PRICE_WHATSAPP = 74990
 export const PRICE_STORE    = 25990
+export const SECTIONS_INCLUDED    = 5
+export const PRICE_EXTRA_SECTION  = 9990
 
 // Pixel de Meta dedicado a la campaña "Tu Sitio Web Profesional" — el pixel
 // general del sitio ya carga en index.html (init + PageView en la carga

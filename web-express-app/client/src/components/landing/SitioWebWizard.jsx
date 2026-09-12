@@ -5,7 +5,7 @@ import {
   ArrowLeft, ArrowRight, Check, Upload, X, Loader2, Store,
   ShieldCheck, Code2, ChevronDown,
 } from 'lucide-react'
-import { T, PRICE_ONLINE, PRICE_STORE, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
+import { T, PRICE_ONLINE, PRICE_STORE, SECTIONS_INCLUDED, PRICE_EXTRA_SECTION, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
 import { CHILE_REGIONES, comunasDeRegion } from '../../data/chileRegiones'
 
 const TOTAL_STEPS = 6
@@ -117,15 +117,18 @@ function ChoiceCard({ selected, onClick, children, style }) {
   )
 }
 
-function SeccionChip({ selected, disabled, onClick, children }) {
+function SeccionChip({ selected, extra, onClick, children }) {
+  const showExtraBadge = extra && !selected
   return (
-    <div onClick={disabled && !selected ? undefined : onClick} style={{
-      cursor: disabled && !selected ? 'not-allowed' : 'pointer', padding: '12px 18px', borderRadius: 30,
-      border: `2px solid ${selected ? T.violet : T.border}`, background: selected ? T.violet : T.white,
-      color: selected ? T.white : (disabled ? T.grayLt : T.navy), fontWeight: 700, fontSize: 13,
-      opacity: disabled && !selected ? .5 : 1, display: 'inline-flex', alignItems: 'center', gap: 6,
+    <div onClick={onClick} style={{
+      cursor: 'pointer', padding: '12px 18px', borderRadius: 30,
+      border: `2px solid ${selected ? T.violet : showExtraBadge ? '#B98900' : T.border}`,
+      background: selected ? T.violet : T.white,
+      color: selected ? T.white : T.navy, fontWeight: 700, fontSize: 13,
+      display: 'inline-flex', alignItems: 'center', gap: 6,
     }}>
       {selected && <Check size={13} />} {children}
+      {showExtraBadge && <span style={{ fontSize: 10, fontWeight: 800, color: '#B98900' }}>+${fmt(PRICE_EXTRA_SECTION)}</span>}
     </div>
   )
 }
@@ -160,7 +163,8 @@ export default function SitioWebWizard() {
 
   const set = patch => setData(d => ({ ...d, ...patch }))
 
-  const montoNeto = PRICE_ONLINE + (data.wantsStore ? PRICE_STORE : 0)
+  const extraSecciones = Math.max(0, data.secciones.length - SECTIONS_INCLUDED)
+  const montoNeto = PRICE_ONLINE + (data.wantsStore ? PRICE_STORE : 0) + extraSecciones * PRICE_EXTRA_SECTION
   const montoIva = Math.round(montoNeto * 0.19)
   const montoTotal = montoNeto + montoIva
 
@@ -168,7 +172,6 @@ export default function SitioWebWizard() {
     setData(d => {
       const has = d.secciones.includes(s)
       if (has) return { ...d, secciones: d.secciones.filter(x => x !== s) }
-      if (d.secciones.length >= 5) return d
       return { ...d, secciones: [...d.secciones, s] }
     })
   }
@@ -425,11 +428,18 @@ export default function SitioWebWizard() {
         {step === 3 && (
           <div>
             <StepTitle>¿Qué quieres mostrar en tu página?</StepTitle>
-            <p style={{ fontSize: 13, color: T.gray, marginBottom: 6 }}>Puedes elegir hasta 5 secciones.</p>
-            <div style={{ fontSize: 13, fontWeight: 800, color: T.violet, marginBottom: 16 }}>{data.secciones.length} de 5 secciones seleccionadas</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 8 }}>
-              {SECCIONES_OPCIONES.map(s => (
-                <SeccionChip key={s} selected={data.secciones.includes(s)} disabled={data.secciones.length >= 5} onClick={() => toggleSeccion(s)}>{s}</SeccionChip>
+            <p style={{ fontSize: 13, color: T.gray, marginBottom: 6 }}>Tu sitio incluye hasta {SECTIONS_INCLUDED} secciones. Puedes agregar más por ${fmt(PRICE_EXTRA_SECTION)} + IVA cada una.</p>
+            <div style={{ fontSize: 13, fontWeight: 800, color: T.violet, marginBottom: 4 }}>
+              {Math.min(data.secciones.length, SECTIONS_INCLUDED)} de {SECTIONS_INCLUDED} secciones incluidas
+            </div>
+            {extraSecciones > 0 && (
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#B98900', marginBottom: 12 }}>
+                + {extraSecciones} adicional{extraSecciones > 1 ? 'es' : ''} (+${fmt(extraSecciones * PRICE_EXTRA_SECTION)} + IVA)
+              </div>
+            )}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 8, marginTop: 12 }}>
+              {SECCIONES_OPCIONES.map((s, i) => (
+                <SeccionChip key={s} selected={data.secciones.includes(s)} extra={!data.secciones.includes(s) && data.secciones.length >= SECTIONS_INCLUDED} onClick={() => toggleSeccion(s)}>{s}</SeccionChip>
               ))}
             </div>
             <ErrorMsg>{errors.secciones}</ErrorMsg>
@@ -623,6 +633,18 @@ export default function SitioWebWizard() {
                       <Check size={12} color={T.violet} /> {t}
                     </div>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {extraSecciones > 0 && (
+              <div style={{ background: '#FFF8E6', border: '1px solid #B9890040', borderRadius: 16, padding: '20px 22px', marginBottom: 14 }}>
+                <div style={{ fontSize: 10, fontWeight: 800, color: '#B98900', letterSpacing: 1, marginBottom: 6 }}>ADICIONAL</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontWeight: 800, fontSize: 14, color: T.navy }}>
+                    {extraSecciones} sección{extraSecciones > 1 ? 'es' : ''} adicional{extraSecciones > 1 ? 'es' : ''}
+                  </span>
+                  <span style={{ fontWeight: 800, fontSize: 15, color: '#B98900' }}>+${fmt(extraSecciones * PRICE_EXTRA_SECTION)} + IVA</span>
                 </div>
               </div>
             )}

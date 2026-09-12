@@ -486,9 +486,11 @@ app.post('/api/mp/create-preference', async (req, res) => {
 });
 
 // "Sitio Web Profesional" landing (compra online $49.990+IVA / contratación WhatsApp $74.990+IVA)
-const WEB_ORDER_BASE_PRICE  = 49990;
-const WEB_ORDER_STORE_PRICE = 25990;
-const WEB_ORDER_WA_PRICE    = 74990;
+const WEB_ORDER_BASE_PRICE     = 49990;
+const WEB_ORDER_STORE_PRICE    = 25990;
+const WEB_ORDER_WA_PRICE       = 74990;
+const WEB_ORDER_SECTION_INCLUDED = 5;
+const WEB_ORDER_EXTRA_SECTION_PRICE = 9990;
 const IVA_RATE = 0.19;
 
 app.post('/api/web-orders', async (req, res) => {
@@ -513,7 +515,11 @@ app.post('/api/web-orders', async (req, res) => {
     const orderId = `WEB-${Date.now()}`;
     const siteUrl = process.env.SITE_URL || 'https://agenciasi.cl';
 
-    const montoNeto  = WEB_ORDER_BASE_PRICE + (wantsStore ? WEB_ORDER_STORE_PRICE : 0);
+    const seccionesCount = Array.isArray(secciones) ? secciones.length : 0;
+    const extraSecciones = Math.max(0, seccionesCount - WEB_ORDER_SECTION_INCLUDED);
+    const montoNeto  = WEB_ORDER_BASE_PRICE
+      + (wantsStore ? WEB_ORDER_STORE_PRICE : 0)
+      + extraSecciones * WEB_ORDER_EXTRA_SECTION_PRICE;
     const montoIva   = Math.round(montoNeto * IVA_RATE);
     const montoTotal = montoNeto + montoIva;
 
@@ -624,6 +630,16 @@ app.post('/api/web-orders', async (req, res) => {
         description: 'Carro de compras, catálogo y Mercado Pago integrado',
         quantity: 1,
         unit_price: WEB_ORDER_STORE_PRICE + Math.round(WEB_ORDER_STORE_PRICE * IVA_RATE),
+        currency_id: 'CLP',
+      });
+    }
+    if (extraSecciones > 0) {
+      items.push({
+        id: `${orderId}-secciones-extra`,
+        title: 'Secciones adicionales — AgenciaSI',
+        description: `${extraSecciones} sección(es) adicional(es) a las 5 incluidas`,
+        quantity: extraSecciones,
+        unit_price: WEB_ORDER_EXTRA_SECTION_PRICE + Math.round(WEB_ORDER_EXTRA_SECTION_PRICE * IVA_RATE),
         currency_id: 'CLP',
       });
     }
