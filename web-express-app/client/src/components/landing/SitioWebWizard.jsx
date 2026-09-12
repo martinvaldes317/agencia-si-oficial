@@ -864,11 +864,11 @@ export default function SitioWebWizard() {
 
         {step <= TOTAL_STEPS && (
           <button onClick={openResumePanel} style={{
-            width: '100%', marginTop: 14, background: 'transparent', border: `1.5px dashed ${T.border}`,
-            color: T.violet, fontWeight: 700, fontSize: 13, padding: '13px', borderRadius: 12, cursor: 'pointer',
+            width: '100%', marginTop: 14, background: T.violet, border: 'none',
+            color: T.white, fontWeight: 800, fontSize: 14, padding: '14px', borderRadius: 12, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
           }}>
-            <Smartphone size={15} /> Guardar y continuar en otro dispositivo
+            <Smartphone size={16} /> Guardar y continuar en otro dispositivo
           </button>
         )}
       </div>
