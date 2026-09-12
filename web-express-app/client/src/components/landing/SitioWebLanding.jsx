@@ -27,16 +27,22 @@ export const PRICE_WHATSAPP = 74990
 export const PRICE_STORE    = 25990
 
 // Pixel de Meta dedicado a la campaña "Tu Sitio Web Profesional" — el pixel
-// general del sitio ya carga en index.html; este solo recibe eventos de las
-// páginas /sitio-web vía trackSingle, sin mezclarse con el resto del sitio.
+// general del sitio ya carga en index.html (init + PageView en la carga
+// inicial). Este segundo pixel se inicializa al entrar a /sitio-web, tal
+// como indica el instalador de Meta, para quedar reconocido como instalado
+// de forma estándar y recibir los mismos eventos (PageView, Lead, Purchase).
 export const META_PIXEL_SITIO_WEB = '1383902153896953'
+let metaPixelSitioWebInited = false
 
-export const px = (event, params) => {
+export const pxPageView = () => {
   if (typeof fbq === 'undefined') return
-  fbq('track', event, params)
-  fbq('trackSingle', META_PIXEL_SITIO_WEB, event, params)
+  if (!metaPixelSitioWebInited) {
+    fbq('init', META_PIXEL_SITIO_WEB)
+    metaPixelSitioWebInited = true
+  }
+  fbq('track', 'PageView')
 }
-export const pxPageView = () => { if (typeof fbq !== 'undefined') fbq('trackSingle', META_PIXEL_SITIO_WEB, 'PageView') }
+export const px = (event, params) => { if (typeof fbq !== 'undefined') fbq('track', event, params) }
 export const ga = (event, params) => { if (typeof gtag !== 'undefined') gtag('event', event, params) }
 export const fmt = n => n.toLocaleString('es-CL')
 
