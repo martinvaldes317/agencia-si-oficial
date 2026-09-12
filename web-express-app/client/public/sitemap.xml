@@ -13,7 +13,7 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/sitio-web</loc>
+    <loc>https://agenciasi.cl/sitio-web/</loc>
     <lastmod>2026-09-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
@@ -31,195 +31,195 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/web/santiago</loc>
+    <loc>https://agenciasi.cl/web/santiago/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/web/las-condes</loc>
+    <loc>https://agenciasi.cl/web/las-condes/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/web/vina-del-mar</loc>
+    <loc>https://agenciasi.cl/web/vina-del-mar/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/web/temuco</loc>
+    <loc>https://agenciasi.cl/web/temuco/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/web/talca</loc>
+    <loc>https://agenciasi.cl/web/talca/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/web/rancagua</loc>
+    <loc>https://agenciasi.cl/web/rancagua/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/web/pucon</loc>
+    <loc>https://agenciasi.cl/web/pucon/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/agencia/santiago</loc>
+    <loc>https://agenciasi.cl/agencia/santiago/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/agencia/las-condes</loc>
+    <loc>https://agenciasi.cl/agencia/las-condes/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/agencia/vina-del-mar</loc>
+    <loc>https://agenciasi.cl/agencia/vina-del-mar/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/agencia/temuco</loc>
+    <loc>https://agenciasi.cl/agencia/temuco/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/agencia/talca</loc>
+    <loc>https://agenciasi.cl/agencia/talca/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/agencia/rancagua</loc>
+    <loc>https://agenciasi.cl/agencia/rancagua/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/agencia/pucon</loc>
+    <loc>https://agenciasi.cl/agencia/pucon/</loc>
     <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://agenciasi.cl/marketing/rancagua</loc>
+    <loc>https://agenciasi.cl/marketing/rancagua/</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <!-- Agencia de Publicidad (Marketing Digital) · 30 comunas Región del Maule + Las Rastras -->
-  <url><loc>https://agenciasi.cl/marketing/talca</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/curico</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/linares</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/cauquenes</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/parral</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/san-javier</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/molina</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/constitucion</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/san-clemente</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/longavi</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/colbun</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/retiro</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/villa-alegre</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/yerbas-buenas</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/teno</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/sagrada-familia</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/romeral</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/rauco</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/hualane</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/licanten</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/vichuquen</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/rio-claro</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/pelarco</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/pencahue</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/maule</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/empedrado</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/curepto</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/san-rafael</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/chanco</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/pelluhue</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/marketing/las-rastras</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/talca/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/curico/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/linares/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/cauquenes/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/parral/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/san-javier/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/molina/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/constitucion/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/san-clemente/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/longavi/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/colbun/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/retiro/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/villa-alegre/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/yerbas-buenas/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/teno/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/sagrada-familia/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/romeral/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/rauco/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/hualane/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/licanten/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/vichuquen/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/rio-claro/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/pelarco/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/pencahue/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/maule/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/empedrado/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/curepto/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/san-rafael/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/chanco/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/pelluhue/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/marketing/las-rastras/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
   <!-- Letreros Volumétricos · 30 comunas Región del Maule + Las Rastras -->
-  <url><loc>https://agenciasi.cl/letreros/talca</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/curico</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/linares</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/cauquenes</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/parral</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/san-javier</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/molina</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/constitucion</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/san-clemente</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/longavi</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/colbun</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/retiro</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/villa-alegre</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/yerbas-buenas</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/teno</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/sagrada-familia</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/romeral</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/rauco</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/hualane</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/licanten</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/vichuquen</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/rio-claro</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/pelarco</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/pencahue</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/maule</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/empedrado</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/curepto</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/san-rafael</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/chanco</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/pelluhue</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/letreros/las-rastras</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/talca/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/curico/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/linares/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/cauquenes/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/parral/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/san-javier/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/molina/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/constitucion/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/san-clemente/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/longavi/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/colbun/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/retiro/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/villa-alegre/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/yerbas-buenas/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/teno/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/sagrada-familia/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/romeral/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/rauco/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/hualane/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/licanten/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/vichuquen/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/rio-claro/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/pelarco/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/pencahue/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/maule/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/empedrado/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/curepto/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/san-rafael/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/chanco/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/pelluhue/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/letreros/las-rastras/</loc><lastmod>2026-06-26</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
   <!-- Publicidad Corporativa (Empresas) · 30 comunas Región del Maule + Las Rastras + ciudades CITIES -->
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/talca</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/curico</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/linares</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/cauquenes</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/parral</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/san-javier</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/molina</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/constitucion</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/san-clemente</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/longavi</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/colbun</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/retiro</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/villa-alegre</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/yerbas-buenas</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/teno</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/sagrada-familia</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/romeral</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/rauco</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/hualane</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/licanten</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/vichuquen</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/rio-claro</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/pelarco</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/pencahue</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/maule</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/empedrado</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/curepto</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/san-rafael</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/chanco</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/pelluhue</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/las-rastras</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/rancagua</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/santiago</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/vina-del-mar</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/pucon</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/temuco</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
-  <url><loc>https://agenciasi.cl/publicidad-corporativa/las-condes</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/talca/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/curico/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/linares/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.82</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/cauquenes/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/parral/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/san-javier/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/molina/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/constitucion/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/san-clemente/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/longavi/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.76</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/colbun/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/retiro/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/villa-alegre/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/yerbas-buenas/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/teno/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/sagrada-familia/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/romeral/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/rauco/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/hualane/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.74</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/licanten/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/vichuquen/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/rio-claro/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.73</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/pelarco/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/pencahue/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/maule/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/empedrado/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/curepto/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/san-rafael/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/chanco/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/pelluhue/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/las-rastras/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/rancagua/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/santiago/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/vina-del-mar/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/pucon/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/temuco/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://agenciasi.cl/publicidad-corporativa/las-condes/</loc><lastmod>2026-07-31</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
 </urlset>

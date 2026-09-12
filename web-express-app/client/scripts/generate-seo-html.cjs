@@ -94,7 +94,10 @@ const SITIO_WEB_PAGES = [
 ];
 
 for (const page of SITIO_WEB_PAGES) {
-  const canonical = `https://agenciasi.cl${page.pathname}`;
+  // Trailing slash: same reasoning as the SEO routes above — this is pre-rendered
+  // to dist/<pathname>/index.html (a real directory), so Apache 301s the
+  // slash-less URL. Canonical/og:url point straight at what actually returns 200.
+  const canonical = `https://agenciasi.cl${page.pathname}/`;
   let html = template
     .replace(/<title>[^<]*<\/title>/, `<title>${page.title}</title>`)
     .replace(/<meta name="robots" content="[^"]*"\s*\/>/, `<meta name="robots" content="${page.robots}" />`)
@@ -115,3 +118,37 @@ for (const page of SITIO_WEB_PAGES) {
 }
 
 console.log(`[generate-seo-html] Generated ${SITIO_WEB_PAGES.length} static /sitio-web pages with Meta Pixel baked in.`);
+
+// ── Bare "parent" routes that have their own page AND generated sub-routes ──
+// e.g. /web is LandingWebSistemas, while /web/talca, /web/santiago, etc. are
+// separate SEO pages generated above as dist/web/<slug>/index.html. Once those
+// subdirectories exist, dist/web itself becomes a real directory on disk — so
+// Apache stops falling back to the SPA shell for a bare /web/ request and
+// instead 403s (no index.html directly inside dist/web/). Every prefix with
+// its own bare route needs an explicit dist/<prefix>/index.html here too.
+const STANDALONE_PARENT_PAGES = [
+  {
+    pathname: '/web',
+    title: 'Páginas Web y Sistemas a Medida desde $74.990 | AgenciaSI Chile',
+    description: 'Creamos páginas web y sistemas a medida para tu negocio en Chile desde $74.990. Entrega en 5 días, dominio incluido, soporte post-entrega. Cotiza por WhatsApp.',
+    robots: 'index, follow',
+  },
+];
+
+for (const page of STANDALONE_PARENT_PAGES) {
+  const canonical = `https://agenciasi.cl${page.pathname}/`;
+  const html = template
+    .replace(/<title>[^<]*<\/title>/, `<title>${page.title}</title>`)
+    .replace(/<meta name="robots" content="[^"]*"\s*\/>/, `<meta name="robots" content="${page.robots}" />`)
+    .replace(/<meta name="description" content="[^"]*"\s*\/>/, `<meta name="description" content="${page.description}" />`)
+    .replace(/<meta property="og:title" content="[^"]*"\s*\/>/, `<meta property="og:title" content="${page.title}" />`)
+    .replace(/<meta property="og:description" content="[^"]*"\s*\/>/, `<meta property="og:description" content="${page.description}" />`)
+    .replace(/<meta property="og:url" content="[^"]*"\s*\/>/, `<meta property="og:url" content="${canonical}" />`)
+    .replace('</head>', `  <link rel="canonical" href="${canonical}" />\n</head>`);
+
+  const outDir = path.join(distDir, page.pathname.replace(/^\//, ''));
+  fs.mkdirSync(outDir, { recursive: true });
+  fs.writeFileSync(path.join(outDir, 'index.html'), html);
+}
+
+console.log(`[generate-seo-html] Generated ${STANDALONE_PARENT_PAGES.length} standalone parent page(s) (dist/web/ etc.) that were shadowed by their own sub-routes.`);

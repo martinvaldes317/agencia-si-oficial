@@ -65,14 +65,20 @@ function getSeoMeta(pathname) {
     const slug = pathname.slice(type.prefix.length).replace(/\/+$/, '')
     const name = type.cities[slug]
     if (!name) continue
-    const canonical = `https://agenciasi.cl${type.prefix}${slug}`
+    // Trailing slash: each of these is pre-rendered to dist/<prefix><slug>/index.html
+    // (a real directory), so Apache 301-redirects the slash-less URL to add the
+    // slash before serving it. Declaring canonical/sitemap URLs WITH the slash
+    // means they point straight at the 200 response Apache actually serves,
+    // instead of a URL that immediately redirects elsewhere.
+    const canonical = `https://agenciasi.cl${type.prefix}${slug}/`
     return { title: type.title(name), description: type.description(name), canonical }
   }
   return null
 }
 
 // Returns every known SEO local page as { pathname, title, description, canonical }.
-// pathname has no trailing slash, e.g. "/marketing/curico".
+// pathname has no trailing slash (it's a filesystem path root, e.g. "/marketing/curico");
+// canonical does (see the comment in getSeoMeta above).
 function getAllSeoRoutes() {
   const routes = [];
   for (const type of PAGE_TYPES) {
@@ -82,7 +88,7 @@ function getAllSeoRoutes() {
         pathname,
         title: type.title(name),
         description: type.description(name),
-        canonical: `https://agenciasi.cl${pathname}`,
+        canonical: `https://agenciasi.cl${pathname}/`,
       });
     }
   }

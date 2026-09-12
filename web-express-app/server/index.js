@@ -595,7 +595,7 @@ app.post('/api/web-orders', async (req, res) => {
     sendCapiEvent({
       eventName: 'Lead',
       eventId: orderId,
-      eventSourceUrl: `${siteUrl}/sitio-web/formulario`,
+      eventSourceUrl: `${siteUrl}/sitio-web/formulario/`,
       email, phone: personalWhatsapp,
       customData: { value: montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' },
     }).catch(e => console.error('[web-orders-capi]', e.message));
@@ -634,9 +634,9 @@ app.post('/api/web-orders', async (req, res) => {
         payer: { name: contactName, email },
         external_reference: orderId,
         back_urls: {
-          success: `${siteUrl}/sitio-web/confirmacion`,
-          failure: `${siteUrl}/sitio-web/confirmacion`,
-          pending: `${siteUrl}/sitio-web/confirmacion`,
+          success: `${siteUrl}/sitio-web/confirmacion/`,
+          failure: `${siteUrl}/sitio-web/confirmacion/`,
+          pending: `${siteUrl}/sitio-web/confirmacion/`,
         },
         auto_return: 'approved',
         notification_url: `${apiBaseUrl()}/api/webhooks/mercadopago`,
@@ -719,7 +719,7 @@ app.post('/api/webhooks/mercadopago', async (req, res) => {
       sendCapiEvent({
         eventName: 'Purchase',
         eventId: orderId,
-        eventSourceUrl: `${siteUrl}/sitio-web/confirmacion`,
+        eventSourceUrl: `${siteUrl}/sitio-web/confirmacion/`,
         email: order.email, phone: order.phone,
         customData: { value: order.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' },
       }).catch(e => console.error('[webhook-capi]', e.message));
