@@ -4,23 +4,42 @@ import {
     LayoutDashboard, Users, Settings, Package,
     Search, Filter, ChevronRight, Clock,
     CheckCircle2, AlertCircle, FileText, Download,
-    MoreVertical, LogOut
+    MoreVertical, LogOut, Lock, Loader2
 } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
 
 export default function AdminDashboard() {
     const navigate = useNavigate()
+    const { adminToken, loginAdmin, logoutAdmin, authFetch } = useAuth()
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [filter, setFilter] = useState('todos');
+    const [pwd, setPwd] = useState('');
+    const [loginError, setLoginError] = useState('');
+    const [loggingIn, setLoggingIn] = useState(false);
 
     useEffect(() => {
-        fetchOrders();
-    }, []);
+        if (adminToken) fetchOrders();
+        else setLoading(false);
+    }, [adminToken]);
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setLoggingIn(true); setLoginError('');
+        try {
+            await loginAdmin(pwd);
+        } catch (err) {
+            setLoginError(err.message || 'Contraseña incorrecta');
+        } finally {
+            setLoggingIn(false);
+        }
+    };
 
     const fetchOrders = async () => {
+        setLoading(true);
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/orders`);
+            const response = await authFetch('/api/orders');
             const data = await response.json();
             if (data.success) {
                 setOrders(data.orders);
@@ -34,15 +53,14 @@ export default function AdminDashboard() {
 
     const updateStatus = async (orderId, newStatus) => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/orders/${orderId}/status`, {
+            const response = await authFetch(`/api/orders/${orderId}/status`, {
                 method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: newStatus })
             });
             const data = await response.json();
             if (data.success) {
-                setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
-                if (selectedOrder?.id === orderId) {
+                setOrders(prev => prev.map(o => o.orderId === orderId ? { ...o, status: newStatus } : o));
+                if (selectedOrder?.orderId === orderId) {
                     setSelectedOrder({ ...selectedOrder, status: newStatus });
                 }
             }
@@ -53,6 +71,9 @@ export default function AdminDashboard() {
 
     const getStatusStyle = (status) => {
         switch (status) {
+            case 'pendiente_pago': return 'bg-red-500/10 text-red-400 border-red-500/20';
+            case 'contacto_whatsapp': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+            case 'nuevo': return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
             case 'recibido': return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
             case 'en_proceso': return 'bg-amber-500/10 text-amber-500 border-amber-500/20';
             case 'revision': return 'bg-purple-500/10 text-purple-500 border-purple-500/20';
@@ -64,6 +85,34 @@ export default function AdminDashboard() {
     const filteredOrders = filter === 'todos'
         ? orders
         : orders.filter(o => o.status === filter);
+
+    if (!adminToken) {
+        return (
+            <div className="min-h-screen bg-black flex items-center justify-center px-4">
+                <form onSubmit={handleLogin} className="w-full max-w-sm bg-white/5 border border-white/10 rounded-2xl p-8">
+                    <div className="flex items-center gap-2 mb-8">
+                        <div className="w-6 h-6 bg-white flex items-center justify-center rounded-sm">
+                            <span className="text-black font-bold text-sm italic">SI</span>
+                        </div>
+                        <span className="text-white font-bold tracking-tighter text-sm uppercase">Admin Panel</span>
+                    </div>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 block mb-2">Contraseña de administrador</label>
+                    <div className="relative mb-4">
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                        <input
+                            type="password" value={pwd} onChange={e => setPwd(e.target.value)} required autoFocus
+                            className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-white/20"
+                        />
+                    </div>
+                    {loginError && <p className="text-red-400 text-xs mb-4">{loginError}</p>}
+                    <button type="submit" disabled={loggingIn}
+                        className="w-full bg-white text-black py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-zinc-200 disabled:opacity-50 transition-all">
+                        {loggingIn ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'Ingresar'}
+                    </button>
+                </form>
+            </div>
+        );
+    }
 
     return (
         <div className="flex h-screen bg-black text-zinc-300 font-sans antialiased">
@@ -93,7 +142,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="mt-auto p-8">
-                    <button className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors text-sm font-medium">
+                    <button onClick={logoutAdmin} className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors text-sm font-medium">
                         <LogOut className="w-4 h-4" />
                         Cerrar Sesión
                     </button>
@@ -126,9 +175,9 @@ export default function AdminDashboard() {
                     <div className="grid grid-cols-4 gap-6 mb-10">
                         {[
                             { label: 'Total Pedidos', value: orders.length, icon: Package, color: 'text-white' },
-                            { label: 'En Proceso', value: orders.filter(o => o.status === 'en_proceso').length, icon: Clock, color: 'text-amber-500' },
+                            { label: 'Pendientes de pago', value: orders.filter(o => o.status === 'pendiente_pago').length, icon: Clock, color: 'text-red-400' },
                             { label: 'Finalizados', value: orders.filter(o => o.status === 'completado').length, icon: CheckCircle2, color: 'text-emerald-500' },
-                            { label: 'Ingresos Totales', value: `$${(orders.length * 129990).toLocaleString()}`, icon: FileText, color: 'text-blue-500' },
+                            { label: 'Ingresos Totales (pagados)', value: `$${orders.reduce((sum, o) => sum + (o.status !== 'pendiente_pago' ? (o.montoTotal || 129990) : 0), 0).toLocaleString('es-CL')}`, icon: FileText, color: 'text-blue-500' },
                         ].map((stat, i) => (
                             <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-6">
                                 <div className="flex items-center justify-between mb-4">
@@ -183,10 +232,10 @@ export default function AdminDashboard() {
                                         </tr>
                                     ) : filteredOrders.map((order) => (
                                         <tr key={order.id} className="hover:bg-white/[0.02] transition-colors group">
-                                            <td className="px-8 py-5 font-mono text-xs text-white">{order.id}</td>
+                                            <td className="px-8 py-5 font-mono text-xs text-white">{order.orderId}</td>
                                             <td className="px-8 py-5">
                                                 <p className="text-sm font-bold text-white">{order.businessName}</p>
-                                                <p className="text-[10px] text-zinc-500 uppercase tracking-widest">{order.city || 'Chile'}</p>
+                                                <p className="text-[10px] text-zinc-500 uppercase tracking-widest">{order.city || 'Chile'}{order.modalidad ? ` · ${order.modalidad === 'online' ? 'Compra online' : 'WhatsApp'}` : ''}</p>
                                             </td>
                                             <td className="px-8 py-5 text-zinc-500 text-sm">{order.email}</td>
                                             <td className="px-8 py-5">
@@ -221,7 +270,7 @@ export default function AdminDashboard() {
                         <div className="p-8 border-b border-white/5 flex items-center justify-between">
                             <div>
                                 <h2 className="text-2xl font-bold text-white tracking-tight">{selectedOrder.businessName}</h2>
-                                <p className="text-xs text-zinc-500 font-mono tracking-widest uppercase mt-1">ID: {selectedOrder.id}</p>
+                                <p className="text-xs text-zinc-500 font-mono tracking-widest uppercase mt-1">ID: {selectedOrder.orderId}</p>
                             </div>
                             <button onClick={() => setSelectedOrder(null)} className="p-2 hover:bg-white/5 rounded-full transition-colors">
                                 <ChevronRight className="w-6 h-6 text-zinc-500 rotate-180" />
@@ -235,9 +284,12 @@ export default function AdminDashboard() {
                                     <label className="text-[9px] font-bold uppercase tracking-widest text-zinc-500 block mb-2">Estado del Proyecto</label>
                                     <select
                                         value={selectedOrder.status}
-                                        onChange={(e) => updateStatus(selectedOrder.id, e.target.value)}
+                                        onChange={(e) => updateStatus(selectedOrder.orderId, e.target.value)}
                                         className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-white/20"
                                     >
+                                        <option value="pendiente_pago">Pendiente de pago</option>
+                                        <option value="contacto_whatsapp">Contactado por WhatsApp</option>
+                                        <option value="nuevo">Nuevo (pagado)</option>
                                         <option value="recibido">Recibido</option>
                                         <option value="en_proceso">En Proceso</option>
                                         <option value="revision">En Revisión</option>
@@ -277,8 +329,8 @@ export default function AdminDashboard() {
                                     <h4 className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] mb-4">Ubicación</h4>
                                     <div className="space-y-4">
                                         <div className="flex flex-col">
-                                            <span className="text-[10px] text-zinc-600 uppercase font-bold tracking-widest mb-1">Ciudad</span>
-                                            <span className="text-white text-sm">{selectedOrder.city}</span>
+                                            <span className="text-[10px] text-zinc-600 uppercase font-bold tracking-widest mb-1">Comuna</span>
+                                            <span className="text-white text-sm">{selectedOrder.city || 'N/A'}{selectedOrder.region ? `, ${selectedOrder.region}` : ''}</span>
                                         </div>
                                         <div className="flex flex-col">
                                             <span className="text-[10px] text-zinc-600 uppercase font-bold tracking-widest mb-1">Dirección</span>
@@ -287,6 +339,59 @@ export default function AdminDashboard() {
                                     </div>
                                 </div>
                             </div>
+
+                            {selectedOrder.modalidad && (
+                                <div className="pt-10 border-t border-white/5">
+                                    <h4 className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] mb-4">Sitio Web Profesional — {selectedOrder.modalidad === 'online' ? 'Compra online' : 'Contratación por WhatsApp'}</h4>
+                                    <div className="grid grid-cols-3 gap-6 mb-6">
+                                        <div className="bg-white/5 rounded-xl p-4 border border-white/5">
+                                            <span className="text-[9px] text-zinc-600 uppercase font-bold tracking-widest mb-2 block">Subtotal</span>
+                                            <span className="text-white text-sm font-bold">${Number(selectedOrder.montoNeto || 0).toLocaleString('es-CL')}</span>
+                                        </div>
+                                        <div className="bg-white/5 rounded-xl p-4 border border-white/5">
+                                            <span className="text-[9px] text-zinc-600 uppercase font-bold tracking-widest mb-2 block">IVA</span>
+                                            <span className="text-white text-sm font-bold">${Number(selectedOrder.montoIva || 0).toLocaleString('es-CL')}</span>
+                                        </div>
+                                        <div className="bg-emerald-500/10 rounded-xl p-4 border border-emerald-500/20">
+                                            <span className="text-[9px] text-emerald-400 uppercase font-bold tracking-widest mb-2 block">Total</span>
+                                            <span className="text-emerald-400 text-sm font-bold">${Number(selectedOrder.montoTotal || 0).toLocaleString('es-CL')}</span>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-x-12 gap-y-4">
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] text-zinc-600 uppercase font-bold tracking-widest mb-1">RUT / Razón Social</span>
+                                            <span className="text-white text-sm">{selectedOrder.rut || 'N/A'}{selectedOrder.razonSocial ? ` · ${selectedOrder.razonSocial}` : ''}</span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] text-zinc-600 uppercase font-bold tracking-widest mb-1">Rubro</span>
+                                            <span className="text-white text-sm">{selectedOrder.rubro || 'N/A'}</span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] text-zinc-600 uppercase font-bold tracking-widest mb-1">Dominio</span>
+                                            <span className="text-white text-sm">
+                                                {selectedOrder.hasDomain === 'tengo' ? (selectedOrder.domainExisting || 'N/A') : (selectedOrder.domainWanted || 'N/A')}
+                                                {' '}({selectedOrder.hasDomain === 'tengo' ? 'ya lo tiene' : 'nuevo, incluido 1er año'})
+                                            </span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] text-zinc-600 uppercase font-bold tracking-widest mb-1">Secciones</span>
+                                            <span className="text-white text-sm">
+                                                {(() => { try { return (JSON.parse(selectedOrder.secciones || '[]')).join(', ') || 'N/A' } catch { return selectedOrder.secciones || 'N/A' } })()}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] text-zinc-600 uppercase font-bold tracking-widest mb-1">Tienda online</span>
+                                            <span className="text-white text-sm">
+                                                {selectedOrder.wantsStore ? `Sí · ${selectedOrder.productCount || '—'} productos · MercadoPago: ${selectedOrder.hasMercadoPago === 'si' ? 'ya tiene' : 'necesita crear'}` : 'No'}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] text-zinc-600 uppercase font-bold tracking-widest mb-1">¿Google Maps?</span>
+                                            <span className="text-white text-sm">{selectedOrder.wantsMaps ? 'Sí' : 'No'}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Institution Info */}
                             <div className="space-y-10 pt-10 border-t border-white/5">
