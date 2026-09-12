@@ -42,6 +42,13 @@ async function sendCapiEvent({ eventName, eventId, eventSourceUrl, email, phone,
     }],
   };
 
+  // Set temporarily in Railway (META_CAPI_TEST_EVENT_CODE) while using Meta's
+  // "Test Events" tool, then REMOVE it — events tagged with a test code never
+  // count toward real campaign reporting, only show up in that test view.
+  if (process.env.META_CAPI_TEST_EVENT_CODE) {
+    body.test_event_code = process.env.META_CAPI_TEST_EVENT_CODE;
+  }
+
   try {
     const res = await fetch(`https://graph.facebook.com/${GRAPH_API_VERSION}/${pixelId}/events?access_token=${accessToken}`, {
       method: 'POST',
@@ -50,6 +57,7 @@ async function sendCapiEvent({ eventName, eventId, eventSourceUrl, email, phone,
     });
     const json = await res.json();
     if (!res.ok) console.error('[meta-capi]', eventName, JSON.stringify(json));
+    else console.log('[meta-capi]', eventName, eventId, `received=${json.events_received}`, body.test_event_code ? '(test event)' : '');
   } catch (e) {
     console.error('[meta-capi]', eventName, e.message);
   }
