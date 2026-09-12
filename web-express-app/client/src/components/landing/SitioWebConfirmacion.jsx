@@ -14,16 +14,22 @@ export default function SitioWebConfirmacion() {
   useEffect(() => {
     pxPageView()
 
+    let parsed = null
     try {
       const raw = localStorage.getItem('agenciasi_last_web_order')
       if (raw) {
-        const parsed = JSON.parse(raw)
+        parsed = JSON.parse(raw)
         if (!orderIdFromUrl || parsed.orderId === orderIdFromUrl) setSummary(parsed)
+        else parsed = null // localStorage summary belongs to a different order — don't use it below
       }
     } catch { /* no-op */ }
 
     if (!collectionStatus || collectionStatus === 'approved') {
-      px('CompleteRegistration'); ga('conversion', { event_category: 'sitio_web' })
+      const orderId = orderIdFromUrl || parsed?.orderId
+      // Same event_name + event_id as the server-side Purchase sent from the
+      // Mercado Pago webhook, so Meta dedupes browser + server into one event.
+      px('Purchase', { value: parsed?.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' }, orderId)
+      ga('purchase', { value: parsed?.montoTotal, currency: 'CLP', transaction_id: orderId })
     }
   }, [])
 

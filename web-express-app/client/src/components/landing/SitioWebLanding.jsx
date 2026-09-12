@@ -42,7 +42,13 @@ export const pxPageView = () => {
   }
   fbq('track', 'PageView')
 }
-export const px = (event, params) => { if (typeof fbq !== 'undefined') fbq('track', event, params) }
+// eventId (orderId) lets Meta dedupe this browser event against the matching
+// server-side Conversions API call for the same event_name + event_id.
+export const px = (event, params, eventId) => {
+  if (typeof fbq === 'undefined') return
+  if (eventId) fbq('track', event, params, { eventID: eventId })
+  else fbq('track', event, params)
+}
 export const ga = (event, params) => { if (typeof gtag !== 'undefined') gtag('event', event, params) }
 export const fmt = n => n.toLocaleString('es-CL')
 

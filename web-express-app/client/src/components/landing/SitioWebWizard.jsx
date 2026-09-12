@@ -231,8 +231,13 @@ export default function SitioWebWizard() {
       }))
       localStorage.removeItem(DRAFT_KEY)
 
-      px('Purchase', { value: json.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' })
-      ga('purchase', { value: json.montoTotal, currency: 'CLP', transaction_id: json.orderId })
+      // 'Lead' matches the server-side Conversions API call fired when the order was
+      // created (same orderId = same event_id → Meta dedupes them). The actual
+      // 'Purchase' only fires on the confirmation page once Mercado Pago confirms
+      // the payment — firing it here would count it before the customer has paid.
+      px('Lead', { value: json.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' }, json.orderId)
+      px('InitiateCheckout', { value: json.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' })
+      ga('generate_lead', { value: json.montoTotal, currency: 'CLP', transaction_id: json.orderId })
 
       if (json.init_point) window.location.href = json.init_point
       else navigate(`/sitio-web/confirmacion?orderId=${json.orderId}`)

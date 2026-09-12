@@ -11,6 +11,7 @@ const archiver = require('archiver');
 const prisma = require('./lib/prisma');
 const mailer = require('./lib/mailer');
 const { getSeoMeta } = require('./lib/seoLocalPages');
+const { sendCapiEvent } = require('./lib/metaCapi');
 const { authenticateAdmin, JWT_SECRET } = require('./middleware/auth');
 const { MercadoPagoConfig, Preference, Payment: MPPayment } = require('mercadopago');
 
@@ -591,6 +592,14 @@ app.post('/api/web-orders', async (req, res) => {
     }
     await prisma.webExpressOrder.update({ where: { orderId }, data: { clientId } });
 
+    sendCapiEvent({
+      eventName: 'Lead',
+      eventId: orderId,
+      eventSourceUrl: `${siteUrl}/sitio-web/formulario`,
+      email, phone: personalWhatsapp,
+      customData: { value: montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' },
+    }).catch(e => console.error('[web-orders-capi]', e.message));
+
     if (modalidad === 'whatsapp') {
       // No payment collected here — the client finishes contracting directly over WhatsApp.
       mailer.send({ to: 'contacto@agenciasi.cl', subject: `Nuevo interesado (WhatsApp): ${companyName}`, html: mailer.newOrder({ orderId, name: contactName, email, phone: personalWhatsapp, service: 'Sitio Web Profesional', plan: `WhatsApp asistido — $${montoTotal.toLocaleString('es-CL')}${wantsStore ? ' (+ Tienda Online)' : ''}` }) })
@@ -704,6 +713,18 @@ app.post('/api/webhooks/mercadopago', async (req, res) => {
     await prisma.webExpressOrder.update({ where: { orderId }, data: { status: 'nuevo' } });
 
     const siteUrl = process.env.SITE_URL || 'https://agenciasi.cl';
+
+    // Only orders from the /sitio-web funnel (modalidad set) belong to that campaign's pixel.
+    if (order.modalidad) {
+      sendCapiEvent({
+        eventName: 'Purchase',
+        eventId: orderId,
+        eventSourceUrl: `${siteUrl}/sitio-web/confirmacion`,
+        email: order.email, phone: order.phone,
+        customData: { value: order.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' },
+      }).catch(e => console.error('[webhook-capi]', e.message));
+    }
+
     let clientId = order.clientId;
 
     if (!clientId) {
