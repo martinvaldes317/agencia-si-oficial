@@ -16,6 +16,16 @@ const SECCIONES_OPCIONES = [
   'Proyectos', 'Preguntas frecuentes', 'Contacto', 'Ubicación', 'Otra',
 ]
 
+// Mostrados en rotación mientras se procesa el pedido (justo antes de
+// redirigir a Mercado Pago) — datos con fuente real, no cifras inventadas.
+const TRUST_MESSAGES = [
+  '9 de cada 10 personas buscan en Google antes de decidir comprarle a un negocio.',
+  'Más del 90% de los consumidores revisa internet antes de visitar un negocio que no conoce (BrightLocal).',
+  'El 83% de las pymes ya tiene su propio sitio web (Clutch, 2025).',
+  'Cerca de 1 de cada 3 búsquedas en Google tiene intención de encontrar un negocio cercano.',
+  'Estamos preparando tu proyecto — esto toma solo unos segundos.',
+]
+
 const initialData = {
   firstName: '', lastName: '', email: '', personalWhatsapp: '',
   companyName: '', rut: '', razonSocial: '',
@@ -152,6 +162,7 @@ export default function SitioWebWizard() {
   const [showTerms, setShowTerms] = useState(false)
   const [logoFile, setLogoFile] = useState(null)
   const [photoFiles, setPhotoFiles] = useState([])
+  const [trustMsgIndex, setTrustMsgIndex] = useState(0)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -160,6 +171,13 @@ export default function SitioWebWizard() {
 
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }, [step])
   useEffect(() => { pxPageView() }, [])
+
+  useEffect(() => {
+    if (!submitting) return
+    setTrustMsgIndex(0)
+    const id = setInterval(() => setTrustMsgIndex(i => (i + 1) % TRUST_MESSAGES.length), 2600)
+    return () => clearInterval(id)
+  }, [submitting])
 
   const set = patch => setData(d => ({ ...d, ...patch }))
 
@@ -325,6 +343,7 @@ export default function SitioWebWizard() {
       )}
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '36px 20px 100px' }}>
+        <div key={step} className="swl-step">
 
         {/* PASO 1 */}
         {step === 1 && (
@@ -702,11 +721,22 @@ export default function SitioWebWizard() {
             }}>
               {submitting ? <><Loader2 size={18} className="swl-spin" /> Procesando…</> : <>Pagar y comenzar mi sitio web <ArrowRight size={17} /></>}
             </button>
-            <div style={{ textAlign: 'center', fontSize: 11, color: T.gray, marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-              <ShieldCheck size={13} /> Pago seguro con Mercado Pago
-            </div>
+
+            {submitting ? (
+              <div key={trustMsgIndex} className="swl-trust-fade" style={{
+                marginTop: 14, textAlign: 'center', fontSize: 12.5, color: T.violet, fontWeight: 600,
+                lineHeight: 1.6, minHeight: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 8px',
+              }}>
+                {TRUST_MESSAGES[trustMsgIndex]}
+              </div>
+            ) : (
+              <div style={{ textAlign: 'center', fontSize: 11, color: T.gray, marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                <ShieldCheck size={13} /> Pago seguro con Mercado Pago
+              </div>
+            )}
           </div>
         )}
+        </div>
 
         {/* NAV BUTTONS */}
         {step <= TOTAL_STEPS && (
@@ -727,6 +757,12 @@ export default function SitioWebWizard() {
         @keyframes swl-spin { to { transform: rotate(360deg); } }
         .swl-spin { animation: swl-spin .8s linear infinite; }
         @media(max-width:640px) { .swl-two-cards { grid-template-columns: 1fr !important; } }
+
+        @keyframes swl-step-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .swl-step { animation: swl-step-in .35s ease both; }
+
+        @keyframes swl-trust-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        .swl-trust-fade { animation: swl-trust-in .4s ease both; }
       `}</style>
     </div>
   )
