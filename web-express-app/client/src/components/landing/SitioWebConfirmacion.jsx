@@ -8,8 +8,20 @@ export default function SitioWebConfirmacion() {
   const [params] = useSearchParams()
   const [summary, setSummary] = useState(null)
 
-  const collectionStatus = params.get('collection_status') || params.get('status')
+  // Mercado Pago can send the literal string "null" for every param (e.g. when
+  // the customer cancels before picking a payment method) — that's truthy in
+  // JS, so treating it as "no status" would have fallen through to "success".
+  const rawStatus = params.get('collection_status') || params.get('status')
+  const collectionStatus = rawStatus && rawStatus !== 'null' ? rawStatus : null
   const orderIdFromUrl = params.get('external_reference') || params.get('orderId')
+
+  const isApproved = collectionStatus === 'approved'
+  const isPending = collectionStatus === 'pending' || collectionStatus === 'in_process'
+  // Fail closed: only an explicit "approved" counts as success. Anything else —
+  // rejected, cancelled, missing, or garbage params — is treated as NOT paid,
+  // instead of defaulting to a success message we can't actually prove.
+  const isFailure = !isApproved && !isPending
+  const hasOrderContext = !!orderIdFromUrl
 
   useEffect(() => {
     pxPageView()
@@ -24,7 +36,7 @@ export default function SitioWebConfirmacion() {
       }
     } catch { /* no-op */ }
 
-    if (!collectionStatus || collectionStatus === 'approved') {
+    if (isApproved) {
       const orderId = orderIdFromUrl || parsed?.orderId
       // Same event_name + event_id as the server-side Purchase sent from the
       // Mercado Pago webhook, so Meta dedupes browser + server into one event.
@@ -32,9 +44,6 @@ export default function SitioWebConfirmacion() {
       ga('purchase', { value: parsed?.montoTotal, currency: 'CLP', transaction_id: orderId })
     }
   }, [])
-
-  const isFailure = collectionStatus === 'rejected' || collectionStatus === 'failure'
-  const isPending = collectionStatus === 'pending' || collectionStatus === 'in_process'
 
   const WA = `${WA_BASE}${encodeURIComponent(`Hola, mi número de pedido es ${orderIdFromUrl || summary?.orderId || ''}. Necesito ayuda con mi sitio web.`)}`
 
@@ -60,9 +69,13 @@ export default function SitioWebConfirmacion() {
           {isFailure ? (
             <>
               <XCircle size={54} color="#D9333F" style={{ marginBottom: 16 }} />
-              <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 800, color: T.navy, marginBottom: 10 }}>Tu pago no pudo procesarse</h1>
+              <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 800, color: T.navy, marginBottom: 10 }}>
+                {hasOrderContext ? 'Tu pago no se completó' : 'No encontramos tu pedido'}
+              </h1>
               <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.7, marginBottom: 28 }}>
-                No te preocupes, tu proyecto quedó registrado. Escríbenos por WhatsApp y te ayudamos a completar tu pedido.
+                {hasOrderContext
+                  ? 'Tu proyecto quedó registrado, pero el pago fue rechazado o se canceló antes de completarse. Escríbenos por WhatsApp y te ayudamos a completar tu pedido.'
+                  : 'Este enlace no tiene la información de un pedido. Si acabas de completar el formulario, vuelve a intentarlo o escríbenos por WhatsApp.'}
               </p>
             </>
           ) : isPending ? (
