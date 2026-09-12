@@ -861,6 +861,16 @@ export default function SitioWebWizard() {
             </button>
           </div>
         )}
+
+        {step <= TOTAL_STEPS && (
+          <button onClick={openResumePanel} style={{
+            width: '100%', marginTop: 14, background: 'transparent', border: `1.5px dashed ${T.border}`,
+            color: T.violet, fontWeight: 700, fontSize: 13, padding: '13px', borderRadius: 12, cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+          }}>
+            <Smartphone size={15} /> Guardar y continuar en otro dispositivo
+          </button>
+        )}
       </div>
 
       <style>{`
