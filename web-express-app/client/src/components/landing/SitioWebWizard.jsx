@@ -380,7 +380,7 @@ export default function SitioWebWizard() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             {step <= TOTAL_STEPS && (
               <button onClick={openResumePanel} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,.65)', fontSize: 11, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: 0 }}>
-                <Smartphone size={13} /> <span className="swl-hide-mobile">Continuar en otro dispositivo</span>
+                <Smartphone size={13} /> <span className="swl-hide-mobile">Continúa en tu notebook o tablet</span>
               </button>
             )}
             <span style={{ fontSize: 13, fontWeight: 700, color: T.cyan }}>${fmt(montoTotal)} total</span>
@@ -402,7 +402,7 @@ export default function SitioWebWizard() {
       {resumeOpen && (
         <div onClick={() => setResumeOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.5)', zIndex: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
           <div onClick={e => e.stopPropagation()} style={{ background: T.white, borderRadius: 18, padding: '28px 26px', maxWidth: 400, width: '100%' }}>
-            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 19, fontWeight: 800, color: T.navy, marginBottom: 8 }}>Continúa en otro dispositivo</h3>
+            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 19, fontWeight: 800, color: T.navy, marginBottom: 8 }}>Continúa en tu notebook o tablet</h3>
             <p style={{ fontSize: 13, color: T.gray, lineHeight: 1.6, marginBottom: 18 }}>
               Guardamos tu progreso. Envíate este enlace y sigue exactamente donde quedaste — el logo o fotos que
               hayas adjuntado deberás volver a subirlos.
@@ -868,7 +868,7 @@ export default function SitioWebWizard() {
             color: T.white, fontWeight: 800, fontSize: 14, padding: '14px', borderRadius: 12, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
           }}>
-            <Smartphone size={16} /> Guardar y continuar en otro dispositivo
+            <Smartphone size={16} /> Continúa en tu notebook o tablet
           </button>
         )}
       </div>
