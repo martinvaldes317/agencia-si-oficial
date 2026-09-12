@@ -23,33 +23,33 @@ model ContactLead {
 }
 
 model Client {
-  id               Int          @id @default(autoincrement())
-  email            String       @unique
-  password         String
-  name             String
-  company          String?
-  phone            String?
-  plan             String?
-  active           Boolean      @default(true)
-  domainName       String?
-  hostingProvider  String?
-  hostingRenewal   DateTime?
-  domainRenewal    DateTime?
-  serviceNotes     String?      @db.Text
+  id                 Int             @id @default(autoincrement())
+  email              String          @unique
+  password           String
+  name               String
+  company            String?
+  phone              String?
+  plan               String?
+  active             Boolean         @default(true)
+  domainName         String?
+  hostingProvider    String?
+  hostingRenewal     DateTime?
+  domainRenewal      DateTime?
+  serviceNotes       String?         @db.Text
   monthlyFee         Float?
   hostingCost        Float?
   domainCost         Float?
-  domainPaidByClient Boolean      @default(false)
+  domainPaidByClient Boolean         @default(false)
   activeServices     String?
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
-  metrics          Metric[]
-  payments         Payment[]
-  meetings         Meeting[]
-  files            ClientFile[]
-  tickets          Ticket[]
-  tasks            Task[]
-  services         ClientService[]
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+  metrics            Metric[]
+  payments           Payment[]
+  meetings           Meeting[]
+  files              ClientFile[]
+  tickets            Ticket[]
+  tasks              Task[]
+  services           ClientService[]
 }
 
 model ClientService {
@@ -138,16 +138,16 @@ model Ticket {
 }
 
 model Task {
-  id          Int       @id @default(autoincrement())
-  clientId    Int
-  client      Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  title       String
-  detail      String?
-  priority    String    @default("normal")
-  dueDate     DateTime?
-  done        Boolean   @default(false)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id        Int       @id @default(autoincrement())
+  clientId  Int
+  client    Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  title     String
+  detail    String?
+  priority  String    @default("normal")
+  dueDate   DateTime?
+  done      Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model TicketMessage {
@@ -166,28 +166,46 @@ model AdminConfig {
 }
 
 model WebExpressOrder {
-  id           Int      @id @default(autoincrement())
-  orderId      String   @unique
-  status       String   @default("nuevo")
-  businessName String
-  email        String
-  phone        String?
-  city         String?
-  address      String?
-  whatsapp     String?
-  socials      String?
-  hasDomain    String?
-  brandColors  String?
-  products     String   @db.Text
-  about        String?  @db.Text
-  mission      String?
-  vision       String?
-  visualStyle  String?
-  logoName     String?
-  photosNames  String?  @db.Text
-  clientId     Int?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  orderId        String   @unique
+  status         String   @default("nuevo")
+  businessName   String
+  email          String
+  phone          String?
+  city           String?
+  address        String?
+  whatsapp       String?
+  socials        String?
+  hasDomain      String?
+  brandColors    String?
+  products       String   @db.Text
+  about          String?  @db.Text
+  mission        String?
+  vision         String?
+  visualStyle    String?
+  logoName       String?
+  photosNames    String?  @db.Text
+  clientId       Int?
+  // Landing "Tu Sitio Web Profesional" (compra online / WhatsApp) — ver seoLocalPages/App para contexto de rutas
+  modalidad      String? // 'online' | 'whatsapp'
+  contactName    String?
+  rut            String?
+  razonSocial    String?
+  rubro          String?
+  secciones      String?  @db.Text // JSON array de secciones elegidas
+  region         String?
+  publicEmail    String?
+  wantsMaps      Boolean  @default(false)
+  domainWanted   String?
+  domainExisting String?
+  wantsStore     Boolean  @default(false)
+  productCount   String? // '1-10' | '11-25' | '25+'
+  hasMercadoPago String? // 'si' | 'no'
+  montoNeto      Float?
+  montoIva       Float?
+  montoTotal     Float?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model Licitacion {
@@ -201,4 +219,3 @@ model Licitacion {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
-

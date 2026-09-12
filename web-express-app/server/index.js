@@ -142,10 +142,46 @@ async function runMigrations() {
     logoName VARCHAR(191) NULL,
     photosNames LONGTEXT NULL,
     clientId INT NULL,
+    modalidad VARCHAR(20) NULL,
+    contactName VARCHAR(191) NULL,
+    rut VARCHAR(50) NULL,
+    razonSocial VARCHAR(191) NULL,
+    rubro VARCHAR(191) NULL,
+    secciones LONGTEXT NULL,
+    region VARCHAR(191) NULL,
+    publicEmail VARCHAR(191) NULL,
+    wantsMaps TINYINT(1) NOT NULL DEFAULT 0,
+    domainWanted VARCHAR(191) NULL,
+    domainExisting VARCHAR(191) NULL,
+    wantsStore TINYINT(1) NOT NULL DEFAULT 0,
+    productCount VARCHAR(20) NULL,
+    hasMercadoPago VARCHAR(10) NULL,
+    montoNeto DOUBLE NULL,
+    montoIva DOUBLE NULL,
+    montoTotal DOUBLE NULL,
     createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     UNIQUE KEY WebExpressOrder_orderId_key (orderId)
   )`);
+
+  // Sitio Web landing (compra online / WhatsApp) — nuevas columnas en tabla ya existente
+  await addCol('WebExpressOrder', 'modalidad',      'VARCHAR(20) NULL');
+  await addCol('WebExpressOrder', 'contactName',    'VARCHAR(191) NULL');
+  await addCol('WebExpressOrder', 'rut',            'VARCHAR(50) NULL');
+  await addCol('WebExpressOrder', 'razonSocial',    'VARCHAR(191) NULL');
+  await addCol('WebExpressOrder', 'rubro',          'VARCHAR(191) NULL');
+  await addCol('WebExpressOrder', 'secciones',      'LONGTEXT NULL');
+  await addCol('WebExpressOrder', 'region',         'VARCHAR(191) NULL');
+  await addCol('WebExpressOrder', 'publicEmail',    'VARCHAR(191) NULL');
+  await addCol('WebExpressOrder', 'wantsMaps',      'TINYINT(1) NOT NULL DEFAULT 0');
+  await addCol('WebExpressOrder', 'domainWanted',   'VARCHAR(191) NULL');
+  await addCol('WebExpressOrder', 'domainExisting', 'VARCHAR(191) NULL');
+  await addCol('WebExpressOrder', 'wantsStore',     'TINYINT(1) NOT NULL DEFAULT 0');
+  await addCol('WebExpressOrder', 'productCount',   'VARCHAR(20) NULL');
+  await addCol('WebExpressOrder', 'hasMercadoPago', 'VARCHAR(10) NULL');
+  await addCol('WebExpressOrder', 'montoNeto',      'DOUBLE NULL');
+  await addCol('WebExpressOrder', 'montoIva',       'DOUBLE NULL');
+  await addCol('WebExpressOrder', 'montoTotal',     'DOUBLE NULL');
 
   console.log('[Migration] Done');
 }
@@ -157,6 +193,15 @@ app.use('/api/licitaciones', require('./routes/licitaciones'));
 app.use('/api/portal', require('./routes/portal'));
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
+
+// SITE_URL (agenciasi.cl) is the static-hosted frontend — Mercado Pago webhooks
+// must hit THIS running Express process instead, so they need the API's own
+// public URL (Railway), never the frontend's.
+function apiBaseUrl() {
+  if (process.env.API_URL) return process.env.API_URL;
+  if (process.env.RAILWAY_PUBLIC_DOMAIN) return `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`;
+  return 'http://localhost:3000';
+}
 
 function extFromDataUrl(dataUrl) {
   const m = (dataUrl || '').match(/^data:image\/([a-z+]+);base64,/i);
@@ -436,6 +481,163 @@ app.post('/api/mp/create-preference', async (req, res) => {
   } catch (error) {
     console.error('[mp-create-preference]', error.message);
     res.status(500).json({ success: false, message: 'Error al crear la preferencia de pago' });
+  }
+});
+
+// "Sitio Web Profesional" landing (compra online $49.990+IVA / contratación WhatsApp $74.990+IVA)
+const WEB_ORDER_BASE_PRICE  = 49990;
+const WEB_ORDER_STORE_PRICE = 25990;
+const WEB_ORDER_WA_PRICE    = 74990;
+const IVA_RATE = 0.19;
+
+app.post('/api/web-orders', async (req, res) => {
+  try {
+    const {
+      modalidad, // 'online' | 'whatsapp'
+      firstName, lastName, email, personalWhatsapp,
+      companyName, rut, razonSocial,
+      rubro, about, hasLogo, logoBase64, logoName, hasPhotos, photosPreviews,
+      secciones,
+      businessWhatsapp, publicEmail, address, comuna, region, wantsMaps,
+      instagram, facebook, tiktok, youtube, otherSocial,
+      hasDomain, domainWanted, domainExisting,
+      wantsStore, productCount, hasMercadoPago,
+    } = req.body;
+
+    if (!firstName || !email || !companyName) {
+      return res.status(400).json({ success: false, message: 'Nombre, email y nombre de negocio son requeridos' });
+    }
+
+    const contactName = `${firstName} ${lastName || ''}`.trim();
+    const orderId = `WEB-${Date.now()}`;
+    const siteUrl = process.env.SITE_URL || 'https://agenciasi.cl';
+
+    const montoNeto  = WEB_ORDER_BASE_PRICE + (wantsStore ? WEB_ORDER_STORE_PRICE : 0);
+    const montoIva   = Math.round(montoNeto * IVA_RATE);
+    const montoTotal = montoNeto + montoIva;
+
+    // Save logo / photos to disk (same convention as the rest of WebExpressOrder)
+    const ordersDir = path.join(__dirname, 'uploads', 'orders', orderId);
+    let savedLogoName = null;
+    const savedPhotoNames = [];
+
+    if (hasLogo && logoBase64) {
+      const ext = extFromDataUrl(logoBase64);
+      savedLogoName = logoName || `logo${ext}`;
+      fs.mkdirSync(path.join(ordersDir, 'logo'), { recursive: true });
+      saveBase64(logoBase64, path.join(ordersDir, 'logo', savedLogoName));
+    }
+
+    if (hasPhotos && Array.isArray(photosPreviews) && photosPreviews.length > 0) {
+      fs.mkdirSync(path.join(ordersDir, 'fotos'), { recursive: true });
+      photosPreviews.forEach((photo, i) => {
+        const dataUrl = photo.dataUrl || photo;
+        const ext = extFromDataUrl(dataUrl);
+        const name = photo.name || `foto_${i + 1}${ext}`;
+        savedPhotoNames.push(name);
+        saveBase64(dataUrl, path.join(ordersDir, 'fotos', name));
+      });
+    }
+
+    const socials = JSON.stringify({ instagram, facebook, tiktok, youtube, otherSocial });
+
+    const order = await prisma.webExpressOrder.create({
+      data: {
+        orderId,
+        status: modalidad === 'online' ? 'pendiente_pago' : 'contacto_whatsapp',
+        businessName: companyName,
+        email,
+        phone: personalWhatsapp || null,
+        city: comuna || null,
+        address: address || null,
+        whatsapp: businessWhatsapp || null,
+        socials,
+        hasDomain: hasDomain || null,
+        products: '',
+        about: about || null,
+        logoName: savedLogoName,
+        photosNames: savedPhotoNames.length > 0 ? JSON.stringify(savedPhotoNames) : null,
+        modalidad: modalidad || 'online',
+        contactName,
+        rut: rut || null,
+        razonSocial: razonSocial || null,
+        rubro: rubro || null,
+        secciones: Array.isArray(secciones) ? JSON.stringify(secciones) : null,
+        region: region || null,
+        publicEmail: publicEmail || null,
+        wantsMaps: !!wantsMaps,
+        domainWanted: domainWanted || null,
+        domainExisting: domainExisting || null,
+        wantsStore: !!wantsStore,
+        productCount: wantsStore ? (productCount || null) : null,
+        hasMercadoPago: wantsStore ? (hasMercadoPago || null) : null,
+        montoNeto,
+        montoIva,
+        montoTotal,
+      },
+    });
+
+    // Create client account (inactive until payment/contact is finalized) — mirrors /api/submit-order
+    let clientId = null;
+    const existing = await prisma.client.findUnique({ where: { email } });
+    if (!existing) {
+      const tempHash = await bcrypt.hash(`temp-${Date.now()}`, 10);
+      const newClient = await prisma.client.create({
+        data: { email, password: tempHash, name: contactName, company: companyName, phone: personalWhatsapp || null, plan: 'sitio-web', active: false },
+      });
+      clientId = newClient.id;
+    } else {
+      clientId = existing.id;
+    }
+    await prisma.webExpressOrder.update({ where: { orderId }, data: { clientId } });
+
+    if (modalidad === 'whatsapp') {
+      // No payment collected here — the client finishes contracting directly over WhatsApp.
+      mailer.send({ to: 'contacto@agenciasi.cl', subject: `Nuevo interesado (WhatsApp): ${companyName}`, html: mailer.newOrder({ orderId, name: contactName, email, phone: personalWhatsapp, service: 'Sitio Web Profesional', plan: `WhatsApp asistido — $${montoTotal.toLocaleString('es-CL')}${wantsStore ? ' (+ Tienda Online)' : ''}` }) })
+        .catch(e => console.error('[web-orders-wa-notify]', e.message));
+
+      return res.json({ success: true, orderId, montoTotal });
+    }
+
+    // modalidad === 'online' → create Mercado Pago preference and hand back the checkout URL
+    const items = [{
+      id: `${orderId}-web`,
+      title: 'Sitio Web Profesional — AgenciaSI',
+      description: `Sitio web para ${companyName}`,
+      quantity: 1,
+      unit_price: WEB_ORDER_BASE_PRICE + Math.round(WEB_ORDER_BASE_PRICE * IVA_RATE),
+      currency_id: 'CLP',
+    }];
+    if (wantsStore) {
+      items.push({
+        id: `${orderId}-tienda`,
+        title: 'Tienda Online (adicional) — AgenciaSI',
+        description: 'Carro de compras, catálogo y Mercado Pago integrado',
+        quantity: 1,
+        unit_price: WEB_ORDER_STORE_PRICE + Math.round(WEB_ORDER_STORE_PRICE * IVA_RATE),
+        currency_id: 'CLP',
+      });
+    }
+
+    const preference = await mpPreference.create({
+      body: {
+        items,
+        payer: { name: contactName, email },
+        external_reference: orderId,
+        back_urls: {
+          success: `${siteUrl}/sitio-web/confirmacion`,
+          failure: `${siteUrl}/sitio-web/confirmacion`,
+          pending: `${siteUrl}/sitio-web/confirmacion`,
+        },
+        auto_return: 'approved',
+        notification_url: `${apiBaseUrl()}/api/webhooks/mercadopago`,
+      },
+    });
+
+    res.json({ success: true, orderId, montoTotal, init_point: preference.init_point });
+  } catch (error) {
+    console.error('[web-orders]', error.message);
+    res.status(500).json({ success: false, message: 'Error al procesar tu pedido' });
   }
 });
 

@@ -32,6 +32,9 @@ import HomeSEOLocal from './components/seo/HomeSEOLocal'
 import MarketingSEOLocal from './components/seo/MarketingSEOLocal'
 import LetrerosSEOLocal from './components/seo/LetrerosSEOLocal'
 import CorporateSEOLocal from './components/seo/CorporateSEOLocal'
+import SitioWebLanding from './components/landing/SitioWebLanding'
+import SitioWebWizard from './components/landing/SitioWebWizard'
+import SitioWebConfirmacion from './components/landing/SitioWebConfirmacion'
 
 const MAULE_REGION = 'Región del Maule'
 
@@ -118,6 +121,9 @@ function App() {
           <Route path="/demos/tienda" element={<DemoTienda />} />
           <Route path="/demos/noticias" element={<DemoNoticias />} />
           <Route path="/web" element={<LandingWebSistemas />} />
+          <Route path="/sitio-web" element={<SitioWebLanding />} />
+          <Route path="/sitio-web/formulario" element={<SitioWebWizard />} />
+          <Route path="/sitio-web/confirmacion" element={<SitioWebConfirmacion />} />
           {Object.values(CITIES).map(city => (
             <Route key={city.slug} path={`/web/${city.slug}`} element={<LandingSEOLocal city={city} />} />
           ))}
