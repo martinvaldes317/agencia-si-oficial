@@ -6,6 +6,7 @@ import {
   ShieldCheck, Code2, ChevronDown,
 } from 'lucide-react'
 import { T, PRICE_ONLINE, PRICE_STORE, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
+import { CHILE_REGIONES, comunasDeRegion } from '../../data/chileRegiones'
 
 const TOTAL_STEPS = 6
 const DRAFT_KEY = 'agenciasi_sitio_web_draft'
@@ -45,6 +46,31 @@ function fileToDataUrl(file) {
   })
 }
 
+// ── Format helpers ───────────────────────────────────────────────────────────
+// Phones: only digits, with an optional single leading "+" — strips anything
+// else as the user types instead of just rejecting the whole field on submit.
+function sanitizePhone(value) {
+  let v = value.replace(/[^\d+]/g, '')
+  const hasPlus = v.startsWith('+')
+  v = v.replace(/\+/g, '')
+  return (hasPlus ? '+' : '') + v
+}
+const PHONE_RE = /^\+?\d{8,15}$/
+
+function sanitizeRut(value) {
+  return value.replace(/[^\dkK.-]/g, '').toUpperCase()
+}
+function isValidRut(value) {
+  const cleaned = value.replace(/\./g, '').trim()
+  return /^\d{7,8}-[\dK]$/.test(cleaned)
+}
+
+const EMAIL_RE = /^\S+@\S+\.\S+$/
+const DOMAIN_RE = /^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/
+function sanitizeDomain(value) {
+  return value.toLowerCase().replace(/\s+/g, '').replace(/^https?:\/\//, '').replace(/\/.*$/, '')
+}
+
 // ── UI primitives ──────────────────────────────────────────────────────────
 function Field({ label, sub, children }) {
   return (
@@ -68,6 +94,15 @@ function TextInput(props) {
 
 function TextArea(props) {
   return <textarea {...props} rows={props.rows || 3} style={{ ...inputStyle, resize: 'vertical', ...(props.style || {}) }} onFocus={e => e.target.style.borderColor = T.violet} onBlur={e => e.target.style.borderColor = T.border} />
+}
+
+function SelectInput({ children, ...props }) {
+  return (
+    <select {...props} style={{ ...inputStyle, appearance: 'auto', cursor: 'pointer' }}
+      onFocus={e => e.target.style.borderColor = T.violet} onBlur={e => e.target.style.borderColor = T.border}>
+      {children}
+    </select>
+  )
 }
 
 function ChoiceCard({ selected, onClick, children, style }) {
@@ -143,9 +178,11 @@ export default function SitioWebWizard() {
     if (n === 1) {
       if (!data.firstName.trim()) e.firstName = 'Ingresa tu nombre.'
       if (!data.email.trim()) e.email = 'Ingresa tu correo electrónico.'
-      else if (!/^\S+@\S+\.\S+$/.test(data.email)) e.email = 'Correo inválido.'
+      else if (!EMAIL_RE.test(data.email.trim())) e.email = 'Correo inválido.'
       if (!data.personalWhatsapp.trim()) e.personalWhatsapp = 'Ingresa tu WhatsApp.'
+      else if (!PHONE_RE.test(data.personalWhatsapp.trim())) e.personalWhatsapp = 'Ingresa un número válido (solo números, 8 a 15 dígitos).'
       if (!data.companyName.trim()) e.companyName = 'Ingresa el nombre de tu empresa o emprendimiento.'
+      if (data.rut.trim() && !isValidRut(data.rut)) e.rut = 'RUT inválido (ej: 12345678-9).'
     }
     if (n === 2) {
       if (!data.rubro.trim()) e.rubro = 'Cuéntanos tu rubro o actividad.'
@@ -159,14 +196,16 @@ export default function SitioWebWizard() {
     }
     if (n === 4) {
       if (!data.businessWhatsapp.trim()) e.businessWhatsapp = 'Ingresa el WhatsApp del negocio.'
-      if (!data.comuna.trim()) e.comuna = 'Ingresa tu comuna.'
-      if (!data.region.trim()) e.region = 'Ingresa tu región.'
+      else if (!PHONE_RE.test(data.businessWhatsapp.trim())) e.businessWhatsapp = 'Ingresa un número válido (solo números, 8 a 15 dígitos).'
+      if (data.publicEmail.trim() && !EMAIL_RE.test(data.publicEmail.trim())) e.publicEmail = 'Correo inválido.'
+      if (!data.region.trim()) e.region = 'Selecciona tu región.'
+      if (!data.comuna.trim()) e.comuna = 'Selecciona tu comuna.'
       if (data.wantsMaps === null) e.wantsMaps = 'Selecciona una opción.'
     }
     if (n === 5) {
       if (!data.hasDomain) e.hasDomain = 'Selecciona una opción.'
-      if (data.hasDomain === 'necesito' && !data.domainWanted.trim()) e.domainWanted = 'Escribe el dominio que te gustaría.'
-      if (data.hasDomain === 'tengo' && !data.domainExisting.trim()) e.domainExisting = 'Escribe tu dominio.'
+      if (data.hasDomain === 'necesito' && !DOMAIN_RE.test(data.domainWanted.trim())) e.domainWanted = 'Ingresa un dominio válido (ej: minegocio.cl).'
+      if (data.hasDomain === 'tengo' && !DOMAIN_RE.test(data.domainExisting.trim())) e.domainExisting = 'Ingresa un dominio válido (ej: tudominio.cl).'
     }
     if (n === 6) {
       if (data.wantsStore === null) e.wantsStore = 'Selecciona una opción.'
@@ -302,7 +341,7 @@ export default function SitioWebWizard() {
               <ErrorMsg>{errors.email}</ErrorMsg>
             </Field>
             <Field label="WhatsApp">
-              <TextInput value={data.personalWhatsapp} onChange={e => set({ personalWhatsapp: e.target.value })} placeholder="+56 9 1234 5678" />
+              <TextInput type="tel" inputMode="tel" value={data.personalWhatsapp} onChange={e => set({ personalWhatsapp: sanitizePhone(e.target.value) })} placeholder="+56 9 1234 5678" />
               <ErrorMsg>{errors.personalWhatsapp}</ErrorMsg>
             </Field>
             <Field label="Nombre de empresa o emprendimiento">
@@ -313,7 +352,10 @@ export default function SitioWebWizard() {
             <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 14, padding: '16px 18px', marginTop: 8 }}>
               <div style={{ fontSize: 11, fontWeight: 800, color: T.violet, letterSpacing: .5, textTransform: 'uppercase', marginBottom: 12 }}>Datos para facturación (opcional)</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-                <Field label="RUT"><TextInput value={data.rut} onChange={e => set({ rut: e.target.value })} placeholder="11.111.111-1" /></Field>
+                <Field label="RUT">
+                  <TextInput value={data.rut} onChange={e => set({ rut: sanitizeRut(e.target.value) })} placeholder="11.111.111-1" />
+                  <ErrorMsg>{errors.rut}</ErrorMsg>
+                </Field>
                 <Field label="Razón Social"><TextInput value={data.razonSocial} onChange={e => set({ razonSocial: e.target.value })} placeholder="Razón social" /></Field>
               </div>
             </div>
@@ -405,23 +447,30 @@ export default function SitioWebWizard() {
           <div>
             <StepTitle>¿Cómo podrán encontrarte tus clientes?</StepTitle>
             <Field label="WhatsApp del negocio">
-              <TextInput value={data.businessWhatsapp} onChange={e => set({ businessWhatsapp: e.target.value })} placeholder="+56 9 1234 5678" />
+              <TextInput type="tel" inputMode="tel" value={data.businessWhatsapp} onChange={e => set({ businessWhatsapp: sanitizePhone(e.target.value) })} placeholder="+56 9 1234 5678" />
               <ErrorMsg>{errors.businessWhatsapp}</ErrorMsg>
             </Field>
             <Field label="Correo público (opcional)">
               <TextInput type="email" value={data.publicEmail} onChange={e => set({ publicEmail: e.target.value })} placeholder="contacto@tunegocio.cl" />
+              <ErrorMsg>{errors.publicEmail}</ErrorMsg>
             </Field>
             <Field label="Dirección (opcional)">
               <TextInput value={data.address} onChange={e => set({ address: e.target.value })} placeholder="Calle, número" />
             </Field>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-              <Field label="Comuna">
-                <TextInput value={data.comuna} onChange={e => set({ comuna: e.target.value })} placeholder="Ej: Talca" />
-                <ErrorMsg>{errors.comuna}</ErrorMsg>
-              </Field>
               <Field label="Región">
-                <TextInput value={data.region} onChange={e => set({ region: e.target.value })} placeholder="Ej: Región del Maule" />
+                <SelectInput value={data.region} onChange={e => set({ region: e.target.value, comuna: '' })}>
+                  <option value="">Selecciona tu región</option>
+                  {CHILE_REGIONES.map(r => <option key={r.region} value={r.region}>{r.region}</option>)}
+                </SelectInput>
                 <ErrorMsg>{errors.region}</ErrorMsg>
+              </Field>
+              <Field label="Comuna">
+                <SelectInput value={data.comuna} onChange={e => set({ comuna: e.target.value })} disabled={!data.region}>
+                  <option value="">{data.region ? 'Selecciona tu comuna' : 'Primero elige tu región'}</option>
+                  {comunasDeRegion(data.region).map(c => <option key={c} value={c}>{c}</option>)}
+                </SelectInput>
+                <ErrorMsg>{errors.comuna}</ErrorMsg>
               </Field>
             </div>
             <Field label="¿Quieres mostrar tu ubicación en Google Maps?">
@@ -461,14 +510,14 @@ export default function SitioWebWizard() {
 
             {data.hasDomain === 'necesito' && (
               <Field label="¿Qué dominio te gustaría?" sub="El dominio .CL está incluido durante el primer año.">
-                <TextInput value={data.domainWanted} onChange={e => set({ domainWanted: e.target.value })} placeholder="minegocio.cl" />
+                <TextInput value={data.domainWanted} onChange={e => set({ domainWanted: sanitizeDomain(e.target.value) })} placeholder="minegocio.cl" />
                 <ErrorMsg>{errors.domainWanted}</ErrorMsg>
                 <div style={{ fontSize: 12, color: T.gray, marginTop: 6 }}>La disponibilidad será confirmada por nuestro equipo.</div>
               </Field>
             )}
             {data.hasDomain === 'tengo' && (
               <Field label="Escribe tu dominio">
-                <TextInput value={data.domainExisting} onChange={e => set({ domainExisting: e.target.value })} placeholder="tudominio.cl" />
+                <TextInput value={data.domainExisting} onChange={e => set({ domainExisting: sanitizeDomain(e.target.value) })} placeholder="tudominio.cl" />
                 <ErrorMsg>{errors.domainExisting}</ErrorMsg>
               </Field>
             )}
@@ -591,6 +640,7 @@ export default function SitioWebWizard() {
               <SummaryRow label="Empresa" value={data.companyName} onEdit={() => editStep(1)} />
               <SummaryRow label="Correo" value={data.email} onEdit={() => editStep(1)} />
               <SummaryRow label="WhatsApp" value={data.personalWhatsapp} onEdit={() => editStep(1)} />
+              <SummaryRow label="Comuna" value={data.comuna ? `${data.comuna}, ${data.region}` : '—'} onEdit={() => editStep(4)} />
               <SummaryRow label="Dominio solicitado" value={data.hasDomain === 'tengo' ? data.domainExisting : (data.domainWanted || '—')} onEdit={() => editStep(5)} />
               <SummaryRow label="Secciones" value={(data.secciones.includes('Otra') ? [...data.secciones.filter(s => s !== 'Otra'), data.otraSeccion] : data.secciones).join(', ') || '—'} onEdit={() => editStep(3)} />
               <SummaryRow label="Tienda online" value={data.wantsStore ? 'Sí' : 'No'} onEdit={() => editStep(6)} />
