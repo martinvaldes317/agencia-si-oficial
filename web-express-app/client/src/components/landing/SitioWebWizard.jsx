@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
   ArrowLeft, ArrowRight, Check, Upload, X, Loader2, Store,
-  ShieldCheck, Code2, ChevronDown,
+  ShieldCheck, Code2, ChevronDown, Smartphone, Copy, CheckCheck, Mail,
 } from 'lucide-react'
-import { T, PRICE_ONLINE, PRICE_STORE, SECTIONS_INCLUDED, PRICE_EXTRA_SECTION, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
+import { T, WA_BASE, PRICE_ONLINE, PRICE_STORE, SECTIONS_INCLUDED, PRICE_EXTRA_SECTION, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
 import { CHILE_REGIONES, comunasDeRegion } from '../../data/chileRegiones'
 
 const TOTAL_STEPS = 6
@@ -163,7 +163,14 @@ export default function SitioWebWizard() {
   const [logoFile, setLogoFile] = useState(null)
   const [photoFiles, setPhotoFiles] = useState([])
   const [trustMsgIndex, setTrustMsgIndex] = useState(0)
+  const [resumeOpen, setResumeOpen] = useState(false)
+  const [resumeLink, setResumeLink] = useState('')
+  const [savingDraft, setSavingDraft] = useState(false)
+  const [draftError, setDraftError] = useState('')
+  const [copied, setCopied] = useState(false)
+  const [loadingResume, setLoadingResume] = useState(false)
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
     localStorage.setItem(DRAFT_KEY, JSON.stringify(data))
@@ -171,6 +178,26 @@ export default function SitioWebWizard() {
 
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }, [step])
   useEffect(() => { pxPageView() }, [])
+
+  // Retomar un borrador guardado en otro dispositivo (?resume=token)
+  useEffect(() => {
+    const token = searchParams.get('resume')
+    if (!token) return
+    setLoadingResume(true)
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+    fetch(`${apiUrl}/api/web-orders/draft/${token}`)
+      .then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          setData(d => ({ ...d, ...json.data }))
+          setStep(json.step || 1)
+        } else {
+          setDraftError('Este enlace ya no está disponible. Puedes continuar desde aquí.')
+        }
+      })
+      .catch(() => setDraftError('No pudimos cargar tu borrador. Puedes continuar desde aquí.'))
+      .finally(() => setLoadingResume(false))
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!submitting) return
@@ -246,6 +273,33 @@ export default function SitioWebWizard() {
   }
   function back() { setErrors({}); setStep(s => Math.max(s - 1, 1)) }
   function editStep(n) { setErrors({}); setStep(n) }
+
+  async function openResumePanel() {
+    setResumeOpen(true)
+    if (resumeLink) return // ya generado en esta sesión, no crear otro
+    setSavingDraft(true); setDraftError('')
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+      const res = await fetch(`${apiUrl}/api/web-orders/draft`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data, step }),
+      })
+      const json = await res.json()
+      if (!json.success) throw new Error(json.message)
+      setResumeLink(`${window.location.origin}/sitio-web/formulario?resume=${json.token}`)
+    } catch (e) {
+      setDraftError('No pudimos guardar tu progreso. Intenta de nuevo en unos segundos.')
+    } finally {
+      setSavingDraft(false)
+    }
+  }
+
+  function copyResumeLink() {
+    navigator.clipboard?.writeText(resumeLink).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
 
   async function handleSubmit() {
     if (!data.aceptaCondiciones) { setSubmitError('Debes aceptar las condiciones del servicio para continuar.'); return }
@@ -323,9 +377,65 @@ export default function SitioWebWizard() {
             </div>
             <span style={{ fontWeight: 800, fontSize: 14, color: T.white }}>AgenciaSI</span>
           </Link>
-          <span style={{ fontSize: 13, fontWeight: 700, color: T.cyan }}>${fmt(montoTotal)} total</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            {step <= TOTAL_STEPS && (
+              <button onClick={openResumePanel} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,.65)', fontSize: 11, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: 0 }}>
+                <Smartphone size={13} /> <span className="swl-hide-mobile">Continuar en otro dispositivo</span>
+              </button>
+            )}
+            <span style={{ fontSize: 13, fontWeight: 700, color: T.cyan }}>${fmt(montoTotal)} total</span>
+          </div>
         </div>
       </div>
+
+      {loadingResume && (
+        <div style={{ background: `${T.violet}15`, color: T.violet, fontSize: 12, fontWeight: 700, textAlign: 'center', padding: '8px 12px' }}>
+          Cargando tu progreso guardado…
+        </div>
+      )}
+      {draftError && (
+        <div style={{ background: '#FFF3E0', color: '#B98900', fontSize: 12, fontWeight: 600, textAlign: 'center', padding: '8px 12px' }}>
+          {draftError}
+        </div>
+      )}
+
+      {resumeOpen && (
+        <div onClick={() => setResumeOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.5)', zIndex: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+          <div onClick={e => e.stopPropagation()} style={{ background: T.white, borderRadius: 18, padding: '28px 26px', maxWidth: 400, width: '100%' }}>
+            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 19, fontWeight: 800, color: T.navy, marginBottom: 8 }}>Continúa en otro dispositivo</h3>
+            <p style={{ fontSize: 13, color: T.gray, lineHeight: 1.6, marginBottom: 18 }}>
+              Guardamos tu progreso. Envíate este enlace y sigue exactamente donde quedaste — el logo o fotos que
+              hayas adjuntado deberás volver a subirlos.
+            </p>
+            {savingDraft ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: T.gray, fontSize: 13, padding: '12px 0' }}>
+                <Loader2 size={16} className="swl-spin" /> Guardando tu progreso…
+              </div>
+            ) : draftError ? (
+              <ErrorMsg>{draftError}</ErrorMsg>
+            ) : resumeLink && (
+              <>
+                <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
+                  <a href={`${WA_BASE}${encodeURIComponent(`Hola, quiero continuar mi cotización de sitio web: ${resumeLink}`)}`} target="_blank" rel="noopener noreferrer"
+                    style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, background: '#25D366', color: '#fff', fontWeight: 800, fontSize: 13, padding: '12px', borderRadius: 10, textDecoration: 'none' }}>
+                    <WaIcon size={15} /> WhatsApp
+                  </a>
+                  <a href={`mailto:?subject=${encodeURIComponent('Continuar mi sitio web — AgenciaSI')}&body=${encodeURIComponent(`Hola, este es el enlace para continuar mi cotización de sitio web: ${resumeLink}`)}`}
+                    style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, background: T.navy, color: '#fff', fontWeight: 800, fontSize: 13, padding: '12px', borderRadius: 10, textDecoration: 'none' }}>
+                    <Mail size={15} /> Correo
+                  </a>
+                </div>
+                <button onClick={copyResumeLink} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, background: T.light, color: T.navy, fontWeight: 700, fontSize: 13, padding: '11px', borderRadius: 10, border: `1px solid ${T.border}`, cursor: 'pointer' }}>
+                  {copied ? <><CheckCheck size={15} color="#0FA895" /> Copiado</> : <><Copy size={14} /> Copiar enlace</>}
+                </button>
+              </>
+            )}
+            <button onClick={() => setResumeOpen(false)} style={{ width: '100%', marginTop: 14, background: 'none', border: 'none', color: T.gray, fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* PROGRESS BAR */}
       {step <= TOTAL_STEPS && (
@@ -757,6 +867,7 @@ export default function SitioWebWizard() {
         @keyframes swl-spin { to { transform: rotate(360deg); } }
         .swl-spin { animation: swl-spin .8s linear infinite; }
         @media(max-width:640px) { .swl-two-cards { grid-template-columns: 1fr !important; } }
+        @media(max-width:480px) { .swl-hide-mobile { display: none; } }
 
         @keyframes swl-step-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .swl-step { animation: swl-step-in .35s ease both; }

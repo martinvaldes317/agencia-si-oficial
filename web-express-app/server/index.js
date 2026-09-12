@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const PDFDocument = require('pdfkit');
@@ -103,6 +104,17 @@ async function runMigrations() {
     createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     FOREIGN KEY (clientId) REFERENCES Client(id) ON DELETE CASCADE
+  )`);
+
+  // WebOrderDraft table — /sitio-web "continuar en otro dispositivo"
+  await createTable(`CREATE TABLE IF NOT EXISTS WebOrderDraft (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    token VARCHAR(64) NOT NULL,
+    step INT NOT NULL DEFAULT 1,
+    data LONGTEXT NOT NULL,
+    createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    expiresAt DATETIME(3) NOT NULL,
+    UNIQUE KEY WebOrderDraft_token_key (token)
   )`);
 
   // Licitacion table
@@ -492,6 +504,41 @@ const WEB_ORDER_WA_PRICE       = 74990;
 const WEB_ORDER_SECTION_INCLUDED = 5;
 const WEB_ORDER_EXTRA_SECTION_PRICE = 9990;
 const IVA_RATE = 0.19;
+const WEB_DRAFT_TTL_DAYS = 7;
+
+// Save the in-progress wizard state so it can be resumed on another device
+// (link sent via WhatsApp/email). No files (logo/photos) are stored here —
+// only the text fields and the step the customer was on.
+app.post('/api/web-orders/draft', async (req, res) => {
+  try {
+    const { data, step } = req.body;
+    if (!data || typeof data !== 'object') {
+      return res.status(400).json({ success: false, message: 'Falta el borrador a guardar' });
+    }
+    const token = crypto.randomBytes(5).toString('hex');
+    const expiresAt = new Date(Date.now() + WEB_DRAFT_TTL_DAYS * 24 * 60 * 60 * 1000);
+    await prisma.webOrderDraft.create({
+      data: { token, step: Number(step) || 1, data: JSON.stringify(data), expiresAt },
+    });
+    res.json({ success: true, token });
+  } catch (error) {
+    console.error('[web-orders-draft-save]', error.message);
+    res.status(500).json({ success: false, message: 'Error al guardar el borrador' });
+  }
+});
+
+app.get('/api/web-orders/draft/:token', async (req, res) => {
+  try {
+    const draft = await prisma.webOrderDraft.findUnique({ where: { token: req.params.token } });
+    if (!draft || draft.expiresAt < new Date()) {
+      return res.status(404).json({ success: false, message: 'Este enlace ya no está disponible' });
+    }
+    res.json({ success: true, step: draft.step, data: JSON.parse(draft.data) });
+  } catch (error) {
+    console.error('[web-orders-draft-get]', error.message);
+    res.status(500).json({ success: false, message: 'Error al recuperar el borrador' });
+  }
+});
 
 app.post('/api/web-orders', async (req, res) => {
   try {

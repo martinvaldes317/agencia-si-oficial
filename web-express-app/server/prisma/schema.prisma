@@ -208,6 +208,18 @@ model WebExpressOrder {
   updatedAt      DateTime @updatedAt
 }
 
+// Borrador del wizard /sitio-web guardado para retomar en otro dispositivo
+// (link enviado por WhatsApp o correo). No contiene archivos (logo/fotos) —
+// esos se vuelven a adjuntar si corresponde al retomar.
+model WebOrderDraft {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  step      Int      @default(1)
+  data      String   @db.Text
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
 model Licitacion {
   id                Int      @id @default(autoincrement())
   entidad           String
