@@ -138,6 +138,34 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
 
+          <div className="bg-white/5 border border-white/10 rounded-xl p-6 mb-8">
+            <h2 className="text-sm font-bold text-white mb-1">Embudo del formulario /sitio-web</h2>
+            <p className="text-xs text-zinc-500 mb-4">En qué paso avanza o abandona la gente que empieza a cotizar.</p>
+            <div className="space-y-3">
+              {(summary?.funnel || []).map((f, i) => {
+                const max = summary?.funnel?.[0]?.count || 0
+                const pct = max ? Math.round((f.count / max) * 100) : 0
+                return (
+                  <div key={f.step}>
+                    <div className="flex items-center justify-between text-xs mb-1">
+                      <span className="text-zinc-400">{f.step}</span>
+                      <span className="text-white font-semibold">
+                        {f.count.toLocaleString('es-CL')}
+                        {i > 0 && <span className="text-zinc-500 font-normal ml-1.5">({pct}%)</span>}
+                      </span>
+                    </div>
+                    <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-full bg-violet-400 rounded-full" style={{ width: `${pct}%` }} />
+                    </div>
+                  </div>
+                )
+              })}
+              {(!summary?.funnel || summary.funnel.every(f => f.count === 0)) && (
+                <p className="text-xs text-zinc-600">Sin datos en este período.</p>
+              )}
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white/5 border border-white/10 rounded-xl p-6">
               <h2 className="text-sm font-bold text-white mb-4">Páginas más visitadas</h2>

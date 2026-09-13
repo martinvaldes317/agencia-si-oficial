@@ -126,6 +126,37 @@ router.get('/summary', authenticateAdmin, async (req, res) => {
     const whatsappClicks = Number(eventTotals.find(e => e.eventName === 'whatsapp_click')?.count || 0);
     const formSubmits = Number(eventTotals.find(e => e.eventName === 'form_submit')?.count || 0);
 
+    // Embudo del wizard /sitio-web/formulario: cuántas personas llegaron
+    // (pageview) vs cuántas avanzaron a cada paso (evento wizard_step) vs
+    // cuántas iniciaron el pago — para ver en qué paso se cae la gente.
+    const wizardLandedRows = await prisma.$queryRawUnsafe(
+      `SELECT COUNT(*) AS count FROM AnalyticsPageView
+       WHERE createdAt >= ? AND path LIKE '/sitio-web/formulario%'`,
+      since
+    );
+    const wizardStepRows = await prisma.$queryRawUnsafe(
+      `SELECT label, COUNT(*) AS count FROM AnalyticsEvent
+       WHERE createdAt >= ? AND eventName = 'wizard_step' GROUP BY label`,
+      since
+    );
+    const checkoutRows = await prisma.$queryRawUnsafe(
+      `SELECT COUNT(*) AS count FROM AnalyticsEvent
+       WHERE createdAt >= ? AND eventName = 'checkout_iniciado'`,
+      since
+    );
+    const stepCounts = {};
+    wizardStepRows.forEach(r => { stepCounts[r.label] = Number(r.count); });
+    const funnel = [
+      { step: 'Llegó al formulario', count: Number(wizardLandedRows[0].count) },
+      { step: 'Paso 2', count: stepCounts['Paso 2'] || 0 },
+      { step: 'Paso 3', count: stepCounts['Paso 3'] || 0 },
+      { step: 'Paso 4', count: stepCounts['Paso 4'] || 0 },
+      { step: 'Paso 5', count: stepCounts['Paso 5'] || 0 },
+      { step: 'Paso 6', count: stepCounts['Paso 6'] || 0 },
+      { step: 'Resumen (paso 7)', count: stepCounts['Paso 7'] || 0 },
+      { step: 'Inició el pago', count: Number(checkoutRows[0].count) },
+    ];
+
     res.json({
       success: true,
       granularity,
@@ -139,6 +170,7 @@ router.get('/summary', authenticateAdmin, async (req, res) => {
         whatsappClicks,
         formSubmits,
       },
+      funnel,
     });
   } catch (err) {
     console.error('[Analytics] summary error:', err.message);
