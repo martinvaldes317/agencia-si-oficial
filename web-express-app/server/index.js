@@ -229,6 +229,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/clients', require('./routes/clients'));
 app.use('/api/licitaciones', require('./routes/licitaciones'));
 app.use('/api/portal', require('./routes/portal'));
+app.use('/api/analytics', require('./routes/analytics'));
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
