@@ -17,8 +17,9 @@ const DEVICE_LABELS = { mobile: 'Móvil', tablet: 'Tablet', desktop: 'Escritorio
 const DEVICE_ICONS = { mobile: Smartphone, tablet: Tablet, desktop: Monitor }
 
 function formatBucket(bucket, granularity) {
-  const d = new Date(bucket)
-  if (Number.isNaN(d.getTime())) return bucket
+  const [y, m, day] = String(bucket).split('-').map(Number)
+  if (!y || !m || !day) return bucket
+  const d = new Date(y, m - 1, day)
   if (granularity === 'day') return d.toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit' })
   if (granularity === 'week') return `Sem ${d.toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit' })}`
   if (granularity === 'month') return d.toLocaleDateString('es-CL', { month: 'short', year: 'numeric' })

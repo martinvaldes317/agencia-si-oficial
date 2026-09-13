@@ -36,9 +36,11 @@ export function trackPageView(path, referrer) {
 }
 
 export function trackEvent(eventName, { path, label } = {}) {
+  const p = path || window.location.pathname
+  if (p.startsWith('/admin') || p.startsWith('/portal')) return
   post('/api/analytics/event', {
     eventName,
-    path: path || window.location.pathname,
+    path: p,
     visitorId: getVisitorId(),
     label,
   })
