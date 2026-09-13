@@ -213,7 +213,7 @@ export default function SitioWebLanding() {
             <span style={{ fontSize: 11, fontWeight: 700, color: '#FFFFFF', background: FP.blue, padding: '6px 14px', borderRadius: 30 }}>+60 proyectos web entregados</span>
           </div>
 
-          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 800, color: FP.blueD, lineHeight: 1.12, marginBottom: 18, letterSpacing: -.5 }}>
+          <h1 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 700, color: FP.blueD, lineHeight: 1.12, marginBottom: 18 }}>
             Tu Sitio Web Profesional por{' '}
             <span style={{ color: FP.red }}>$49.990 + IVA</span>
           </h1>
@@ -251,7 +251,7 @@ export default function SitioWebLanding() {
         <img src={IMG.starsV} alt="" className="fp-corner-decor" style={{ position: 'absolute', top: 10, left: '5%', width: 26, opacity: .7 }} />
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 12 }}>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 12 }}>
               El mismo sitio web. Tú eliges cómo contratar.
             </h2>
             <p style={{ fontSize: 15, color: FP.grayTx, maxWidth: 560, margin: '0 auto 18px' }}>
@@ -265,7 +265,7 @@ export default function SitioWebLanding() {
             <div className="swl-card" style={{ background: FP.blue, borderRadius: 24, padding: '36px 32px', position: 'relative', border: `2px solid ${FP.red}` }}>
               <span style={{ position: 'absolute', top: -13, left: 28, background: FP.red, color: '#FFFFFF', fontSize: 11, fontWeight: 800, padding: '5px 14px', borderRadius: 20 }}>MEJOR PRECIO</span>
               <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.65)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Compra online</div>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 16 }}>$49.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
+              <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 16 }}>$49.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
               <p style={{ fontSize: 14, color: 'rgba(255,255,255,.8)', lineHeight: 1.7, marginBottom: 22 }}>
                 Completa nuestro formulario guiado con la información de tu negocio y nosotros nos encargamos del resto.
               </p>
@@ -285,7 +285,7 @@ export default function SitioWebLanding() {
             {/* Segunda tarjeta */}
             <div className="swl-card" style={{ background: '#FFFFFF', border: `1px solid ${FP.border}`, borderRadius: 24, padding: '36px 32px', display: 'flex', flexDirection: 'column' }}>
               <div style={{ fontSize: 13, fontWeight: 700, color: FP.grayTx, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Atención por WhatsApp</div>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, fontWeight: 800, color: FP.blueD, marginBottom: 16 }}>$74.990 <span style={{ fontSize: 16, color: FP.grayTx, fontWeight: 500 }}>+ IVA</span></div>
+              <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 36, fontWeight: 800, color: FP.blueD, marginBottom: 16 }}>$74.990 <span style={{ fontSize: 16, color: FP.grayTx, fontWeight: 500 }}>+ IVA</span></div>
               <p style={{ fontSize: 14, color: FP.grayTx, lineHeight: 1.7, marginBottom: 24, flex: 1 }}>
                 ¿Prefieres conversar primero? Nuestro equipo puede ayudarte a resolver tus dudas y recopilar la información necesaria.
               </p>
@@ -307,7 +307,7 @@ export default function SitioWebLanding() {
         <img src={IMG.sunburst} alt="" className="fp-corner-decor" style={{ position: 'absolute', top: 24, right: '6%', width: 46, opacity: .85 }} />
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD }}>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD }}>
               Todo lo que incluye tu sitio web
             </h2>
           </div>
@@ -333,7 +333,7 @@ export default function SitioWebLanding() {
       <Section style={{ background: FP.cream, position: 'relative', overflow: 'hidden' }}>
         <img src={IMG.map} alt="" className="fp-corner-decor" style={{ position: 'absolute', right: -30, top: '50%', transform: 'translateY(-50%) scaleX(-1)', width: 140, opacity: .18, pointerEvents: 'none' }} />
         <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.6rem,3vw,2.3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 20, lineHeight: 1.2 }}>
+          <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.6rem,3vw,2.3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 20, lineHeight: 1.2 }}>
             Tu negocio merece algo mejor que depender solamente de Instagram
           </h2>
           <p style={{ fontSize: 15, color: FP.grayTx, lineHeight: 1.8, maxWidth: 640, margin: '0 auto 36px' }}>
@@ -353,7 +353,7 @@ export default function SitioWebLanding() {
       {/* CÓMO FUNCIONA */}
       <Section style={{ background: '#FFFFFF' }}>
         <div style={{ maxWidth: 940, margin: '0 auto' }}>
-          <h2 style={{ textAlign: 'center', fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 16 }}>
+          <h2 style={{ textAlign: 'center', fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 16 }}>
             Tener tu página web es muy fácil
           </h2>
           <img src={IMG.divider} alt="" style={{ width: 180, height: 5, objectFit: 'cover', margin: '0 auto 48px', display: 'block', opacity: .85, borderRadius: 3 }} />
@@ -383,7 +383,7 @@ export default function SitioWebLanding() {
               <ShoppingCart size={13} color="#FFFFFF" />
               <span style={{ fontSize: 11, fontWeight: 700, color: '#FFFFFF', letterSpacing: 1 }}>OPCIONAL</span>
             </div>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.6rem,3vw,2.3rem)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 14 }}>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.6rem,3vw,2.3rem)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 14 }}>
               ¿También quieres vender por internet?
             </h2>
             <p style={{ fontSize: 15, color: 'rgba(255,255,255,.85)', lineHeight: 1.7, marginBottom: 22 }}>
@@ -400,7 +400,7 @@ export default function SitioWebLanding() {
               <Store size={20} color="#FFFFFF" />
               <span style={{ fontWeight: 800, fontSize: 15, color: '#FFFFFF' }}>Tienda Online</span>
             </div>
-            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 30, fontWeight: 800, color: '#FFFFFF', marginBottom: 16 }}>+$25.990 <span style={{ fontSize: 14, color: 'rgba(255,255,255,.65)', fontWeight: 500 }}>+ IVA</span></div>
+            <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 30, fontWeight: 800, color: '#FFFFFF', marginBottom: 16 }}>+$25.990 <span style={{ fontSize: 14, color: 'rgba(255,255,255,.65)', fontWeight: 500 }}>+ IVA</span></div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
               {['Carro de compras', 'Carga inicial de hasta 25 productos', 'Catálogo online', 'Mercado Pago integrado', 'Proceso de compra', 'Adaptado a celulares'].map(t => (
                 <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'rgba(255,255,255,.88)' }}>
@@ -415,7 +415,7 @@ export default function SitioWebLanding() {
       {/* CONFIANZA */}
       <Section style={{ background: '#FFFFFF', textAlign: 'center' }}>
         <img src={IMG.starsH} alt="" style={{ width: 110, margin: '0 auto 14px', display: 'block' }} />
-        <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 10 }}>
+        <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 10 }}>
           +60 proyectos web entregados
         </div>
         <p style={{ fontSize: 15, color: FP.grayTx, maxWidth: 480, margin: '0 auto' }}>
@@ -426,7 +426,7 @@ export default function SitioWebLanding() {
       {/* FAQ */}
       <Section style={{ background: FP.cream }}>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <h2 style={{ textAlign: 'center', fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.6rem,3vw,2.2rem)', fontWeight: 800, color: FP.blueD, marginBottom: 14 }}>
+          <h2 style={{ textAlign: 'center', fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.6rem,3vw,2.2rem)', fontWeight: 800, color: FP.blueD, marginBottom: 14 }}>
             Preguntas frecuentes
           </h2>
           <img src={IMG.divider} alt="" style={{ width: 180, height: 5, objectFit: 'cover', margin: '0 auto 36px', display: 'block', opacity: .85, borderRadius: 3 }} />
@@ -453,13 +453,13 @@ export default function SitioWebLanding() {
         <img src={IMG.sunburst} alt="" className="fp-corner-decor" style={{ position: 'absolute', bottom: 20, right: '8%', width: 44, opacity: .3 }} />
         <img src={IMG.starsH} alt="" style={{ width: 130, margin: '0 auto 18px', display: 'block', opacity: .95, position: 'relative' }} />
         <div style={{ maxWidth: 560, margin: '0 auto' }}>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 14 }}>
+          <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 14 }}>
             Tu negocio puede tener su propia página web
           </h2>
           <p style={{ fontSize: 15, color: 'rgba(255,255,255,.8)', marginBottom: 26 }}>
             Comienza hoy completando nuestro formulario y obtén el precio especial de contratación online.
           </p>
-          <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 6 }}>$49.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 6 }}>$49.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
           <p style={{ fontSize: 12, color: 'rgba(255,255,255,.6)', marginBottom: 30 }}>Dominio + Hosting por 1 año incluidos</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 18 }}>
             <Link to="/sitio-web/formulario" onClick={() => trackLead('CTA Final Online')}
