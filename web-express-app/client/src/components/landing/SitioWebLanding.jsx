@@ -7,7 +7,7 @@ import {
   ShoppingCart, Store, ExternalLink,
 } from 'lucide-react'
 import { trackEvent } from '../../lib/analytics'
-import { FP, IMG, fpStyles, Copihue, FlagSwatch, FiestasPatriasCountdown } from './FiestasPatriasDecor'
+import { FP, IMG, fpStyles, Copihue, FiestasPatriasCountdown } from './FiestasPatriasDecor'
 
 export const T = {
   navy:   '#0A0B2E',
@@ -200,10 +200,6 @@ export default function SitioWebLanding() {
         <img src={IMG.sunburst} alt="" className="fp-bob fp-corner-decor" style={{ position: 'absolute', right: 18, top: 18, width: 64, opacity: .9, pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
-          <div className="fp-bob" style={{ margin: '0 auto 16px', display: 'flex', justifyContent: 'center' }}>
-            <FlagSwatch size={70} />
-          </div>
-
           <span style={{ display: 'inline-block', background: FP.red, color: '#FFFFFF', fontWeight: 800, fontSize: 11, letterSpacing: 1.2, textTransform: 'uppercase', padding: '8px 20px', borderRadius: 30, marginBottom: 16 }}>
             Edición Fiestas Patrias
           </span>
