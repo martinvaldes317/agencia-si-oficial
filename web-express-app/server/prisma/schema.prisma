@@ -220,6 +220,34 @@ model WebOrderDraft {
   expiresAt DateTime
 }
 
+// Analítica propia del sitio — visitas por página y eventos (clics WhatsApp,
+// envíos de formulario, pasos del wizard /sitio-web). Ver docs/superpowers/specs/2026-09-13-analitica-propia-design.md
+model AnalyticsPageView {
+  id        Int      @id @default(autoincrement())
+  path      String
+  visitorId String
+  device    String // "mobile" | "tablet" | "desktop"
+  referrer  String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([path])
+  @@index([visitorId])
+  @@index([createdAt])
+}
+
+model AnalyticsEvent {
+  id        Int      @id @default(autoincrement())
+  eventName String // "whatsapp_click" | "form_submit" | "lead_click" | "wizard_step" | "checkout_iniciado"
+  path      String
+  visitorId String
+  label     String?
+  createdAt DateTime @default(now())
+
+  @@index([eventName])
+  @@index([path])
+  @@index([createdAt])
+}
+
 model Licitacion {
   id                Int      @id @default(autoincrement())
   entidad           String

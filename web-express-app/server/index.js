@@ -117,6 +117,31 @@ async function runMigrations() {
     UNIQUE KEY WebOrderDraft_token_key (token)
   )`);
 
+  // AnalyticsPageView / AnalyticsEvent tables — analítica propia del sitio
+  await createTable(`CREATE TABLE IF NOT EXISTS AnalyticsPageView (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    path VARCHAR(191) NOT NULL,
+    visitorId VARCHAR(64) NOT NULL,
+    device VARCHAR(20) NOT NULL,
+    referrer TEXT NULL,
+    createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    KEY AnalyticsPageView_path_idx (path),
+    KEY AnalyticsPageView_visitorId_idx (visitorId),
+    KEY AnalyticsPageView_createdAt_idx (createdAt)
+  )`);
+
+  await createTable(`CREATE TABLE IF NOT EXISTS AnalyticsEvent (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    eventName VARCHAR(100) NOT NULL,
+    path VARCHAR(191) NOT NULL,
+    visitorId VARCHAR(64) NOT NULL,
+    label VARCHAR(191) NULL,
+    createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    KEY AnalyticsEvent_eventName_idx (eventName),
+    KEY AnalyticsEvent_path_idx (path),
+    KEY AnalyticsEvent_createdAt_idx (createdAt)
+  )`);
+
   // Licitacion table
   await createTable(`CREATE TABLE IF NOT EXISTS Licitacion (
     id INT AUTO_INCREMENT PRIMARY KEY,
