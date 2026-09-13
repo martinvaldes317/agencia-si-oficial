@@ -217,6 +217,7 @@ model WebOrderDraft {
   step      Int      @default(1)
   data      String   @db.Text
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   expiresAt DateTime
 }
 

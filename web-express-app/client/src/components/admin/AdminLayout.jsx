@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom'
-import { LayoutDashboard, Users, BarChart3, Settings, LogOut } from 'lucide-react'
+import { LayoutDashboard, Users, BarChart3, FileEdit, Settings, LogOut } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 
 const NAV_ITEMS = [
   { key: 'pedidos', icon: LayoutDashboard, label: 'Pedidos', path: '/admin/si' },
   { key: 'clientes', icon: Users, label: 'Clientes', path: '/admin/clientes' },
+  { key: 'formularios', icon: FileEdit, label: 'Formularios', path: '/admin/formularios' },
   { key: 'analitica', icon: BarChart3, label: 'Analítica', path: '/admin/analitica' },
   { key: 'configuracion', icon: Settings, label: 'Configuración', path: '/admin/configuracion' },
 ]

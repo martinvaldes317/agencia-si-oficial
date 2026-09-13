@@ -42,6 +42,7 @@ import CookieConsent from './components/legal/CookieConsent'
 
 const AnalyticsDashboard = lazy(() => import('./components/AnalyticsDashboard'))
 const AdminSettings = lazy(() => import('./components/AdminSettings'))
+const AdminDrafts = lazy(() => import('./components/AdminDrafts'))
 
 initGlobalTracking()
 
@@ -167,6 +168,11 @@ function App() {
           <Route path="/admin/configuracion" element={
             <Suspense fallback={<div style={{ background: '#000', minHeight: '100vh' }} />}>
               <AdminSettings />
+            </Suspense>
+          } />
+          <Route path="/admin/formularios" element={
+            <Suspense fallback={<div style={{ background: '#000', minHeight: '100vh' }} />}>
+              <AdminDrafts />
             </Suspense>
           } />
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
@@ -172,6 +172,11 @@ export default function SitioWebWizard() {
   const [loadingResume, setLoadingResume] = useState(false)
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+  // Token del borrador que se autoguarda en cada paso — permite ver en el
+  // panel admin lo que la gente va escribiendo aunque nunca haga clic en
+  // "continuar en otro dispositivo" ni termine el formulario. Declarado en
+  // la Política de Privacidad.
+  const draftTokenRef = useRef(null)
 
   useEffect(() => {
     localStorage.setItem(DRAFT_KEY, JSON.stringify(data))
@@ -190,6 +195,7 @@ export default function SitioWebWizard() {
       .then(res => res.json())
       .then(json => {
         if (json.success) {
+          draftTokenRef.current = token
           setData(d => ({ ...d, ...json.data }))
           setStep(json.step || 1)
         } else {
@@ -266,12 +272,29 @@ export default function SitioWebWizard() {
     return e
   }
 
+  // Guarda el progreso en segundo plano en cada paso, sin bloquear la
+  // navegación ni mostrar nada al visitante — reutiliza el mismo token en
+  // vez de crear un borrador nuevo cada vez, para que el panel admin vea un
+  // solo registro por persona con su último paso y datos.
+  function autoSaveDraft(targetStep, currentData) {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+    fetch(`${apiUrl}/api/web-orders/draft`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ data: currentData, step: targetStep, token: draftTokenRef.current }),
+    })
+      .then(res => res.json())
+      .then(json => { if (json.success) draftTokenRef.current = json.token })
+      .catch(() => {})
+  }
+
   function next() {
     const e = validateStep(step)
     if (Object.keys(e).length) { setErrors(e); return }
     setErrors({})
     const target = Math.min(step + 1, 7)
     trackEvent('wizard_step', { label: `Paso ${target}` })
+    autoSaveDraft(target, data)
     setStep(target)
   }
   function back() { setErrors({}); setStep(s => Math.max(s - 1, 1)) }
@@ -285,10 +308,11 @@ export default function SitioWebWizard() {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
       const res = await fetch(`${apiUrl}/api/web-orders/draft`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data, step }),
+        body: JSON.stringify({ data, step, token: draftTokenRef.current }),
       })
       const json = await res.json()
       if (!json.success) throw new Error(json.message)
+      draftTokenRef.current = json.token
       setResumeLink(`${window.location.origin}/sitio-web/formulario?resume=${json.token}`)
     } catch (e) {
       setDraftError('No pudimos guardar tu progreso. Intenta de nuevo en unos segundos.')

@@ -106,16 +106,19 @@ async function runMigrations() {
     FOREIGN KEY (clientId) REFERENCES Client(id) ON DELETE CASCADE
   )`);
 
-  // WebOrderDraft table — /sitio-web "continuar en otro dispositivo"
+  // WebOrderDraft table — /sitio-web "continuar en otro dispositivo" y
+  // autoguardado de cada paso para verlo en el panel admin
   await createTable(`CREATE TABLE IF NOT EXISTS WebOrderDraft (
     id INT AUTO_INCREMENT PRIMARY KEY,
     token VARCHAR(64) NOT NULL,
     step INT NOT NULL DEFAULT 1,
     data LONGTEXT NOT NULL,
     createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     expiresAt DATETIME(3) NOT NULL,
     UNIQUE KEY WebOrderDraft_token_key (token)
   )`);
+  await addCol('WebOrderDraft', 'updatedAt', 'DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)');
 
   // AnalyticsPageView / AnalyticsEvent tables — analítica propia del sitio
   await createTable(`CREATE TABLE IF NOT EXISTS AnalyticsPageView (
@@ -537,12 +540,26 @@ const WEB_DRAFT_TTL_DAYS = 7;
 // only the text fields and the step the customer was on.
 app.post('/api/web-orders/draft', async (req, res) => {
   try {
-    const { data, step } = req.body;
+    const { data, step, token: existingToken } = req.body;
     if (!data || typeof data !== 'object') {
       return res.status(400).json({ success: false, message: 'Falta el borrador a guardar' });
     }
-    const token = crypto.randomBytes(5).toString('hex');
     const expiresAt = new Date(Date.now() + WEB_DRAFT_TTL_DAYS * 24 * 60 * 60 * 1000);
+
+    // Si ya hay un token de esta misma sesión (autoguardado de un paso
+    // anterior, o el mismo borrador que se comparte a otro dispositivo),
+    // actualiza esa fila en vez de crear una nueva por cada paso.
+    if (existingToken) {
+      const updated = await prisma.webOrderDraft.updateMany({
+        where: { token: existingToken },
+        data: { step: Number(step) || 1, data: JSON.stringify(data), expiresAt },
+      });
+      if (updated.count > 0) {
+        return res.json({ success: true, token: existingToken });
+      }
+    }
+
+    const token = crypto.randomBytes(5).toString('hex');
     await prisma.webOrderDraft.create({
       data: { token, step: Number(step) || 1, data: JSON.stringify(data), expiresAt },
     });
@@ -563,6 +580,57 @@ app.get('/api/web-orders/draft/:token', async (req, res) => {
   } catch (error) {
     console.error('[web-orders-draft-get]', error.message);
     res.status(500).json({ success: false, message: 'Error al recuperar el borrador' });
+  }
+});
+
+// Panel admin: ver quién está (o quedó) llenando el formulario y hasta dónde
+// llegó, aunque nunca lo haya terminado ni compartido a otro dispositivo.
+app.get('/api/web-orders/drafts', authenticateAdmin, async (req, res) => {
+  try {
+    const drafts = await prisma.webOrderDraft.findMany({
+      orderBy: { updatedAt: 'desc' },
+      take: 200,
+    });
+    res.json({
+      success: true,
+      drafts: drafts.map(d => {
+        let data = {};
+        try { data = JSON.parse(d.data) || {}; } catch { /* borrador corrupto, se listan solo los metadatos */ }
+        return {
+          token: d.token,
+          step: d.step,
+          modalidad: data.modalidad || null,
+          name: `${data.firstName || ''} ${data.lastName || ''}`.trim() || null,
+          companyName: data.companyName || null,
+          email: data.email || null,
+          whatsapp: data.personalWhatsapp || data.businessWhatsapp || null,
+          createdAt: d.createdAt,
+          updatedAt: d.updatedAt,
+          expired: d.expiresAt < new Date(),
+        };
+      }),
+    });
+  } catch (error) {
+    console.error('[web-orders-drafts-list]', error.message);
+    res.status(500).json({ success: false, message: 'Error al listar borradores' });
+  }
+});
+
+app.get('/api/web-orders/drafts/:token', authenticateAdmin, async (req, res) => {
+  try {
+    const draft = await prisma.webOrderDraft.findUnique({ where: { token: req.params.token } });
+    if (!draft) return res.status(404).json({ success: false, message: 'No encontrado' });
+    res.json({
+      success: true,
+      step: draft.step,
+      data: JSON.parse(draft.data),
+      createdAt: draft.createdAt,
+      updatedAt: draft.updatedAt,
+      expired: draft.expiresAt < new Date(),
+    });
+  } catch (error) {
+    console.error('[web-orders-drafts-detail]', error.message);
+    res.status(500).json({ success: false, message: 'Error al obtener el borrador' });
   }
 });
 

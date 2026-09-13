@@ -21,6 +21,7 @@ export default function PoliticaPrivacidad() {
           <li>Datos de la contratación: secciones elegidas, dominio, si contratas o no el módulo de tienda online.</li>
           <li>Datos de pago: procesados directamente por Mercado Pago — nosotros no almacenamos números de tarjeta.</li>
           <li>Datos de navegación: dirección IP, tipo de dispositivo y cookies de medición (ver sección 6).</li>
+          <li>Progreso del formulario: si empiezas a completar el formulario de "Tu Sitio Web Profesional" sin terminarlo, guardamos automáticamente lo que vas escribiendo en cada paso — así puedes retomarlo desde otro dispositivo, y para que podamos contactarte y ayudarte a terminar tu cotización si quedó a medio completar.</li>
         </ul>
       </Section>
 
@@ -30,6 +31,7 @@ export default function PoliticaPrivacidad() {
           <li>Procesar el pago de tu pedido a través de Mercado Pago.</li>
           <li>Emitir facturas o boletas cuando corresponda.</li>
           <li>Enviarte actualizaciones sobre tu proyecto (correo, WhatsApp).</li>
+          <li>Contactarte para ayudarte a completar una cotización que quedó sin terminar.</li>
           <li>Medir el rendimiento de nuestras campañas publicitarias en Meta (Facebook/Instagram) y Google.</li>
           <li>Cumplir obligaciones legales y responder requerimientos de autoridades competentes.</li>
         </ul>
