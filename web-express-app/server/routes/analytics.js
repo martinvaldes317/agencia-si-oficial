@@ -64,8 +64,8 @@ router.post('/event', async (req, res) => {
 });
 
 const GRANULARITY_CONFIG = {
-  day: { bucketExpr: 'DATE(createdAt)', defaultRange: 30, rangeUnitDays: 1 },
-  week: { bucketExpr: 'DATE(DATE_SUB(createdAt, INTERVAL WEEKDAY(createdAt) DAY))', defaultRange: 12, rangeUnitDays: 7 },
+  day: { bucketExpr: "DATE_FORMAT(createdAt, '%Y-%m-%d')", defaultRange: 30, rangeUnitDays: 1 },
+  week: { bucketExpr: "DATE_FORMAT(DATE_SUB(createdAt, INTERVAL WEEKDAY(createdAt) DAY), '%Y-%m-%d')", defaultRange: 12, rangeUnitDays: 7 },
   month: { bucketExpr: "DATE_FORMAT(createdAt, '%Y-%m-01')", defaultRange: 12, rangeUnitDays: 31 },
   quarter: { bucketExpr: "CONCAT(YEAR(createdAt), '-', LPAD((QUARTER(createdAt)-1)*3+1, 2, '0'), '-01')", defaultRange: 8, rangeUnitDays: 92 },
   semester: { bucketExpr: "CONCAT(YEAR(createdAt), '-', IF(MONTH(createdAt) <= 6, '01', '07'), '-01')", defaultRange: 6, rangeUnitDays: 183 },
