@@ -187,9 +187,9 @@ export default function SitioWebLanding() {
       </nav>
 
       {/* HERO */}
-      <section style={{ background: `linear-gradient(150deg, ${FP.blueD} 0%, ${FP.blue} 55%, ${FP.redD} 130%)`, padding: '0 20px 80px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: -160, right: -140, width: 480, height: 480, borderRadius: '50%', background: `${FP.red}30`, filter: 'blur(40px)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: -120, left: -100, width: 360, height: 360, borderRadius: '50%', background: `${FP.gold}20`, filter: 'blur(50px)', pointerEvents: 'none' }} />
+      <section style={{ background: `linear-gradient(150deg, ${FP.blueD} 0%, ${FP.blue} 100%)`, padding: '0 20px 80px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: -160, right: -140, width: 480, height: 480, borderRadius: '50%', background: `${FP.gold}18`, filter: 'blur(40px)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: -120, left: -100, width: 360, height: 360, borderRadius: '50%', background: `${FP.red}14`, filter: 'blur(50px)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: 720, margin: '0 auto', paddingTop: 18 }}>
           <Bunting count={9} width={320} height={44} />
         </div>
@@ -239,8 +239,7 @@ export default function SitioWebLanding() {
 
       {/* ELIGE CÓMO CONTRATAR */}
       <Section style={{ background: FP.cream, position: 'relative' }}>
-        <Copihue size={38} style={{ position: 'absolute', top: 12, left: '6%' }} />
-        <Copihue size={30} style={{ position: 'absolute', top: 30, right: '7%' }} />
+        <Copihue size={32} style={{ position: 'absolute', top: 14, right: '7%', opacity: .8 }} />
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 12 }}>
@@ -304,8 +303,8 @@ export default function SitioWebLanding() {
           <div className="swl-incluye-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14 }}>
             {INCLUYE.map(({ icon: Icon, title, sub }) => (
               <div key={title} className="swl-card" style={{ border: `1px solid ${FP.border}`, borderRadius: 16, padding: '22px 18px', textAlign: 'center' }}>
-                <div style={{ width: 42, height: 42, borderRadius: 12, background: `${FP.red}14`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
-                  <Icon size={20} color={FP.red} />
+                <div style={{ width: 42, height: 42, borderRadius: 12, background: `${FP.blue}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
+                  <Icon size={20} color={FP.blue} />
                 </div>
                 <div style={{ fontWeight: 700, fontSize: 13, color: FP.blueD }}>{title}</div>
                 {sub && <div style={{ fontSize: 11, color: '#1B8A4A', fontWeight: 600, marginTop: 3 }}>{sub}</div>}
@@ -331,7 +330,7 @@ export default function SitioWebLanding() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 14, textAlign: 'left', maxWidth: 780, margin: '0 auto' }}>
             {PROBLEMA_BENEFICIOS.map(b => (
               <div key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: '#FFFFFF', border: `1px solid ${FP.border}`, borderRadius: 12, padding: '14px 16px' }}>
-                <CheckCircle2 size={16} color={FP.red} style={{ flexShrink: 0, marginTop: 1 }} />
+                <CheckCircle2 size={16} color={FP.blue} style={{ flexShrink: 0, marginTop: 1 }} />
                 <span style={{ fontSize: 13, color: FP.blueD, fontWeight: 500 }}>{b}</span>
               </div>
             ))}
@@ -364,7 +363,7 @@ export default function SitioWebLanding() {
       </Section>
 
       {/* UPSELL TIENDA ONLINE */}
-      <Section style={{ background: `linear-gradient(135deg, ${FP.redD} 0%, ${FP.red} 100%)` }}>
+      <Section style={{ background: `linear-gradient(135deg, ${FP.blueD} 0%, ${FP.blue} 100%)` }}>
         <div style={{ maxWidth: 880, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center' }} className="swl-two-cards">
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,.15)', padding: '6px 14px', borderRadius: 30, marginBottom: 18 }}>
@@ -401,7 +400,7 @@ export default function SitioWebLanding() {
 
       {/* CONFIANZA */}
       <Section style={{ background: '#FFFFFF', textAlign: 'center' }}>
-        <Sparkles size={30} color={FP.red} style={{ marginBottom: 14 }} />
+        <Sparkles size={30} color={FP.gold} style={{ marginBottom: 14 }} />
         <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 10 }}>
           +60 proyectos web entregados
         </div>
@@ -434,10 +433,7 @@ export default function SitioWebLanding() {
       </Section>
 
       {/* CTA FINAL */}
-      <Section style={{ background: `linear-gradient(150deg, ${FP.blueD} 0%, ${FP.redD} 100%)`, textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ maxWidth: 320, margin: '0 auto 28px' }}>
-          <Bunting count={7} width={280} height={40} />
-        </div>
+      <Section style={{ background: `linear-gradient(150deg, ${FP.blueD} 0%, ${FP.blue} 100%)`, textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ maxWidth: 560, margin: '0 auto' }}>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 14 }}>
             Tu negocio puede tener su propia página web
@@ -476,7 +472,7 @@ export default function SitioWebLanding() {
       </footer>
 
       {/* STICKY MOBILE BAR */}
-      <div className="swl-sticky" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 90, background: FP.blue, borderTop: `1px solid ${FP.red}50`, padding: '10px 14px', alignItems: 'center', justifyContent: 'space-between', gap: 10, boxShadow: '0 -4px 20px rgba(0,0,0,.3)' }}>
+      <div className="swl-sticky" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 90, background: FP.blueD, borderTop: `1px solid ${FP.gold}40`, padding: '10px 14px', alignItems: 'center', justifyContent: 'space-between', gap: 10, boxShadow: '0 -4px 20px rgba(0,0,0,.3)' }}>
         <span style={{ fontSize: 14, fontWeight: 800, color: FP.gold, flexShrink: 0 }}>$49.990 + IVA</span>
         <Link to="/sitio-web/formulario" onClick={() => trackLead('Sticky Bar CTA')}
           style={{ flex: 1, textAlign: 'center', background: FP.gold, color: FP.ink, fontWeight: 800, fontSize: 13, padding: '10px', borderRadius: 10, textDecoration: 'none' }}>

@@ -3,18 +3,23 @@ import { useEffect, useState } from 'react'
 // Paleta de temporada — SOLO para la landing de /sitio-web. No toca el tema
 // T (navy/violeta/cyan) que usan el wizard, la confirmación y el recibo
 // animado, ninguno de los cuales pidió cambiar de estilo.
+// Disciplina de color: azul oscuro = base dominante (hace el rol que hacía
+// el navy original), dorado = ÚNICO acento/CTA (rol que hacía el cyan), rojo
+// = solo detalles pequeños (insignias, banderines, copihue) — nunca fondos
+// grandes de sección. Mezclar los 3 colores de la bandera a partes iguales
+// como bloques grandes es lo que hacía ver la página "de flyer de feria".
 export const FP = {
-  red:    '#D62828',
-  redD:   '#A81F1F',
-  blue:   '#003DA5',
-  blueD:  '#002B77',
-  cream:  '#FFF8EC',
+  red:    '#B3272C',
+  redD:   '#8C1F23',
+  blue:   '#12235C',
+  blueD:  '#0A1640',
+  cream:  '#F5EFE3',
   wood:   '#7A4B2B',
-  gold:   '#E3A83B',
-  ink:    '#2B1B12',
-  grayTx: '#6B5B4D',
-  grayLt: '#B5A48C',
-  border: '#EFE0C5',
+  gold:   '#D4A24C',
+  ink:    '#161022',
+  grayTx: '#5B5750',
+  grayLt: '#A79E90',
+  border: '#E7E0D3',
 }
 
 export const fpStyles = `
