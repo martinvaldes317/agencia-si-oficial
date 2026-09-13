@@ -159,7 +159,7 @@ export default function SitioWebLanding() {
         .swl-card:hover { transform: translateY(-4px); }
         .swl-faq-btn { cursor:pointer; }
         @media(max-width:900px) { .swl-hero-grid{grid-template-columns:1fr!important;text-align:center;} .swl-two-cards{grid-template-columns:1fr!important;} }
-        @media(max-width:640px) { .swl-incluye-grid{grid-template-columns:repeat(2,1fr)!important;} .swl-checks{grid-template-columns:1fr 1fr!important;} }
+        @media(max-width:640px) { .swl-incluye-grid{grid-template-columns:repeat(2,1fr)!important;} .swl-checks{grid-template-columns:1fr!important; justify-items:start!important;} }
         .swl-sticky { display:none; }
         @media(max-width:760px) {
           .swl-sticky { display:flex!important; }
@@ -228,8 +228,8 @@ export default function SitioWebLanding() {
 
           <div className="swl-checks" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,auto)', gap: '10px 20px', justifyContent: 'center', marginBottom: 34 }}>
             {CHECKS_HERO.map(c => (
-              <div key={c} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, color: FP.ink, fontWeight: 500 }}>
-                <Check size={15} color={FP.blue} style={{ flexShrink: 0 }} /> {c}
+              <div key={c} style={{ display: 'flex', alignItems: 'flex-start', gap: 7, fontSize: 13, color: FP.ink, fontWeight: 500, textAlign: 'left' }}>
+                <Check size={15} color={FP.blue} style={{ flexShrink: 0, marginTop: 1 }} /> {c}
               </div>
             ))}
           </div>
