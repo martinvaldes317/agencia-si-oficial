@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import { trackPageView, initGlobalTracking } from './lib/analytics'
 import { AuthProvider } from './context/AuthContext'
 
 import Home from './components/Home'
@@ -38,6 +39,8 @@ import SitioWebConfirmacion from './components/landing/SitioWebConfirmacion'
 import PoliticaPrivacidad from './components/legal/PoliticaPrivacidad'
 import TerminosCondiciones from './components/legal/TerminosCondiciones'
 import CookieConsent from './components/legal/CookieConsent'
+
+initGlobalTracking()
 
 const MAULE_REGION = 'Región del Maule'
 
@@ -101,6 +104,9 @@ const ScrollToTop = () => {
     window.scrollTo(0, 0)
     if (typeof gtag !== 'undefined') {
       gtag('event', 'page_view', { page_path: pathname, page_title: document.title })
+    }
+    if (!pathname.startsWith('/admin') && !pathname.startsWith('/portal')) {
+      trackPageView(pathname)
     }
   }, [pathname])
   return null
