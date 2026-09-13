@@ -1,5 +1,17 @@
-const { Resend } = require('resend');
-const resend = new Resend(process.env.RESEND_API_KEY);
+const nodemailer = require('nodemailer');
+
+let transporter = null;
+function getTransporter() {
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT) || 465,
+      secure: process.env.SMTP_SECURE !== 'false',
+      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+    });
+  }
+  return transporter;
+}
 
 function base(content) {
   return `<!DOCTYPE html>
@@ -44,13 +56,13 @@ function base(content) {
 }
 
 async function send({ to, subject, html }) {
-  if (!process.env.RESEND_API_KEY) {
-    console.log(`[Mailer] Sin RESEND_API_KEY — email no enviado a ${to}: ${subject}`);
+  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    console.log(`[Mailer] Sin SMTP_USER/SMTP_PASS — email no enviado a ${to}: ${subject}`);
     return;
   }
   try {
-    await resend.emails.send({
-      from: 'AgenciaSi <contacto@agenciasi.cl>',
+    await getTransporter().sendMail({
+      from: process.env.SMTP_FROM || 'AgenciaSi <contacto@agenciasi.cl>',
       to,
       subject,
       html,
