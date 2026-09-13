@@ -12,25 +12,22 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem('clientToken')
     const stored = localStorage.getItem('clientData')
-    if (token && stored) setClient({ ...JSON.parse(stored), token })
+    // Un valor corrupto acá (ej. la string literal "undefined") no debe
+    // tumbar toda la app — sin este try/catch, un JSON.parse fallido queda
+    // sin capturar y React desmonta todo el árbol (pantalla en blanco en
+    // cualquier ruta, no solo el login).
+    if (token && stored) {
+      try {
+        setClient({ ...JSON.parse(stored), token })
+      } catch {
+        localStorage.removeItem('clientToken')
+        localStorage.removeItem('clientData')
+      }
+    }
     const at = localStorage.getItem('adminToken')
     if (at) setAdminToken(at)
     setLoading(false)
   }, [])
-
-  const loginClient = async (email, password) => {
-    const res = await fetch(`${API}/api/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    })
-    const data = await res.json()
-    if (!data.success) throw new Error(data.message)
-    localStorage.setItem('clientToken', data.token)
-    localStorage.setItem('clientData', JSON.stringify(data.client))
-    setClient({ ...data.client, token: data.token })
-    return data.client
-  }
 
   const login = async (email, password) => {
     const res = await fetch(`${API}/api/auth/login`, {
@@ -46,8 +43,8 @@ export function AuthProvider({ children }) {
       return 'admin'
     }
     localStorage.setItem('clientToken', data.token)
-    localStorage.setItem('clientData', JSON.stringify(data.client))
-    setClient({ ...data.client, token: data.token })
+    localStorage.setItem('clientData', JSON.stringify(data.client || {}))
+    setClient({ ...(data.client || {}), token: data.token })
     return 'client'
   }
 
@@ -84,7 +81,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ client, adminToken, loading, login, loginClient, loginAdmin, logoutClient, logoutAdmin, authFetch }}>
+    <AuthContext.Provider value={{ client, adminToken, loading, login, loginAdmin, logoutClient, logoutAdmin, authFetch }}>
       {children}
     </AuthContext.Provider>
   )
