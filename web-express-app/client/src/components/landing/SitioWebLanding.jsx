@@ -159,7 +159,7 @@ export default function SitioWebLanding() {
         .swl-card:hover { transform: translateY(-4px); }
         .swl-faq-btn { cursor:pointer; }
         @media(max-width:900px) { .swl-hero-grid{grid-template-columns:1fr!important;text-align:center;} .swl-two-cards{grid-template-columns:1fr!important;} }
-        @media(max-width:640px) { .swl-incluye-grid{grid-template-columns:repeat(2,1fr)!important;} .swl-checks{grid-template-columns:1fr!important; justify-items:start!important;} }
+        @media(max-width:640px) { .swl-incluye-grid{grid-template-columns:repeat(2,1fr)!important;} .swl-checks{grid-template-columns:1fr!important; justify-items:center!important;} }
         .swl-sticky { display:none; }
         @media(max-width:760px) {
           .swl-sticky { display:flex!important; }
@@ -226,20 +226,20 @@ export default function SitioWebLanding() {
             Obtén una página web profesional, diseñada para tu negocio y lista para comenzar a recibir clientes.
           </p>
 
-          <div className="swl-checks" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,auto)', gap: '10px 20px', justifyContent: 'center', marginBottom: 34 }}>
-            {CHECKS_HERO.map(c => (
-              <div key={c} style={{ display: 'flex', alignItems: 'flex-start', gap: 7, fontSize: 13, color: FP.ink, fontWeight: 500, textAlign: 'left' }}>
-                <Check size={15} color={FP.blue} style={{ flexShrink: 0, marginTop: 1 }} /> {c}
-              </div>
-            ))}
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, marginBottom: 22 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, marginBottom: 28 }}>
             <Link to="/sitio-web/formulario" onClick={() => trackLead('Hero CTA Online')}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: FP.blue, color: '#FFFFFF', fontWeight: 800, fontSize: 17, padding: '18px 38px', borderRadius: 14, textDecoration: 'none', boxShadow: `0 12px 30px ${FP.blue}45` }}>
               Crear mi sitio por $49.990 + IVA <ArrowRight size={18} />
             </Link>
             <span style={{ fontSize: 12, color: FP.grayTx }}>Precio especial contratando directamente desde nuestra web.</span>
+          </div>
+
+          <div className="swl-checks" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,auto)', gap: '10px 20px', justifyContent: 'center', marginBottom: 22 }}>
+            {CHECKS_HERO.map(c => (
+              <div key={c} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, fontSize: 13, color: FP.ink, fontWeight: 500, textAlign: 'center' }}>
+                <Check size={15} color={FP.blue} style={{ flexShrink: 0 }} /> {c}
+              </div>
+            ))}
           </div>
 
           <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Hero CTA WhatsApp', true)}
