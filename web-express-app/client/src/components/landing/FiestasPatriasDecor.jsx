@@ -3,20 +3,19 @@ import { useEffect, useState } from 'react'
 // Paleta de temporada — SOLO para la landing de /sitio-web. No toca el tema
 // T (navy/violeta/cyan) que usan el wizard, la confirmación y el recibo
 // animado, ninguno de los cuales pidió cambiar de estilo.
-// Disciplina de color: azul oscuro = base dominante (hace el rol que hacía
-// el navy original), dorado = ÚNICO acento/CTA (rol que hacía el cyan), rojo
-// = solo detalles pequeños (insignias, banderines, copihue) — nunca fondos
-// grandes de sección. Mezclar los 3 colores de la bandera a partes iguales
-// como bloques grandes es lo que hacía ver la página "de flyer de feria".
+// Disciplina de color v3 (sin dorado, azul real de bandera): azul = color de
+// acción (botones, precios, íconos — el mismo rol que tenía "MAS INFO" en la
+// referencia), rojo = acento festivo puntual (insignias, sello, detalles —
+// nunca fondos grandes), fondo = gris cálido claro dominante en toda la
+// página (como la referencia), con azul reservado solo para 1-2 momentos
+// oscuros fuertes (tarjeta destacada de precio, CTA final).
 export const FP = {
-  red:    '#B3272C',
-  redD:   '#8C1F23',
-  blue:   '#12235C',
-  blueD:  '#0A1640',
+  red:    '#C8302A',
+  redD:   '#9E241F',
+  blue:   '#2451C4',
+  blueD:  '#17337A',
   cream:  '#E9E8E4',
-  wood:   '#7A4B2B',
-  gold:   '#D4A24C',
-  ink:    '#161022',
+  ink:    '#191A22',
   grayTx: '#5B5750',
   grayLt: '#A79E90',
   border: '#DBD9D2',
@@ -70,6 +69,19 @@ export function WavingFlag({ size = 64 }) {
         <rect x="5" y="7" width="30" height="30" fill={FP.blue} />
         <path d="M20 15 L22.2 21.5 L29 21.5 L23.6 25.5 L25.6 32 L20 28 L14.4 32 L16.4 25.5 L11 21.5 L17.8 21.5 Z" fill="#FFFFFF" />
       </g>
+    </svg>
+  )
+}
+
+// Solo la tela de la bandera, sin asta — para usar recortada dentro de
+// espacios chicos (ej. el emblema del hero) sin que sobresalga ningún palo.
+export function FlagSwatch({ size = 60, rounded = 6 }) {
+  return (
+    <svg width={size} height={size * 0.68} viewBox="0 0 100 68" style={{ display: 'block', borderRadius: rounded, overflow: 'hidden', boxShadow: '0 2px 6px rgba(0,0,0,.18)' }}>
+      <rect width="100" height="68" fill="#FFFFFF" />
+      <rect y="34" width="100" height="34" fill={FP.red} />
+      <rect width="34" height="34" fill={FP.blue} />
+      <path d="M17 9 L19.5 16.3 L27.2 16.3 L21 20.8 L23.3 28 L17 23.6 L10.7 28 L13 20.8 L6.8 16.3 L14.5 16.3 Z" fill="#FFFFFF" />
     </svg>
   )
 }
