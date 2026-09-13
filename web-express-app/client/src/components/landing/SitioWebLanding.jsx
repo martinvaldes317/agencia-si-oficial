@@ -159,7 +159,7 @@ export default function SitioWebLanding() {
         .swl-card:hover { transform: translateY(-4px); }
         .swl-faq-btn { cursor:pointer; }
         @media(max-width:900px) { .swl-hero-grid{grid-template-columns:1fr!important;text-align:center;} .swl-two-cards{grid-template-columns:1fr!important;} }
-        @media(max-width:640px) { .swl-incluye-grid{grid-template-columns:repeat(2,1fr)!important;} .swl-checks{grid-template-columns:1fr!important; justify-items:center!important;} }
+        @media(max-width:640px) { .swl-incluye-grid{grid-template-columns:repeat(2,1fr)!important;} }
         .swl-sticky { display:none; }
         @media(max-width:760px) {
           .swl-sticky { display:flex!important; }
@@ -195,7 +195,7 @@ export default function SitioWebLanding() {
       </nav>
 
       {/* HERO */}
-      <section style={{ background: FP.cream, padding: '46px 20px 70px', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: FP.cream, padding: '46px 20px 40px', position: 'relative', overflow: 'hidden' }}>
         <img src={IMG.map} alt="" className="fp-corner-decor" style={{ position: 'absolute', left: -16, bottom: -20, width: 120, opacity: .32, pointerEvents: 'none' }} />
         <img src={IMG.sunburst} alt="" className="fp-bob fp-corner-decor" style={{ position: 'absolute', right: 18, top: 18, width: 64, opacity: .9, pointerEvents: 'none' }} />
 
@@ -230,23 +230,26 @@ export default function SitioWebLanding() {
             <span style={{ fontSize: 12, color: FP.grayTx }}>Precio especial contratando directamente desde nuestra web.</span>
           </div>
 
-          <div className="swl-checks" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,auto)', gap: '10px 20px', justifyContent: 'center', marginBottom: 22 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 20 }}>
             {CHECKS_HERO.map(c => (
-              <div key={c} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, fontSize: 13, color: FP.ink, fontWeight: 500, textAlign: 'center' }}>
-                <Check size={15} color={FP.blue} style={{ flexShrink: 0 }} /> {c}
-              </div>
+              <span key={c} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#FFFFFF', border: `1px solid ${FP.border}`, borderRadius: 20, padding: '7px 13px', fontSize: 12.5, fontWeight: 600, color: FP.ink, whiteSpace: 'nowrap' }}>
+                <Check size={13} color={FP.blue} style={{ flexShrink: 0 }} /> {c}
+              </span>
             ))}
           </div>
 
           <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Hero CTA WhatsApp', true)}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: FP.blueD, fontSize: 13, fontWeight: 600, textDecoration: 'none', border: `1px solid ${FP.border}`, padding: '11px 20px', borderRadius: 30, background: '#FFFFFF' }}>
-            <WaIcon size={15} /> Prefiero atención por WhatsApp — $74.990 + IVA
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 9, color: FP.ink, fontSize: 13, fontWeight: 700, textDecoration: 'none', border: `1px solid #25D36655`, padding: '10px 20px 10px 12px', borderRadius: 30, background: '#FFFFFF' }}>
+            <span style={{ width: 24, height: 24, borderRadius: '50%', background: '#25D366', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <WaIcon size={13} />
+            </span>
+            Prefiero atención por WhatsApp — $74.990 + IVA
           </a>
         </div>
       </section>
 
       {/* ELIGE CÓMO CONTRATAR */}
-      <Section style={{ background: FP.cream, position: 'relative' }}>
+      <Section style={{ background: FP.cream, position: 'relative', paddingTop: 36 }}>
         <Copihue size={32} className="fp-corner-decor" style={{ position: 'absolute', top: 14, right: '7%', opacity: .8 }} />
         <img src={IMG.starsV} alt="" className="fp-corner-decor" style={{ position: 'absolute', top: 10, left: '5%', width: 26, opacity: .7 }} />
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
