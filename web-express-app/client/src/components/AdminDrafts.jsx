@@ -30,13 +30,22 @@ export default function AdminDrafts() {
   const [detail, setDetail] = useState(null)
   const [loadingDetail, setLoadingDetail] = useState(false)
 
+  // Se actualiza sola cada 20s (sin recargar la página ni mostrar el
+  // spinner de nuevo) para que si alguien está llenando el formulario
+  // ahora mismo, aparezca sin que el admin tenga que refrescar.
   useEffect(() => {
     if (!adminToken) { setLoading(false); return }
-    setLoading(true)
-    authFetch('/api/web-orders/drafts')
-      .then(r => r.json())
-      .then(data => { if (data.success) setDrafts(data.drafts) })
-      .finally(() => setLoading(false))
+    let cancelled = false
+    const fetchDrafts = (isFirstLoad) => {
+      if (isFirstLoad) setLoading(true)
+      authFetch('/api/web-orders/drafts')
+        .then(r => r.json())
+        .then(data => { if (!cancelled && data.success) setDrafts(data.drafts) })
+        .finally(() => { if (isFirstLoad) setLoading(false) })
+    }
+    fetchDrafts(true)
+    const id = setInterval(() => fetchDrafts(false), 20000)
+    return () => { cancelled = true; clearInterval(id) }
   }, [adminToken])
 
   const openDetail = async (token) => {
@@ -91,7 +100,7 @@ export default function AdminDrafts() {
     <AdminLayout active="formularios">
       <div className="flex-1 overflow-auto p-8">
         <h1 className="text-white font-bold uppercase tracking-widest text-sm mb-1">Formularios en proceso</h1>
-        <p className="text-zinc-500 text-xs mb-6">Gente que empezó a cotizar en /sitio-web — con o sin terminar. Se guarda automáticamente en cada paso.</p>
+        <p className="text-zinc-500 text-xs mb-6">Gente que empezó a cotizar en /sitio-web — con o sin terminar. Se actualiza sola cada 20 segundos.</p>
 
         {loading ? (
           <div className="flex items-center justify-center py-24"><Loader2 className="w-6 h-6 animate-spin text-zinc-500" /></div>
