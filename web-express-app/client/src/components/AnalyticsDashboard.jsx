@@ -4,6 +4,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts'
 import { Lock, Loader2, Smartphone, Tablet, Monitor, Eye, Users, MessageCircle, FileText } from 'lucide-react'
+import AdminLayout from './admin/AdminLayout'
 
 const GRANULARITIES = [
   { value: 'day', label: 'Día' },
@@ -87,7 +88,8 @@ export default function AnalyticsDashboard() {
   const series = (summary?.series || []).map(row => ({ ...row, label: formatBucket(row.bucket, granularity) }))
 
   return (
-    <div className="min-h-screen bg-black text-zinc-300 font-sans antialiased p-8">
+    <AdminLayout active="analitica">
+    <div className="flex-1 overflow-auto p-8">
       <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
         <h1 className="text-white font-bold uppercase tracking-widest text-sm">Analítica del sitio</h1>
         <div className="flex gap-1 bg-white/5 border border-white/10 rounded-lg p-1">
@@ -187,5 +189,6 @@ export default function AnalyticsDashboard() {
         </>
       )}
     </div>
+    </AdminLayout>
   )
 }

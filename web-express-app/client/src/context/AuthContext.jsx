@@ -32,6 +32,25 @@ export function AuthProvider({ children }) {
     return data.client
   }
 
+  const login = async (email, password) => {
+    const res = await fetch(`${API}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    })
+    const data = await res.json()
+    if (!data.success) throw new Error(data.message)
+    if (data.role === 'admin') {
+      localStorage.setItem('adminToken', data.token)
+      setAdminToken(data.token)
+      return 'admin'
+    }
+    localStorage.setItem('clientToken', data.token)
+    localStorage.setItem('clientData', JSON.stringify(data.client))
+    setClient({ ...data.client, token: data.token })
+    return 'client'
+  }
+
   const loginAdmin = async (password) => {
     const res = await fetch(`${API}/api/auth/admin/login`, {
       method: 'POST',
@@ -65,7 +84,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ client, adminToken, loading, loginClient, loginAdmin, logoutClient, logoutAdmin, authFetch }}>
+    <AuthContext.Provider value={{ client, adminToken, loading, login, loginClient, loginAdmin, logoutClient, logoutAdmin, authFetch }}>
       {children}
     </AuthContext.Provider>
   )

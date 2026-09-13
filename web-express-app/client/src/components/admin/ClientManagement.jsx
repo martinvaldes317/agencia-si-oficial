@@ -7,6 +7,7 @@ import {
   Eye, EyeOff, Loader, AlertCircle, DollarSign, BarChart2, CheckSquare, Square,
   Globe, Bell, Pencil, RefreshCw, Zap, Landmark
 } from 'lucide-react'
+import AdminLayout from './AdminLayout'
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -1638,7 +1639,8 @@ export default function ClientManagement() {
     const refresh = () => fetchClient(selected.id)
 
     return (
-      <div className="min-h-screen bg-black">
+      <AdminLayout active="clientes">
+      <div className="flex-1 overflow-auto">
         <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
           {/* Header */}
           <div className="flex items-center gap-4">
@@ -1680,6 +1682,7 @@ export default function ClientManagement() {
           </div>
         </div>
       </div>
+      </AdminLayout>
     )
   }
 
@@ -1695,7 +1698,8 @@ export default function ClientManagement() {
   )
 
   return (
-    <div className="min-h-screen bg-black">
+    <AdminLayout active="clientes">
+    <div className="flex-1 overflow-auto">
       <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -1896,5 +1900,6 @@ export default function ClientManagement() {
         </Modal>
       )}
     </div>
+    </AdminLayout>
   )
 }

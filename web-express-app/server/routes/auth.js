@@ -37,9 +37,27 @@ async function setAdminConfigPassword(hashed) {
 }
 
 // Client login
+// Login único: detecta automáticamente si el email corresponde al administrador
+// o a un cliente, y devuelve el token del rol correspondiente.
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    const adminEmail = process.env.ADMIN_EMAIL || 'contacto@agenciasi.cl';
+
+    if (email && email.toLowerCase() === adminEmail.toLowerCase()) {
+      const dbPassword = await getAdminConfigPassword();
+      let valid = false;
+      if (dbPassword) {
+        valid = await bcrypt.compare(password, dbPassword);
+      } else {
+        valid = password === (process.env.ADMIN_PASSWORD || 'agencia-si-admin-2024');
+      }
+      if (!valid) return res.status(401).json({ success: false, message: 'Credenciales inválidas' });
+
+      const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '7d' });
+      return res.json({ success: true, role: 'admin', token });
+    }
+
     const client = await prisma.client.findUnique({ where: { email } });
     if (!client || !client.active) {
       return res.status(401).json({ success: false, message: 'Credenciales inválidas' });
@@ -52,7 +70,7 @@ router.post('/login', async (req, res) => {
       JWT_SECRET,
       { expiresIn: '7d' }
     );
-    res.json({ success: true, token, client: { id: client.id, name: client.name, email: client.email, company: client.company, plan: client.plan } });
+    res.json({ success: true, role: 'client', token, client: { id: client.id, name: client.name, email: client.email, company: client.company, plan: client.plan } });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: 'Error del servidor' });

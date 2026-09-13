@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { LogIn, Eye, EyeOff, AlertCircle } from 'lucide-react'
 
 export default function PortalLogin() {
-  const { loginClient } = useAuth()
+  const { login } = useAuth()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -17,8 +17,8 @@ export default function PortalLogin() {
     setError('')
     setLoading(true)
     try {
-      await loginClient(email, password)
-      navigate('/portal/dashboard')
+      const role = await login(email, password)
+      navigate(role === 'admin' ? '/admin/si' : '/portal/dashboard')
     } catch (err) {
       setError(err.message || 'Error al iniciar sesión')
     } finally {

@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import {
-    LayoutDashboard, Users, Settings, Package,
+    Package,
     Search, Filter, ChevronRight, Clock,
     CheckCircle2, AlertCircle, FileText, Download,
-    MoreVertical, LogOut, Lock, Loader2, BarChart3
+    MoreVertical, Lock, Loader2
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+import AdminLayout from './admin/AdminLayout'
 
 export default function AdminDashboard() {
-    const navigate = useNavigate()
-    const { adminToken, loginAdmin, logoutAdmin, authFetch } = useAuth()
+    const { adminToken, loginAdmin, authFetch } = useAuth()
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedOrder, setSelectedOrder] = useState(null);
@@ -115,43 +114,7 @@ export default function AdminDashboard() {
     }
 
     return (
-        <div className="flex h-screen bg-black text-zinc-300 font-sans antialiased">
-            {/* Sidebar */}
-            <aside className="w-64 border-r border-white/5 flex flex-col">
-                <div className="p-8">
-                    <div className="flex items-center gap-2 mb-12">
-                        <div className="w-6 h-6 bg-white flex items-center justify-center rounded-sm">
-                            <span className="text-black font-bold text-sm italic">SI</span>
-                        </div>
-                        <span className="text-white font-bold tracking-tighter text-sm uppercase">Admin Panel</span>
-                    </div>
-
-                    <nav className="space-y-1">
-                        {[
-                            { icon: LayoutDashboard, label: 'Dashboard', active: true, action: null },
-                            { icon: Package, label: 'Pedidos', action: null },
-                            { icon: Users, label: 'Clientes', action: () => navigate('/admin/clientes') },
-                            { icon: BarChart3, label: 'Analítica', action: () => navigate('/admin/analitica') },
-                            { icon: Settings, label: 'Configuración', action: null },
-                        ].map((item, i) => (
-                            <button key={i} onClick={item.action || undefined} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${item.active ? 'bg-white/5 text-white' : 'hover:bg-white/5 hover:text-white'}`}>
-                                <item.icon className="w-4 h-4 text-zinc-500" />
-                                {item.label}
-                            </button>
-                        ))}
-                    </nav>
-                </div>
-
-                <div className="mt-auto p-8">
-                    <button onClick={logoutAdmin} className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors text-sm font-medium">
-                        <LogOut className="w-4 h-4" />
-                        Cerrar Sesión
-                    </button>
-                </div>
-            </aside>
-
-            {/* Main Content */}
-            <main className="flex-1 flex flex-col overflow-hidden">
+        <AdminLayout active="pedidos">
                 {/* Header */}
                 <header className="h-20 border-b border-white/5 flex items-center justify-between px-10">
                     <h1 className="text-white font-bold tracking-tight text-xl uppercase tracking-widest text-sm">Gestión de Pedidos</h1>
@@ -262,7 +225,6 @@ export default function AdminDashboard() {
                         </div>
                     </div>
                 </div>
-            </main>
 
             {/* Detail Sidebar / Modal */}
             {selectedOrder && (
@@ -459,6 +421,6 @@ export default function AdminDashboard() {
                     animation: slide-in-right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
                 }
             `}} />
-        </div>
+        </AdminLayout>
     )
 }
