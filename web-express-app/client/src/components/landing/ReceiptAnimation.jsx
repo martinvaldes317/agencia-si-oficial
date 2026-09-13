@@ -38,7 +38,7 @@ export default function ReceiptAnimation({ summary, orderId, status = 'approved'
   const accent = rejected ? '#D9333F' : T.cyan
 
   return (
-    <div style={{ maxWidth: 320, margin: '0 auto' }}>
+    <div style={{ maxWidth: 360, margin: '0 auto', background: T.light, borderRadius: 24, padding: '30px 20px 24px' }}>
       <style>{`
         @keyframes swl-receipt-spin { to { transform: rotate(360deg); } }
         .swl-receipt-spin { animation: swl-receipt-spin .8s linear infinite; }
@@ -48,11 +48,12 @@ export default function ReceiptAnimation({ summary, orderId, status = 'approved'
         .swl-receipt-led { animation: swl-receipt-blink 1.1s ease-in-out infinite; }
       `}</style>
 
+      <div style={{ maxWidth: 300, margin: '0 auto' }}>
       {/* Cuerpo de la impresora */}
       <div style={{
         position: 'relative', zIndex: 2, background: `linear-gradient(180deg, ${T.navy2 || '#12134A'} 0%, ${T.navy} 100%)`,
         borderRadius: '20px 20px 10px 10px', padding: '18px 20px 16px',
-        boxShadow: '0 16px 40px rgba(10,11,46,.28), inset 0 1px 0 rgba(255,255,255,.06)',
+        boxShadow: '0 22px 34px -12px rgba(10,11,46,.45), 0 8px 14px -6px rgba(10,11,46,.25), inset 0 1px 0 rgba(255,255,255,.06)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
@@ -104,9 +105,10 @@ export default function ReceiptAnimation({ summary, orderId, status = 'approved'
       }}>
         <div style={{
           position: 'relative',
-          background: T.white,
+          background: '#FFFFFF',
+          border: `1px solid rgba(10,11,46,.08)`,
           padding: '20px 20px 20px',
-          boxShadow: '0 14px 26px rgba(10,11,46,.16)',
+          boxShadow: '0 24px 30px -14px rgba(10,11,46,.30), 0 4px 10px rgba(10,11,46,.08)',
           clipPath: 'polygon(0% 0%, 100% 0%, 100% 96%, 95% 100%, 90% 96%, 85% 100%, 80% 96%, 75% 100%, 70% 96%, 65% 100%, 60% 96%, 55% 100%, 50% 96%, 45% 100%, 40% 96%, 35% 100%, 30% 96%, 25% 100%, 20% 96%, 15% 100%, 10% 96%, 5% 100%, 0% 96%)',
         }}>
           {/* Sombra del pliegue justo donde el papel sale de la ranura */}
@@ -153,6 +155,7 @@ export default function ReceiptAnimation({ summary, orderId, status = 'approved'
             ))}
           </div>
         </div>
+      </div>
       </div>
     </div>
   )
