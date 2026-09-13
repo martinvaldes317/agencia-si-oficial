@@ -238,13 +238,16 @@ export default function SitioWebLanding() {
             ))}
           </div>
 
-          <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Hero CTA WhatsApp', true)}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 9, color: FP.ink, fontSize: 13, fontWeight: 700, textDecoration: 'none', border: `1px solid #25D36655`, padding: '10px 20px 10px 12px', borderRadius: 30, background: '#FFFFFF' }}>
-            <span style={{ width: 24, height: 24, borderRadius: '50%', background: '#25D366', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <WaIcon size={13} />
-            </span>
-            Prefiero atención por WhatsApp — $74.990 + IVA
-          </a>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+            <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Hero CTA WhatsApp', true)}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, color: FP.ink, fontSize: 13, fontWeight: 700, textDecoration: 'none', border: `1px solid #25D36655`, padding: '10px 20px 10px 12px', borderRadius: 30, background: '#FFFFFF', whiteSpace: 'nowrap' }}>
+              <span style={{ width: 24, height: 24, borderRadius: '50%', background: '#25D366', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <WaIcon size={13} />
+              </span>
+              Prefiero atención por WhatsApp
+            </a>
+            <span style={{ fontSize: 12, color: FP.grayTx }}>$74.990 + IVA</span>
+          </div>
         </div>
       </section>
 
