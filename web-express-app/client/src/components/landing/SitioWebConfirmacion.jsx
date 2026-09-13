@@ -169,17 +169,23 @@ export default function SitioWebConfirmacion() {
           ) : (
             <>
               {isFailure ? (
-                <>
-                  <XCircle size={54} color="#D9333F" style={{ marginBottom: 16 }} />
-                  <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 800, color: T.navy, marginBottom: 10 }}>
-                    {hasOrderContext ? 'Tu pago no se completó' : 'No encontramos tu pedido'}
-                  </h1>
-                  <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.7, marginBottom: 28 }}>
-                    {hasOrderContext
-                      ? 'Tu proyecto quedó registrado, pero el pago fue rechazado o se canceló antes de completarse. Escríbenos por WhatsApp y te ayudamos a completar tu pedido.'
-                      : 'Este enlace no tiene la información de un pedido. Si acabas de completar el formulario, vuelve a intentarlo o escríbenos por WhatsApp.'}
-                  </p>
-                </>
+                hasOrderContext ? (
+                  <>
+                    <ReceiptAnimation summary={summary} orderId={orderIdFromUrl || summary?.orderId} status="rejected" />
+                    <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, fontWeight: 800, color: T.navy, margin: '24px 0 8px' }}>Tu pago no se completó</h1>
+                    <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.7, marginBottom: 28 }}>
+                      Tu proyecto quedó registrado, pero el pago fue rechazado o se canceló antes de completarse. Escríbenos por WhatsApp y te ayudamos a completar tu pedido.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <XCircle size={54} color="#D9333F" style={{ marginBottom: 16 }} />
+                    <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 800, color: T.navy, marginBottom: 10 }}>No encontramos tu pedido</h1>
+                    <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.7, marginBottom: 28 }}>
+                      Este enlace no tiene la información de un pedido. Si acabas de completar el formulario, vuelve a intentarlo o escríbenos por WhatsApp.
+                    </p>
+                  </>
+                )
               ) : (
                 <>
                   <Clock size={54} color="#B98900" style={{ marginBottom: 16 }} />
@@ -191,10 +197,14 @@ export default function SitioWebConfirmacion() {
               )}
 
               <div style={{ background: T.light, borderRadius: 14, padding: '18px 20px', textAlign: 'left', marginBottom: 26 }}>
-                <SummaryLine label="N° de solicitud" value={orderIdFromUrl || summary?.orderId || '—'} />
+                {!(isFailure && hasOrderContext) && (
+                  <>
+                    <SummaryLine label="N° de solicitud" value={orderIdFromUrl || summary?.orderId || '—'} />
+                    <SummaryLine label="Servicio" value={`Sitio Web Profesional${summary?.wantsStore ? ' + Tienda Online' : ''}`} />
+                    {summary?.montoTotal && <SummaryLine label="Total" value={`$${fmt(summary.montoTotal)}`} />}
+                  </>
+                )}
                 {summary?.contactName && <SummaryLine label="Nombre" value={summary.contactName} />}
-                <SummaryLine label="Servicio" value={`Sitio Web Profesional${summary?.wantsStore ? ' + Tienda Online' : ''}`} />
-                {summary?.montoTotal && <SummaryLine label="Total" value={`$${fmt(summary.montoTotal)}`} />}
                 {summary?.email && <SummaryLine label="Correo" value={summary.email} />}
                 {summary?.whatsapp && <SummaryLine label="WhatsApp" value={summary.whatsapp} />}
               </div>
