@@ -7,6 +7,7 @@ import {
   ShoppingCart, Store, Sparkles, ExternalLink,
 } from 'lucide-react'
 import { trackEvent } from '../../lib/analytics'
+import { FP, fpStyles, WavingFlag, Bunting, Copihue, FiestasPatriasCountdown } from './FiestasPatriasDecor'
 
 export const T = {
   navy:   '#0A0B2E',
@@ -141,7 +142,7 @@ export default function SitioWebLanding() {
   }
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.white, color: T.black, overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: FP.cream, color: FP.ink, overflowX: 'hidden' }}>
       <Helmet>
         <title>Tu Sitio Web Profesional por $49.990 + IVA | AgenciaSI</title>
         <meta name="description" content="Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online desde $49.990 + IVA." />
@@ -164,160 +165,174 @@ export default function SitioWebLanding() {
           .swl-sticky { display:flex!important; }
           body { padding-bottom: 68px; }
         }
+        ${fpStyles}
       `}</style>
 
+      <FiestasPatriasCountdown />
+
       {/* NAV */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(10,11,46,.92)', backdropFilter: 'blur(12px)' }}>
+      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: `rgba(0,61,165,.94)`, backdropFilter: 'blur(12px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 9 }}>
-            <div style={{ background: T.cyan, borderRadius: 8, width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Code2 size={15} color={T.navy} />
+            <div style={{ background: FP.gold, borderRadius: 8, width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Code2 size={15} color={FP.blueD} />
             </div>
-            <span style={{ fontWeight: 800, fontSize: 15, color: T.white }}>AgenciaSI</span>
+            <span style={{ fontWeight: 800, fontSize: 15, color: '#FFFFFF' }}>AgenciaSI</span>
           </Link>
           <a href={WA_ONLINE} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Nav CTA', true)}
-            style={{ background: T.cyan, color: T.navy, fontWeight: 800, fontSize: 13, padding: '9px 18px', borderRadius: 30, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
+            style={{ background: FP.gold, color: FP.ink, fontWeight: 800, fontSize: 13, padding: '9px 18px', borderRadius: 30, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
             $49.990 + IVA <ArrowRight size={13} />
           </a>
         </div>
       </nav>
 
       {/* HERO */}
-      <section style={{ background: `linear-gradient(150deg, ${T.navy} 0%, ${T.navy2} 45%, ${T.violetD} 100%)`, padding: '64px 20px 80px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: -160, right: -140, width: 480, height: 480, borderRadius: '50%', background: `${T.violet}35`, filter: 'blur(40px)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: -120, left: -100, width: 360, height: 360, borderRadius: '50%', background: `${T.cyan}18`, filter: 'blur(50px)', pointerEvents: 'none' }} />
+      <section style={{ background: `linear-gradient(150deg, ${FP.blueD} 0%, ${FP.blue} 55%, ${FP.redD} 130%)`, padding: '0 20px 80px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: -160, right: -140, width: 480, height: 480, borderRadius: '50%', background: `${FP.red}30`, filter: 'blur(40px)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: -120, left: -100, width: 360, height: 360, borderRadius: '50%', background: `${FP.gold}20`, filter: 'blur(50px)', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 720, margin: '0 auto', paddingTop: 18 }}>
+          <Bunting count={9} width={320} height={44} />
+        </div>
         <div style={{ maxWidth: 780, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 6 }}>
+            <WavingFlag size={56} />
+          </div>
+          <p style={{ fontSize: 13, fontWeight: 700, color: FP.gold, letterSpacing: .3, marginBottom: 16 }}>
+            Este Dieciocho, dale a tu negocio la cara que se merece 🇨🇱
+          </p>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 22 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: T.white, background: 'rgba(255,255,255,.1)', border: '1px solid rgba(255,255,255,.2)', padding: '6px 14px', borderRadius: 30 }}>Para Pymes y Profesionales</span>
-            <span style={{ fontSize: 11, fontWeight: 700, color: T.navy, background: T.cyan, padding: '6px 14px', borderRadius: 30 }}>+60 proyectos web entregados</span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#FFFFFF', background: 'rgba(255,255,255,.12)', border: '1px solid rgba(255,255,255,.25)', padding: '6px 14px', borderRadius: 30 }}>Para Pymes y Profesionales</span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: FP.ink, background: FP.gold, padding: '6px 14px', borderRadius: 30 }}>+60 proyectos web entregados</span>
           </div>
 
-          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 800, color: T.white, lineHeight: 1.12, marginBottom: 18, letterSpacing: -.5 }}>
+          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.12, marginBottom: 18, letterSpacing: -.5 }}>
             Tu Sitio Web Profesional por{' '}
-            <span style={{ color: T.cyan }}>$49.990 + IVA</span>
+            <span style={{ color: FP.gold }}>$49.990 + IVA</span>
           </h1>
 
-          <p style={{ fontSize: 'clamp(15px,2vw,18px)', color: 'rgba(255,255,255,.78)', lineHeight: 1.7, maxWidth: 560, margin: '0 auto 28px' }}>
+          <p style={{ fontSize: 'clamp(15px,2vw,18px)', color: 'rgba(255,255,255,.82)', lineHeight: 1.7, maxWidth: 560, margin: '0 auto 28px' }}>
             Obtén una página web profesional, diseñada para tu negocio y lista para comenzar a recibir clientes.
           </p>
 
           <div className="swl-checks" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,auto)', gap: '10px 20px', justifyContent: 'center', marginBottom: 34 }}>
             {CHECKS_HERO.map(c => (
-              <div key={c} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, color: 'rgba(255,255,255,.85)', fontWeight: 500 }}>
-                <Check size={15} color={T.cyan} style={{ flexShrink: 0 }} /> {c}
+              <div key={c} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, color: 'rgba(255,255,255,.88)', fontWeight: 500 }}>
+                <Check size={15} color={FP.gold} style={{ flexShrink: 0 }} /> {c}
               </div>
             ))}
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, marginBottom: 22 }}>
             <Link to="/sitio-web/formulario" onClick={() => trackLead('Hero CTA Online')}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: T.cyan, color: T.navy, fontWeight: 800, fontSize: 17, padding: '18px 38px', borderRadius: 14, textDecoration: 'none', boxShadow: `0 12px 40px ${T.cyan}50` }}>
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: FP.gold, color: FP.ink, fontWeight: 800, fontSize: 17, padding: '18px 38px', borderRadius: 14, textDecoration: 'none', boxShadow: `0 12px 40px ${FP.gold}55` }}>
               Crear mi sitio por $49.990 + IVA <ArrowRight size={18} />
             </Link>
-            <span style={{ fontSize: 12, color: 'rgba(255,255,255,.55)' }}>Precio especial contratando directamente desde nuestra web.</span>
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,.6)' }}>Precio especial contratando directamente desde nuestra web.</span>
           </div>
 
           <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Hero CTA WhatsApp', true)}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,.75)', fontSize: 13, fontWeight: 600, textDecoration: 'none', border: '1px solid rgba(255,255,255,.25)', padding: '11px 20px', borderRadius: 30 }}>
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,.78)', fontSize: 13, fontWeight: 600, textDecoration: 'none', border: '1px solid rgba(255,255,255,.3)', padding: '11px 20px', borderRadius: 30 }}>
             <WaIcon size={15} /> Prefiero atención por WhatsApp — $74.990 + IVA
           </a>
         </div>
       </section>
 
       {/* ELIGE CÓMO CONTRATAR */}
-      <Section style={{ background: T.light }}>
+      <Section style={{ background: FP.cream, position: 'relative' }}>
+        <Copihue size={38} style={{ position: 'absolute', top: 12, left: '6%' }} />
+        <Copihue size={30} style={{ position: 'absolute', top: 30, right: '7%' }} />
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: T.navy, marginBottom: 12 }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 12 }}>
               El mismo sitio web. Tú eliges cómo contratar.
             </h2>
-            <p style={{ fontSize: 15, color: T.gray, maxWidth: 560, margin: '0 auto' }}>
+            <p style={{ fontSize: 15, color: FP.grayTx, maxWidth: 560, margin: '0 auto' }}>
               Obtén el mejor precio realizando el proceso directamente online o contrata con atención personalizada por WhatsApp.
             </p>
           </div>
 
           <div className="swl-two-cards" style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 20, alignItems: 'stretch' }}>
             {/* Tarjeta destacada */}
-            <div className="swl-card" style={{ background: T.navy, borderRadius: 24, padding: '36px 32px', position: 'relative', border: `2px solid ${T.cyan}` }}>
-              <span style={{ position: 'absolute', top: -13, left: 28, background: T.cyan, color: T.navy, fontSize: 11, fontWeight: 800, padding: '5px 14px', borderRadius: 20 }}>MEJOR PRECIO</span>
-              <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.6)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Compra online</div>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 44, fontWeight: 800, color: T.cyan, marginBottom: 16 }}>$49.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,.75)', lineHeight: 1.7, marginBottom: 22 }}>
+            <div className="swl-card" style={{ background: FP.blue, borderRadius: 24, padding: '36px 32px', position: 'relative', border: `2px solid ${FP.gold}` }}>
+              <span style={{ position: 'absolute', top: -13, left: 28, background: FP.gold, color: FP.ink, fontSize: 11, fontWeight: 800, padding: '5px 14px', borderRadius: 20 }}>MEJOR PRECIO</span>
+              <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.65)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Compra online</div>
+              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 44, fontWeight: 800, color: FP.gold, marginBottom: 16 }}>$49.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,.8)', lineHeight: 1.7, marginBottom: 22 }}>
                 Completa nuestro formulario guiado con la información de tu negocio y nosotros nos encargamos del resto.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
                 {['Precio especial online', 'Proceso simple y guiado', 'Puedes adjuntar logo y fotografías', 'No necesitas conocimientos técnicos', 'Revisas toda la información antes de contratar'].map(t => (
-                  <div key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'rgba(255,255,255,.85)' }}>
-                    <Check size={15} color={T.cyan} style={{ flexShrink: 0, marginTop: 2 }} /> {t}
+                  <div key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'rgba(255,255,255,.88)' }}>
+                    <Check size={15} color={FP.gold} style={{ flexShrink: 0, marginTop: 2 }} /> {t}
                   </div>
                 ))}
               </div>
               <Link to="/sitio-web/formulario" onClick={() => trackLead('Card CTA Online')}
-                style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, background: T.cyan, color: T.navy, fontWeight: 800, fontSize: 15, padding: '15px', borderRadius: 12, textDecoration: 'none' }}>
+                style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, background: FP.gold, color: FP.ink, fontWeight: 800, fontSize: 15, padding: '15px', borderRadius: 12, textDecoration: 'none' }}>
                 Comenzar mi página web <ArrowRight size={16} />
               </Link>
             </div>
 
             {/* Segunda tarjeta */}
-            <div className="swl-card" style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 24, padding: '36px 32px', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: T.gray, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Atención por WhatsApp</div>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, fontWeight: 800, color: T.navy, marginBottom: 16 }}>$74.990 <span style={{ fontSize: 16, color: T.gray, fontWeight: 500 }}>+ IVA</span></div>
-              <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.7, marginBottom: 24, flex: 1 }}>
+            <div className="swl-card" style={{ background: '#FFFFFF', border: `1px solid ${FP.border}`, borderRadius: 24, padding: '36px 32px', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: FP.grayTx, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Atención por WhatsApp</div>
+              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, fontWeight: 800, color: FP.blueD, marginBottom: 16 }}>$74.990 <span style={{ fontSize: 16, color: FP.grayTx, fontWeight: 500 }}>+ IVA</span></div>
+              <p style={{ fontSize: 14, color: FP.grayTx, lineHeight: 1.7, marginBottom: 24, flex: 1 }}>
                 ¿Prefieres conversar primero? Nuestro equipo puede ayudarte a resolver tus dudas y recopilar la información necesaria.
               </p>
               <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Card CTA WhatsApp', true)}
-                style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, background: T.navy, color: T.white, fontWeight: 700, fontSize: 15, padding: '15px', borderRadius: 12, textDecoration: 'none' }}>
+                style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, background: FP.blue, color: '#FFFFFF', fontWeight: 700, fontSize: 15, padding: '15px', borderRadius: 12, textDecoration: 'none' }}>
                 <WaIcon size={16} /> Hablar por WhatsApp
               </a>
             </div>
           </div>
 
-          <p style={{ textAlign: 'center', fontSize: 13, color: T.gray, marginTop: 26, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
+          <p style={{ textAlign: 'center', fontSize: 13, color: FP.grayTx, marginTop: 26, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
             Ambas modalidades incluyen exactamente las mismas características. El valor cambia únicamente según la forma de contratación.
           </p>
         </div>
       </Section>
 
       {/* TODO LO QUE INCLUYE */}
-      <Section style={{ background: T.white }}>
+      <Section style={{ background: '#FFFFFF' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: T.navy }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD }}>
               Todo lo que incluye tu sitio web
             </h2>
           </div>
           <div className="swl-incluye-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14 }}>
             {INCLUYE.map(({ icon: Icon, title, sub }) => (
-              <div key={title} className="swl-card" style={{ border: `1px solid ${T.border}`, borderRadius: 16, padding: '22px 18px', textAlign: 'center' }}>
-                <div style={{ width: 42, height: 42, borderRadius: 12, background: `${T.violet}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
-                  <Icon size={20} color={T.violet} />
+              <div key={title} className="swl-card" style={{ border: `1px solid ${FP.border}`, borderRadius: 16, padding: '22px 18px', textAlign: 'center' }}>
+                <div style={{ width: 42, height: 42, borderRadius: 12, background: `${FP.red}14`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
+                  <Icon size={20} color={FP.red} />
                 </div>
-                <div style={{ fontWeight: 700, fontSize: 13, color: T.navy }}>{title}</div>
-                {sub && <div style={{ fontSize: 11, color: '#0FA895', fontWeight: 600, marginTop: 3 }}>{sub}</div>}
+                <div style={{ fontWeight: 700, fontSize: 13, color: FP.blueD }}>{title}</div>
+                {sub && <div style={{ fontSize: 11, color: '#1B8A4A', fontWeight: 600, marginTop: 3 }}>{sub}</div>}
               </div>
             ))}
-            <div className="swl-card" style={{ background: T.navy, borderRadius: 16, padding: '22px 18px', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <div style={{ fontWeight: 800, fontSize: 13, color: T.white }}>Compatible con</div>
-              <div style={{ fontSize: 12, color: T.cyan, fontWeight: 700, marginTop: 3 }}>Móviles · Tablets · PC</div>
+            <div className="swl-card" style={{ background: FP.blue, borderRadius: 16, padding: '22px 18px', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <div style={{ fontWeight: 800, fontSize: 13, color: '#FFFFFF' }}>Compatible con</div>
+              <div style={{ fontSize: 12, color: FP.gold, fontWeight: 700, marginTop: 3 }}>Móviles · Tablets · PC</div>
             </div>
           </div>
         </div>
       </Section>
 
       {/* PROBLEMA / SOLUCIÓN */}
-      <Section style={{ background: T.light }}>
+      <Section style={{ background: FP.cream }}>
         <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.6rem,3vw,2.3rem)', fontWeight: 800, color: T.navy, marginBottom: 20, lineHeight: 1.2 }}>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.6rem,3vw,2.3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 20, lineHeight: 1.2 }}>
             Tu negocio merece algo mejor que depender solamente de Instagram
           </h2>
-          <p style={{ fontSize: 15, color: T.gray, lineHeight: 1.8, maxWidth: 640, margin: '0 auto 36px' }}>
+          <p style={{ fontSize: 15, color: FP.grayTx, lineHeight: 1.8, maxWidth: 640, margin: '0 auto 36px' }}>
             Las redes sociales son importantes, pero tu negocio también necesita un espacio propio donde los clientes puedan conocer tus servicios, encontrarte en Google y contactarte directamente.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 14, textAlign: 'left', maxWidth: 780, margin: '0 auto' }}>
             {PROBLEMA_BENEFICIOS.map(b => (
-              <div key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: T.white, border: `1px solid ${T.border}`, borderRadius: 12, padding: '14px 16px' }}>
-                <CheckCircle2 size={16} color={T.violet} style={{ flexShrink: 0, marginTop: 1 }} />
-                <span style={{ fontSize: 13, color: T.navy, fontWeight: 500 }}>{b}</span>
+              <div key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: '#FFFFFF', border: `1px solid ${FP.border}`, borderRadius: 12, padding: '14px 16px' }}>
+                <CheckCircle2 size={16} color={FP.red} style={{ flexShrink: 0, marginTop: 1 }} />
+                <span style={{ fontSize: 13, color: FP.blueD, fontWeight: 500 }}>{b}</span>
               </div>
             ))}
           </div>
@@ -325,23 +340,23 @@ export default function SitioWebLanding() {
       </Section>
 
       {/* CÓMO FUNCIONA */}
-      <Section style={{ background: T.white }}>
+      <Section style={{ background: '#FFFFFF' }}>
         <div style={{ maxWidth: 940, margin: '0 auto' }}>
-          <h2 style={{ textAlign: 'center', fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: T.navy, marginBottom: 48 }}>
+          <h2 style={{ textAlign: 'center', fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 48 }}>
             Tener tu página web es muy fácil
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 28, marginBottom: 44 }}>
             {PASOS.map(p => (
               <div key={p.n} style={{ textAlign: 'center' }}>
-                <div style={{ width: 52, height: 52, borderRadius: '50%', background: T.navy, color: T.cyan, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 20, margin: '0 auto 16px' }}>{p.n}</div>
-                <div style={{ fontWeight: 700, fontSize: 16, color: T.navy, marginBottom: 8 }}>{p.t}</div>
-                <div style={{ fontSize: 13, color: T.gray, lineHeight: 1.7 }}>{p.d}</div>
+                <div style={{ width: 52, height: 52, borderRadius: '50%', background: FP.blue, color: FP.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 20, margin: '0 auto 16px' }}>{p.n}</div>
+                <div style={{ fontWeight: 700, fontSize: 16, color: FP.blueD, marginBottom: 8 }}>{p.t}</div>
+                <div style={{ fontSize: 13, color: FP.grayTx, lineHeight: 1.7 }}>{p.d}</div>
               </div>
             ))}
           </div>
           <div style={{ textAlign: 'center' }}>
             <Link to="/sitio-web/formulario" onClick={() => trackLead('Como Funciona CTA')}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.cyan, color: T.navy, fontWeight: 800, fontSize: 15, padding: '15px 30px', borderRadius: 12, textDecoration: 'none' }}>
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: FP.gold, color: FP.ink, fontWeight: 800, fontSize: 15, padding: '15px 30px', borderRadius: 12, textDecoration: 'none' }}>
               Quiero comenzar por $49.990 + IVA <ArrowRight size={16} />
             </Link>
           </div>
@@ -349,34 +364,34 @@ export default function SitioWebLanding() {
       </Section>
 
       {/* UPSELL TIENDA ONLINE */}
-      <Section style={{ background: `linear-gradient(135deg, ${T.violetD} 0%, ${T.violet} 100%)` }}>
+      <Section style={{ background: `linear-gradient(135deg, ${FP.redD} 0%, ${FP.red} 100%)` }}>
         <div style={{ maxWidth: 880, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center' }} className="swl-two-cards">
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,.15)', padding: '6px 14px', borderRadius: 30, marginBottom: 18 }}>
-              <ShoppingCart size={13} color={T.cyan} />
-              <span style={{ fontSize: 11, fontWeight: 700, color: T.white, letterSpacing: 1 }}>OPCIONAL</span>
+              <ShoppingCart size={13} color={FP.gold} />
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#FFFFFF', letterSpacing: 1 }}>OPCIONAL</span>
             </div>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.6rem,3vw,2.3rem)', fontWeight: 800, color: T.white, lineHeight: 1.2, marginBottom: 14 }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.6rem,3vw,2.3rem)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 14 }}>
               ¿También quieres vender por internet?
             </h2>
-            <p style={{ fontSize: 15, color: 'rgba(255,255,255,.82)', lineHeight: 1.7, marginBottom: 22 }}>
-              Convierte tu página web en una tienda online por solo <strong style={{ color: T.cyan }}>$25.990 + IVA</strong> adicionales. Perfecto para negocios que quieren comenzar a vender productos directamente desde su página.
+            <p style={{ fontSize: 15, color: 'rgba(255,255,255,.85)', lineHeight: 1.7, marginBottom: 22 }}>
+              Convierte tu página web en una tienda online por solo <strong style={{ color: FP.gold }}>$25.990 + IVA</strong> adicionales. Perfecto para negocios que quieren comenzar a vender productos directamente desde su página.
             </p>
             <a href={WA_TIENDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Upsell Tienda CTA', true)}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.cyan, color: T.navy, fontWeight: 800, fontSize: 14, padding: '13px 24px', borderRadius: 12, textDecoration: 'none' }}>
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: FP.gold, color: FP.ink, fontWeight: 800, fontSize: 14, padding: '13px 24px', borderRadius: 12, textDecoration: 'none' }}>
               Agregar tienda online <ArrowRight size={15} />
             </a>
           </div>
-          <div style={{ background: 'rgba(255,255,255,.08)', border: '1px solid rgba(255,255,255,.2)', borderRadius: 20, padding: '30px 26px' }}>
+          <div style={{ background: 'rgba(255,255,255,.1)', border: '1px solid rgba(255,255,255,.25)', borderRadius: 20, padding: '30px 26px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-              <Store size={20} color={T.cyan} />
-              <span style={{ fontWeight: 800, fontSize: 15, color: T.white }}>Tienda Online</span>
+              <Store size={20} color={FP.gold} />
+              <span style={{ fontWeight: 800, fontSize: 15, color: '#FFFFFF' }}>Tienda Online</span>
             </div>
-            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 30, fontWeight: 800, color: T.cyan, marginBottom: 16 }}>+$25.990 <span style={{ fontSize: 14, color: 'rgba(255,255,255,.6)', fontWeight: 500 }}>+ IVA</span></div>
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 30, fontWeight: 800, color: FP.gold, marginBottom: 16 }}>+$25.990 <span style={{ fontSize: 14, color: 'rgba(255,255,255,.65)', fontWeight: 500 }}>+ IVA</span></div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
               {['Carro de compras', 'Carga inicial de hasta 25 productos', 'Catálogo online', 'Mercado Pago integrado', 'Proceso de compra', 'Adaptado a celulares'].map(t => (
-                <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'rgba(255,255,255,.85)' }}>
-                  <Check size={14} color={T.cyan} style={{ flexShrink: 0 }} /> {t}
+                <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'rgba(255,255,255,.88)' }}>
+                  <Check size={14} color={FP.gold} style={{ flexShrink: 0 }} /> {t}
                 </div>
               ))}
             </div>
@@ -385,32 +400,32 @@ export default function SitioWebLanding() {
       </Section>
 
       {/* CONFIANZA */}
-      <Section style={{ background: T.white, textAlign: 'center' }}>
-        <Sparkles size={30} color={T.violet} style={{ marginBottom: 14 }} />
-        <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: T.navy, marginBottom: 10 }}>
+      <Section style={{ background: '#FFFFFF', textAlign: 'center' }}>
+        <Sparkles size={30} color={FP.red} style={{ marginBottom: 14 }} />
+        <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 10 }}>
           +60 proyectos web entregados
         </div>
-        <p style={{ fontSize: 15, color: T.gray, maxWidth: 480, margin: '0 auto' }}>
+        <p style={{ fontSize: 15, color: FP.grayTx, maxWidth: 480, margin: '0 auto' }}>
           Trabajamos con Pymes, emprendedores y profesionales de diferentes rubros.
         </p>
       </Section>
 
       {/* FAQ */}
-      <Section style={{ background: T.light }}>
+      <Section style={{ background: FP.cream }}>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <h2 style={{ textAlign: 'center', fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.6rem,3vw,2.2rem)', fontWeight: 800, color: T.navy, marginBottom: 36 }}>
+          <h2 style={{ textAlign: 'center', fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.6rem,3vw,2.2rem)', fontWeight: 800, color: FP.blueD, marginBottom: 36 }}>
             Preguntas frecuentes
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {FAQS.map((f, i) => (
-              <div key={f.q} style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 14, overflow: 'hidden' }}>
+              <div key={f.q} style={{ background: '#FFFFFF', border: `1px solid ${FP.border}`, borderRadius: 14, overflow: 'hidden' }}>
                 <div className="swl-faq-btn" onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', fontWeight: 700, fontSize: 14, color: T.navy }}>
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', fontWeight: 700, fontSize: 14, color: FP.blueD }}>
                   {f.q}
-                  <ChevronDown size={16} color={T.gray} style={{ transform: openFaq === i ? 'rotate(180deg)' : 'none', transition: 'transform .2s', flexShrink: 0, marginLeft: 12 }} />
+                  <ChevronDown size={16} color={FP.grayTx} style={{ transform: openFaq === i ? 'rotate(180deg)' : 'none', transition: 'transform .2s', flexShrink: 0, marginLeft: 12 }} />
                 </div>
                 {openFaq === i && (
-                  <div style={{ padding: '0 20px 18px', fontSize: 13, color: T.gray, lineHeight: 1.7 }}>{f.a}</div>
+                  <div style={{ padding: '0 20px 18px', fontSize: 13, color: FP.grayTx, lineHeight: 1.7 }}>{f.a}</div>
                 )}
               </div>
             ))}
@@ -419,32 +434,35 @@ export default function SitioWebLanding() {
       </Section>
 
       {/* CTA FINAL */}
-      <Section style={{ background: `linear-gradient(150deg, ${T.navy} 0%, ${T.violetD} 100%)`, textAlign: 'center' }}>
+      <Section style={{ background: `linear-gradient(150deg, ${FP.blueD} 0%, ${FP.redD} 100%)`, textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ maxWidth: 320, margin: '0 auto 28px' }}>
+          <Bunting count={7} width={280} height={40} />
+        </div>
         <div style={{ maxWidth: 560, margin: '0 auto' }}>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, color: T.white, lineHeight: 1.2, marginBottom: 14 }}>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 14 }}>
             Tu negocio puede tener su propia página web
           </h2>
-          <p style={{ fontSize: 15, color: 'rgba(255,255,255,.75)', marginBottom: 26 }}>
+          <p style={{ fontSize: 15, color: 'rgba(255,255,255,.8)', marginBottom: 26 }}>
             Comienza hoy completando nuestro formulario y obtén el precio especial de contratación online.
           </p>
-          <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 44, fontWeight: 800, color: T.cyan, marginBottom: 6 }}>$49.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,.55)', marginBottom: 30 }}>Dominio + Hosting por 1 año incluidos</p>
+          <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 44, fontWeight: 800, color: FP.gold, marginBottom: 6 }}>$49.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,.6)', marginBottom: 30 }}>Dominio + Hosting por 1 año incluidos</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 18 }}>
             <Link to="/sitio-web/formulario" onClick={() => trackLead('CTA Final Online')}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.cyan, color: T.navy, fontWeight: 800, fontSize: 15, padding: '16px 30px', borderRadius: 12, textDecoration: 'none' }}>
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: FP.gold, color: FP.ink, fontWeight: 800, fontSize: 15, padding: '16px 30px', borderRadius: 12, textDecoration: 'none' }}>
               Crear mi sitio web <ArrowRight size={16} />
             </Link>
             <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('CTA Final WhatsApp', true)}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: T.white, fontWeight: 700, fontSize: 14, padding: '16px 24px', borderRadius: 12, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.3)' }}>
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: '#FFFFFF', fontWeight: 700, fontSize: 14, padding: '16px 24px', borderRadius: 12, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.35)' }}>
               Prefiero contratar por WhatsApp — $74.990 + IVA
             </a>
           </div>
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,.5)' }}>¿Quieres vender online? Agrega carro de compras + Mercado Pago por $25.990 + IVA.</p>
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,.55)' }}>¿Quieres vender online? Agrega carro de compras + Mercado Pago por $25.990 + IVA.</p>
         </div>
       </Section>
 
       {/* FOOTER */}
-      <footer style={{ background: T.black, padding: '22px 20px' }}>
+      <footer style={{ background: FP.ink, padding: '22px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14 }}>
           <span style={{ fontSize: 12, color: 'rgba(255,255,255,.4)' }}>© 2026 AgenciaSI · Diseño y desarrollo integral</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
@@ -458,10 +476,10 @@ export default function SitioWebLanding() {
       </footer>
 
       {/* STICKY MOBILE BAR */}
-      <div className="swl-sticky" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 90, background: T.navy, borderTop: `1px solid ${T.violet}50`, padding: '10px 14px', alignItems: 'center', justifyContent: 'space-between', gap: 10, boxShadow: '0 -4px 20px rgba(0,0,0,.3)' }}>
-        <span style={{ fontSize: 14, fontWeight: 800, color: T.cyan, flexShrink: 0 }}>$49.990 + IVA</span>
+      <div className="swl-sticky" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 90, background: FP.blue, borderTop: `1px solid ${FP.red}50`, padding: '10px 14px', alignItems: 'center', justifyContent: 'space-between', gap: 10, boxShadow: '0 -4px 20px rgba(0,0,0,.3)' }}>
+        <span style={{ fontSize: 14, fontWeight: 800, color: FP.gold, flexShrink: 0 }}>$49.990 + IVA</span>
         <Link to="/sitio-web/formulario" onClick={() => trackLead('Sticky Bar CTA')}
-          style={{ flex: 1, textAlign: 'center', background: T.cyan, color: T.navy, fontWeight: 800, fontSize: 13, padding: '10px', borderRadius: 10, textDecoration: 'none' }}>
+          style={{ flex: 1, textAlign: 'center', background: FP.gold, color: FP.ink, fontWeight: 800, fontSize: 13, padding: '10px', borderRadius: 10, textDecoration: 'none' }}>
           Crear mi web
         </Link>
         <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Sticky Bar WhatsApp', true)}
