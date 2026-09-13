@@ -1,17 +1,8 @@
-const nodemailer = require('nodemailer');
-
-let transporter = null;
-function getTransporter() {
-  if (!transporter) {
-    transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT) || 465,
-      secure: process.env.SMTP_SECURE !== 'false',
-      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-    });
-  }
-  return transporter;
-}
+// Envía correo vía la API HTTP de Hostinger Mail (no SMTP): desde Railway, las
+// conexiones SMTP salientes a smtp.hostinger.com resultaron poco fiables
+// (timeouts intermitentes, o "aceptado" sin entrega real) — la API HTTP evita
+// eso por completo al no depender de un socket SMTP saliente.
+const MAIL_API_BASE = 'https://api.mail.hostinger.com/api/v1';
 
 function base(content) {
   return `<!DOCTYPE html>
@@ -56,17 +47,34 @@ function base(content) {
 }
 
 async function send({ to, subject, html }) {
-  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    console.log(`[Mailer] Sin SMTP_USER/SMTP_PASS — email no enviado a ${to}: ${subject}`);
+  const token = process.env.HOSTINGER_MAIL_API_TOKEN;
+  const mailboxId = process.env.HOSTINGER_MAILBOX_ID;
+  if (!token || !mailboxId) {
+    console.log(`[Mailer] Sin HOSTINGER_MAIL_API_TOKEN/HOSTINGER_MAILBOX_ID — email no enviado a ${to}: ${subject}`);
     return;
   }
   try {
-    await getTransporter().sendMail({
-      from: process.env.SMTP_FROM || 'AgenciaSi <contacto@agenciasi.cl>',
-      to,
-      subject,
-      html,
+    const res = await fetch(`${MAIL_API_BASE}/mailboxes/${mailboxId}/send`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        to: [to],
+        displayName: 'AgenciaSi',
+        cc: [],
+        bcc: [],
+        subject,
+        text: html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(),
+        html,
+        attachments: [],
+      }),
     });
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      throw new Error(`HTTP ${res.status}: ${body.slice(0, 300)}`);
+    }
     console.log(`[Mailer] ✓ Email enviado a ${to}: ${subject}`);
   } catch (err) {
     console.error(`[Mailer] Error enviando a ${to}:`, err.message);
