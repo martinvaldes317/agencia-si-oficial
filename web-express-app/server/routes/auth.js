@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../middleware/auth');
+const { JWT_SECRET, authenticateAdmin } = require('../middleware/auth');
 const prisma = require('../lib/prisma');
 const mailer = require('../lib/mailer');
 
@@ -171,6 +171,25 @@ router.post('/admin/reset-password', async (req, res) => {
   } catch (error) {
     console.error('[reset-password]', error.message);
     res.status(500).json({ success: false, message: 'Error al restablecer: ' + error.message });
+  }
+});
+
+// Admin change password — ya autenticado (sesión activa), sin pasar por el
+// correo. Basta con la sesión vigente: este panel tiene una sola contraseña
+// compartida, no cuentas individuales, así que el JWT admin ya es la prueba
+// de identidad suficiente.
+router.post('/admin/change-password', authenticateAdmin, async (req, res) => {
+  try {
+    const { newPassword } = req.body;
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({ success: false, message: 'La contraseña debe tener al menos 6 caracteres' });
+    }
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await setAdminConfigPassword(hashed);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('[change-password]', error.message);
+    res.status(500).json({ success: false, message: 'Error al cambiar la contraseña: ' + error.message });
   }
 });
 

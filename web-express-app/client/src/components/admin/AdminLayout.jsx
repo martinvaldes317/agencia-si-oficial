@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { key: 'pedidos', icon: LayoutDashboard, label: 'Pedidos', path: '/admin/si' },
   { key: 'clientes', icon: Users, label: 'Clientes', path: '/admin/clientes' },
   { key: 'analitica', icon: BarChart3, label: 'Analítica', path: '/admin/analitica' },
+  { key: 'configuracion', icon: Settings, label: 'Configuración', path: '/admin/configuracion' },
 ]
 
 export default function AdminLayout({ active, children }) {
@@ -34,10 +35,6 @@ export default function AdminLayout({ active, children }) {
                 {item.label}
               </button>
             ))}
-            <button disabled className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-zinc-600 cursor-not-allowed">
-              <Settings className="w-4 h-4 text-zinc-600" />
-              Configuración
-            </button>
           </nav>
         </div>
 
