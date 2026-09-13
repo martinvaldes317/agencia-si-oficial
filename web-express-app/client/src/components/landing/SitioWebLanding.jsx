@@ -200,11 +200,8 @@ export default function SitioWebLanding() {
         <img src={IMG.sunburst} alt="" className="fp-bob fp-corner-decor" style={{ position: 'absolute', right: 18, top: 18, width: 64, opacity: .9, pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
-          <div style={{ position: 'relative', width: 156, height: 156, margin: '0 auto 16px' }}>
-            <img src={IMG.rings} alt="" className="fp-bob" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} />
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
-              <FlagSwatch size={62} />
-            </div>
+          <div className="fp-bob" style={{ margin: '0 auto 16px', display: 'flex', justifyContent: 'center' }}>
+            <FlagSwatch size={70} />
           </div>
 
           <span style={{ display: 'inline-block', background: FP.red, color: '#FFFFFF', fontWeight: 800, fontSize: 11, letterSpacing: 1.2, textTransform: 'uppercase', padding: '8px 20px', borderRadius: 30, marginBottom: 16 }}>
