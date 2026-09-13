@@ -6,6 +6,7 @@ import {
   MessageSquareText, MapPin, Smartphone, Search, Palette, FileText, Code2,
   ShoppingCart, Store, Sparkles, ExternalLink,
 } from 'lucide-react'
+import { trackEvent } from '../../lib/analytics'
 
 export const T = {
   navy:   '#0A0B2E',
@@ -135,6 +136,7 @@ export default function SitioWebLanding() {
 
   const trackLead = (name, wa = false) => {
     px('Lead', { content_name: name }); ga('generate_lead', { item_name: name })
+    trackEvent('lead_click', { label: name })
     if (wa) { px('Contact'); ga('contact', { method: 'whatsapp' }) }
   }
 

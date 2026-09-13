@@ -6,6 +6,7 @@ import {
   ShieldCheck, Code2, ChevronDown, Smartphone, Copy, CheckCheck, Mail,
 } from 'lucide-react'
 import { T, WA_BASE, PRICE_ONLINE, PRICE_STORE, SECTIONS_INCLUDED, PRICE_EXTRA_SECTION, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
+import { trackEvent } from '../../lib/analytics'
 import { CHILE_REGIONES, comunasDeRegion } from '../../data/chileRegiones'
 
 const TOTAL_STEPS = 6
@@ -269,7 +270,9 @@ export default function SitioWebWizard() {
     const e = validateStep(step)
     if (Object.keys(e).length) { setErrors(e); return }
     setErrors({})
-    setStep(s => Math.min(s + 1, 7))
+    const target = Math.min(step + 1, 7)
+    trackEvent('wizard_step', { label: `Paso ${target}` })
+    setStep(target)
   }
   function back() { setErrors({}); setStep(s => Math.max(s - 1, 1)) }
   function editStep(n) { setErrors({}); setStep(n) }
@@ -352,6 +355,7 @@ export default function SitioWebWizard() {
       px('Lead', { value: json.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' }, json.orderId)
       px('InitiateCheckout', { value: json.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' })
       ga('generate_lead', { value: json.montoTotal, currency: 'CLP', transaction_id: json.orderId })
+      trackEvent('checkout_iniciado', { label: 'sitio-web-online' })
 
       if (json.init_point) window.location.href = json.init_point
       else navigate(`/sitio-web/confirmacion?orderId=${json.orderId}`)
