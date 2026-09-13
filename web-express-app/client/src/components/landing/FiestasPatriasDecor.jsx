@@ -13,13 +13,25 @@ export const FP = {
   redD:   '#8C1F23',
   blue:   '#12235C',
   blueD:  '#0A1640',
-  cream:  '#F5EFE3',
+  cream:  '#E9E8E4',
   wood:   '#7A4B2B',
   gold:   '#D4A24C',
   ink:    '#161022',
   grayTx: '#5B5750',
   grayLt: '#A79E90',
-  border: '#E7E0D3',
+  border: '#DBD9D2',
+}
+
+// Assets reales (ilustraciones con textura halftone) provistos por el usuario
+// — reemplazan los SVG hechos a mano donde hay un equivalente de mejor calidad.
+export const IMG = {
+  map:      '/img/fiestas-patrias/map-chile.png',
+  rings:    '/img/fiestas-patrias/rings.png',
+  divider:  '/img/fiestas-patrias/divider-stripe.png',
+  flags:    '/img/fiestas-patrias/flags-crossed.png',
+  sunburst: '/img/fiestas-patrias/sunburst.png',
+  starsH:   '/img/fiestas-patrias/stars-pair-h.png',
+  starsV:   '/img/fiestas-patrias/stars-pair-v.png',
 }
 
 export const fpStyles = `
