@@ -344,7 +344,7 @@ export default function SitioWebWizard() {
         orderId: json.orderId,
         contactName: `${data.firstName} ${data.lastName}`.trim(),
         companyName: data.companyName, email: data.email, whatsapp: data.personalWhatsapp,
-        wantsStore: data.wantsStore, montoTotal: json.montoTotal,
+        wantsStore: data.wantsStore, montoNeto: json.montoNeto, montoIva: json.montoIva, montoTotal: json.montoTotal,
       }))
       localStorage.removeItem(DRAFT_KEY)
 

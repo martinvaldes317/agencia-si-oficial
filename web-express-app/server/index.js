@@ -732,10 +732,46 @@ app.post('/api/web-orders', async (req, res) => {
       },
     });
 
-    res.json({ success: true, orderId, montoTotal, init_point: preference.init_point });
+    res.json({ success: true, orderId, montoNeto, montoIva, montoTotal, init_point: preference.init_point });
   } catch (error) {
     console.error('[web-orders]', error.message);
     res.status(500).json({ success: false, message: 'Error al procesar tu pedido' });
+  }
+});
+
+// Crea la contraseña del portal justo después del pago, en vez de esperar el
+// correo de bienvenida (que hoy solo se envía para pedidos sin clientId previo
+// — los de /sitio-web ya llegan con clientId asignado, así que ese correo nunca
+// se dispara para ellos). Se identifica al dueño del pedido con orderId + email
+// (mismo estándar que un "seguimiento de pedido" de e-commerce), y solo si el
+// pago ya está confirmado.
+app.post('/api/web-orders/:orderId/set-password', async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { email, password } = req.body;
+    if (!email || !password || password.length < 6) {
+      return res.status(400).json({ success: false, message: 'Datos inválidos' });
+    }
+
+    const order = await prisma.webExpressOrder.findUnique({ where: { orderId } });
+    if (!order || !order.email || order.email.toLowerCase() !== String(email).toLowerCase()) {
+      return res.status(404).json({ success: false, message: 'No encontramos ese pedido con ese correo' });
+    }
+    if (order.status === 'pendiente_pago') {
+      return res.status(400).json({ success: false, message: 'Tu pago todavía no se ha confirmado' });
+    }
+    if (!order.clientId) {
+      return res.status(404).json({ success: false, message: 'No encontramos tu cuenta de cliente' });
+    }
+
+    const hashed = await bcrypt.hash(password, 10);
+    const client = await prisma.client.update({ where: { id: order.clientId }, data: { password: hashed, active: true } });
+
+    const token = jwt.sign({ id: client.id, email: client.email, name: client.name, role: 'client' }, JWT_SECRET, { expiresIn: '7d' });
+    res.json({ success: true, token, client: { id: client.id, name: client.name, email: client.email, company: client.company, plan: client.plan } });
+  } catch (error) {
+    console.error('[web-orders-set-password]', error.message);
+    res.status(500).json({ success: false, message: 'Error al crear tu acceso' });
   }
 });
 
