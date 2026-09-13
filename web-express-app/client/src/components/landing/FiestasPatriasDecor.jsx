@@ -35,6 +35,11 @@ export const IMG = {
 }
 
 export const fpStyles = `
+  /* Decoraciones posicionadas de forma absoluta cerca de los bordes — en
+     pantallas angostas (la mayoría del tráfico de esta página viene de
+     anuncios de Meta en el celular) no hay margen lateral y terminan
+     superpuestas al texto, así que se ocultan bajo cierto ancho. */
+  @media(max-width:640px) { .fp-corner-decor { display: none !important; } }
   @keyframes fp-flag-wave {
     0%, 100% { transform: skewY(0deg) scaleY(1); }
     25%      { transform: skewY(-2.5deg) scaleY(.985); }
@@ -92,9 +97,9 @@ export function Bunting({ count = 9, width = 320, height = 60 }) {
 }
 
 // Copihue estilizado (flor nacional de Chile) — forma de campana colgante.
-export function Copihue({ size = 46, style }) {
+export function Copihue({ size = 46, style, className }) {
   return (
-    <svg width={size} height={size * 1.3} viewBox="0 0 40 52" style={{ overflow: 'visible', ...style }}>
+    <svg width={size} height={size * 1.3} viewBox="0 0 40 52" className={className} style={{ overflow: 'visible', ...style }}>
       <path d="M20 2 C19 8 16 9 15 13" stroke="#3F7A3D" strokeWidth="2.4" fill="none" strokeLinecap="round" />
       <path d="M15 13 C11 12 8 9 6 6" stroke="#3F7A3D" strokeWidth="2" fill="none" strokeLinecap="round" />
       <g className="fp-sway" style={{ transformBox: 'fill-box', animationDuration: '3.4s' }}>
