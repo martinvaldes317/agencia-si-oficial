@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 import { trackPageView, initGlobalTracking } from './lib/analytics'
 import { AuthProvider } from './context/AuthContext'
 
@@ -39,6 +39,8 @@ import SitioWebConfirmacion from './components/landing/SitioWebConfirmacion'
 import PoliticaPrivacidad from './components/legal/PoliticaPrivacidad'
 import TerminosCondiciones from './components/legal/TerminosCondiciones'
 import CookieConsent from './components/legal/CookieConsent'
+
+const AnalyticsDashboard = lazy(() => import('./components/AnalyticsDashboard'))
 
 initGlobalTracking()
 
@@ -156,6 +158,11 @@ function App() {
           <Route path="/admin/si" element={<AdminDashboard />} />
           <Route path="/admin/clientes" element={<ClientManagement />} />
           <Route path="/admin/reset-password" element={<ResetAdminPassword />} />
+          <Route path="/admin/analitica" element={
+            <Suspense fallback={<div style={{ background: '#000', minHeight: '100vh' }} />}>
+              <AnalyticsDashboard />
+            </Suspense>
+          } />
 
           {/* Client portal */}
           <Route path="/portal/setup" element={<PortalSetup />} />

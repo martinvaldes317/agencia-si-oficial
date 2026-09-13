@@ -4,7 +4,7 @@ import {
     LayoutDashboard, Users, Settings, Package,
     Search, Filter, ChevronRight, Clock,
     CheckCircle2, AlertCircle, FileText, Download,
-    MoreVertical, LogOut, Lock, Loader2
+    MoreVertical, LogOut, Lock, Loader2, BarChart3
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
@@ -131,6 +131,7 @@ export default function AdminDashboard() {
                             { icon: LayoutDashboard, label: 'Dashboard', active: true, action: null },
                             { icon: Package, label: 'Pedidos', action: null },
                             { icon: Users, label: 'Clientes', action: () => navigate('/admin/clientes') },
+                            { icon: BarChart3, label: 'Analítica', action: () => navigate('/admin/analitica') },
                             { icon: Settings, label: 'Configuración', action: null },
                         ].map((item, i) => (
                             <button key={i} onClick={item.action || undefined} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${item.active ? 'bg-white/5 text-white' : 'hover:bg-white/5 hover:text-white'}`}>
