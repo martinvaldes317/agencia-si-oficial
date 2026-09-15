@@ -327,8 +327,19 @@ const Footer = () => (
                 <div>
                     <p className="text-[11px] font-bold uppercase tracking-widest mb-5" style={{ color: T.blue, fontFamily: 'Poppins, sans-serif' }}>Servicios</p>
                     <ul className="space-y-3 text-sm" style={{ color: '#666', fontFamily: 'Poppins, sans-serif' }}>
-                        {['Meta & Google Ads', 'Desarrollo Web', 'WordPress Pro', 'Ecosistemas IA', 'Branding', 'E-commerce'].map(s => (
-                            <li key={s}><a href="#services" className="hover:text-white transition-colors">{s}</a></li>
+                        {[
+                            { label: 'Meta & Google Ads', href: '#services' },
+                            { label: 'Desarrollo Web', href: '/sitio-web' },
+                            { label: 'WordPress Pro', href: '#services' },
+                            { label: 'Ecosistemas IA', href: '#services' },
+                            { label: 'Branding', href: '#services' },
+                            { label: 'E-commerce', href: '#services' },
+                        ].map(s => (
+                            <li key={s.label}>
+                                {s.href.startsWith('/')
+                                    ? <Link to={s.href} className="hover:text-white transition-colors">{s.label}</Link>
+                                    : <a href={s.href} className="hover:text-white transition-colors">{s.label}</a>}
+                            </li>
                         ))}
                     </ul>
                 </div>
@@ -736,7 +747,7 @@ export default function Home() {
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                         {[
                             { icon: BrainCircuit, title: 'Plan de Crecimiento Digital', desc: 'Diagnóstico estratégico pagado: auditamos tu situación actual y entregamos un plan de acción con metas, canales y presupuesto en 5 días.', price: 'Desde $150.000', color: T.blue, highlight: true },
-                            { icon: Code2,        title: 'Desarrollo Web',      desc: 'Sitios que convierten visitas en clientes. Diseño a medida, arquitectura de conversión y velocidad optimizada.',    price: 'Cotizar',   color: '#7F77DD' },
+                            { icon: Code2,        title: 'Desarrollo Web',      desc: 'Sitios que convierten visitas en clientes. Diseño a medida, arquitectura de conversión y velocidad optimizada.',    price: 'Desde $49.990', color: '#7F77DD', href: '/sitio-web' },
                             { icon: Globe,        title: 'WordPress & SEO',     desc: 'Posicionamiento orgánico real. SEO técnico avanzado, plugins a medida y optimización continua.',             price: 'Cotizar',   color: '#7F77DD' },
                             { icon: Sparkles,     title: 'Ecosistemas IA',      desc: 'Automatizaciones, CRM y flujos con inteligencia artificial para vender más con menos fricción.',               price: 'Cotizar',   color: T.blue   },
                             { icon: Palette,      title: 'Branding Autoridad',  desc: 'Identidad corporativa que transmite confianza y posiciona tu marca en el segmento que querés ocupar.',         price: 'Cotizar',   color: T.blue   },
@@ -767,10 +778,9 @@ export default function Home() {
                                 </p>
                                 <div className="flex items-center justify-between pt-4" style={{ borderTop: `1px solid ${T.border}` }}>
                                     <span className="text-[12px] font-bold" style={{ color: s.color }}>{s.price}</span>
-                                    <a href="#contact" className="text-[12px] font-bold transition-opacity hover:opacity-50"
-                                        style={{ color: T.blue }}>
-                                        Solicitar →
-                                    </a>
+                                    {s.href
+                                        ? <Link to={s.href} className="text-[12px] font-bold transition-opacity hover:opacity-50" style={{ color: T.blue }}>Ver más →</Link>
+                                        : <a href="#contact" className="text-[12px] font-bold transition-opacity hover:opacity-50" style={{ color: T.blue }}>Solicitar →</a>}
                                 </div>
                             </div>
                         ))}

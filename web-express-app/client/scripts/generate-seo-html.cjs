@@ -72,12 +72,55 @@ const META_PIXEL_SNIPPET = `  <!-- Meta Pixel Code -->
   <!-- End Meta Pixel Code -->
 </head>`;
 
+// Structured data for /sitio-web — kept in sync by hand with the Service/FAQPage
+// JSON-LD built inline in SitioWebLanding.jsx (serviceJsonLd/faqJsonLd, from the
+// same FAQS array). Baked into the static file for the same reason as the title/
+// meta/pixel above: this is what a raw HTML fetch (crawlers, rich-result
+// validators) actually sees before any React code runs.
+const SITIO_WEB_JSON_LD = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: 'Diseño y desarrollo de sitio web',
+    name: 'Sitio Web Profesional AgenciaSI',
+    description: 'Página web profesional para Pymes y profesionales: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google.',
+    provider: { '@type': 'Organization', name: 'AgenciaSI', url: 'https://agenciasi.cl' },
+    areaServed: { '@type': 'Country', name: 'Chile' },
+    offers: [
+      { '@type': 'Offer', name: 'Contratación online', price: 49990, priceCurrency: 'CLP', url: 'https://agenciasi.cl/sitio-web/', availability: 'https://schema.org/InStock' },
+      { '@type': 'Offer', name: 'Contratación asistida por WhatsApp', price: 74990, priceCurrency: 'CLP', url: 'https://agenciasi.cl/sitio-web/', availability: 'https://schema.org/InStock' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      ['¿El precio es realmente $49.990 + IVA?', 'Sí. Ese valor corresponde a la contratación realizada directamente mediante nuestra página web completando el formulario del proyecto.'],
+      ['¿Por qué por WhatsApp cuesta $74.990 + IVA?', 'Porque esa modalidad incluye atención personalizada durante el proceso de contratación. El sitio web final incluye las mismas características.'],
+      ['¿La página de $49.990 es diferente a la de $74.990?', 'No. El sitio web incluye las mismas características. La diferencia corresponde únicamente a la modalidad de contratación.'],
+      ['¿El dominio está incluido?', 'Sí. Incluye un dominio .CL durante el primer año.'],
+      ['¿El hosting está incluido?', 'Sí. El hosting está incluido durante el primer año.'],
+      ['¿Cuántas secciones puede tener mi sitio?', 'El servicio incluye hasta 5 secciones.'],
+      ['¿Funcionará correctamente en celulares?', 'Sí. El sitio será diseñado para visualizarse correctamente en celulares, tablets y computadores.'],
+      ['¿Puedo conectar mi WhatsApp?', 'Sí. Incluye un botón directo a WhatsApp.'],
+      ['¿Mi página aparecerá en Google?', 'El sitio será configurado e indexado para que Google pueda reconocerlo. El posicionamiento en resultados dependerá posteriormente de múltiples factores y del trabajo SEO realizado.'],
+      ['¿Puedo utilizar mi propio dominio?', 'Sí. Si ya tienes dominio puedes indicarlo durante la contratación.'],
+      ['¿Necesito saber programación?', 'No. Nuestro equipo realiza la implementación.'],
+      ['¿Puedo vender productos?', 'Sí. Puedes agregar el módulo de tienda online por $25.990 + IVA adicionales.'],
+      ['¿Qué incluye la tienda online?', 'Incluye carro de compras, catálogo, carga inicial de hasta 25 productos e integración con Mercado Pago.'],
+      ['¿Qué pasa si tengo más de 25 productos?', 'El adicional incluye la carga inicial de hasta 25 productos. Si necesitas cargar una cantidad mayor, podemos cotizar la carga adicional.'],
+      ['¿Mercado Pago está incluido?', 'Sí. La integración y configuración inicial de Mercado Pago está incluida en el adicional de tienda online. El comercio debe disponer de su propia cuenta de Mercado Pago.'],
+    ].map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+  },
+];
+
 const SITIO_WEB_PAGES = [
   {
     pathname: '/sitio-web',
     title: 'Tu Sitio Web Profesional por $49.990 + IVA | AgenciaSI',
     description: 'Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online desde $49.990 + IVA.',
     robots: 'index, follow',
+    jsonLd: SITIO_WEB_JSON_LD,
   },
   {
     pathname: '/sitio-web/formulario',
@@ -110,6 +153,11 @@ for (const page of SITIO_WEB_PAGES) {
       .replace(/<meta property="og:description" content="[^"]*"\s*\/>/, `<meta property="og:description" content="${page.description}" />`)
       .replace(/<meta property="og:url" content="[^"]*"\s*\/>/, `<meta property="og:url" content="${canonical}" />`)
       .replace('</head>', `  <link rel="canonical" href="${canonical}" />\n</head>`);
+  }
+
+  if (page.jsonLd) {
+    const scripts = page.jsonLd.map(obj => `  <script type="application/ld+json">${JSON.stringify(obj)}</script>`).join('\n');
+    html = html.replace('</head>', `${scripts}\n</head>`);
   }
 
   const outDir = path.join(distDir, page.pathname.replace(/^\//, ''));

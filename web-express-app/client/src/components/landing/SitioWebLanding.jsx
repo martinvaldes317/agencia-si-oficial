@@ -141,6 +141,34 @@ export default function SitioWebLanding() {
     if (wa) { px('Contact'); ga('contact', { method: 'whatsapp' }) }
   }
 
+  const serviceJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: 'Diseño y desarrollo de sitio web',
+    name: 'Sitio Web Profesional AgenciaSI',
+    description: 'Página web profesional para Pymes y profesionales: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google.',
+    provider: {
+      '@type': 'Organization',
+      name: 'AgenciaSI',
+      url: 'https://agenciasi.cl',
+    },
+    areaServed: { '@type': 'Country', name: 'Chile' },
+    offers: [
+      { '@type': 'Offer', name: 'Contratación online', price: PRICE_ONLINE, priceCurrency: 'CLP', url: 'https://agenciasi.cl/sitio-web/', availability: 'https://schema.org/InStock' },
+      { '@type': 'Offer', name: 'Contratación asistida por WhatsApp', price: PRICE_WHATSAPP, priceCurrency: 'CLP', url: 'https://agenciasi.cl/sitio-web/', availability: 'https://schema.org/InStock' },
+    ],
+  }
+
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQS.map(f => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  }
+
   return (
     <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: FP.cream, color: FP.ink, overflowX: 'hidden' }}>
       <Helmet>
@@ -151,6 +179,8 @@ export default function SitioWebLanding() {
         <meta property="og:title" content="Tu Sitio Web Profesional por $49.990 + IVA | AgenciaSI" />
         <meta property="og:description" content="Dominio + hosting por 1 año, hasta 5 secciones, WhatsApp y Google Maps incluidos. Contrata tu página web online o por WhatsApp." />
         <meta property="og:url" content="https://agenciasi.cl/sitio-web" />
+        <script type="application/ld+json">{JSON.stringify(serviceJsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
       </Helmet>
 
       <style>{`
