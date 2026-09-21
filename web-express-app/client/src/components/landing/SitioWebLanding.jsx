@@ -105,7 +105,7 @@ const PASOS = [
 
 const FAQS = [
   { q: '¿Cuál es el precio?', a: 'El sitio web profesional cuesta $74.990 + IVA, con dominio .CL y hosting por 1 año incluidos. Es un único valor, sin modalidades ni cobros ocultos.' },
-  { q: '¿Cuánto debo pagar para comenzar?', a: 'Solo el 50% del valor total como abono para iniciar tu proyecto. El 50% restante se coordina con nuestro equipo durante el proceso.' },
+  { q: '¿Cuánto debo pagar para comenzar?', a: 'Solo el 50% del valor total como abono para iniciar tu proyecto. El 50% restante se paga al finalizar el sitio web.' },
   { q: '¿El dominio está incluido?', a: 'Sí. Incluye un dominio .CL durante el primer año.' },
   { q: '¿El hosting está incluido?', a: 'Sí. El hosting está incluido durante el primer año.' },
   { q: '¿Cuántas secciones puede tener mi sitio?', a: 'El servicio incluye hasta 5 secciones.' },

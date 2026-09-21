@@ -423,7 +423,10 @@ export default function SitioWebWizard() {
                 <Smartphone size={13} /> <span className="swl-hide-mobile">Continúa en tu notebook o tablet</span>
               </button>
             )}
-            <span style={{ fontSize: 13, fontWeight: 700, color: T.cyan }}>${fmt(montoAbono)} abono hoy</span>
+            <span style={{ textAlign: 'right', lineHeight: 1.25, color: T.cyan }}>
+              <span style={{ display: 'block', fontSize: 12.5, fontWeight: 800 }}>Reserva hoy con el 50%</span>
+              <span style={{ display: 'block', fontSize: 11, fontWeight: 600, opacity: .85 }}>${fmt(montoAbono)} IVA incluido</span>
+            </span>
           </div>
         </div>
       </div>
@@ -822,11 +825,12 @@ export default function SitioWebWizard() {
               <Row label="Subtotal" value={`$${fmt(montoNeto)}`} />
               <Row label="IVA (19%)" value={`$${fmt(montoIva)}`} />
               <div style={{ borderTop: `1px solid ${T.border}`, marginTop: 8, paddingTop: 8 }}>
-                <Row label="Total del proyecto" value={`$${fmt(montoTotal)}`} bold />
+                <Row label="Total proyecto" value={`$${fmt(montoTotal)}`} bold />
               </div>
               <div style={{ borderTop: `1px solid ${T.border}`, marginTop: 8, paddingTop: 8 }}>
-                <Row label="Abono a pagar hoy (50%)" value={`$${fmt(montoAbono)}`} bold />
+                <Row label="Abono hoy (50%)" value={`$${fmt(montoAbono)}`} bold />
                 <Row label="Saldo restante (50%)" value={`$${fmt(montoSaldo)}`} />
+                <div style={{ fontSize: 11.5, color: T.gray, marginTop: 6 }}>El saldo se paga al finalizar el sitio web.</div>
               </div>
             </div>
 
@@ -873,7 +877,7 @@ export default function SitioWebWizard() {
               padding: '17px', borderRadius: 14, border: 'none', cursor: submitting ? 'default' : 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: submitting ? .7 : 1,
             }}>
-              {submitting && submitMode === 'online' ? <><Loader2 size={18} className="swl-spin" /> Procesando…</> : <>Enviar información y pagar abono de ${fmt(montoAbono)} con Mercado Pago <ArrowRight size={17} /></>}
+              {submitting && submitMode === 'online' ? <><Loader2 size={18} className="swl-spin" /> Procesando…</> : <>Pagar abono de ${fmt(montoAbono)} con Mercado Pago <ArrowRight size={17} /></>}
             </button>
 
             <button onClick={() => handleSubmit('whatsapp')} disabled={submitting} style={{
@@ -881,7 +885,7 @@ export default function SitioWebWizard() {
               padding: '17px', borderRadius: 14, border: 'none', cursor: submitting ? 'default' : 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: submitting ? .7 : 1,
             }}>
-              {submitting && submitMode === 'whatsapp' ? <><Loader2 size={18} className="swl-spin" /> Procesando…</> : <><WaIcon size={18} /> Enviar información y coordinar pago por WhatsApp</>}
+              {submitting && submitMode === 'whatsapp' ? <><Loader2 size={18} className="swl-spin" /> Procesando…</> : <><WaIcon size={18} /> Reservar por WhatsApp</>}
             </button>
 
             {submitting ? (
