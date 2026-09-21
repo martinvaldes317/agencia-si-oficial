@@ -30,3 +30,6 @@ web-express-app/server/uploads/files/
 
 # Prisma local dev
 web-express-app/server/.prisma/
+
+# Archivos privados del módulo Proyectos Web
+web-express-app/server/uploads/projects/

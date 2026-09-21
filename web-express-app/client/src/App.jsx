@@ -42,6 +42,11 @@ import CookieConsent from './components/legal/CookieConsent'
 
 const AnalyticsDashboard = lazy(() => import('./components/AnalyticsDashboard'))
 const AdminSettings = lazy(() => import('./components/AdminSettings'))
+const ProjectsDashboard = lazy(() => import('./components/projects/ProjectsDashboard'))
+const ProjectsList = lazy(() => import('./components/projects/ProjectsList'))
+const ProjectsClients = lazy(() => import('./components/projects/ProjectsClients'))
+const ProjectsSettings = lazy(() => import('./components/projects/ProjectsSettings'))
+const ProjectDetail = lazy(() => import('./components/projects/ProjectDetail'))
 const AdminDrafts = lazy(() => import('./components/AdminDrafts'))
 
 initGlobalTracking()
@@ -173,6 +178,19 @@ function App() {
           <Route path="/admin/formularios" element={
             <Suspense fallback={<div style={{ background: '#000', minHeight: '100vh' }} />}>
               <AdminDrafts />
+            </Suspense>
+          } />
+
+          <Route path="/admin/proyectos/*" element={
+            <Suspense fallback={<div style={{ background: '#000', minHeight: '100vh' }} />}>
+              <Routes>
+                <Route index element={<ProjectsDashboard />} />
+                <Route path="clientes" element={<ProjectsClients />} />
+                <Route path="lista" element={<ProjectsList />} />
+                <Route path="kanban" element={<ProjectsList kanban />} />
+                <Route path="configuracion" element={<ProjectsSettings />} />
+                <Route path=":id" element={<ProjectDetail />} />
+              </Routes>
             </Suspense>
           } />
 

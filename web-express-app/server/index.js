@@ -14,6 +14,8 @@ const mailer = require('./lib/mailer');
 const { getSeoMeta } = require('./lib/seoLocalPages');
 const { sendCapiEvent } = require('./lib/metaCapi');
 const { authenticateAdmin, JWT_SECRET } = require('./middleware/auth');
+const projectsDb = require('./lib/projects/db');
+const projectsService = require('./lib/projects/service');
 const { MercadoPagoConfig, Preference, Payment: MPPayment } = require('mercadopago');
 
 const mpClient = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN || '' });
@@ -233,6 +235,7 @@ app.use('/api/clients', require('./routes/clients'));
 app.use('/api/licitaciones', require('./routes/licitaciones'));
 app.use('/api/portal', require('./routes/portal'));
 app.use('/api/analytics', require('./routes/analytics'));
+app.use('/api/projects', require('./routes/projects'));
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -739,6 +742,9 @@ app.post('/api/web-orders', async (req, res) => {
     }
     await prisma.webExpressOrder.update({ where: { orderId }, data: { clientId } });
 
+    // Módulo Proyectos Web: aislado — un fallo aquí nunca debe afectar el checkout.
+    if (projectsDb.isReady()) projectsService.syncFromOrder(order).catch(e => console.error('[projects-sync]', e.message));
+
     sendCapiEvent({
       eventName: 'Lead',
       eventId: orderId,
@@ -884,6 +890,12 @@ app.post('/api/webhooks/mercadopago', async (req, res) => {
     if (!orderId) return;
 
     const order = await prisma.webExpressOrder.findUnique({ where: { orderId } });
+
+    // Módulo Proyectos Web: registra el abono (idempotente por payment_id) y deja log del webhook.
+    if (order && order.modalidad && projectsDb.isReady()) {
+      projectsService.onMpPayment(order, payment).catch(e => console.error('[projects-payment]', e.message));
+    }
+
     if (!order || order.status !== 'pendiente_pago') return; // already processed or not found
 
     await prisma.webExpressOrder.update({ where: { orderId }, data: { status: 'nuevo' } });
@@ -1049,5 +1061,6 @@ app.use((err, _req, res, _next) => {
 });
 
 runMigrations()
+  .then(() => projectsDb.migrate())
   .then(() => app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`)))
   .catch(e => { console.error('[Startup] Migration failed:', e.message); process.exit(1); });
