@@ -219,6 +219,8 @@ export default function SitioWebWizard() {
   const montoNeto = PRICE_SITE + (data.wantsStore ? PRICE_STORE : 0) + extraSecciones * PRICE_EXTRA_SECTION
   const montoIva = Math.round(montoNeto * 0.19)
   const montoTotal = montoNeto + montoIva
+  const montoAbono = Math.round(montoTotal * 0.5)
+  const montoSaldo = montoTotal - montoAbono
 
   function toggleSeccion(s) {
     setData(d => {
@@ -368,7 +370,7 @@ export default function SitioWebWizard() {
         orderId: json.orderId,
         contactName: `${data.firstName} ${data.lastName}`.trim(),
         companyName: data.companyName, email: data.email, whatsapp: data.personalWhatsapp,
-        wantsStore: data.wantsStore, montoNeto: json.montoNeto, montoIva: json.montoIva, montoTotal: json.montoTotal,
+        wantsStore: data.wantsStore, montoNeto: json.montoNeto, montoIva: json.montoIva, montoTotal: json.montoTotal, montoAbono: json.montoAbono, montoSaldo: json.montoSaldo,
       }))
       localStorage.removeItem(DRAFT_KEY)
 
@@ -411,7 +413,7 @@ export default function SitioWebWizard() {
                 <Smartphone size={13} /> <span className="swl-hide-mobile">Continúa en tu notebook o tablet</span>
               </button>
             )}
-            <span style={{ fontSize: 13, fontWeight: 700, color: T.cyan }}>${fmt(montoTotal)} total</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: T.cyan }}>${fmt(montoAbono)} abono hoy</span>
           </div>
         </div>
       </div>
@@ -810,7 +812,11 @@ export default function SitioWebWizard() {
               <Row label="Subtotal" value={`$${fmt(montoNeto)}`} />
               <Row label="IVA (19%)" value={`$${fmt(montoIva)}`} />
               <div style={{ borderTop: `1px solid ${T.border}`, marginTop: 8, paddingTop: 8 }}>
-                <Row label="Total" value={`$${fmt(montoTotal)}`} bold />
+                <Row label="Total del proyecto" value={`$${fmt(montoTotal)}`} bold />
+              </div>
+              <div style={{ borderTop: `1px solid ${T.border}`, marginTop: 8, paddingTop: 8 }}>
+                <Row label="Abono a pagar hoy (50%)" value={`$${fmt(montoAbono)}`} bold />
+                <Row label="Saldo restante (50%)" value={`$${fmt(montoSaldo)}`} />
               </div>
             </div>
 
@@ -857,7 +863,7 @@ export default function SitioWebWizard() {
               padding: '17px', borderRadius: 14, border: 'none', cursor: submitting ? 'default' : 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: submitting ? .7 : 1,
             }}>
-              {submitting ? <><Loader2 size={18} className="swl-spin" /> Procesando…</> : <>Pagar y comenzar mi sitio web <ArrowRight size={17} /></>}
+              {submitting ? <><Loader2 size={18} className="swl-spin" /> Procesando…</> : <>Pagar abono de ${fmt(montoAbono)} <ArrowRight size={17} /></>}
             </button>
 
             {submitting ? (

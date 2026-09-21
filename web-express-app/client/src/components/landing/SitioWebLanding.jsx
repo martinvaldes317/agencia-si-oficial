@@ -105,6 +105,7 @@ const PASOS = [
 
 const FAQS = [
   { q: '¿Cuál es el precio?', a: 'El sitio web profesional cuesta $74.990 + IVA, con dominio .CL y hosting por 1 año incluidos. Es un único valor, sin modalidades ni cobros ocultos.' },
+  { q: '¿Cuánto debo pagar para comenzar?', a: 'Solo el 50% del valor total como abono para iniciar tu proyecto. El 50% restante se coordina con nuestro equipo durante el proceso.' },
   { q: '¿El dominio está incluido?', a: 'Sí. Incluye un dominio .CL durante el primer año.' },
   { q: '¿El hosting está incluido?', a: 'Sí. El hosting está incluido durante el primer año.' },
   { q: '¿Cuántas secciones puede tener mi sitio?', a: 'El servicio incluye hasta 5 secciones.' },
@@ -251,7 +252,7 @@ export default function SitioWebLanding() {
               style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: FP.blue, color: '#FFFFFF', fontWeight: 800, fontSize: 17, padding: '18px 38px', borderRadius: 14, textDecoration: 'none', boxShadow: `0 12px 30px ${FP.blue}45` }}>
               Crear mi sitio por $74.990 + IVA <ArrowRight size={18} />
             </Link>
-            <span style={{ fontSize: 12, color: FP.grayTx }}>Dominio y hosting por 1 año incluidos.</span>
+            <span style={{ fontSize: 12, color: FP.grayTx }}>Solo pagas el 50% de abono para comenzar.</span>
           </div>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 20 }}>
@@ -293,7 +294,7 @@ export default function SitioWebLanding() {
             <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.65)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Sitio web profesional</div>
             <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 20 }}>$74.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
-              {['Proceso simple y guiado', 'Puedes adjuntar logo y fotografías', 'No necesitas conocimientos técnicos', 'Revisas toda la información antes de contratar'].map(t => (
+              {['Solo pagas el 50% de abono para comenzar', 'Proceso simple y guiado', 'Puedes adjuntar logo y fotografías', 'No necesitas conocimientos técnicos', 'Revisas toda la información antes de contratar'].map(t => (
                 <div key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'rgba(255,255,255,.88)' }}>
                   <Check size={15} color="#FFFFFF" style={{ flexShrink: 0, marginTop: 2 }} /> {t}
                 </div>

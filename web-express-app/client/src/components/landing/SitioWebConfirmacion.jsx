@@ -52,8 +52,8 @@ export default function SitioWebConfirmacion() {
       const orderId = orderIdFromUrl || parsed?.orderId
       // Same event_name + event_id as the server-side Purchase sent from the
       // Mercado Pago webhook, so Meta dedupes browser + server into one event.
-      px('Purchase', { value: parsed?.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' }, orderId)
-      ga('purchase', { value: parsed?.montoTotal, currency: 'CLP', transaction_id: orderId })
+      px('Purchase', { value: parsed?.montoAbono ?? parsed?.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' }, orderId)
+      ga('purchase', { value: parsed?.montoAbono ?? parsed?.montoTotal, currency: 'CLP', transaction_id: orderId })
     }
   }, [])
 
@@ -201,7 +201,9 @@ export default function SitioWebConfirmacion() {
                   <>
                     <SummaryLine label="N° de solicitud" value={orderIdFromUrl || summary?.orderId || '—'} />
                     <SummaryLine label="Servicio" value={`Sitio Web Profesional${summary?.wantsStore ? ' + Tienda Online' : ''}`} />
-                    {summary?.montoTotal && <SummaryLine label="Total" value={`$${fmt(summary.montoTotal)}`} />}
+                    {summary?.montoTotal && <SummaryLine label="Total del proyecto" value={`$${fmt(summary.montoTotal)}`} />}
+                    {summary?.montoAbono && <SummaryLine label="Abono (50%)" value={`$${fmt(summary.montoAbono)}`} />}
+                    {summary?.montoSaldo && <SummaryLine label="Saldo restante (50%)" value={`$${fmt(summary.montoSaldo)}`} />}
                   </>
                 )}
                 {summary?.contactName && <SummaryLine label="Nombre" value={summary.contactName} />}

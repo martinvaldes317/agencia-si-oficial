@@ -32,6 +32,8 @@ export default function ReceiptAnimation({ summary, orderId, status = 'approved'
   const total = summary?.montoTotal
   const neto = summary?.montoNeto
   const iva = summary?.montoIva
+  const abono = summary?.montoAbono
+  const saldo = summary?.montoSaldo
   const fecha = new Date().toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' })
   const feeding = stage !== 'processing'
   const bars = barcodeWidths(orderId)
@@ -139,9 +141,11 @@ export default function ReceiptAnimation({ summary, orderId, status = 'approved'
           <div style={{ fontFamily: "'Courier New', monospace", fontSize: 12.5, color: T.gray, padding: '14px 0', display: 'flex', flexDirection: 'column', gap: 4 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Subtotal</span><span>${safe(neto)}</span></div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>IVA</span><span>${safe(iva)}</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Total proyecto</span><span>${safe(total)}</span></div>
             <div style={{ display: 'flex', justifyContent: 'space-between', color: rejected ? '#D9333F' : T.navy, fontWeight: 700, fontSize: 13.5, marginTop: 4 }}>
-              <span>{rejected ? 'TOTAL NO COBRADO' : 'TOTAL PAGADO'}</span><span>${safe(total)}</span>
+              <span>{rejected ? 'ABONO NO COBRADO' : 'ABONO PAGADO (50%)'}</span><span>${safe(abono ?? total)}</span>
             </div>
+            {!rejected && saldo != null && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Saldo restante</span><span>${safe(saldo)}</span></div>}
           </div>
           <div style={{ borderTop: `1px dashed ${T.border}` }} />
           <div style={{ fontFamily: "'Courier New', monospace", fontSize: 11, color: T.gray, padding: '14px 0 4px', display: 'flex', flexDirection: 'column', gap: 3 }}>

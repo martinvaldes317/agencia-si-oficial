@@ -27,7 +27,8 @@ export default function TerminosCondiciones() {
       <Section title="3. Precio">
         <p>
           El sitio web tiene un único valor de $74.990 + IVA, contratado completando el formulario y pagando
-          directamente en el sitio.
+          directamente en el sitio. Para iniciar el proyecto se solicita el pago de un abono del 50% del total
+          (IVA incluido); el 50% restante se coordina con AgenciaSI durante el proceso.
         </p>
       </Section>
 
@@ -45,7 +46,7 @@ export default function TerminosCondiciones() {
         <p>
           Los precios están expresados en pesos chilenos (CLP) y no incluyen IVA salvo que se indique lo
           contrario. El pago se procesa a través de Mercado Pago; AgenciaSI no almacena
-          datos de tarjetas de crédito o débito. El precio queda fijado una vez confirmado el pago de tu pedido.
+          datos de tarjetas de crédito o débito. El precio queda fijado una vez confirmado el pago del abono de tu pedido.
         </p>
       </Section>
 

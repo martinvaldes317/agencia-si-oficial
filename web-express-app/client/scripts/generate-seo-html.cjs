@@ -93,6 +93,7 @@ const SITIO_WEB_JSON_LD = [
     '@type': 'FAQPage',
     mainEntity: [
       ['¿Cuál es el precio?', 'El sitio web profesional cuesta $74.990 + IVA, con dominio .CL y hosting por 1 año incluidos. Es un único valor, sin modalidades ni cobros ocultos.'],
+      ['¿Cuánto debo pagar para comenzar?', 'Solo el 50% del valor total como abono para iniciar tu proyecto. El 50% restante se coordina con nuestro equipo durante el proceso.'],
       ['¿El dominio está incluido?', 'Sí. Incluye un dominio .CL durante el primer año.'],
       ['¿El hosting está incluido?', 'Sí. El hosting está incluido durante el primer año.'],
       ['¿Cuántas secciones puede tener mi sitio?', 'El servicio incluye hasta 5 secciones.'],

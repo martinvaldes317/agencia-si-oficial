@@ -532,6 +532,7 @@ const WEB_ORDER_STORE_PRICE    = 25990;
 const WEB_ORDER_SECTION_INCLUDED = 5;
 const WEB_ORDER_EXTRA_SECTION_PRICE = 9990;
 const IVA_RATE = 0.19;
+const WEB_ORDER_DEPOSIT_RATE = 0.5;
 const WEB_DRAFT_TTL_DAYS = 7;
 
 // Save the in-progress wizard state so it can be resumed on another device
@@ -755,34 +756,17 @@ app.post('/api/web-orders', async (req, res) => {
     }
 
     // modalidad === 'online' → create Mercado Pago preference and hand back the checkout URL
+    // Se cobra solo el abono del 50% del total del proyecto; el saldo se coordina después.
+    const montoAbono = Math.round(montoTotal * WEB_ORDER_DEPOSIT_RATE);
+    const montoSaldo = montoTotal - montoAbono;
     const items = [{
-      id: `${orderId}-web`,
-      title: 'Sitio Web Profesional — AgenciaSI',
-      description: `Sitio web para ${companyName}`,
+      id: `${orderId}-abono`,
+      title: 'Abono 50% — Sitio Web Profesional — AgenciaSI',
+      description: `Abono del 50% del sitio web para ${companyName}`,
       quantity: 1,
-      unit_price: WEB_ORDER_BASE_PRICE + Math.round(WEB_ORDER_BASE_PRICE * IVA_RATE),
+      unit_price: montoAbono,
       currency_id: 'CLP',
     }];
-    if (wantsStore) {
-      items.push({
-        id: `${orderId}-tienda`,
-        title: 'Tienda Online (adicional) — AgenciaSI',
-        description: 'Carro de compras, catálogo y Mercado Pago integrado',
-        quantity: 1,
-        unit_price: WEB_ORDER_STORE_PRICE + Math.round(WEB_ORDER_STORE_PRICE * IVA_RATE),
-        currency_id: 'CLP',
-      });
-    }
-    if (extraSecciones > 0) {
-      items.push({
-        id: `${orderId}-secciones-extra`,
-        title: 'Secciones adicionales — AgenciaSI',
-        description: `${extraSecciones} sección(es) adicional(es) a las 5 incluidas`,
-        quantity: extraSecciones,
-        unit_price: WEB_ORDER_EXTRA_SECTION_PRICE + Math.round(WEB_ORDER_EXTRA_SECTION_PRICE * IVA_RATE),
-        currency_id: 'CLP',
-      });
-    }
 
     const preference = await mpPreference.create({
       body: {
@@ -799,7 +783,7 @@ app.post('/api/web-orders', async (req, res) => {
       },
     });
 
-    res.json({ success: true, orderId, montoNeto, montoIva, montoTotal, init_point: preference.init_point });
+    res.json({ success: true, orderId, montoNeto, montoIva, montoTotal, montoAbono, montoSaldo, init_point: preference.init_point });
   } catch (error) {
     console.error('[web-orders]', error.message);
     res.status(500).json({ success: false, message: 'Error al procesar tu pedido' });
@@ -913,7 +897,7 @@ app.post('/api/webhooks/mercadopago', async (req, res) => {
         eventId: orderId,
         eventSourceUrl: `${siteUrl}/sitio-web/confirmacion/`,
         email: order.email, phone: order.phone,
-        customData: { value: order.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' },
+        customData: { value: Math.round((order.montoTotal || 0) * WEB_ORDER_DEPOSIT_RATE), currency: 'CLP', content_name: 'Sitio Web Profesional' },
       }).catch(e => console.error('[webhook-capi]', e.message));
     }
 
