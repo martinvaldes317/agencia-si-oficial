@@ -159,6 +159,7 @@ export default function SitioWebWizard() {
   const [data, setData] = useState(loadDraft)
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
+  const [submitMode, setSubmitMode] = useState('online')
   const [submitError, setSubmitError] = useState('')
   const [showTerms, setShowTerms] = useState(false)
   const [logoFile, setLogoFile] = useState(null)
@@ -330,9 +331,9 @@ export default function SitioWebWizard() {
     })
   }
 
-  async function handleSubmit() {
+  async function handleSubmit(modalidad = 'online') {
     if (!data.aceptaCondiciones) { setSubmitError('Debes aceptar las condiciones del servicio para continuar.'); return }
-    setSubmitting(true); setSubmitError('')
+    setSubmitting(true); setSubmitMode(modalidad); setSubmitError('')
     try {
       let logoBase64 = null
       if (data.hasLogo === 'si' && logoFile) logoBase64 = await fileToDataUrl(logoFile)
@@ -347,7 +348,7 @@ export default function SitioWebWizard() {
         : data.secciones
 
       const payload = {
-        modalidad: 'online',
+        modalidad,
         firstName: data.firstName, lastName: data.lastName, email: data.email, personalWhatsapp: data.personalWhatsapp,
         companyName: data.companyName, rut: data.rut, razonSocial: data.razonSocial,
         rubro: data.rubro, about: data.about,
@@ -370,7 +371,7 @@ export default function SitioWebWizard() {
         orderId: json.orderId,
         contactName: `${data.firstName} ${data.lastName}`.trim(),
         companyName: data.companyName, email: data.email, whatsapp: data.personalWhatsapp,
-        wantsStore: data.wantsStore, montoNeto: json.montoNeto, montoIva: json.montoIva, montoTotal: json.montoTotal, montoAbono: json.montoAbono, montoSaldo: json.montoSaldo,
+        wantsStore: data.wantsStore, montoNeto: json.montoNeto ?? montoNeto, montoIva: json.montoIva ?? montoIva, montoTotal: json.montoTotal, montoAbono: json.montoAbono ?? montoAbono, montoSaldo: json.montoSaldo ?? montoSaldo,
       }))
       localStorage.removeItem(DRAFT_KEY)
 
@@ -379,8 +380,17 @@ export default function SitioWebWizard() {
       // 'Purchase' only fires on the confirmation page once Mercado Pago confirms
       // the payment — firing it here would count it before the customer has paid.
       px('Lead', { value: json.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' }, json.orderId)
-      px('InitiateCheckout', { value: json.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' })
       ga('generate_lead', { value: json.montoTotal, currency: 'CLP', transaction_id: json.orderId })
+
+      if (modalidad === 'whatsapp') {
+        trackEvent('checkout_whatsapp', { label: 'sitio-web-whatsapp' })
+        px('Contact')
+        const msg = `Hola, acabo de enviar el formulario de mi sitio web (N° ${json.orderId}) para ${data.companyName}. Quiero coordinar el pago del abono de $${fmt(montoAbono)}.`
+        window.location.href = `${WA_BASE}${encodeURIComponent(msg)}`
+        return
+      }
+
+      px('InitiateCheckout', { value: json.montoTotal, currency: 'CLP', content_name: 'Sitio Web Profesional' })
       trackEvent('checkout_iniciado', { label: 'sitio-web-online' })
 
       if (json.init_point) window.location.href = json.init_point
@@ -858,12 +868,20 @@ export default function SitioWebWizard() {
 
             <ErrorMsg>{submitError}</ErrorMsg>
 
-            <button onClick={handleSubmit} disabled={submitting} style={{
-              width: '100%', marginTop: 16, background: T.cyan, color: T.navy, fontWeight: 800, fontSize: 16,
+            <button onClick={() => handleSubmit('online')} disabled={submitting} style={{
+              width: '100%', marginTop: 16, background: T.cyan, color: T.navy, fontWeight: 800, fontSize: 15,
               padding: '17px', borderRadius: 14, border: 'none', cursor: submitting ? 'default' : 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: submitting ? .7 : 1,
             }}>
-              {submitting ? <><Loader2 size={18} className="swl-spin" /> Procesando…</> : <>Pagar abono de ${fmt(montoAbono)} <ArrowRight size={17} /></>}
+              {submitting && submitMode === 'online' ? <><Loader2 size={18} className="swl-spin" /> Procesando…</> : <>Enviar información y pagar abono de ${fmt(montoAbono)} con Mercado Pago <ArrowRight size={17} /></>}
+            </button>
+
+            <button onClick={() => handleSubmit('whatsapp')} disabled={submitting} style={{
+              width: '100%', marginTop: 10, background: '#25D366', color: '#FFFFFF', fontWeight: 800, fontSize: 15,
+              padding: '17px', borderRadius: 14, border: 'none', cursor: submitting ? 'default' : 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: submitting ? .7 : 1,
+            }}>
+              {submitting && submitMode === 'whatsapp' ? <><Loader2 size={18} className="swl-spin" /> Procesando…</> : <><WaIcon size={18} /> Enviar información y coordinar pago por WhatsApp</>}
             </button>
 
             {submitting ? (
@@ -875,7 +893,7 @@ export default function SitioWebWizard() {
               </div>
             ) : (
               <div style={{ textAlign: 'center', fontSize: 11, color: T.gray, marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                <ShieldCheck size={13} /> Pago seguro con Mercado Pago
+                <ShieldCheck size={13} /> Pago seguro con Mercado Pago o coordinado por WhatsApp
               </div>
             )}
           </div>

@@ -749,7 +749,7 @@ app.post('/api/web-orders', async (req, res) => {
 
     if (modalidad === 'whatsapp') {
       // No payment collected here — the client finishes contracting directly over WhatsApp.
-      mailer.send({ to: 'contacto@agenciasi.cl', subject: `Nuevo interesado (WhatsApp): ${companyName}`, html: mailer.newOrder({ orderId, name: contactName, email, phone: personalWhatsapp, service: 'Sitio Web Profesional', plan: `WhatsApp asistido — $${montoTotal.toLocaleString('es-CL')}${wantsStore ? ' (+ Tienda Online)' : ''}` }) })
+      mailer.send({ to: 'contacto@agenciasi.cl', subject: `Nuevo interesado (WhatsApp): ${companyName}`, html: mailer.newOrder({ orderId, name: contactName, email, phone: personalWhatsapp, service: 'Sitio Web Profesional', plan: `Coordina abono 50% por WhatsApp — total $${montoTotal.toLocaleString('es-CL')}${wantsStore ? ' (+ Tienda Online)' : ''}` }) })
         .catch(e => console.error('[web-orders-wa-notify]', e.message));
 
       return res.json({ success: true, orderId, montoTotal });
