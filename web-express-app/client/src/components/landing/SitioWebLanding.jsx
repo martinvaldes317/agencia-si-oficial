@@ -24,8 +24,7 @@ export const T = {
 }
 
 export const WA_BASE = 'https://wa.me/56932930812?text='
-export const PRICE_ONLINE   = 49990
-export const PRICE_WHATSAPP = 74990
+export const PRICE_SITE     = 74990
 export const PRICE_STORE    = 25990
 export const SECTIONS_INCLUDED    = 5
 export const PRICE_EXTRA_SECTION  = 9990
@@ -105,9 +104,7 @@ const PASOS = [
 ]
 
 const FAQS = [
-  { q: '¿El precio es realmente $49.990 + IVA?', a: 'Sí. Ese valor corresponde a la contratación realizada directamente mediante nuestra página web completando el formulario del proyecto.' },
-  { q: '¿Por qué por WhatsApp cuesta $74.990 + IVA?', a: 'Porque esa modalidad incluye atención personalizada durante el proceso de contratación. El sitio web final incluye las mismas características.' },
-  { q: '¿La página de $49.990 es diferente a la de $74.990?', a: 'No. El sitio web incluye las mismas características. La diferencia corresponde únicamente a la modalidad de contratación.' },
+  { q: '¿Cuál es el precio?', a: 'El sitio web profesional cuesta $74.990 + IVA, con dominio .CL y hosting por 1 año incluidos. Es un único valor, sin modalidades ni cobros ocultos.' },
   { q: '¿El dominio está incluido?', a: 'Sí. Incluye un dominio .CL durante el primer año.' },
   { q: '¿El hosting está incluido?', a: 'Sí. El hosting está incluido durante el primer año.' },
   { q: '¿Cuántas secciones puede tener mi sitio?', a: 'El servicio incluye hasta 5 secciones.' },
@@ -131,8 +128,8 @@ export default function SitioWebLanding() {
 
   useEffect(() => { pxPageView() }, [])
 
-  const WA_ONLINE   = `${WA_BASE}${encodeURIComponent('Hola, quiero crear mi sitio web. Vi la oferta de $49.990 + IVA.')}`
-  const WA_ASISTIDA = `${WA_BASE}${encodeURIComponent('Hola, quiero contratar mi sitio web por WhatsApp ($74.990 + IVA).')}`
+  const WA_ONLINE   = `${WA_BASE}${encodeURIComponent('Hola, quiero crear mi sitio web. Vi la oferta de $74.990 + IVA.')}`
+  const WA_ASISTIDA = `${WA_BASE}${encodeURIComponent('Hola, tengo dudas sobre el sitio web de $74.990 + IVA.')}`
   const WA_TIENDA   = `${WA_BASE}${encodeURIComponent('Hola, me interesa mi sitio web con tienda online (+$25.990 + IVA).')}`
 
   const trackLead = (name, wa = false) => {
@@ -153,10 +150,7 @@ export default function SitioWebLanding() {
       url: 'https://agenciasi.cl',
     },
     areaServed: { '@type': 'Country', name: 'Chile' },
-    offers: [
-      { '@type': 'Offer', name: 'Contratación online', price: PRICE_ONLINE, priceCurrency: 'CLP', url: 'https://agenciasi.cl/sitio-web/', availability: 'https://schema.org/InStock' },
-      { '@type': 'Offer', name: 'Contratación asistida por WhatsApp', price: PRICE_WHATSAPP, priceCurrency: 'CLP', url: 'https://agenciasi.cl/sitio-web/', availability: 'https://schema.org/InStock' },
-    ],
+    offers: { '@type': 'Offer', price: PRICE_SITE, priceCurrency: 'CLP', url: 'https://agenciasi.cl/sitio-web/', availability: 'https://schema.org/InStock' },
   }
 
   const faqJsonLd = {
@@ -172,12 +166,12 @@ export default function SitioWebLanding() {
   return (
     <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: FP.cream, color: FP.ink, overflowX: 'hidden' }}>
       <Helmet>
-        <title>Tu Sitio Web Profesional por $49.990 + IVA | AgenciaSI</title>
-        <meta name="description" content="Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online desde $49.990 + IVA." />
+        <title>Tu Sitio Web Profesional por $74.990 + IVA | AgenciaSI</title>
+        <meta name="description" content="Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online por $74.990 + IVA." />
         <link rel="canonical" href="https://agenciasi.cl/sitio-web" />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Tu Sitio Web Profesional por $49.990 + IVA | AgenciaSI" />
-        <meta property="og:description" content="Dominio + hosting por 1 año, hasta 5 secciones, WhatsApp y Google Maps incluidos. Contrata tu página web online o por WhatsApp." />
+        <meta property="og:title" content="Tu Sitio Web Profesional por $74.990 + IVA | AgenciaSI" />
+        <meta property="og:description" content="Dominio + hosting por 1 año, hasta 5 secciones, WhatsApp y Google Maps incluidos. Contrata tu página web online." />
         <meta property="og:url" content="https://agenciasi.cl/sitio-web" />
         <script type="application/ld+json">{JSON.stringify(serviceJsonLd)}</script>
         <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
@@ -218,7 +212,7 @@ export default function SitioWebLanding() {
           </Link>
           <a href={WA_ONLINE} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Nav CTA', true)}
             style={{ background: FP.blue, color: '#FFFFFF', fontWeight: 800, fontSize: 13, padding: '9px 18px', borderRadius: 30, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
-            $49.990 + IVA <ArrowRight size={13} />
+            $74.990 + IVA <ArrowRight size={13} />
           </a>
         </div>
         <img src={IMG.divider} alt="" style={{ width: '100%', height: 6, objectFit: 'cover', display: 'block' }} />
@@ -245,7 +239,7 @@ export default function SitioWebLanding() {
 
           <h1 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 700, color: FP.blueD, lineHeight: 1.12, marginBottom: 18 }}>
             Tu Sitio Web Profesional por{' '}
-            <span style={{ color: FP.red }}>$49.990 + IVA</span>
+            <span style={{ color: FP.red }}>$74.990 + IVA</span>
           </h1>
 
           <p style={{ fontSize: 'clamp(15px,2vw,18px)', color: FP.grayTx, lineHeight: 1.7, maxWidth: 560, margin: '0 auto 28px' }}>
@@ -255,9 +249,9 @@ export default function SitioWebLanding() {
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, marginBottom: 28 }}>
             <Link to="/sitio-web/formulario" onClick={() => trackLead('Hero CTA Online')}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: FP.blue, color: '#FFFFFF', fontWeight: 800, fontSize: 17, padding: '18px 38px', borderRadius: 14, textDecoration: 'none', boxShadow: `0 12px 30px ${FP.blue}45` }}>
-              Crear mi sitio por $49.990 + IVA <ArrowRight size={18} />
+              Crear mi sitio por $74.990 + IVA <ArrowRight size={18} />
             </Link>
-            <span style={{ fontSize: 12, color: FP.grayTx }}>Precio especial contratando directamente desde nuestra web.</span>
+            <span style={{ fontSize: 12, color: FP.grayTx }}>Dominio y hosting por 1 año incluidos.</span>
           </div>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 20 }}>
@@ -274,67 +268,42 @@ export default function SitioWebLanding() {
               <span style={{ width: 24, height: 24, borderRadius: '50%', background: '#25D366', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <WaIcon size={13} />
               </span>
-              Prefiero atención por WhatsApp
+              Tengo dudas, escribir por WhatsApp
             </a>
-            <span style={{ fontSize: 12, color: FP.grayTx }}>$74.990 + IVA</span>
           </div>
         </div>
       </section>
 
-      {/* ELIGE CÓMO CONTRATAR */}
+      {/* PRECIO ÚNICO */}
       <Section style={{ background: FP.cream, position: 'relative', paddingTop: 36 }}>
         <Copihue size={32} className="fp-corner-decor" style={{ position: 'absolute', top: 14, right: '7%', opacity: .8 }} />
         <img src={IMG.starsV} alt="" className="fp-corner-decor" style={{ position: 'absolute', top: 10, left: '5%', width: 26, opacity: .7 }} />
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 44 }}>
+        <div style={{ maxWidth: 560, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 36 }}>
             <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 12 }}>
-              El mismo sitio web. Tú eliges cómo contratar.
+              Un solo precio, todo incluido
             </h2>
-            <p style={{ fontSize: 15, color: FP.grayTx, maxWidth: 560, margin: '0 auto 18px' }}>
-              Obtén el mejor precio realizando el proceso directamente online o contrata con atención personalizada por WhatsApp.
+            <p style={{ fontSize: 15, color: FP.grayTx, maxWidth: 480, margin: '0 auto 18px' }}>
+              Completa nuestro formulario guiado con la información de tu negocio y nosotros nos encargamos del resto.
             </p>
             <img src={IMG.divider} alt="" style={{ width: 180, height: 5, objectFit: 'cover', margin: '0 auto', display: 'block', opacity: .85, borderRadius: 3 }} />
           </div>
 
-          <div className="swl-two-cards" style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 20, alignItems: 'stretch' }}>
-            {/* Tarjeta destacada */}
-            <div className="swl-card" style={{ background: FP.blue, borderRadius: 24, padding: '36px 32px', position: 'relative', border: `2px solid ${FP.red}` }}>
-              <span style={{ position: 'absolute', top: -13, left: 28, background: FP.red, color: '#FFFFFF', fontSize: 11, fontWeight: 800, padding: '5px 14px', borderRadius: 20 }}>MEJOR PRECIO</span>
-              <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.65)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Compra online</div>
-              <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 16 }}>$49.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,.8)', lineHeight: 1.7, marginBottom: 22 }}>
-                Completa nuestro formulario guiado con la información de tu negocio y nosotros nos encargamos del resto.
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
-                {['Precio especial online', 'Proceso simple y guiado', 'Puedes adjuntar logo y fotografías', 'No necesitas conocimientos técnicos', 'Revisas toda la información antes de contratar'].map(t => (
-                  <div key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'rgba(255,255,255,.88)' }}>
-                    <Check size={15} color="#FFFFFF" style={{ flexShrink: 0, marginTop: 2 }} /> {t}
-                  </div>
-                ))}
-              </div>
-              <Link to="/sitio-web/formulario" onClick={() => trackLead('Card CTA Online')}
-                style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, background: '#FFFFFF', color: FP.blue, fontWeight: 800, fontSize: 15, padding: '15px', borderRadius: 12, textDecoration: 'none' }}>
-                Comenzar mi página web <ArrowRight size={16} />
-              </Link>
+          <div className="swl-card" style={{ background: FP.blue, borderRadius: 24, padding: '36px 32px', position: 'relative', border: `2px solid ${FP.red}` }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.65)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Sitio web profesional</div>
+            <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 20 }}>$74.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
+              {['Proceso simple y guiado', 'Puedes adjuntar logo y fotografías', 'No necesitas conocimientos técnicos', 'Revisas toda la información antes de contratar'].map(t => (
+                <div key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'rgba(255,255,255,.88)' }}>
+                  <Check size={15} color="#FFFFFF" style={{ flexShrink: 0, marginTop: 2 }} /> {t}
+                </div>
+              ))}
             </div>
-
-            {/* Segunda tarjeta */}
-            <div className="swl-card" style={{ background: '#FFFFFF', border: `1px solid ${FP.border}`, borderRadius: 24, padding: '36px 32px', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: FP.grayTx, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Atención por WhatsApp</div>
-              <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 36, fontWeight: 800, color: FP.blueD, marginBottom: 16 }}>$74.990 <span style={{ fontSize: 16, color: FP.grayTx, fontWeight: 500 }}>+ IVA</span></div>
-              <p style={{ fontSize: 14, color: FP.grayTx, lineHeight: 1.7, marginBottom: 24, flex: 1 }}>
-                ¿Prefieres conversar primero? Nuestro equipo puede ayudarte a resolver tus dudas y recopilar la información necesaria.
-              </p>
-              <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Card CTA WhatsApp', true)}
-                style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, background: '#25D366', color: '#FFFFFF', fontWeight: 700, fontSize: 15, padding: '15px', borderRadius: 12, textDecoration: 'none' }}>
-                <WaIcon size={16} /> Hablar por WhatsApp
-              </a>
-            </div>
+            <Link to="/sitio-web/formulario" onClick={() => trackLead('Card CTA Online')}
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, background: '#FFFFFF', color: FP.blue, fontWeight: 800, fontSize: 15, padding: '15px', borderRadius: 12, textDecoration: 'none' }}>
+              Comenzar mi página web <ArrowRight size={16} />
+            </Link>
           </div>
-
-          <p style={{ textAlign: 'center', fontSize: 13, color: FP.grayTx, marginTop: 26, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
-            Ambas modalidades incluyen exactamente las mismas características. El valor cambia únicamente según la forma de contratación.
-          </p>
         </div>
       </Section>
 
@@ -405,7 +374,7 @@ export default function SitioWebLanding() {
           <div style={{ textAlign: 'center' }}>
             <Link to="/sitio-web/formulario" onClick={() => trackLead('Como Funciona CTA')}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: FP.blue, color: '#FFFFFF', fontWeight: 800, fontSize: 15, padding: '15px 30px', borderRadius: 12, textDecoration: 'none' }}>
-              Quiero comenzar por $49.990 + IVA <ArrowRight size={16} />
+              Quiero comenzar por $74.990 + IVA <ArrowRight size={16} />
             </Link>
           </div>
         </div>
@@ -495,7 +464,7 @@ export default function SitioWebLanding() {
           <p style={{ fontSize: 15, color: 'rgba(255,255,255,.8)', marginBottom: 26 }}>
             Comienza hoy completando nuestro formulario y obtén el precio especial de contratación online.
           </p>
-          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 6 }}>$49.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 6 }}>$74.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
           <p style={{ fontSize: 12, color: 'rgba(255,255,255,.6)', marginBottom: 30 }}>Dominio + Hosting por 1 año incluidos</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 18 }}>
             <Link to="/sitio-web/formulario" onClick={() => trackLead('CTA Final Online')}
@@ -504,7 +473,7 @@ export default function SitioWebLanding() {
             </Link>
             <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('CTA Final WhatsApp', true)}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', color: '#FFFFFF', fontWeight: 700, fontSize: 14, padding: '16px 24px', borderRadius: 12, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.35)' }}>
-              Prefiero contratar por WhatsApp — $74.990 + IVA
+              Tengo dudas, escribir por WhatsApp
             </a>
           </div>
           <p style={{ fontSize: 12, color: 'rgba(255,255,255,.55)' }}>¿Quieres vender online? Agrega carro de compras + Mercado Pago por $25.990 + IVA.</p>
@@ -532,7 +501,7 @@ export default function SitioWebLanding() {
 
       {/* STICKY MOBILE BAR */}
       <div className="swl-sticky" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 90, background: FP.blueD, borderTop: '1px solid rgba(255,255,255,.15)', padding: '10px 14px', alignItems: 'center', justifyContent: 'space-between', gap: 10, boxShadow: '0 -4px 20px rgba(0,0,0,.3)' }}>
-        <span style={{ fontSize: 14, fontWeight: 800, color: '#FFFFFF', flexShrink: 0 }}>$49.990 + IVA</span>
+        <span style={{ fontSize: 14, fontWeight: 800, color: '#FFFFFF', flexShrink: 0 }}>$74.990 + IVA</span>
         <Link to="/sitio-web/formulario" onClick={() => trackLead('Sticky Bar CTA')}
           style={{ flex: 1, textAlign: 'center', background: '#FFFFFF', color: FP.blue, fontWeight: 800, fontSize: 13, padding: '10px', borderRadius: 10, textDecoration: 'none' }}>
           Crear mi web

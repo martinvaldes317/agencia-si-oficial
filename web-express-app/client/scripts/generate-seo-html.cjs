@@ -86,18 +86,13 @@ const SITIO_WEB_JSON_LD = [
     description: 'Página web profesional para Pymes y profesionales: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google.',
     provider: { '@type': 'Organization', name: 'AgenciaSI', url: 'https://agenciasi.cl' },
     areaServed: { '@type': 'Country', name: 'Chile' },
-    offers: [
-      { '@type': 'Offer', name: 'Contratación online', price: 49990, priceCurrency: 'CLP', url: 'https://agenciasi.cl/sitio-web/', availability: 'https://schema.org/InStock' },
-      { '@type': 'Offer', name: 'Contratación asistida por WhatsApp', price: 74990, priceCurrency: 'CLP', url: 'https://agenciasi.cl/sitio-web/', availability: 'https://schema.org/InStock' },
-    ],
+    offers: { '@type': 'Offer', price: 74990, priceCurrency: 'CLP', url: 'https://agenciasi.cl/sitio-web/', availability: 'https://schema.org/InStock' },
   },
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      ['¿El precio es realmente $49.990 + IVA?', 'Sí. Ese valor corresponde a la contratación realizada directamente mediante nuestra página web completando el formulario del proyecto.'],
-      ['¿Por qué por WhatsApp cuesta $74.990 + IVA?', 'Porque esa modalidad incluye atención personalizada durante el proceso de contratación. El sitio web final incluye las mismas características.'],
-      ['¿La página de $49.990 es diferente a la de $74.990?', 'No. El sitio web incluye las mismas características. La diferencia corresponde únicamente a la modalidad de contratación.'],
+      ['¿Cuál es el precio?', 'El sitio web profesional cuesta $74.990 + IVA, con dominio .CL y hosting por 1 año incluidos. Es un único valor, sin modalidades ni cobros ocultos.'],
       ['¿El dominio está incluido?', 'Sí. Incluye un dominio .CL durante el primer año.'],
       ['¿El hosting está incluido?', 'Sí. El hosting está incluido durante el primer año.'],
       ['¿Cuántas secciones puede tener mi sitio?', 'El servicio incluye hasta 5 secciones.'],
@@ -117,8 +112,8 @@ const SITIO_WEB_JSON_LD = [
 const SITIO_WEB_PAGES = [
   {
     pathname: '/sitio-web',
-    title: 'Tu Sitio Web Profesional por $49.990 + IVA | AgenciaSI',
-    description: 'Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online desde $49.990 + IVA.',
+    title: 'Tu Sitio Web Profesional por $74.990 + IVA | AgenciaSI',
+    description: 'Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online por $74.990 + IVA.',
     robots: 'index, follow',
     jsonLd: SITIO_WEB_JSON_LD,
   },

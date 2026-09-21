@@ -24,15 +24,11 @@ export default function TerminosCondiciones() {
         </ul>
       </Section>
 
-      <Section title="3. Modalidades de contratación">
+      <Section title="3. Precio">
         <p>
-          El sitio web es exactamente el mismo independientemente de la modalidad elegida. La diferencia de precio
-          corresponde únicamente a la forma de contratación:
+          El sitio web tiene un único valor de $74.990 + IVA, contratado completando el formulario y pagando
+          directamente en el sitio.
         </p>
-        <ul style={{ paddingLeft: 20, marginTop: 8 }}>
-          <li><strong>Compra online</strong>: $49.990 + IVA, completando el formulario y pagando directamente en el sitio.</li>
-          <li><strong>Contratación asistida por WhatsApp</strong>: $74.990 + IVA, con acompañamiento personalizado durante el proceso.</li>
-        </ul>
       </Section>
 
       <Section title="4. Adicionales">
@@ -48,7 +44,7 @@ export default function TerminosCondiciones() {
       <Section title="5. Precios y pago">
         <p>
           Los precios están expresados en pesos chilenos (CLP) y no incluyen IVA salvo que se indique lo
-          contrario. El pago de la modalidad online se procesa a través de Mercado Pago; AgenciaSI no almacena
+          contrario. El pago se procesa a través de Mercado Pago; AgenciaSI no almacena
           datos de tarjetas de crédito o débito. El precio queda fijado una vez confirmado el pago de tu pedido.
         </p>
       </Section>

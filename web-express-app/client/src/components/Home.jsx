@@ -747,7 +747,7 @@ export default function Home() {
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                         {[
                             { icon: BrainCircuit, title: 'Plan de Crecimiento Digital', desc: 'Diagnóstico estratégico pagado: auditamos tu situación actual y entregamos un plan de acción con metas, canales y presupuesto en 5 días.', price: 'Desde $150.000', color: T.blue, highlight: true },
-                            { icon: Code2,        title: 'Desarrollo Web',      desc: 'Sitios que convierten visitas en clientes. Diseño a medida, arquitectura de conversión y velocidad optimizada.',    price: 'Desde $49.990', color: '#7F77DD', href: '/sitio-web' },
+                            { icon: Code2,        title: 'Desarrollo Web',      desc: 'Sitios que convierten visitas en clientes. Diseño a medida, arquitectura de conversión y velocidad optimizada.',    price: 'Desde $74.990', color: '#7F77DD', href: '/sitio-web' },
                             { icon: Globe,        title: 'WordPress & SEO',     desc: 'Posicionamiento orgánico real. SEO técnico avanzado, plugins a medida y optimización continua.',             price: 'Cotizar',   color: '#7F77DD' },
                             { icon: Sparkles,     title: 'Ecosistemas IA',      desc: 'Automatizaciones, CRM y flujos con inteligencia artificial para vender más con menos fricción.',               price: 'Cotizar',   color: T.blue   },
                             { icon: Palette,      title: 'Branding Autoridad',  desc: 'Identidad corporativa que transmite confianza y posiciona tu marca en el segmento que querés ocupar.',         price: 'Cotizar',   color: T.blue   },

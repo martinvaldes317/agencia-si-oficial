@@ -5,7 +5,7 @@ import {
   ArrowLeft, ArrowRight, Check, Upload, X, Loader2, Store,
   ShieldCheck, Code2, ChevronDown, Smartphone, Copy, CheckCheck, Mail,
 } from 'lucide-react'
-import { T, WA_BASE, PRICE_ONLINE, PRICE_STORE, SECTIONS_INCLUDED, PRICE_EXTRA_SECTION, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
+import { T, WA_BASE, PRICE_SITE, PRICE_STORE, SECTIONS_INCLUDED, PRICE_EXTRA_SECTION, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
 import { trackEvent } from '../../lib/analytics'
 import { CHILE_REGIONES, comunasDeRegion } from '../../data/chileRegiones'
 
@@ -216,7 +216,7 @@ export default function SitioWebWizard() {
   const set = patch => setData(d => ({ ...d, ...patch }))
 
   const extraSecciones = Math.max(0, data.secciones.length - SECTIONS_INCLUDED)
-  const montoNeto = PRICE_ONLINE + (data.wantsStore ? PRICE_STORE : 0) + extraSecciones * PRICE_EXTRA_SECTION
+  const montoNeto = PRICE_SITE + (data.wantsStore ? PRICE_STORE : 0) + extraSecciones * PRICE_EXTRA_SECTION
   const montoIva = Math.round(montoNeto * 0.19)
   const montoTotal = montoNeto + montoIva
 
@@ -766,7 +766,7 @@ export default function SitioWebWizard() {
             <div style={{ background: T.navy, borderRadius: 16, padding: '22px 22px', marginBottom: 14 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                 <span style={{ fontWeight: 800, fontSize: 15, color: T.white }}>Tu sitio web profesional</span>
-                <span style={{ fontWeight: 800, fontSize: 16, color: T.cyan }}>${fmt(PRICE_ONLINE)} + IVA</span>
+                <span style={{ fontWeight: 800, fontSize: 16, color: T.cyan }}>${fmt(PRICE_SITE)} + IVA</span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {['Diseño personalizado', 'Hasta 5 secciones', 'Dominio .CL por 1 año', 'Hosting por 1 año', '3 correos corporativos', 'WhatsApp', 'Formulario', 'Google Maps', 'Indexación en Google'].map(t => (
