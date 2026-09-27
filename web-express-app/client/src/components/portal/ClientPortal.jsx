@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation, Link, Outlet } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import '../../styles/brand-dark.css'
 import {
   LayoutDashboard, TrendingUp, CreditCard, Calendar,
   FolderOpen, MessageSquare, LogOut, Menu, X, ChevronRight
@@ -32,7 +33,7 @@ export default function ClientPortal() {
   const initials = client.name?.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase()
 
   return (
-    <div className="min-h-screen bg-black flex">
+    <div className="bd-shell min-h-screen bg-black flex">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div className="fixed inset-0 bg-black/60 z-20 lg:hidden" onClick={() => setSidebarOpen(false)} />
@@ -45,7 +46,7 @@ export default function ClientPortal() {
         <div className="p-6 border-b border-zinc-800">
           <div className="flex items-center gap-2">
             <span className="text-xl font-black text-white tracking-tighter">Agencia</span>
-            <span className="bg-white text-black text-xl font-black px-1.5 rounded tracking-tighter">SI</span>
+            <span className="bd-mark text-white text-xl font-black px-1.5 rounded tracking-tighter">SI</span>
           </div>
           <p className="text-zinc-600 text-xs mt-1">Portal de cliente</p>
         </div>
@@ -60,7 +61,7 @@ export default function ClientPortal() {
                 to={path}
                 onClick={() => setSidebarOpen(false)}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
-                  ${active ? 'bg-white text-black' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'}`}
+                  ${active ? 'bd-nav-active' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'}`}
               >
                 <Icon size={18} />
                 {label}
@@ -73,7 +74,7 @@ export default function ClientPortal() {
         {/* User */}
         <div className="p-4 border-t border-zinc-800">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-9 h-9 bg-white text-black rounded-full flex items-center justify-center text-xs font-bold">{initials}</div>
+            <div className="w-9 h-9 bd-mark text-white rounded-full flex items-center justify-center text-xs font-bold">{initials}</div>
             <div className="min-w-0">
               <p className="text-white text-sm font-medium truncate">{client.name}</p>
               <p className="text-zinc-500 text-xs truncate">{client.company || client.email}</p>
@@ -95,9 +96,9 @@ export default function ClientPortal() {
           </button>
           <div className="flex items-center gap-1.5">
             <span className="text-white font-black tracking-tighter">Agencia</span>
-            <span className="bg-white text-black font-black px-1 rounded text-sm tracking-tighter">SI</span>
+            <span className="bd-mark text-white font-black px-1 rounded text-sm tracking-tighter">SI</span>
           </div>
-          <div className="w-9 h-9 bg-white text-black rounded-full flex items-center justify-center text-xs font-bold">{initials}</div>
+          <div className="w-9 h-9 bd-mark text-white rounded-full flex items-center justify-center text-xs font-bold">{initials}</div>
         </header>
 
         {/* Page content */}

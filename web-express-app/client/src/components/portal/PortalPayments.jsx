@@ -65,7 +65,7 @@ export default function PortalPayments() {
           <button
             key={val}
             onClick={() => setFilter(val)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${filter === val ? 'bg-white text-black' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${filter === val ? 'bg-white text-black bd-btn-grad' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}
           >
             {label}
           </button>

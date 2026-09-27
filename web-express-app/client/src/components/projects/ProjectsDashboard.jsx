@@ -36,7 +36,7 @@ export default function ProjectsDashboard() {
       <div className="flex flex-wrap items-center gap-2 mb-6">
         {RANGES.map(([k, l]) => (
           <button key={k} onClick={() => setRange(k)}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${range === k ? 'bg-white text-black border-white' : 'border-white/10 text-zinc-400 hover:text-white'}`}>{l}</button>
+            className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${range === k ? 'bg-white text-black bd-btn-grad border-white' : 'border-white/10 text-zinc-400 hover:text-white'}`}>{l}</button>
         ))}
         {range === 'custom' && (
           <>

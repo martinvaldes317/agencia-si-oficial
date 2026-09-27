@@ -105,7 +105,7 @@ export default function AdminDashboard() {
                     </div>
                     {loginError && <p className="text-red-400 text-xs mb-4">{loginError}</p>}
                     <button type="submit" disabled={loggingIn}
-                        className="w-full bg-white text-black py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-zinc-200 disabled:opacity-50 transition-all">
+                        className="w-full bg-white text-black bd-btn-grad py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-zinc-200 disabled:opacity-50 transition-all">
                         {loggingIn ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'Ingresar'}
                     </button>
                 </form>
@@ -165,7 +165,7 @@ export default function AdminDashboard() {
                                     <button
                                         key={s}
                                         onClick={() => setFilter(s)}
-                                        className={`px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${filter === s ? 'bg-white text-black' : 'bg-white/5 text-zinc-500 hover:text-white'}`}
+                                        className={`px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${filter === s ? 'bg-white text-black bd-btn-grad' : 'bg-white/5 text-zinc-500 hover:text-white'}`}
                                     >
                                         {s}
                                     </button>
@@ -262,7 +262,7 @@ export default function AdminDashboard() {
                                 <div className="flex-none flex items-end">
                                     <button
                                         onClick={() => window.print()}
-                                        className="bg-white text-black px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-zinc-200 transition-all"
+                                        className="bg-white text-black bd-btn-grad px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-zinc-200 transition-all"
                                     >
                                         <Download className="w-3.5 h-3.5" /> Descargar PDF
                                     </button>

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { API } from '../../context/AuthContext'
 import { Eye, EyeOff, Loader } from 'lucide-react'
+import '../../styles/brand-dark.css'
 
 export default function ResetAdminPassword() {
   const [params] = useSearchParams()
@@ -68,7 +69,7 @@ export default function ResetAdminPassword() {
               <p className="text-zinc-500 text-sm">Ya puedes iniciar sesión con tu nueva contraseña.</p>
               <button
                 onClick={() => navigate('/admin/clientes')}
-                className="w-full bg-white text-black py-2.5 rounded-lg font-semibold text-sm hover:bg-zinc-100 transition-colors"
+                className="w-full bg-white text-black bd-btn-grad py-2.5 rounded-lg font-semibold text-sm hover:bg-zinc-100 transition-colors"
               >
                 Ir al panel
               </button>
@@ -111,7 +112,7 @@ export default function ResetAdminPassword() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-white text-black py-2.5 rounded-lg font-semibold text-sm hover:bg-zinc-100 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full bg-white text-black bd-btn-grad py-2.5 rounded-lg font-semibold text-sm hover:bg-zinc-100 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {loading ? <Loader size={16} className="animate-spin" /> : 'Guardar nueva contraseña'}
               </button>

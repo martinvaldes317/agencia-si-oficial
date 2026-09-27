@@ -8,12 +8,13 @@ import {
 } from 'lucide-react'
 
 const T = {
-  blue:  '#2D2BB5',
-  black: '#0A0A0A',
-  gray:  '#5C5C6E',
-  light: '#F7F7FB',
+  blue:  '#3d5afe',
+  black: '#f5f5fa',
+  gray:  '#9a9ab0',
+  light: '#07070c',
+  panel: '#0c0c14',
   white: '#FFFFFF',
-  border:'#E8E8F0',
+  border:'rgba(255,255,255,0.09)',
 }
 
 const WA_BASE = 'https://wa.me/56932930812?text='
@@ -84,7 +85,7 @@ export default function HomeSEOLocal({ city }) {
   }
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.white, color: T.black, overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: '#000', color: T.black, overflowX: 'hidden' }}>
       <Helmet>
         <title>Agencia Digital en {city.name} | AgenciaSI Chile</title>
         <meta name="description" content={`AgenciaSI — agencia digital en ${city.name}. Desarrollo web, e-commerce, sistemas a medida e integración con IA para pymes y empresas de ${city.name}. Cotiza gratis.`} />
@@ -97,7 +98,7 @@ export default function HomeSEOLocal({ city }) {
       </Helmet>
 
       {/* NAV */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: T.white, borderBottom: `1px solid ${T.border}`, boxShadow: '0 1px 8px rgba(0,0,0,.05)' }}>
+      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: T.panel, borderBottom: `1px solid ${T.border}`, boxShadow: '0 1px 8px rgba(0,0,0,.05)' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ background: T.blue, borderRadius: 8, width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -120,7 +121,7 @@ export default function HomeSEOLocal({ city }) {
       </nav>
 
       {/* HERO */}
-      <section style={{ background: T.white, padding: '100px 24px 80px', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: T.panel, padding: '100px 24px 80px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -160, right: -160, width: 700, height: 700, borderRadius: '50%', background: `radial-gradient(circle, ${T.blue}12, transparent 70%)`, pointerEvents: 'none' }} />
         <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }} className="hsl-hero-grid">
           <div>
@@ -172,14 +173,14 @@ export default function HomeSEOLocal({ city }) {
                 { label: 'Proyectos activos',    value: '60+',    sub: 'sitios, sistemas y plataformas',        hi: false },
                 { label: 'Tecnologías',          value: '12+',    sub: 'React, Node, IA y más',   hi: false },
               ].map(s => (
-                <div key={s.label} style={{ background: T.white, padding: '24px' }}>
+                <div key={s.label} style={{ background: T.panel, padding: '24px' }}>
                   <div style={{ fontSize: 11, fontWeight: 600, color: T.gray, textTransform: 'uppercase', letterSpacing: .8, marginBottom: 8 }}>{s.label}</div>
                   <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 32, fontWeight: 700, color: s.hi ? T.blue : T.black, lineHeight: 1, marginBottom: 4 }}>{s.value}</div>
                   <div style={{ fontSize: 11, color: '#aaa' }}>{s.sub}</div>
                 </div>
               ))}
             </div>
-            <div style={{ background: T.white, padding: '16px 28px', display: 'flex', justifyContent: 'space-between', borderTop: `1px solid ${T.border}` }}>
+            <div style={{ background: T.panel, padding: '16px 28px', display: 'flex', justifyContent: 'space-between', borderTop: `1px solid ${T.border}` }}>
               <span style={{ fontSize: 12, color: T.gray }}>contacto@agenciasi.cl</span>
               <span style={{ fontSize: 12, fontWeight: 700, color: T.blue }}>+56 9 3293 0812</span>
             </div>
@@ -230,7 +231,7 @@ export default function HomeSEOLocal({ city }) {
       </section>
 
       {/* POR QUÉ AgenciaSI */}
-      <section style={{ padding: '88px 24px', background: T.white }}>
+      <section style={{ padding: '88px 24px', background: T.panel }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }} className="hsl-hero-grid">
           <div>
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.blue, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -291,7 +292,7 @@ export default function HomeSEOLocal({ city }) {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
             {SERVICES.map(({ icon: Icon, title, desc }) => (
-              <div key={title} style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 16, padding: '28px 24px' }}>
+              <div key={title} style={{ background: T.panel, border: `1px solid ${T.border}`, borderRadius: 16, padding: '28px 24px' }}>
                 <div style={{ width: 44, height: 44, borderRadius: 12, background: T.blue + '12', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
                   <Icon size={20} color={T.blue} />
                 </div>
@@ -310,7 +311,7 @@ export default function HomeSEOLocal({ city }) {
       </section>
 
       {/* CLIENTES */}
-      <section style={{ background: T.white, padding: '72px 0', overflow: 'hidden' }}>
+      <section style={{ background: T.panel, padding: '72px 0', overflow: 'hidden' }}>
         <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', padding: '0 24px', marginBottom: 40 }}>
           <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.blue, marginBottom: 12 }}>Nuestros clientes</p>
           <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.6rem, 2.5vw, 2.4rem)', fontWeight: 700, color: T.black, marginBottom: 10 }}>
@@ -342,7 +343,7 @@ export default function HomeSEOLocal({ city }) {
       </section>
 
       {/* CTA FINAL */}
-      <section style={{ background: T.black, padding: '88px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: '#07070c', padding: '88px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 600, borderRadius: '50%', background: `${T.blue}12`, pointerEvents: 'none' }} />
         <div style={{ position: 'relative', maxWidth: 580, margin: '0 auto' }}>
           <div style={{ fontSize: 44, marginBottom: 16 }}>🚀</div>

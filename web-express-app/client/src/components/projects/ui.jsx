@@ -90,7 +90,7 @@ export const Field = ({ label, children, className = '' }) => (
 )
 export const Btn = ({ children, onClick, disabled, variant = 'ghost', className = '', type = 'button', loading }) => {
   const v = {
-    primary: 'bg-white text-black hover:bg-zinc-200', ghost: 'bg-white/5 text-zinc-300 hover:bg-white/10 border border-white/10',
+    primary: 'bg-white text-black bd-btn-grad hover:bg-zinc-200', ghost: 'bg-white/5 text-zinc-300 hover:bg-white/10 border border-white/10',
     green: 'bg-emerald-500 text-black hover:bg-emerald-400', danger: 'bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20',
   }[variant]
   return (

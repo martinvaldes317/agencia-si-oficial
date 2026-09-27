@@ -61,7 +61,7 @@ export default function PortalSetup() {
               <p className="text-zinc-500 text-sm">Ya puedes iniciar sesión en tu portal.</p>
               <button
                 onClick={() => navigate('/portal')}
-                className="w-full bg-white text-black py-2.5 rounded-lg font-semibold text-sm hover:bg-zinc-100 transition-colors"
+                className="w-full bg-white text-black bd-btn-grad py-2.5 rounded-lg font-semibold text-sm hover:bg-zinc-100 transition-colors"
               >
                 Ir al portal
               </button>
@@ -106,7 +106,7 @@ export default function PortalSetup() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-white text-black py-2.5 rounded-lg font-semibold text-sm hover:bg-zinc-100 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full bg-white text-black bd-btn-grad py-2.5 rounded-lg font-semibold text-sm hover:bg-zinc-100 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {loading ? <Loader size={16} className="animate-spin" /> : 'Crear contraseña y entrar'}
               </button>

@@ -98,7 +98,7 @@ export default function PortalCalendar() {
                   key={day}
                   onClick={() => setSelectedDay(isSelected ? null : day)}
                   className={`relative aspect-square flex flex-col items-center justify-center rounded-lg text-sm transition-all
-                    ${isSelected ? 'bg-white text-black' :
+                    ${isSelected ? 'bg-white text-black bd-btn-grad' :
                       isToday ? 'bg-zinc-700 text-white' :
                       'text-zinc-400 hover:bg-zinc-800 hover:text-white'}`}
                 >

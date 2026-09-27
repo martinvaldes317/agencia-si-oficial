@@ -12,18 +12,19 @@ import {
 
 /* ── BRAND ─────────────────────────────────────────────── */
 const T = {
-  blue:   '#2D2BB5',
-  blueD:  '#1E1C8A',
-  blueL:  '#EEF0FF',
-  black:  '#0A0A14',
-  dark:   '#1A1A2E',
-  gray:   '#4C4C68',
-  muted:  '#8080A0',
-  light:  '#F6F6FC',
-  border: '#E0E0EF',
+  blue:   '#3d5afe',
+  blueD:  '#2a3cc4',
+  blueL:  'rgba(61,90,254,0.14)',
+  black:  '#f5f5fa',
+  dark:   '#d8d8e6',
+  gray:   '#9a9ab0',
+  muted:  '#75758c',
+  light:  '#07070c',
+  panel:  '#0c0c14',
+  border: 'rgba(255,255,255,0.09)',
   white:  '#FFFFFF',
-  green:  '#16A34A',
-  greenL: '#F0FDF4',
+  green:  '#22c55e',
+  greenL: 'rgba(34,197,94,0.12)',
   gold:   '#F59E0B',
 }
 
@@ -157,7 +158,7 @@ export default function LandingWebSistemas() {
   }, [])
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.white, color: T.dark, overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: '#000', color: T.dark, overflowX: 'hidden' }}>
       <Helmet>
         <title>Páginas Web y Sistemas a Medida desde $69.990 | AgenciaSI Chile</title>
         <meta name="description" content="Creamos páginas web y sistemas a medida para tu negocio en Chile desde $69.990. Plazos acordados por escrito, dominio incluido, soporte post-entrega. Cotiza por WhatsApp." />
@@ -166,7 +167,7 @@ export default function LandingWebSistemas() {
       </Helmet>
 
       {/* ── STICKY HEADER ── */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 50, background: T.white, borderBottom: `1px solid ${T.border}`, boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
+      <header style={{ position: 'sticky', top: 0, zIndex: 50, background: T.panel, borderBottom: `1px solid ${T.border}`, boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ background: T.blue, borderRadius: 8, width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -185,7 +186,7 @@ export default function LandingWebSistemas() {
       </header>
 
       {/* ── HERO ── */}
-      <section style={{ background: `linear-gradient(135deg, #1212CC 0%, #2D2BB5 45%, #1A4FC4 100%)`, padding: '68px 20px 80px', overflow: 'hidden', position: 'relative' }}>
+      <section style={{ background: 'linear-gradient(135deg, #1a2680 0%, #3d5afe 55%, #6a4bf5 100%)', padding: '68px 20px 80px', overflow: 'hidden', position: 'relative' }}>
         <div style={{ position: 'absolute', top: -80, right: -80, width: 420, height: 420, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: -60, left: -40, width: 260, height: 260, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
 
@@ -210,7 +211,7 @@ export default function LandingWebSistemas() {
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
               <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa el sitio web de $69.990')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Web')}
-                style={{ background: T.white, color: T.blue, fontWeight: 800, fontSize: 15, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }} className="wa-btn">
+                style={{ background: '#FFFFFF', color: T.blue, fontWeight: 800, fontSize: 15, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }} className="wa-btn">
                 <WaIcon size={18} /> Quiero este sitio web
               </a>
               <a href="#trabajos"
@@ -276,7 +277,7 @@ export default function LandingWebSistemas() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             {PROBLEMS.map(({ icon: Icon, title, desc }) => (
-              <div key={title} style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 14, padding: '22px 24px', display: 'flex', gap: 16, alignItems: 'flex-start', transition: 'box-shadow .25s, border-color .25s' }}
+              <div key={title} style={{ background: T.panel, border: `1px solid ${T.border}`, borderRadius: 14, padding: '22px 24px', display: 'flex', gap: 16, alignItems: 'flex-start', transition: 'box-shadow .25s, border-color .25s' }}
                 onMouseEnter={e => { e.currentTarget.style.boxShadow = `0 8px 24px ${T.blue}18`; e.currentTarget.style.borderColor = `${T.blue}50` }}
                 onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = T.border }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: T.blueL, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -293,7 +294,7 @@ export default function LandingWebSistemas() {
       </section>
 
       {/* ── DIGITALIZANDO CHILE ── */}
-      <section style={{ background: 'linear-gradient(135deg, #1212CC 0%, #2D2BB5 50%, #1A4FC4 100%)', padding: '64px 20px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: 'linear-gradient(135deg, #1a2680 0%, #3d5afe 55%, #6a4bf5 100%)', padding: '64px 20px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -80, left: '10%', width: 300, height: 300, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: -60, right: '8%', width: 220, height: 220, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
         <div style={{ position: 'relative', maxWidth: 800, margin: '0 auto' }}>
@@ -304,14 +305,14 @@ export default function LandingWebSistemas() {
             Llevamos negocios chilenos al mundo digital. Con tecnología real, diseño a medida y resultados concretos.
           </p>
           <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#A8FFEA', color: '#1212CC', fontWeight: 800, fontSize: 15, padding: '14px 32px', borderRadius: 40, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }} className="wa-btn">
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#A8FFEA', color: '#2a3cc4', fontWeight: 800, fontSize: 15, padding: '14px 32px', borderRadius: 40, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }} className="wa-btn">
             <WaIcon size={18} /> Digitaliza tu negocio ahora
           </a>
         </div>
       </section>
 
       {/* ── SERVICIOS ── */}
-      <section style={{ background: T.white, padding: '80px 20px' }}>
+      <section style={{ background: T.panel, padding: '80px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Lo que hacemos</span>
@@ -394,15 +395,15 @@ export default function LandingWebSistemas() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
             {DEMOS.map(d => (
-              <Link key={d.url} to={d.url} style={{ textDecoration: 'none', borderRadius: 14, overflow: 'hidden', background: T.white, border: `1px solid ${T.border}`, boxShadow: '0 2px 12px rgba(0,0,0,.06)', transition: 'transform .3s, box-shadow .3s', display: 'block' }}
+              <Link key={d.url} to={d.url} style={{ textDecoration: 'none', borderRadius: 14, overflow: 'hidden', background: T.panel, border: `1px solid ${T.border}`, boxShadow: '0 2px 12px rgba(0,0,0,.06)', transition: 'transform .3s, box-shadow .3s', display: 'block' }}
                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = `0 16px 40px ${T.blue}20` }}
                 onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,.06)' }}>
                 {/* Browser bar */}
-                <div style={{ background: '#F3F4F6', padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 6, borderBottom: `1px solid ${T.border}` }}>
+                <div style={{ background: '#15151f', padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 6, borderBottom: `1px solid ${T.border}` }}>
                   <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#FF5F57', display: 'block' }} />
                   <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#FEBC2E', display: 'block' }} />
                   <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#28C840', display: 'block' }} />
-                  <div style={{ flex: 1, background: '#E5E7EB', borderRadius: 4, height: 16, marginLeft: 8, display: 'flex', alignItems: 'center', paddingLeft: 8 }}>
+                  <div style={{ flex: 1, background: '#22222e', borderRadius: 4, height: 16, marginLeft: 8, display: 'flex', alignItems: 'center', paddingLeft: 8 }}>
                     <span style={{ fontSize: 9, color: '#9CA3AF', fontFamily: 'monospace' }}>agenciasi.cl{d.url}</span>
                   </div>
                 </div>
@@ -423,24 +424,24 @@ export default function LandingWebSistemas() {
       </section>
 
       {/* ── TRUST BAR ── */}
-      <div style={{ background: '#EEF4FF', borderTop: '1px solid #D0D8F0', borderBottom: '1px solid #D0D8F0', padding: '18px 20px' }}>
+      <div style={{ background: 'rgba(61,90,254,0.07)', borderTop: '1px solid rgba(139,122,255,0.25)', borderBottom: '1px solid rgba(139,122,255,0.25)', padding: '18px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <img src="/proveedor-del-estado.png" alt="ChileCompra MercadoPúblico" style={{ height: 40, objectFit: 'contain' }} />
             <div>
-              <div style={{ fontSize: 13, fontWeight: 800, color: '#1A2A6C' }}>Proveedor del Estado</div>
-              <div style={{ fontSize: 11, color: '#4A5A8C', fontWeight: 500 }}>Empresa registrada en ChileCompra · MercadoPúblico</div>
+              <div style={{ fontSize: 13, fontWeight: 800, color: '#c7cdff' }}>Proveedor del Estado</div>
+              <div style={{ fontSize: 11, color: '#9aa0c8', fontWeight: 500 }}>Empresa registrada en ChileCompra · MercadoPúblico</div>
             </div>
           </div>
-          <div style={{ width: 1, height: 36, background: '#C0C8E0' }} className="lws-trust-divider" />
+          <div style={{ width: 1, height: 36, background: 'rgba(255,255,255,0.14)' }} className="lws-trust-divider" />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Shield size={18} color="#2D2BB5" />
-            <span style={{ fontSize: 13, fontWeight: 600, color: '#1A2A6C' }}>Empresa formal · Emitimos facturas</span>
+            <Shield size={18} color="#3d5afe" />
+            <span style={{ fontSize: 13, fontWeight: 600, color: '#c7cdff' }}>Empresa formal · Emitimos facturas</span>
           </div>
-          <div style={{ width: 1, height: 36, background: '#C0C8E0' }} className="lws-trust-divider" />
+          <div style={{ width: 1, height: 36, background: 'rgba(255,255,255,0.14)' }} className="lws-trust-divider" />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <CheckCircle2 size={18} color="#16A34A" />
-            <span style={{ fontSize: 13, fontWeight: 600, color: '#1A2A6C' }}>+60 proyectos entregados en Chile</span>
+            <span style={{ fontSize: 13, fontWeight: 600, color: '#c7cdff' }}>+60 proyectos entregados en Chile</span>
           </div>
         </div>
       </div>
@@ -457,7 +458,7 @@ export default function LandingWebSistemas() {
           </div>
 
           {/* ── PROMO HERO CARD ── */}
-          <div style={{ background: `linear-gradient(135deg, #1A1AD4 0%, #2D2BB5 50%, #1565C0 100%)`, borderRadius: 24, padding: '48px 40px', marginBottom: 28, position: 'relative', overflow: 'hidden', boxShadow: '0 20px 60px rgba(45,43,181,.45)' }}>
+          <div style={{ background: 'linear-gradient(135deg, #1a2680 0%, #3d5afe 55%, #6a4bf5 100%)', borderRadius: 24, padding: '48px 40px', marginBottom: 28, position: 'relative', overflow: 'hidden', boxShadow: '0 20px 60px rgba(45,43,181,.45)' }}>
             <div style={{ position: 'absolute', top: -60, right: -60, width: 280, height: 280, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', bottom: -40, left: -40, width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
             <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 32, alignItems: 'center' }} className="lws-promo-grid">
@@ -481,7 +482,7 @@ export default function LandingWebSistemas() {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 200 }} className="lws-promo-cta">
                 <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa el sitio web de $69.990')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Web')}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '16px 28px', borderRadius: 14, background: T.white, color: T.blue, fontWeight: 800, fontSize: 15, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.2)', whiteSpace: 'nowrap' }} className="wa-btn">
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '16px 28px', borderRadius: 14, background: '#FFFFFF', color: T.blue, fontWeight: 800, fontSize: 15, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.2)', whiteSpace: 'nowrap' }} className="wa-btn">
                   <WaIcon size={17} /> Quiero este sitio web
                 </a>
                 <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={trackSchedule}
@@ -496,7 +497,7 @@ export default function LandingWebSistemas() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
             {PLANS.map(plan => (
               <div key={plan.name}
-                style={{ borderRadius: 20, padding: '28px 24px', border: plan.popular ? `2px solid ${T.blue}` : `1px solid ${T.border}`, background: T.white, position: 'relative', boxShadow: plan.popular ? `0 12px 40px ${T.blue}20` : '0 2px 12px rgba(0,0,0,.04)' }}>
+                style={{ borderRadius: 20, padding: '28px 24px', border: plan.popular ? `2px solid ${T.blue}` : `1px solid ${T.border}`, background: T.panel, position: 'relative', boxShadow: plan.popular ? `0 12px 40px ${T.blue}20` : '0 2px 12px rgba(0,0,0,.04)' }}>
                 {plan.popular && (
                   <div style={{ position: 'absolute', top: -13, left: '50%', transform: 'translateX(-50%)', background: T.blue, color: T.white, fontSize: 11, fontWeight: 800, padding: '4px 16px', borderRadius: 20, letterSpacing: 1, whiteSpace: 'nowrap' }}>
                     ⭐ MÁS ELEGIDO
@@ -528,7 +529,7 @@ export default function LandingWebSistemas() {
                   ))}
                 </div>
                 <a href={`${WA}&text=${encodeURIComponent(`Hola, me interesa cotizar: ${plan.name}`)}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead(plan.name)}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '12px', borderRadius: 12, background: plan.popular ? T.blue : T.black, color: T.white, fontWeight: 700, fontSize: 13, textDecoration: 'none', boxSizing: 'border-box' }} className="wa-btn">
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '12px', borderRadius: 12, background: plan.popular ? T.blue : 'rgba(255,255,255,0.08)', color: T.white, fontWeight: 700, fontSize: 13, textDecoration: 'none', boxSizing: 'border-box' }} className="wa-btn">
                   <WaIcon size={14} /> {plan.price ? 'Cotizar este plan' : 'Solicitar diagnóstico gratis'}
                 </a>
               </div>
@@ -558,7 +559,7 @@ export default function LandingWebSistemas() {
                   <span style={{ fontSize: 13, fontWeight: 900, color: T.white }}>{step.n}</span>
                 </div>
                 {/* Content */}
-                <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 14, padding: '18px 22px', flex: 1 }}>
+                <div style={{ background: T.panel, border: `1px solid ${T.border}`, borderRadius: 14, padding: '18px 22px', flex: 1 }}>
                   <div style={{ fontSize: 15, fontWeight: 800, color: T.black, marginBottom: 4 }}>{step.title}</div>
                   <div style={{ fontSize: 13, color: T.gray, lineHeight: 1.65 }}>{step.desc}</div>
                 </div>
@@ -569,7 +570,7 @@ export default function LandingWebSistemas() {
       </section>
 
       {/* ── QUÉ INCLUYE ── */}
-      <section style={{ background: T.white, padding: '80px 20px' }}>
+      <section style={{ background: T.panel, padding: '80px 20px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
           <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Todo incluido</span>
           <h2 style={{ fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 900, color: T.black, marginTop: 10, marginBottom: 8, letterSpacing: -.5 }}>
@@ -602,7 +603,7 @@ export default function LandingWebSistemas() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
             {TESTIMONIALS.map(t => (
-              <div key={t.name} style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 16, padding: '28px 24px' }}>
+              <div key={t.name} style={{ background: T.panel, border: `1px solid ${T.border}`, borderRadius: 16, padding: '28px 24px' }}>
                 <div style={{ display: 'flex', gap: 2, marginBottom: 16 }}>
                   {Array(t.stars).fill(0).map((_, i) => <Star key={i} size={14} fill={T.gold} color={T.gold} />)}
                 </div>
@@ -625,7 +626,7 @@ export default function LandingWebSistemas() {
       </section>
 
       {/* ── CLIENTES ── */}
-      <section style={{ background: T.white, padding: '80px 20px', overflow: 'hidden' }}>
+      <section style={{ background: T.panel, padding: '80px 20px', overflow: 'hidden' }}>
         <style>{`
           @keyframes marquee {
             0%   { transform: translateX(0) }
@@ -645,11 +646,11 @@ export default function LandingWebSistemas() {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #F4F4F8;
-            border: 1px solid #E0E0EA;
+            background: #fdfdff;
+            border: 1px solid rgba(255,255,255,0.10);
             border-radius: 12px;
             padding: 12px 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.35);
             filter: grayscale(100%) opacity(0.6);
             transition: filter 0.3s, box-shadow 0.3s;
           }
@@ -711,7 +712,7 @@ export default function LandingWebSistemas() {
       </section>
 
       {/* ── CTA FINAL ── */}
-      <section style={{ background: `linear-gradient(135deg, ${T.black} 0%, #0F0F30 100%)`, padding: '88px 20px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: 'linear-gradient(135deg, #07070c 0%, #14142a 100%)', padding: '88px 20px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 600, borderRadius: '50%', background: `${T.blue}10`, pointerEvents: 'none' }} />
         <div style={{ position: 'relative', maxWidth: 600, margin: '0 auto' }}>
           <div style={{ fontSize: 42, marginBottom: 16 }}>🚀</div>
@@ -738,7 +739,7 @@ export default function LandingWebSistemas() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{ background: '#050508', padding: '28px 20px', borderTop: '1px solid #1A1A2E' }}>
+      <footer style={{ background: '#000', padding: '28px 20px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
             <div style={{ background: T.blue, borderRadius: 6, width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -746,8 +747,8 @@ export default function LandingWebSistemas() {
             </div>
             <span style={{ fontSize: 14, fontWeight: 700, color: T.white }}>AgenciaSI</span>
           </Link>
-          <span style={{ fontSize: 12, color: '#404060' }}>© 2026 AgenciaSI · Desarrollo web y sistemas · Chile</span>
-          <Link to="/demos" style={{ fontSize: 12, color: '#404060', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
+          <span style={{ fontSize: 12, color: '#6e6e85' }}>© 2026 AgenciaSI · Desarrollo web y sistemas · Chile</span>
+          <Link to="/demos" style={{ fontSize: 12, color: '#6e6e85', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
             Ver todas las demos <ExternalLink size={11} />
           </Link>
         </div>
@@ -768,7 +769,7 @@ export default function LandingWebSistemas() {
         }
         .wa-btn { animation: wa-bounce 2.4s ease-in-out infinite; }
         .wa-btn:hover { animation-play-state: paused; transform: scale(1.05); }
-        .lws-link:hover { color: #2D2BB5 !important; }
+        .lws-link:hover { color: #8f9dff !important; }
         @media (max-width: 640px) { .lws-trust-divider { display: none !important; } }
         @media (max-width: 768px) {
           .lws-hero-grid    { grid-template-columns: 1fr !important; gap: 40px !important; }

@@ -8,16 +8,17 @@ import {
 } from 'lucide-react'
 
 const T = {
-  blue:  '#2D2BB5',
-  blueD: '#1E1C8A',
-  blueL: '#EEF0FF',
-  black: '#0A0A14',
-  gray:  '#4C4C68',
-  muted: '#8080A0',
-  light: '#F6F6FC',
+  blue:  '#3d5afe',
+  blueD: '#2a3cc4',
+  blueL: 'rgba(61,90,254,0.14)',
+  black: '#f5f5fa',
+  gray:  '#9a9ab0',
+  muted: '#75758c',
+  light: '#07070c',
+  panel: '#0c0c14',
   white: '#FFFFFF',
-  border:'#E0E0EF',
-  green: '#16A34A',
+  border:'rgba(255,255,255,0.09)',
+  green: '#22c55e',
 }
 
 const WA_BASE = 'https://wa.me/56932930812?text='
@@ -90,7 +91,7 @@ export default function LandingSEOLocal({ city }) {
   }
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.white, color: T.black, overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: '#000', color: T.black, overflowX: 'hidden' }}>
       <Helmet>
         <title>Desarrollo Web en {city.name} | AgenciaSI Chile</title>
         <meta name="description" content={`Agencia de desarrollo web en ${city.name}. Creamos sitios web, tiendas online y sistemas a medida para pymes y profesionales de ${city.name}. Cotiza gratis.`} />
@@ -103,7 +104,7 @@ export default function LandingSEOLocal({ city }) {
       </Helmet>
 
       {/* HEADER */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 50, background: T.white, borderBottom: `1px solid ${T.border}`, boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
+      <header style={{ position: 'sticky', top: 0, zIndex: 50, background: T.panel, borderBottom: `1px solid ${T.border}`, boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ background: T.blue, borderRadius: 8, width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -138,7 +139,7 @@ export default function LandingSEOLocal({ city }) {
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 36 }}>
             <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `SEO Local ${city.name}` }); ga('generate_lead', { item_name: `SEO Local ${city.name}` }) }}
-              style={{ background: T.white, color: T.blue, fontWeight: 800, fontSize: 15, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
+              style={{ background: '#FFFFFF', color: T.blue, fontWeight: 800, fontSize: 15, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
               <WaIcon size={18} /> Cotizar ahora — es gratis
             </a>
             <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={() => { px('Schedule'); ga('schedule_appointment') }}
@@ -158,24 +159,24 @@ export default function LandingSEOLocal({ city }) {
       </section>
 
       {/* TRUST BAR */}
-      <div style={{ background: '#EEF4FF', borderBottom: '1px solid #D0D8F0', padding: '16px 20px' }}>
+      <div style={{ background: 'rgba(61,90,254,0.07)', borderBottom: '1px solid rgba(139,122,255,0.25)', padding: '16px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 28, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <img src="/proveedor-del-estado.png" alt="ChileCompra MercadoPúblico" style={{ height: 36, objectFit: 'contain' }} />
             <div>
-              <div style={{ fontSize: 12, fontWeight: 800, color: '#1A2A6C' }}>Proveedor del Estado</div>
-              <div style={{ fontSize: 10, color: '#4A5A8C' }}>Registrados en ChileCompra · MercadoPúblico</div>
+              <div style={{ fontSize: 12, fontWeight: 800, color: '#c7cdff' }}>Proveedor del Estado</div>
+              <div style={{ fontSize: 10, color: '#9aa0c8' }}>Registrados en ChileCompra · MercadoPúblico</div>
             </div>
           </div>
-          <div style={{ width: 1, height: 32, background: '#C0C8E0' }} />
+          <div style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.14)' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <Shield size={16} color={T.blue} />
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#1A2A6C' }}>Empresa formal · Emitimos facturas</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#c7cdff' }}>Empresa formal · Emitimos facturas</span>
           </div>
-          <div style={{ width: 1, height: 32, background: '#C0C8E0' }} />
+          <div style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.14)' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <MapPin size={16} color={T.blue} />
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#1A2A6C' }}>Atendemos en {city.name} y todo Chile</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#c7cdff' }}>Atendemos en {city.name} y todo Chile</span>
           </div>
         </div>
       </div>
@@ -199,7 +200,7 @@ export default function LandingSEOLocal({ city }) {
               { icon: Star,       title: 'Credibilidad y confianza',           desc: `En ${city.name}, los negocios con web profesional generan más confianza y ventas.` },
               { icon: Zap,        title: 'Plazos claros y cumplidos',          desc: 'Acordamos el plazo por escrito antes de comenzar y nos comprometemos a cumplirlo. Tu negocio en ' + city.name + ' online, sin sorpresas.' },
             ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 14, padding: '22px 24px', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+              <div key={title} style={{ background: T.panel, border: `1px solid ${T.border}`, borderRadius: 14, padding: '22px 24px', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
                 <div style={{ width: 38, height: 38, borderRadius: 10, background: T.blueL, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <Icon size={17} color={T.blue} />
                 </div>
@@ -214,7 +215,7 @@ export default function LandingSEOLocal({ city }) {
       </section>
 
       {/* SERVICIOS */}
-      <section style={{ background: T.white, padding: '72px 20px' }}>
+      <section style={{ background: T.panel, padding: '72px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Qué hacemos</span>
@@ -263,7 +264,7 @@ export default function LandingSEOLocal({ city }) {
             ))}
           </div>
           <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `Sitio web ${city.name}` }); ga('generate_lead', { item_name: `Sitio web ${city.name}` }) }}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: T.white, color: T.blue, fontWeight: 800, fontSize: 16, padding: '16px 32px', borderRadius: 14, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#FFFFFF', color: T.blue, fontWeight: 800, fontSize: 16, padding: '16px 32px', borderRadius: 14, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
             <WaIcon size={18} /> Quiero mi sitio web en {city.name}
           </a>
         </div>
@@ -286,7 +287,7 @@ export default function LandingSEOLocal({ city }) {
       </section>
 
       {/* CLIENTES LOGOS */}
-      <section style={{ background: T.white, padding: '60px 0', overflow: 'hidden' }}>
+      <section style={{ background: T.panel, padding: '60px 0', overflow: 'hidden' }}>
         <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center', marginBottom: 32, padding: '0 20px' }}>
           <div style={{ display: 'inline-block', background: T.blueL, color: T.blue, fontWeight: 700, fontSize: 11, letterSpacing: 1.5, padding: '4px 14px', borderRadius: 20, marginBottom: 12 }}>NUESTROS CLIENTES</div>
           <h3 style={{ fontSize: 22, fontWeight: 900, color: T.black, letterSpacing: -.5 }}>Empresas que ya confiaron en nosotros</h3>

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { LayoutDashboard, Users, BarChart3, FileEdit, Settings, LogOut, Briefcase } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
+import '../../styles/brand-dark.css'
 
 const NAV_ITEMS = [
   { key: 'pedidos', icon: LayoutDashboard, label: 'Pedidos', path: '/admin/si' },
@@ -16,12 +17,12 @@ export default function AdminLayout({ active, children }) {
   const { logoutAdmin } = useAuth()
 
   return (
-    <div className="flex h-screen bg-black text-zinc-300 font-sans antialiased">
+    <div className="bd-shell flex h-screen bg-black text-zinc-300 font-sans antialiased">
       <aside className="w-64 border-r border-white/5 flex flex-col">
         <div className="p-8">
           <div className="flex items-center gap-2 mb-12">
-            <div className="w-6 h-6 bg-white flex items-center justify-center rounded-sm">
-              <span className="text-black font-bold text-sm italic">SI</span>
+            <div className="bd-mark w-6 h-6 flex items-center justify-center rounded-sm">
+              <span className="text-white font-bold text-sm italic">SI</span>
             </div>
             <span className="text-white font-bold tracking-tighter text-sm uppercase">Admin Panel</span>
           </div>
@@ -31,7 +32,7 @@ export default function AdminLayout({ active, children }) {
               <button
                 key={item.key}
                 onClick={() => navigate(item.path)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${active === item.key ? 'bg-white/5 text-white' : 'hover:bg-white/5 hover:text-white'}`}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${active === item.key ? 'bd-nav-active' : 'hover:bg-white/5 hover:text-white'}`}
               >
                 <item.icon className="w-4 h-4 text-zinc-500" />
                 {item.label}

@@ -33,7 +33,7 @@ function Gate() {
             className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-white/20" />
         </div>
         {err && <p className="text-red-400 text-xs mb-4">{err}</p>}
-        <button type="submit" disabled={busy} className="w-full bg-white text-black py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 disabled:opacity-50">
+        <button type="submit" disabled={busy} className="w-full bg-white text-black bd-btn-grad py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 disabled:opacity-50">
           {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'Ingresar'}
         </button>
       </form>

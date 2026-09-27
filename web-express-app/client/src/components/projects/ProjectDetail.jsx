@@ -105,7 +105,7 @@ export default function ProjectDetail() {
   return (
     <ProjectsLayout title={`#${p.id}`}
       actions={<Link to="/admin/proyectos/lista" className="text-xs text-zinc-400 hover:text-white flex items-center gap-1"><ArrowLeft className="w-3.5 h-3.5" /> Volver</Link>}>
-      {toast && <div className="fixed top-5 right-5 z-[60] bg-white text-black text-xs font-bold px-4 py-2.5 rounded-lg shadow-xl">{toast}</div>}
+      {toast && <div className="fixed top-5 right-5 z-[60] bg-white text-black bd-btn-grad text-xs font-bold px-4 py-2.5 rounded-lg shadow-xl">{toast}</div>}
 
       {/* Encabezado: cliente, qué compró, cuánto pagó/debe, estado */}
       <div className="grid lg:grid-cols-3 gap-4 mb-4">
@@ -366,7 +366,7 @@ function FilesTab({ files, meta, upload, fileBlobUrl, projectId, onChange, say, 
     <div>
       <div className="flex flex-wrap items-center gap-2 mb-4">
         <select value={cat} onChange={e => setCat(e.target.value)} className={`${inputCls} !w-auto`}>{meta.fileCategories.map(c => <option key={c.key} value={c.key}>{c.label}</option>)}</select>
-        <label className={`px-3.5 py-2 rounded-lg text-xs font-bold bg-white text-black cursor-pointer inline-flex items-center gap-1.5 ${busy ? 'opacity-50 pointer-events-none' : ''}`}>
+        <label className={`px-3.5 py-2 rounded-lg text-xs font-bold bg-white text-black bd-btn-grad cursor-pointer inline-flex items-center gap-1.5 ${busy ? 'opacity-50 pointer-events-none' : ''}`}>
           <Upload className="w-3.5 h-3.5" /> {busy ? 'Subiendo…' : 'Subir archivos'}<input type="file" multiple className="hidden" onChange={onPick} accept=".jpg,.jpeg,.png,.webp,.gif,.svg,.pdf,.doc,.docx,.xls,.xlsx,.txt" />
         </label>
         <select value={filter} onChange={e => setFilter(e.target.value)} className={`${inputCls} !w-auto ml-auto`}><option value="">Todas las categorías</option>{meta.fileCategories.map(c => <option key={c.key} value={c.key}>{c.label}</option>)}</select>

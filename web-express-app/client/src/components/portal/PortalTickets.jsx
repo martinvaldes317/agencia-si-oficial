@@ -118,10 +118,10 @@ export default function PortalTickets() {
           <div className="p-5 space-y-4 max-h-96 overflow-y-auto">
             {selected.messages.map(msg => (
               <div key={msg.id} className={`flex gap-3 ${msg.isAdmin ? '' : 'flex-row-reverse'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${msg.isAdmin ? 'bg-white text-black' : 'bg-zinc-700 text-white'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${msg.isAdmin ? 'bg-white text-black bd-btn-grad' : 'bg-zinc-700 text-white'}`}>
                   {msg.isAdmin ? 'SI' : 'Tú'}
                 </div>
-                <div className={`max-w-[80%] rounded-xl px-4 py-3 text-sm ${msg.isAdmin ? 'bg-zinc-800 text-zinc-200' : 'bg-white text-black'}`}>
+                <div className={`max-w-[80%] rounded-xl px-4 py-3 text-sm ${msg.isAdmin ? 'bg-zinc-800 text-zinc-200' : 'bg-white text-black bd-btn-grad'}`}>
                   <p>{msg.content}</p>
                   <p className={`text-[10px] mt-1.5 ${msg.isAdmin ? 'text-zinc-500' : 'text-zinc-500'}`}>
                     {new Date(msg.createdAt).toLocaleString('es-CL', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
@@ -144,7 +144,7 @@ export default function PortalTickets() {
               <button
                 type="submit"
                 disabled={!reply.trim() || sending}
-                className="bg-white text-black px-4 py-2.5 rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-zinc-100 disabled:opacity-50 transition-colors"
+                className="bg-white text-black bd-btn-grad px-4 py-2.5 rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-zinc-100 disabled:opacity-50 transition-colors"
               >
                 {sending ? <Loader size={16} className="animate-spin" /> : <Send size={16} />}
               </button>
@@ -168,7 +168,7 @@ export default function PortalTickets() {
         </div>
         <button
           onClick={() => setShowNew(true)}
-          className="flex items-center gap-2 bg-white text-black px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-zinc-100 transition-colors"
+          className="flex items-center gap-2 bg-white text-black bd-btn-grad px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-zinc-100 transition-colors"
         >
           <Plus size={18} /> Nuevo ticket
         </button>
@@ -218,7 +218,7 @@ export default function PortalTickets() {
                 <button type="button" onClick={() => setShowNew(false)} className="flex-1 bg-zinc-800 text-zinc-300 py-2.5 rounded-lg text-sm font-medium hover:bg-zinc-700 transition-colors">
                   Cancelar
                 </button>
-                <button type="submit" disabled={creating} className="flex-1 bg-white text-black py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 transition-colors flex items-center justify-center gap-2">
+                <button type="submit" disabled={creating} className="flex-1 bg-white text-black bd-btn-grad py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 transition-colors flex items-center justify-center gap-2">
                   {creating ? <Loader size={16} className="animate-spin" /> : 'Enviar ticket'}
                 </button>
               </div>

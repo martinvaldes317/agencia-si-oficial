@@ -1,0 +1,53 @@
+/* Sistema de marca oscuro compartido — paneles internos (admin, Proyectos Web, portal de
+   clientes) y páginas públicas con tokens propios. Mismos valores que home-dark.css
+   (blue #3d5afe / violet #8b5cf6) para que toda la app se sienta de un mismo diseñador.
+   Prefijo bd- para no chocar con las clases de Tailwind ni con hd- (home). */
+:root {
+  --bd-grad: linear-gradient(120deg, #3d5afe 0%, #8b5cf6 100%);
+  --bd-blue: #3d5afe;
+  --bd-violet: #8b5cf6;
+}
+
+/* Fondo de shell: aurora estática y muy sutil, para no competir con datos/tablas */
+.bd-shell { position: relative; isolation: isolate; }
+.bd-shell::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 500px at 88% -10%, rgba(61, 90, 254, 0.16), transparent 60%),
+    radial-gradient(700px 460px at -10% 100%, rgba(139, 92, 246, 0.12), transparent 60%);
+}
+
+/* Logotipo de marca (cuadrado con degradado) */
+.bd-mark {
+  background: var(--bd-grad);
+  box-shadow: 0 0 22px -4px rgba(120, 90, 254, 0.65);
+}
+
+/* Ítem de navegación activo */
+.bd-nav-active {
+  background: var(--bd-grad) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 20px -6px rgba(120, 90, 254, 0.7);
+}
+.bd-nav-active svg { color: #fff !important; }
+
+/* Botón / acento primario de marca */
+.bd-btn-grad {
+  background: var(--bd-grad) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 8px 26px -8px rgba(120, 90, 254, 0.7);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.bd-btn-grad:hover { transform: translateY(-1px); box-shadow: 0 12px 32px -6px rgba(120, 90, 254, 0.85); }
+
+.bd-ring-grad { border-color: rgba(139, 122, 255, .5) !important; }
+.bd-text-grad { background: var(--bd-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bd-btn-grad { transition: none; }
+}

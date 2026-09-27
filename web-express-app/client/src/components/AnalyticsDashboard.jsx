@@ -74,7 +74,7 @@ export default function AnalyticsDashboard() {
           </div>
           {loginError && <p className="text-red-400 text-xs mb-4">{loginError}</p>}
           <button type="submit" disabled={loggingIn}
-            className="w-full bg-white text-black py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-zinc-200 disabled:opacity-50 transition-all">
+            className="w-full bg-white text-black bd-btn-grad py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-zinc-200 disabled:opacity-50 transition-all">
             {loggingIn ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'Ingresar'}
           </button>
         </form>
@@ -95,7 +95,7 @@ export default function AnalyticsDashboard() {
         <div className="flex gap-1 bg-white/5 border border-white/10 rounded-lg p-1">
           {GRANULARITIES.map(g => (
             <button key={g.value} onClick={() => setGranularity(g.value)}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${granularity === g.value ? 'bg-white text-black' : 'text-zinc-400 hover:text-white'}`}>
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${granularity === g.value ? 'bg-white text-black bd-btn-grad' : 'text-zinc-400 hover:text-white'}`}>
               {g.label}
             </button>
           ))}

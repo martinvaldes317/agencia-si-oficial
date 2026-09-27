@@ -76,7 +76,7 @@ function MetricsTab({ clientId, metrics, onRefresh, authFetch }) {
           <Field key={k} label={l}><input type="number" value={form[k]} onChange={f(k)} className={inputCls} placeholder="0" /></Field>
         ))}
         <div className="col-span-2">
-          <button type="submit" disabled={loading} className="w-full bg-white text-black py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
+          <button type="submit" disabled={loading} className="w-full bg-white text-black bd-btn-grad py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
             {loading ? <Loader size={16} className="animate-spin" /> : <Plus size={16} />} Agregar métrica
           </button>
         </div>
@@ -130,7 +130,7 @@ function PaymentsTab({ clientId, payments, onRefresh, authFetch }) {
         <Field label="Vencimiento"><input type="date" value={form.dueDate} onChange={f('dueDate')} className={inputCls} /></Field>
         <Field label="URL Boleta"><input value={form.invoiceUrl} onChange={f('invoiceUrl')} className={inputCls} placeholder="https://..." /></Field>
         <div className="col-span-2">
-          <button type="submit" disabled={loading} className="w-full bg-white text-black py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
+          <button type="submit" disabled={loading} className="w-full bg-white text-black bd-btn-grad py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
             {loading ? <Loader size={16} className="animate-spin" /> : <Plus size={16} />} Agregar cobro
           </button>
         </div>
@@ -186,7 +186,7 @@ function MeetingsTab({ clientId, meetings, onRefresh, authFetch }) {
         <div className="col-span-2"><Field label="Link Meet"><input value={form.meetLink} onChange={f('meetLink')} className={inputCls} placeholder="https://meet.google.com/..." /></Field></div>
         <div className="col-span-2"><Field label="Descripción"><input value={form.description} onChange={f('description')} className={inputCls} placeholder="Opcional" /></Field></div>
         <div className="col-span-2">
-          <button type="submit" disabled={loading} className="w-full bg-white text-black py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
+          <button type="submit" disabled={loading} className="w-full bg-white text-black bd-btn-grad py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
             {loading ? <Loader size={16} className="animate-spin" /> : <Plus size={16} />} Agendar reunión
           </button>
         </div>
@@ -246,7 +246,7 @@ function FilesTab({ clientId, files, onRefresh, adminToken }) {
           <option value="creativo">Creativo</option>
         </select>
         <button onClick={() => fileRef.current?.click()} disabled={uploading}
-          className="flex-1 flex items-center justify-center gap-2 bg-white text-black py-2 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 transition-colors">
+          className="flex-1 flex items-center justify-center gap-2 bg-white text-black bd-btn-grad py-2 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 transition-colors">
           {uploading ? <Loader size={16} className="animate-spin" /> : <Upload size={16} />}
           {uploading ? 'Subiendo...' : 'Subir archivo'}
         </button>
@@ -304,14 +304,14 @@ function TicketsTab({ tickets, onRefresh, authFetch }) {
         <div className="bg-zinc-800 rounded-xl p-4 space-y-3 max-h-56 overflow-y-auto">
           {ticket.messages.map(msg => (
             <div key={msg.id} className={`text-sm ${msg.isAdmin ? 'text-right' : ''}`}>
-              <span className={`inline-block px-3 py-2 rounded-xl ${msg.isAdmin ? 'bg-white text-black' : 'bg-zinc-700 text-zinc-200'}`}>{msg.content}</span>
+              <span className={`inline-block px-3 py-2 rounded-xl ${msg.isAdmin ? 'bg-white text-black bd-btn-grad' : 'bg-zinc-700 text-zinc-200'}`}>{msg.content}</span>
               <p className="text-zinc-600 text-[10px] mt-0.5">{msg.isAdmin ? 'Tú' : 'Cliente'} · {new Date(msg.createdAt).toLocaleString('es-CL', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' })}</p>
             </div>
           ))}
         </div>
         <div className="flex gap-2">
           <input value={reply} onChange={e => setReply(e.target.value)} placeholder="Responder..." className={`${inputCls} flex-1`} onKeyDown={e => e.key === 'Enter' && sendReply(ticket.id)} />
-          <button onClick={() => sendReply(ticket.id)} disabled={!reply.trim() || sending} className="bg-white text-black px-3 rounded-lg hover:bg-zinc-100 disabled:opacity-50">
+          <button onClick={() => sendReply(ticket.id)} disabled={!reply.trim() || sending} className="bg-white text-black bd-btn-grad px-3 rounded-lg hover:bg-zinc-100 disabled:opacity-50">
             {sending ? <Loader size={16} className="animate-spin" /> : <Send size={16} />}
           </button>
         </div>
@@ -385,7 +385,7 @@ function TasksTab({ clientId, tasks, onRefresh, authFetch }) {
           </Field>
           <Field label="Fecha límite"><input type="date" value={form.dueDate} onChange={f('dueDate')} className={inputCls} /></Field>
         </div>
-        <button type="submit" disabled={loading} className="w-full bg-white text-black py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
+        <button type="submit" disabled={loading} className="w-full bg-white text-black bd-btn-grad py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
           {loading ? <Loader size={16} className="animate-spin" /> : <Plus size={16} />} Agregar tarea
         </button>
       </form>
@@ -629,7 +629,7 @@ function ServiceForm({ form, setForm, onSave, onCancel, saving, isEdit }) {
           Cancelar
         </button>
         <button type="button" onClick={onSave} disabled={saving || !form.name.trim()}
-          className="flex-1 bg-white text-black py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 flex items-center justify-center gap-2 transition-colors">
+          className="flex-1 bg-white text-black bd-btn-grad py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 flex items-center justify-center gap-2 transition-colors">
           {saving ? <Loader size={14} className="animate-spin" /> : isEdit ? 'Guardar' : 'Agregar'}
         </button>
       </div>
@@ -788,7 +788,7 @@ function ServicesTab({ clientId, services, onRefresh, authFetch }) {
               <div className="flex gap-2">
                 <button onClick={() => setRenewingId(null)} className="flex-1 bg-zinc-700 text-zinc-300 py-2.5 rounded-lg text-sm font-medium hover:bg-zinc-600 transition-colors">Cancelar</button>
                 <button onClick={() => confirmRenew(svc)} disabled={renewing}
-                  className="flex-1 bg-white text-black py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 flex items-center justify-center gap-2 transition-colors">
+                  className="flex-1 bg-white text-black bd-btn-grad py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 flex items-center justify-center gap-2 transition-colors">
                   {renewing ? <Loader size={14} className="animate-spin" /> : <><RefreshCw size={13} /> Confirmar renovación</>}
                 </button>
               </div>
@@ -897,7 +897,7 @@ function NotifyTab({ client, authFetch }) {
       <p className="text-zinc-600 text-xs">Se enviará a: <span className="text-zinc-400">{client.email}</span></p>
       {error && <p className="text-red-400 text-sm">{error}</p>}
       <button type="submit" disabled={sending}
-        className="w-full bg-white text-black py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
+        className="w-full bg-white text-black bd-btn-grad py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-zinc-100 disabled:opacity-50">
         {sending ? <Loader size={16} className="animate-spin" /> : sent ? '✓ Enviado' : <><Send size={15} /> Enviar notificación</>}
       </button>
     </form>
@@ -1089,7 +1089,7 @@ function LicitacionesView({ onBack, authFetch }) {
         </button>
         <button type="button" onClick={save}
           disabled={saving || !form.entidad.trim() || !form.descripcion.trim() || !form.monto}
-          className="flex-1 bg-white text-black py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 flex items-center justify-center gap-2 transition-colors">
+          className="flex-1 bg-white text-black bd-btn-grad py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 flex items-center justify-center gap-2 transition-colors">
           {saving ? <Loader size={14} className="animate-spin" /> : editingId ? 'Guardar cambios' : 'Agregar licitación'}
         </button>
       </div>
@@ -1110,7 +1110,7 @@ function LicitacionesView({ onBack, authFetch }) {
           </div>
           {!adding && editingId === null && (
             <button onClick={() => { setAdding(true); setForm(emptyLic()) }}
-              className="flex items-center gap-2 bg-white text-black px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-zinc-100 transition-colors">
+              className="flex items-center gap-2 bg-white text-black bd-btn-grad px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-zinc-100 transition-colors">
               <Plus size={16} /> Nueva licitación
             </button>
           )}
@@ -1578,7 +1578,7 @@ export default function ClientManagement() {
                 </button>
               </div>
             </Field>
-            <button type="submit" className="w-full bg-white text-black py-2.5 rounded-lg font-semibold text-sm hover:bg-zinc-100 transition-colors">Entrar</button>
+            <button type="submit" className="w-full bg-white text-black bd-btn-grad py-2.5 rounded-lg font-semibold text-sm hover:bg-zinc-100 transition-colors">Entrar</button>
           </form>
         </div>
         {forgotSent ? (
@@ -1663,7 +1663,7 @@ export default function ClientManagement() {
             {tabs.map(({ id, label, icon: Icon }) => (
               <button key={id} onClick={() => setActiveTab(id)}
                 className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-medium transition-colors
-                  ${activeTab === id ? 'bg-white text-black' : 'text-zinc-500 hover:text-white'}`}>
+                  ${activeTab === id ? 'bg-white text-black bd-btn-grad' : 'text-zinc-500 hover:text-white'}`}>
                 <Icon size={14} /><span className="hidden sm:inline">{label}</span>
               </button>
             ))}
@@ -1727,7 +1727,7 @@ export default function ClientManagement() {
               {generating ? <Loader size={14} className="animate-spin" /> : <Zap size={14} />}
               <span className="hidden sm:inline">Generar cobros</span>
             </button>
-            <button onClick={() => setShowNew(true)} className="flex items-center gap-2 bg-white text-black px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-zinc-100 transition-colors">
+            <button onClick={() => setShowNew(true)} className="flex items-center gap-2 bg-white text-black bd-btn-grad px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-zinc-100 transition-colors">
               <Plus size={16} /> Nuevo cliente
             </button>
             <button onClick={() => { logoutAdmin(); navigate('/admin/clientes') }} className="flex items-center gap-1.5 text-zinc-500 hover:text-white text-sm transition-colors" title="Cerrar sesión">
@@ -1813,7 +1813,7 @@ export default function ClientManagement() {
               <div key={c.id}
                 className="w-full bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-xl p-5 flex items-center gap-4 transition-all group cursor-pointer"
                 onClick={() => { fetchClient(c.id); setActiveTab('metricas') }}>
-                <div className="w-11 h-11 bg-white text-black rounded-full flex items-center justify-center text-sm font-bold shrink-0">
+                <div className="w-11 h-11 bg-white text-black bd-btn-grad rounded-full flex items-center justify-center text-sm font-bold shrink-0">
                   {c.name.split(' ').map(n => n[0]).slice(0,2).join('').toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -1892,7 +1892,7 @@ export default function ClientManagement() {
             </p>
             <div className="flex gap-3 pt-2">
               <button type="button" onClick={() => setShowNew(false)} className="flex-1 bg-zinc-800 text-zinc-300 py-2.5 rounded-lg text-sm font-medium hover:bg-zinc-700 transition-colors">Cancelar</button>
-              <button type="submit" disabled={creating} className="flex-1 bg-white text-black py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 flex items-center justify-center gap-2">
+              <button type="submit" disabled={creating} className="flex-1 bg-white text-black bd-btn-grad py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 disabled:opacity-50 flex items-center justify-center gap-2">
                 {creating ? <Loader size={16} className="animate-spin" /> : 'Crear y enviar acceso'}
               </button>
             </div>
