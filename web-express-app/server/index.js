@@ -529,8 +529,8 @@ app.post('/api/mp/create-preference', async (req, res) => {
   }
 });
 
-// "Sitio Web Profesional" landing (precio único $74.990+IVA)
-const WEB_ORDER_BASE_PRICE     = 74990;
+// "Sitio Web Profesional" landing (precio único $69.990+IVA)
+const WEB_ORDER_BASE_PRICE     = 69990;
 const WEB_ORDER_STORE_PRICE    = 25990;
 const WEB_ORDER_SECTION_INCLUDED = 5;
 const WEB_ORDER_EXTRA_SECTION_PRICE = 9990;

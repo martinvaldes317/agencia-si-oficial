@@ -12,7 +12,7 @@ export function NewProjectModal({ meta, api, onClose, presetClientId }) {
   const [mode, setMode] = useState(presetClientId ? 'existing' : 'new')
   const [clientId, setClientId] = useState(presetClientId || '')
   const [c, setC] = useState({ firstName: '', lastName: '', business: '', email: '', whatsapp: '', origin: 'Meta Ads' })
-  const [pr, setPr] = useState({ name: '', serviceType: 'Landing Page', netAmount: 74990 })
+  const [pr, setPr] = useState({ name: '', serviceType: 'Landing Page', netAmount: 69990 })
   const [busy, setBusy] = useState(false); const [err, setErr] = useState('')
   useEffect(() => { api('/clients').then(r => setClients(r.clients)).catch(() => {}) }, [api])
 

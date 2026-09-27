@@ -26,7 +26,7 @@ export default function TerminosCondiciones() {
 
       <Section title="3. Precio">
         <p>
-          El sitio web tiene un único valor de $74.990 + IVA, contratado completando el formulario y pagando
+          El sitio web tiene un único valor de $69.990 + IVA, contratado completando el formulario y pagando
           directamente en el sitio. Para iniciar el proyecto se solicita el pago de un abono del 50% del total
           (IVA incluido); el 50% restante se paga al finalizar el sitio web.
         </p>

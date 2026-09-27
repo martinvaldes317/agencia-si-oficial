@@ -6,7 +6,7 @@ import {
     Menu, X, BrainCircuit, Code2, Globe, Palette,
     TrendingUp, Sparkles, Video, MapPin, MessageSquare, Mail,
     ArrowRight, LogIn, ShoppingCart, CheckCircle2,
-    BarChart3, Zap, Shield, Search
+    BarChart3, Zap, Shield, Search, ExternalLink
 } from 'lucide-react'
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
@@ -317,7 +317,7 @@ const Footer = () => (
                         <img src="/logo-dark.png" alt="AgenciaSi" className="h-10 w-auto" />
                     </div>
                     <p className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: '#666', fontFamily: 'Poppins, sans-serif' }}>
-                        Desarrollo web, sistemas a medida e IA aplicada para empresas que quieren crecer. Meta Ads y Google Ads como complemento estratégico.
+                        Sistemas a medida, plataformas web e IA aplicada para empresas que quieren crecer. Web Express y campañas de Meta y Google Ads como complemento.
                     </p>
                     <p className="text-xs" style={{ color: '#444', fontFamily: 'Poppins, sans-serif' }}>
                         San Clemente, Región del Maule — Chile<br />
@@ -328,17 +328,17 @@ const Footer = () => (
                     <p className="text-[11px] font-bold uppercase tracking-widest mb-5" style={{ color: T.blue, fontFamily: 'Poppins, sans-serif' }}>Servicios</p>
                     <ul className="space-y-3 text-sm" style={{ color: '#666', fontFamily: 'Poppins, sans-serif' }}>
                         {[
-                            { label: 'Meta & Google Ads', href: '#services' },
-                            { label: 'Desarrollo Web', href: '/sitio-web' },
-                            { label: 'WordPress Pro', href: '#services' },
+                            { label: 'Sistemas a medida', href: '#services' },
                             { label: 'Ecosistemas IA', href: '#services' },
-                            { label: 'Branding', href: '#services' },
                             { label: 'E-commerce', href: '#services' },
+                            { label: 'Web Express', href: '/sitio-web' },
+                            { label: 'Meta & Google Ads', href: '#services' },
+                            { label: 'Publicidad Talca ↗', href: 'https://publicidadtalca.cl' },
                         ].map(s => (
                             <li key={s.label}>
                                 {s.href.startsWith('/')
                                     ? <Link to={s.href} className="hover:text-white transition-colors">{s.label}</Link>
-                                    : <a href={s.href} className="hover:text-white transition-colors">{s.label}</a>}
+                                    : <a href={s.href} {...(s.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="hover:text-white transition-colors">{s.label}</a>}
                             </li>
                         ))}
                     </ul>
@@ -480,28 +480,33 @@ export default function Home() {
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         <div>
                             <div className="flex flex-wrap gap-2 mb-8">
-                                <Label>Desarrollo Web</Label>
                                 <Label>Sistemas a Medida</Label>
-                                <Label>E-commerce</Label>
+                                <Label>Plataformas Web</Label>
+                                <Label>Software de Gestión</Label>
                                 <Label>IA</Label>
                             </div>
 
                             <h1 className="font-bold leading-[1.05] mb-7"
                                 style={{ fontFamily: 'Playfair Display, serif', color: T.black, fontSize: 'clamp(2.8rem, 6vw, 5rem)' }}>
-                                Construimos el motor digital{' '}
-                                <em className="font-normal" style={{ color: T.blue }}>de tu empresa.</em>
+                                Sistemas a medida{' '}
+                                <em className="font-normal" style={{ color: T.blue }}>para hacer crecer tu empresa.</em>
                             </h1>
 
                             <p className="text-lg leading-relaxed mb-10 max-w-xl" style={{ color: T.gray }}>
-                                Sitios web, plataformas y sistemas a medida que automatizan, venden y escalan tu negocio. Sin templates, sin humo.
+                                Plataformas, sistemas de gestión y aplicaciones a medida que automatizan procesos, venden y escalan tu operación. Código propio, sin templates, sin humo.
                             </p>
 
                             <div className="flex flex-col sm:flex-row gap-3 mb-12">
                                 <PrimaryBtn href="#contact" className="text-base px-8 py-4">
-                                    Cotización gratuita <ArrowRight size={17} />
+                                    Agenda una conversación <ArrowRight size={17} />
                                 </PrimaryBtn>
-                                <OutlineBtn href="#cases">Ver resultados</OutlineBtn>
+                                <OutlineBtn href="#cases">Ver proyectos</OutlineBtn>
                             </div>
+
+                            <p className="text-[13px] mb-10 -mt-6" style={{ color: T.gray, fontFamily: 'Poppins, sans-serif' }}>
+                                ¿Solo necesitas una página web simple?{' '}
+                                <Link to="/sitio-web" className="font-bold underline underline-offset-2" style={{ color: T.blue }}>Web Express desde $69.990 + IVA →</Link>
+                            </p>
 
                             {/* Trust row */}
                             <div className="flex flex-wrap items-center gap-5">
@@ -680,6 +685,40 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* ═══ PROYECTOS ══════════════════════════════════════════════════ */}
+            <section id="cases" className="py-24 md:py-32 px-5 md:px-10 bg-white">
+                <div className="max-w-7xl mx-auto">
+                    <div className="mb-14">
+                        <SectionLabel>Proyectos</SectionLabel>
+                        <H2 className="text-4xl md:text-5xl max-w-2xl">Proyectos reales, funcionando en Chile.</H2>
+                    </div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+                        {[
+                            { name: 'NowPOS', url: 'https://nowpos.cl', tag: 'Sistema de caja (POS)', logo: '/clientes/now-pos.png', desc: 'Sistema POS para almacenes y minimarkets: lector de código de barras, control de inventario, cierre de caja y modo offline.' },
+                            { name: 'Consonancia', url: 'https://consonancia.cl', tag: 'Software para psicólogos', desc: 'Solución digital para psicólogos, pensada para el manejo de historiales clínicos.' },
+                            { name: 'CFT Araucanía', url: 'https://cftaraucania.cl', tag: 'Sitio institucional', logo: '/clientes/cft-araucania.svg', desc: 'Sitio institucional de un centro de formación técnica: proyecto educativo, apoyo al estudiante y transparencia activa.' },
+                            { name: 'Publicidad Talca', url: 'https://publicidadtalca.cl', tag: 'Catálogo y sitio comercial', desc: 'Sitio de merchandising y publicidad para empresas de todo Chile, con catálogo de productos.' },
+                        ].map(c => (
+                            <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer"
+                                className="group p-6 rounded-2xl flex flex-col transition-all hover:shadow-lg hover:-translate-y-0.5"
+                                style={{ border: `1px solid ${T.border}` }}>
+                                <div className="h-12 mb-5 flex items-center">
+                                    {c.logo
+                                        ? <img src={c.logo} alt={c.name} className="max-h-10 max-w-[150px] object-contain" />
+                                        : <span className="text-xl font-bold" style={{ fontFamily: 'Playfair Display, serif', color: T.blue }}>{c.name}</span>}
+                                </div>
+                                <span className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: T.blue, fontFamily: 'Poppins, sans-serif' }}>{c.tag}</span>
+                                <h3 className="text-lg font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif', color: T.black }}>{c.name}</h3>
+                                <p className="text-[13px] leading-relaxed flex-grow mb-5" style={{ color: T.gray }}>{c.desc}</p>
+                                <span className="text-[12px] font-bold inline-flex items-center gap-1.5" style={{ color: T.blue }}>
+                                    Ver sitio <ExternalLink size={12} />
+                                </span>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* ═══ METODOLOGÍA ════════════════════════════════════════════════ */}
             <section id="methodology" className="py-24 md:py-32 px-5 md:px-10" style={{ background: T.light }}>
                 <div className="max-w-7xl mx-auto">
@@ -727,19 +766,19 @@ export default function Home() {
                         style={{ background: T.blue + '08', border: `1.5px solid ${T.blue}25` }}>
                         <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
                             style={{ background: T.blue }}>
-                            <TrendingUp size={26} color="#fff" />
+                            <Code2 size={26} color="#fff" />
                         </div>
                         <div className="flex-1">
                             <div className="flex flex-wrap items-center gap-2 mb-2">
-                                <h3 className="text-xl font-bold" style={{ fontFamily: 'Playfair Display, serif', color: T.black }}>Meta & Google Ads con IA</h3>
+                                <h3 className="text-xl font-bold" style={{ fontFamily: 'Playfair Display, serif', color: T.black }}>Sistemas y plataformas a medida</h3>
                                 <span className="text-[10px] font-bold px-2.5 py-1 rounded-full" style={{ background: T.blue, color: '#fff' }}>Servicio principal</span>
                             </div>
                             <p className="text-sm leading-relaxed" style={{ color: T.gray }}>
-                                Gestión estratégica de campañas pagas con acompañamiento 1:1, integración de inteligencia artificial y foco absoluto en ROAS y rentabilidad neta.
+                                Software de gestión, plataformas web y aplicaciones a medida para automatizar la operación de tu empresa. Desde el análisis hasta la puesta en marcha, con código propio y acompañamiento 1:1.
                             </p>
                         </div>
                         <div className="shrink-0">
-                            <PrimaryBtn href="#contact">Solicitar info</PrimaryBtn>
+                            <PrimaryBtn href="#contact">Agenda una conversación</PrimaryBtn>
                         </div>
                     </div>
 
@@ -747,12 +786,11 @@ export default function Home() {
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                         {[
                             { icon: BrainCircuit, title: 'Plan de Crecimiento Digital', desc: 'Diagnóstico estratégico pagado: auditamos tu situación actual y entregamos un plan de acción con metas, canales y presupuesto en 5 días.', price: 'Desde $150.000', color: T.blue, highlight: true },
-                            { icon: Code2,        title: 'Desarrollo Web',      desc: 'Sitios que convierten visitas en clientes. Diseño a medida, arquitectura de conversión y velocidad optimizada.',    price: 'Desde $74.990', color: '#7F77DD', href: '/sitio-web' },
-                            { icon: Globe,        title: 'WordPress & SEO',     desc: 'Posicionamiento orgánico real. SEO técnico avanzado, plugins a medida y optimización continua.',             price: 'Cotizar',   color: '#7F77DD' },
                             { icon: Sparkles,     title: 'Ecosistemas IA',      desc: 'Automatizaciones, CRM y flujos con inteligencia artificial para vender más con menos fricción.',               price: 'Cotizar',   color: T.blue   },
-                            { icon: Palette,      title: 'Branding Autoridad',  desc: 'Identidad corporativa que transmite confianza y posiciona tu marca en el segmento que querés ocupar.',         price: 'Cotizar',   color: T.blue   },
                             { icon: ShoppingCart, title: 'E-commerce',          desc: 'Tiendas que venden. Integración con Webpay y Mercado Pago, arquitectura pensada para maximizar conversión.',   price: 'Cotizar',   color: '#5DCAA5' },
-                            { icon: Video,        title: 'Producción Audiovisual', desc: 'Videos corporativos, reels y activos creativos que elevan la percepción de tu marca.',                      price: 'Cotizar',   color: '#CF9FCA' },
+                            { icon: Globe,        title: 'WordPress & SEO',     desc: 'Posicionamiento orgánico real. SEO técnico avanzado, plugins a medida y optimización continua.',             price: 'Cotizar',   color: '#7F77DD' },
+                            { icon: TrendingUp,   title: 'Meta & Google Ads',   desc: 'Gestión de campañas pagas con foco en ROAS y rentabilidad, como complemento de tu sistema o sitio.',         price: 'Cotizar',   color: '#7F77DD' },
+                            { icon: Code2,        title: 'Web Express',         desc: 'Página web profesional lista para publicar: dominio .CL y hosting por 1 año incluidos. Ideal para partir.',    price: 'Desde $69.990 + IVA', color: '#7F77DD', href: '/sitio-web' },
                         ].map((s, i) => (
                             <div key={i}
                                 className="p-6 rounded-xl flex flex-col group transition-all duration-200 hover:shadow-md cursor-default relative"
@@ -784,6 +822,15 @@ export default function Home() {
                                 </div>
                             </div>
                         ))}
+                    </div>
+
+                    <div className="mt-8 p-5 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3" style={{ background: T.light, border: `1px solid ${T.border}` }}>
+                        <p className="text-[13px]" style={{ color: T.gray, fontFamily: 'Poppins, sans-serif' }}>
+                            <strong style={{ color: T.black }}>¿Buscas letreros, merchandising o publicidad impresa?</strong> Eso lo hacemos en nuestra otra marca.
+                        </p>
+                        <a href="https://publicidadtalca.cl" target="_blank" rel="noopener noreferrer" className="text-[13px] font-bold inline-flex items-center gap-1.5 shrink-0" style={{ color: T.blue }}>
+                            Ir a Publicidad Talca <ExternalLink size={13} />
+                        </a>
                     </div>
                 </div>
             </section>

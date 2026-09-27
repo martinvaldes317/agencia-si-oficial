@@ -86,13 +86,13 @@ const SITIO_WEB_JSON_LD = [
     description: 'Página web profesional para Pymes y profesionales: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google.',
     provider: { '@type': 'Organization', name: 'AgenciaSI', url: 'https://agenciasi.cl' },
     areaServed: { '@type': 'Country', name: 'Chile' },
-    offers: { '@type': 'Offer', price: 74990, priceCurrency: 'CLP', url: 'https://agenciasi.cl/sitio-web/', availability: 'https://schema.org/InStock' },
+    offers: { '@type': 'Offer', price: 69990, priceCurrency: 'CLP', url: 'https://agenciasi.cl/sitio-web/', availability: 'https://schema.org/InStock' },
   },
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      ['¿Cuál es el precio?', 'El sitio web profesional cuesta $74.990 + IVA, con dominio .CL y hosting por 1 año incluidos. Es un único valor, sin modalidades ni cobros ocultos.'],
+      ['¿Cuál es el precio?', 'El sitio web profesional cuesta $69.990 + IVA, con dominio .CL y hosting por 1 año incluidos. Es un único valor, sin modalidades ni cobros ocultos.'],
       ['¿Cuánto debo pagar para comenzar?', 'Solo el 50% del valor total como abono para iniciar tu proyecto. El 50% restante se paga al finalizar el sitio web.'],
       ['¿El dominio está incluido?', 'Sí. Incluye un dominio .CL durante el primer año.'],
       ['¿El hosting está incluido?', 'Sí. El hosting está incluido durante el primer año.'],
@@ -113,8 +113,8 @@ const SITIO_WEB_JSON_LD = [
 const SITIO_WEB_PAGES = [
   {
     pathname: '/sitio-web',
-    title: 'Tu Sitio Web Profesional por $74.990 + IVA | AgenciaSI',
-    description: 'Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online por $74.990 + IVA.',
+    title: 'Tu Sitio Web Profesional por $69.990 + IVA | AgenciaSI',
+    description: 'Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online por $69.990 + IVA.',
     robots: 'index, follow',
     jsonLd: SITIO_WEB_JSON_LD,
   },
@@ -173,8 +173,8 @@ console.log(`[generate-seo-html] Generated ${SITIO_WEB_PAGES.length} static /sit
 const STANDALONE_PARENT_PAGES = [
   {
     pathname: '/web',
-    title: 'Páginas Web y Sistemas a Medida desde $74.990 | AgenciaSI Chile',
-    description: 'Creamos páginas web y sistemas a medida para tu negocio en Chile desde $74.990. Entrega en 5 días, dominio incluido, soporte post-entrega. Cotiza por WhatsApp.',
+    title: 'Páginas Web y Sistemas a Medida desde $69.990 | AgenciaSI Chile',
+    description: 'Creamos páginas web y sistemas a medida para tu negocio en Chile desde $69.990. Entrega en 5 días, dominio incluido, soporte post-entrega. Cotiza por WhatsApp.',
     robots: 'index, follow',
   },
 ];

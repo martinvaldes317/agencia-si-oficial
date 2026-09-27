@@ -92,7 +92,7 @@ const DEFAULT_TEMPLATES = [
 ];
 
 const IVA_RATE = 0.19;
-const DEFAULT_NET = 74990;
+const DEFAULT_NET = 69990;
 const DEFAULT_DEPOSIT_PCT = 50;
 
 module.exports = {
