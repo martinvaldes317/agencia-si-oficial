@@ -250,11 +250,8 @@ export default function SitioWebLanding() {
       {/* NAV */}
       <nav className="swl-nav" style={{ position: 'sticky', top: 0, zIndex: 50 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 9 }}>
-            <div style={{ background: FP.blue, borderRadius: 8, width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Code2 size={15} color="#FFFFFF" />
-            </div>
-            <span style={{ fontWeight: 800, fontSize: 15, color: FP.blueD }}>AgenciaSI</span>
+          <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+            <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 28, width: 'auto' }} />
           </Link>
           <a href={WA_ONLINE} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Nav CTA', true)}
             style={{ background: FP.blue, color: '#FFFFFF', fontWeight: 800, fontSize: 13, padding: '9px 18px', borderRadius: 30, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>

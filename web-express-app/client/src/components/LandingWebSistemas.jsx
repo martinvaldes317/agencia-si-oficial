@@ -5,7 +5,7 @@ import {
   Star, Globe, Settings, ShoppingCart,
   LayoutDashboard, Users, Search, Clock, Shield, Smartphone,
   MessageCircle, MapPin, Zap, Package, HeartHandshake,
-  Code2, AlertCircle, CheckCircle2,
+  AlertCircle, CheckCircle2,
   ExternalLink, Calendar, Wrench, BarChart3,
   Building2, Newspaper
 } from 'lucide-react'
@@ -169,11 +169,8 @@ export default function LandingWebSistemas() {
       {/* ── STICKY HEADER ── */}
       <header style={{ position: 'sticky', top: 0, zIndex: 50, background: T.panel, borderBottom: `1px solid ${T.border}`, boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ background: T.blue, borderRadius: 8, width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Code2 size={16} color="#fff" />
-            </div>
-            <span style={{ fontWeight: 800, fontSize: 16, color: T.black, letterSpacing: -.3 }}>AgenciaSI</span>
+          <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+            <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 30, width: 'auto' }} />
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <a href="#precios" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }} className="lws-link">Ver precios</a>
@@ -741,11 +738,8 @@ export default function LandingWebSistemas() {
       {/* ── FOOTER ── */}
       <footer style={{ background: '#000', padding: '28px 20px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-            <div style={{ background: T.blue, borderRadius: 6, width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Code2 size={13} color="#fff" />
-            </div>
-            <span style={{ fontSize: 14, fontWeight: 700, color: T.white }}>AgenciaSI</span>
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 24, width: 'auto' }} />
           </Link>
           <span style={{ fontSize: 12, color: '#6e6e85' }}>© 2026 AgenciaSI · Desarrollo web y sistemas · Chile</span>
           <Link to="/demos" style={{ fontSize: 12, color: '#6e6e85', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>

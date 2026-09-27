@@ -44,10 +44,7 @@ export default function ClientPortal() {
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         {/* Logo */}
         <div className="p-6 border-b border-zinc-800">
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-black text-white tracking-tighter">Agencia</span>
-            <span className="bd-mark text-white text-xl font-black px-1.5 rounded tracking-tighter">SI</span>
-          </div>
+          <img src="/logo-dark.png" alt="AgenciaSi" className="h-8 w-auto" />
           <p className="text-zinc-600 text-xs mt-1">Portal de cliente</p>
         </div>
 
@@ -94,10 +91,7 @@ export default function ClientPortal() {
           <button onClick={() => setSidebarOpen(true)} className="text-white">
             <Menu size={22} />
           </button>
-          <div className="flex items-center gap-1.5">
-            <span className="text-white font-black tracking-tighter">Agencia</span>
-            <span className="bd-mark text-white font-black px-1 rounded text-sm tracking-tighter">SI</span>
-          </div>
+          <img src="/logo-dark.png" alt="AgenciaSi" className="h-6 w-auto" />
           <div className="w-9 h-9 bd-mark text-white rounded-full flex items-center justify-center text-xs font-bold">{initials}</div>
         </header>
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
-import { Clock, XCircle, Code2, ArrowRight, Lock, Eye, EyeOff, Loader2 } from 'lucide-react'
+import { Clock, XCircle, ArrowRight, Lock, Eye, EyeOff, Loader2 } from 'lucide-react'
 import { T, WA_BASE, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
 import ReceiptAnimation from './ReceiptAnimation'
 
@@ -93,11 +93,8 @@ export default function SitioWebConfirmacion() {
       </Helmet>
 
       <div style={{ background: T.navy, padding: '16px 20px' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', maxWidth: 720, margin: '0 auto' }}>
-          <div style={{ background: T.cyan, borderRadius: 7, width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Code2 size={13} color={T.navy} />
-          </div>
-          <span style={{ fontWeight: 800, fontSize: 14, color: T.white }}>AgenciaSI</span>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', maxWidth: 720, margin: '0 auto' }}>
+          <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 22, width: 'auto' }} />
         </Link>
       </div>
 

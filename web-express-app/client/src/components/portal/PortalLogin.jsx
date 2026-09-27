@@ -31,10 +31,7 @@ export default function PortalLogin() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 mb-2">
-            <span className="text-3xl font-black text-white tracking-tighter">Agencia</span>
-            <span className="bg-white text-black bd-btn-grad text-3xl font-black px-2 rounded tracking-tighter">SI</span>
-          </div>
+          <img src="/logo-dark.png" alt="AgenciaSi" className="h-12 w-auto mx-auto mb-2" />
           <p className="text-zinc-500 text-sm mt-2">Portal de clientes</p>
         </div>
 

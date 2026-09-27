@@ -21,10 +21,7 @@ export default function AdminLayout({ active, children }) {
       <aside className="w-64 border-r border-white/5 flex flex-col">
         <div className="p-8">
           <div className="flex items-center gap-2 mb-12">
-            <div className="bd-mark w-6 h-6 flex items-center justify-center rounded-sm">
-              <span className="text-white font-bold text-sm italic">SI</span>
-            </div>
-            <span className="text-white font-bold tracking-tighter text-sm uppercase">Admin Panel</span>
+            <img src="/logo-dark.png" alt="AgenciaSi" className="h-8 w-auto" />
           </div>
 
           <nav className="space-y-1">

@@ -51,10 +51,7 @@ export default function AdminSettings() {
       <div className="min-h-screen bg-black flex items-center justify-center px-4">
         <form onSubmit={handleLogin} className="w-full max-w-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <div className="flex items-center gap-2 mb-8">
-            <div className="bd-mark w-6 h-6 flex items-center justify-center rounded-sm">
-              <span className="text-white font-bold text-sm italic">SI</span>
-            </div>
-            <span className="text-white font-bold tracking-tighter text-sm uppercase">Admin Panel</span>
+            <img src="/logo-dark.png" alt="AgenciaSi" className="h-8 w-auto" />
           </div>
           <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 block mb-2">Contraseña de administrador</label>
           <div className="relative mb-4">

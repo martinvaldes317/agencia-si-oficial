@@ -3,7 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
   ArrowLeft, ArrowRight, Check, Upload, X, Loader2, Store,
-  ShieldCheck, Code2, ChevronDown, Smartphone, Copy, CheckCheck, Mail,
+  ShieldCheck, ChevronDown, Smartphone, Copy, CheckCheck, Mail,
 } from 'lucide-react'
 import { T, WA_BASE, PRICE_SITE, PRICE_STORE, SECTIONS_INCLUDED, PRICE_EXTRA_SECTION, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
 import { trackEvent } from '../../lib/analytics'
@@ -411,11 +411,8 @@ export default function SitioWebWizard() {
       {/* NAV */}
       <div style={{ background: T.navy, padding: '14px 20px' }}>
         <div style={{ maxWidth: 720, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Link to="/sitio-web" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ background: T.cyan, borderRadius: 7, width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Code2 size={13} color={T.navy} />
-            </div>
-            <span style={{ fontWeight: 800, fontSize: 14, color: T.white }}>AgenciaSI</span>
+          <Link to="/sitio-web" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+            <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 22, width: 'auto' }} />
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             {step <= TOTAL_STEPS && (
