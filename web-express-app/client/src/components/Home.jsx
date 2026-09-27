@@ -692,8 +692,9 @@ export default function Home() {
                         <SectionLabel>Proyectos</SectionLabel>
                         <H2 className="text-4xl md:text-5xl max-w-2xl">Proyectos reales, funcionando en Chile.</H2>
                     </div>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {[
+                            { name: 'Espacio CEA', url: 'https://espaciocea.com', tag: 'Plataforma web', logo: '/clientes/espacio-cea.svg', desc: 'Plataforma de un centro de intervención virtual especializado en Análisis Aplicado de la Conducta, con capacitaciones y acceso para usuarios.' },
                             { name: 'NowPOS', url: 'https://nowpos.cl', tag: 'Sistema de caja (POS)', logo: '/clientes/now-pos.png', desc: 'Sistema POS para almacenes y minimarkets: lector de código de barras, control de inventario, cierre de caja y modo offline.' },
                             { name: 'Consonancia', url: 'https://consonancia.cl', tag: 'Software para psicólogos', desc: 'Solución digital para psicólogos, pensada para el manejo de historiales clínicos.' },
                             { name: 'CFT Araucanía', url: 'https://cftaraucania.cl', tag: 'Sitio institucional', logo: '/clientes/cft-araucania.svg', desc: 'Sitio institucional de un centro de formación técnica: proyecto educativo, apoyo al estudiante y transparencia activa.' },
