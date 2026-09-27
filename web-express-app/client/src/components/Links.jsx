@@ -15,18 +15,18 @@ const T = {
 
 const services = [
     {
-        icon: TrendingUp,
-        label: 'Meta & Google Ads',
-        sub: 'Campañas que generan ventas reales',
+        icon: Code2,
+        label: 'Sistemas y plataformas a medida',
+        sub: 'Software de gestión, plataformas web e IA',
         href: '/#contact',
         external: false,
         variant: 'primary',
     },
     {
-        icon: Search,
-        label: 'Diagnóstico SEO Gratuito',
-        sub: 'Descubre dónde estás en Google',
-        to: '/diagnostico-seo',
+        icon: Globe,
+        label: 'Web Express desde $69.990 + IVA',
+        sub: 'Tu página web profesional, dominio y hosting incluidos',
+        to: '/sitio-web',
         variant: 'white',
     },
     {
@@ -37,16 +37,9 @@ const services = [
         variant: 'outline',
     },
     {
-        icon: Globe,
-        label: 'WordPress & SEO Técnico',
-        sub: 'Optimización avanzada para posicionarte',
-        href: '/#contact',
-        variant: 'outline',
-    },
-    {
-        icon: Sparkles,
-        label: 'Gestión de Redes Sociales',
-        sub: 'Estrategia, contenido y pauta',
+        icon: TrendingUp,
+        label: 'Meta & Google Ads',
+        sub: 'Campañas como complemento de tu sistema o sitio',
         href: '/#contact',
         variant: 'outline',
     },
@@ -154,16 +147,16 @@ export default function Links() {
                     marginBottom: '24px',
                     textAlign: 'center',
                 }}>
-                    <p style={{ color: T.yellow, fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', margin: '0 0 6px' }}>Oferta especial</p>
-                    <p style={{ color: T.white, fontWeight: 700, fontSize: '16px', margin: '0 0 4px' }}>Diagnóstico SEO 100% gratuito</p>
-                    <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '12px', margin: '0 0 16px' }}>Descubre cómo aparecer primero en Google</p>
-                    <Link to="/diagnostico-seo" style={{
+                    <p style={{ color: T.yellow, fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', margin: '0 0 6px' }}>Web Express</p>
+                    <p style={{ color: T.white, fontWeight: 700, fontSize: '16px', margin: '0 0 4px' }}>Tu sitio web profesional desde $69.990 + IVA</p>
+                    <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '12px', margin: '0 0 16px' }}>Dominio .CL y hosting por 1 año incluidos</p>
+                    <Link to="/sitio-web" style={{
                         display: 'inline-flex', alignItems: 'center', gap: '8px',
                         padding: '11px 24px', borderRadius: '99px',
                         background: T.white, color: T.black,
                         fontWeight: 700, fontSize: '13px', textDecoration: 'none',
                     }}>
-                        Solicitar gratis <ArrowRight size={14} />
+                        Ver detalles <ArrowRight size={14} />
                     </Link>
                 </div>
 

@@ -167,9 +167,9 @@ export default function HomeSEOLocal({ city }) {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: T.border }}>
               {[
-                { label: 'Proyectos entregados', value: '50+',    sub: 'sitios, sistemas y apps', hi: true },
-                { label: 'Presencia',            value: 'LATAM',  sub: 'clientes en Chile y LATAM', hi: true },
-                { label: 'Proyectos activos',    value: '60+',    sub: 'en Chile y LATAM',        hi: false },
+                { label: 'Proyectos entregados', value: '60+',    sub: 'sitios, sistemas y apps', hi: true },
+                { label: 'Proveedor del Estado', value: 'ChileCompra',  sub: 'licitaciones ganadas', hi: true },
+                { label: 'Proyectos activos',    value: '60+',    sub: 'sitios, sistemas y plataformas',        hi: false },
                 { label: 'Tecnologías',          value: '12+',    sub: 'React, Node, IA y más',   hi: false },
               ].map(s => (
                 <div key={s.label} style={{ background: T.white, padding: '24px' }}>
@@ -191,8 +191,8 @@ export default function HomeSEOLocal({ city }) {
       <div style={{ borderTop: `1px solid ${T.border}`, borderBottom: `1px solid ${T.border}`, background: T.light, padding: '28px 24px' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, textAlign: 'center' }} className="hsl-stats-grid">
           {[
-            { value: '50+',    label: 'Proyectos entregados' },
-            { value: 'LATAM',  label: 'Clientes en Chile y LATAM' },
+            { value: '60+',    label: 'Proyectos entregados' },
+            { value: 'ChileCompra',  label: 'Proveedor del Estado' },
             { value: '60+',    label: 'Proyectos activos' },
             { value: '100%',   label: 'Código propio' },
           ].map(s => (

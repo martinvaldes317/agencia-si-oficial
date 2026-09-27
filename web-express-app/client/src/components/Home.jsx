@@ -3,10 +3,10 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
-    Menu, X, BrainCircuit, Code2, Globe, Palette,
-    TrendingUp, Sparkles, Video, MapPin, MessageSquare, Mail,
+    Menu, X, BrainCircuit, Code2, Globe, 
+    TrendingUp, Sparkles, MapPin, MessageSquare, Mail,
     ArrowRight, LogIn, ShoppingCart, CheckCircle2,
-    BarChart3, Zap, Shield, Search, ExternalLink
+    BarChart3, Zap, Shield, ExternalLink
 } from 'lucide-react'
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
@@ -18,7 +18,6 @@ const T = {
     white: '#FFFFFF',
     border: '#E8E8F0',
 }
-const YELLOW = '#FACC15'
 
 // ── Primitives ────────────────────────────────────────────────────────────────
 const Label = ({ children, color = T.blue }) => (
@@ -59,170 +58,6 @@ const H2 = ({ children, className = '', style = {} }) => (
     </h2>
 )
 
-// ── SEO Diagnostic Modal ──────────────────────────────────────────────────────
-const YellowBtn = ({ children, onClick, disabled = false }) => (
-    <button type="button" onClick={onClick} disabled={disabled}
-        className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold tracking-wide transition-all active:scale-[0.98]"
-        style={{
-            background: disabled ? T.border : YELLOW,
-            color: disabled ? T.gray : T.blue,
-            cursor: disabled ? 'not-allowed' : 'pointer',
-            fontFamily: 'Poppins, sans-serif',
-        }}>
-        {children}
-    </button>
-)
-
-const SEO_OPTS = {
-    industry:      ['Salud y bienestar', 'E-commerce / Tienda online', 'Servicios profesionales', 'Turismo y hotelería', 'Inmobiliario', 'Restaurantes y gastronomía', 'Educación', 'Tecnología', 'Construcción', 'Otro'],
-    timeOnline:    ['No tengo sitio web aún', 'Menos de 1 año', '1 a 3 años', 'Más de 3 años'],
-    monthlyVisits: ['No sé / Sin acceso a datos', 'Menos de 500', '500 – 2.000', '2.000 – 10.000', 'Más de 10.000'],
-    currentSeo:    ['No, nunca he trabajado el SEO', 'Algo básico pero informal', 'Sí, alguien lo gestiona', 'Lo gestiono yo mismo', 'No sé'],
-    geoTarget:     ['Local (mi ciudad/región)', 'Nacional (Chile)', 'Latinoamérica', 'Internacional'],
-    goal:          ['Aparecer en primeros resultados de Google', 'Conseguir más leads o consultas', 'Aumentar ventas directas', 'Mejorar visibilidad de marca', 'Reducir dependencia de publicidad pagada'],
-    budget:        ['No tengo definido', '$50.000 – $150.000 CLP/mes', '$150.000 – $300.000 CLP/mes', '$300.000 – $600.000 CLP/mes', 'Más de $600.000 CLP/mes'],
-}
-
-const MODAL_STEPS = [
-    { title: 'Datos de contacto',  sub: 'Para enviarte el diagnóstico personalizado' },
-    { title: 'Tu sitio web',        sub: 'Situación digital actual de tu empresa' },
-    { title: 'Objetivos SEO',       sub: 'Qué quieres lograr con posicionamiento orgánico' },
-]
-
-const SEO_INITIAL = { name: '', email: '', phone: '', company: '', website: '', industry: '', timeOnline: '', monthlyVisits: '', currentSeo: '', geoTarget: '', goal: '', budget: '', competitors: '' }
-
-const SeoDiagnosticModal = ({ onClose }) => {
-    const [step, setStep]     = useState(0)
-    const [status, setStatus] = useState('')
-    const [fd, setFd]         = useState(SEO_INITIAL)
-
-    const set = k => e => setFd(p => ({ ...p, [k]: e.target.value }))
-    const onFocus = e => { e.target.style.borderBottomColor = T.blue }
-    const onBlur  = e => { e.target.style.borderBottomColor = T.border }
-
-    const iBase = { width: '100%', padding: '12px 0', background: 'transparent', border: 'none', borderBottom: `2px solid ${T.border}`, outline: 'none', fontSize: '13px', color: T.black, fontFamily: 'Poppins, sans-serif', transition: 'border-color 0.2s' }
-    const sBase = { ...iBase, background: 'white', cursor: 'pointer' }
-
-    const canNext = [
-        !!(fd.name.trim() && fd.email.trim() && fd.phone.trim()),
-        !!(fd.industry && fd.geoTarget),
-        !!(fd.goal && fd.budget),
-    ]
-
-    const submit = async () => {
-        if (!canNext[2] || status === 'sending') return
-        setStatus('sending')
-        try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/seo-diagnostic`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(fd),
-            })
-            setStatus(res.ok ? 'success' : 'error')
-        } catch { setStatus('error') }
-    }
-
-    const FL = ({ label, req }) => (
-        <label style={{ display: 'block', marginBottom: '6px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: T.gray }}>
-            {label}{req && <span style={{ color: T.blue }}> *</span>}
-        </label>
-    )
-
-    return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-            style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(6px)' }}
-            onClick={e => e.target === e.currentTarget && onClose()}>
-            <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl"
-                style={{ maxHeight: '92vh', overflowY: 'auto' }}>
-
-                {/* Header */}
-                <div style={{ padding: '24px 28px 20px', background: T.blue }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '18px' }}>
-                        <div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-                                <Search size={12} color="rgba(255,255,255,0.6)" />
-                                <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.6)' }}>Diagnóstico SEO Gratuito</span>
-                            </div>
-                            <h3 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: '20px', color: '#fff', margin: 0 }}>{MODAL_STEPS[step].title}</h3>
-                            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', margin: '2px 0 0' }}>{MODAL_STEPS[step].sub}</p>
-                        </div>
-                        <button type="button" onClick={onClose}
-                            style={{ padding: '6px', borderRadius: '8px', background: 'rgba(255,255,255,0.15)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '12px' }}>
-                            <X size={16} color="white" />
-                        </button>
-                    </div>
-                    {/* Steps */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        {MODAL_STEPS.map((_, i) => (
-                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <div style={{ width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 700, background: i <= step ? YELLOW : 'rgba(255,255,255,0.2)', color: i <= step ? T.blue : 'rgba(255,255,255,0.4)', transition: 'all 0.2s' }}>
-                                    {i < step ? '✓' : i + 1}
-                                </div>
-                                {i < MODAL_STEPS.length - 1 && (
-                                    <div style={{ width: '36px', height: '2px', borderRadius: '99px', background: i < step ? YELLOW : 'rgba(255,255,255,0.2)' }} />
-                                )}
-                            </div>
-                        ))}
-                        <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginLeft: '4px' }}>{step + 1} / {MODAL_STEPS.length}</span>
-                    </div>
-                </div>
-
-                {/* Body */}
-                <div style={{ padding: '28px' }}>
-                    {status === 'success' ? (
-                        <div style={{ textAlign: 'center', padding: '32px 0' }}>
-                            <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
-                                <CheckCircle2 size={28} style={{ color: '#16a34a' }} />
-                            </div>
-                            <h3 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: '20px', color: T.black, margin: '0 0 8px' }}>¡Diagnóstico recibido!</h3>
-                            <p style={{ fontSize: '13px', color: T.gray, margin: '0 0 24px', lineHeight: 1.6 }}>Te contactaremos en menos de 24 horas con tu diagnóstico personalizado.</p>
-                            <YellowBtn onClick={onClose}>Cerrar</YellowBtn>
-                        </div>
-                    ) : (
-                        <>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                                {step === 0 && <>
-                                    <div><FL label="Nombre completo" req /><input type="text" placeholder="Juan Pérez" value={fd.name} onChange={set('name')} onFocus={onFocus} onBlur={onBlur} style={iBase} autoComplete="name" /></div>
-                                    <div><FL label="Correo electrónico" req /><input type="email" placeholder="tu@empresa.cl" value={fd.email} onChange={set('email')} onFocus={onFocus} onBlur={onBlur} style={iBase} autoComplete="email" /></div>
-                                    <div><FL label="Teléfono / WhatsApp" req /><input type="tel" placeholder="+56 9 XXXX XXXX" value={fd.phone} onChange={set('phone')} onFocus={onFocus} onBlur={onBlur} style={iBase} autoComplete="tel" /></div>
-                                    <div><FL label="Empresa o marca" /><input type="text" placeholder="Nombre de tu empresa" value={fd.company} onChange={set('company')} onFocus={onFocus} onBlur={onBlur} style={iBase} autoComplete="organization" /></div>
-                                </>}
-                                {step === 1 && <>
-                                    <div><FL label="URL de tu sitio web" /><input type="url" placeholder="https://www.tuempresa.cl" value={fd.website} onChange={set('website')} onFocus={onFocus} onBlur={onBlur} style={iBase} autoComplete="url" /></div>
-                                    <div><FL label="Industria / sector" req /><select value={fd.industry} onChange={set('industry')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.industry.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
-                                    <div><FL label="¿Cuánto tiempo lleva tu sitio online?" /><select value={fd.timeOnline} onChange={set('timeOnline')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.timeOnline.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
-                                    <div><FL label="Visitas mensuales aproximadas" /><select value={fd.monthlyVisits} onChange={set('monthlyVisits')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.monthlyVisits.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
-                                    <div><FL label="¿Tienen estrategia SEO actualmente?" /><select value={fd.currentSeo} onChange={set('currentSeo')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.currentSeo.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
-                                    <div><FL label="Zona geográfica objetivo" req /><select value={fd.geoTarget} onChange={set('geoTarget')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.geoTarget.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
-                                </>}
-                                {step === 2 && <>
-                                    <div><FL label="Objetivo principal con SEO" req /><select value={fd.goal} onChange={set('goal')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.goal.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
-                                    <div><FL label="Presupuesto mensual estimado" req /><select value={fd.budget} onChange={set('budget')} onFocus={onFocus} onBlur={onBlur} style={sBase}><option value="">Selecciona</option>{SEO_OPTS.budget.map(o => <option key={o} value={o}>{o}</option>)}</select></div>
-                                    <div><FL label="Competidores que conoces (opcional)" /><textarea placeholder="Ej: empresa1.cl, empresa2.cl..." value={fd.competitors} onChange={set('competitors')} onFocus={onFocus} onBlur={onBlur} rows={3} style={{ ...iBase, resize: 'none', lineHeight: 1.6 }} /></div>
-                                </>}
-                            </div>
-
-                            <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                {step > 0
-                                    ? <button type="button" onClick={() => setStep(s => s - 1)} style={{ fontSize: '13px', fontWeight: 600, color: T.gray, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Poppins, sans-serif' }}>← Volver</button>
-                                    : <div />}
-                                {step < 2
-                                    ? <YellowBtn onClick={() => canNext[step] && setStep(s => s + 1)} disabled={!canNext[step]}>Continuar <ArrowRight size={14} /></YellowBtn>
-                                    : <YellowBtn onClick={submit} disabled={!canNext[2] || status === 'sending'}>{status === 'sending' ? 'Enviando...' : 'Solicitar diagnóstico →'}</YellowBtn>}
-                            </div>
-
-                            {status === 'error' && (
-                                <p style={{ fontSize: '12px', textAlign: 'center', marginTop: '10px', fontWeight: 600, color: '#ef4444' }}>
-                                    Error al enviar. Contáctanos por WhatsApp.
-                                </p>
-                            )}
-                        </>
-                    )}
-                </div>
-            </div>
-        </div>
-    )
-}
-
 // ── Navbar ────────────────────────────────────────────────────────────────────
 const Navbar = () => {
     const [scroll, setScroll] = useState(false)
@@ -235,10 +70,9 @@ const Navbar = () => {
     }, [])
 
     const links = [
+        { label: 'Proyectos', id: 'cases' },
         { label: 'Servicios', id: 'services' },
         { label: 'Metodología', id: 'methodology' },
-        { label: 'Resultados', id: 'cases' },
-        { label: 'Equipo', id: 'about' },
         { label: 'Contacto', id: 'contact' },
     ]
 
@@ -269,7 +103,7 @@ const Navbar = () => {
                             style={{ color: T.blue, fontFamily: 'Poppins, sans-serif' }}>
                             <LogIn size={13} /> Portal
                         </Link>
-                        <PrimaryBtn href="#contact" small>Cotización gratuita</PrimaryBtn>
+                        <PrimaryBtn href="#contact" small>Agenda una conversación</PrimaryBtn>
                     </div>
 
                     <button onClick={() => setOpen(!open)} className="md:hidden p-2 rounded-lg transition-colors hover:bg-gray-100" style={{ color: T.black }}>
@@ -298,7 +132,7 @@ const Navbar = () => {
                             <LogIn size={15} /> Portal clientes
                         </Link>
                         <PrimaryBtn href="#contact" className="w-full py-4" onClick={() => setOpen(false)}>
-                            Cotización gratuita
+                            Agenda una conversación
                         </PrimaryBtn>
                     </div>
                 </div>
@@ -321,7 +155,7 @@ const Footer = () => (
                     </p>
                     <p className="text-xs" style={{ color: '#444', fontFamily: 'Poppins, sans-serif' }}>
                         San Clemente, Región del Maule — Chile<br />
-                        Cobertura: Chile · Latinoamérica · Internacional
+                        Cobertura: todo Chile, de forma remota
                     </p>
                 </div>
                 <div>
@@ -351,7 +185,7 @@ const Footer = () => (
                         <li className="text-xs" style={{ color: '#555' }}>www.agenciasi.cl</li>
                     </ul>
                     <div className="mt-6">
-                        <PrimaryBtn href="#contact" small>Cotización gratuita</PrimaryBtn>
+                        <PrimaryBtn href="#contact" small>Agenda una conversación</PrimaryBtn>
                     </div>
                 </div>
             </div>
@@ -375,11 +209,27 @@ const Footer = () => (
     </footer>
 )
 
+const PROJECT_TYPES = [
+    'Un sistema de gestión a medida',
+    'Una plataforma web (usuarios, cursos, membresías)',
+    'Una tienda online (e-commerce)',
+    'Automatización o integración con IA',
+    'Un sitio web simple',
+    'Otro / aún no lo tengo claro',
+]
+const BUDGETS = [
+    'Aún no lo sé',
+    'Menos de $1.000.000 CLP',
+    '$1.000.000 – $3.500.000 CLP',
+    '$3.500.000 – $7.000.000 CLP',
+    'Más de $7.000.000 CLP',
+]
+const FORM_INITIAL = { name: '', company: '', phone: '', email: '', message: '', projectType: PROJECT_TYPES[0], budget: BUDGETS[0] }
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function Home() {
-    const [form, setForm] = useState({ name: '', company: '', phone: '', email: '', message: '', budget: '$500.000 - $1.500.000 CLP' })
+    const [form, setForm] = useState(FORM_INITIAL)
     const [status, setStatus] = useState('')
-    const [showSeoModal, setShowSeoModal] = useState(false)
     const [showWaTooltip, setShowWaTooltip] = useState(false)
 
     useEffect(() => {
@@ -398,17 +248,15 @@ export default function Home() {
             const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/contact`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...form, recaptchaToken: token })
+                body: JSON.stringify({ ...form, message: `Tipo de proyecto: ${form.projectType}${form.message ? `\n\n${form.message}` : ''}`, recaptchaToken: token })
             })
             setStatus(res.ok ? 'success' : 'error')
-            if (res.ok) setForm({ name: '', company: '', phone: '', email: '', message: '', budget: '$500.000 - $1.500.000 CLP' })
+            if (res.ok) setForm(FORM_INITIAL)
         } catch { setStatus('error') }
     }, [executeRecaptcha, form])
 
     return (
         <div className="antialiased overflow-x-hidden" style={{ background: T.white, color: T.black, fontFamily: 'Poppins, sans-serif' }}>
-            {showSeoModal && <SeoDiagnosticModal onClose={() => setShowSeoModal(false)} />}
-
             {/* WhatsApp floating button */}
             <div className="fixed bottom-8 left-6 z-50 flex items-center gap-3" style={{ pointerEvents: 'none' }}>
                 {/* Button */}
@@ -493,7 +341,7 @@ export default function Home() {
                             </h1>
 
                             <p className="text-lg leading-relaxed mb-10 max-w-xl" style={{ color: T.gray }}>
-                                Plataformas, sistemas de gestión y aplicaciones a medida que automatizan procesos, venden y escalan tu operación. Código propio, sin templates, sin humo.
+                                Plataformas, sistemas de gestión y aplicaciones a medida que automatizan procesos y escalan tu operación.
                             </p>
 
                             <div className="flex flex-col sm:flex-row gap-3 mb-12">
@@ -512,8 +360,8 @@ export default function Home() {
                             <div className="flex flex-wrap items-center gap-5">
                                 {[
                                     { icon: CheckCircle2, text: 'Código propio' },
-                                    { icon: Shield,       text: 'Sin templates' },
-                                    { icon: BarChart3,    text: 'Resultados medibles' },
+                                    { icon: Shield,       text: 'Proveedor del Estado' },
+                                    { icon: BarChart3,    text: '60+ proyectos entregados' },
                                 ].map(({ icon: Icon, text }) => (
                                     <div key={text} className="flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: T.gray }}>
                                         <Icon size={14} style={{ color: T.blue }} /> {text}
@@ -527,15 +375,14 @@ export default function Home() {
                             <div className="rounded-2xl overflow-hidden shadow-2xl" style={{ border: `1px solid ${T.border}` }}>
                                 {/* Card header */}
                                 <div className="px-7 py-5 flex items-center justify-between" style={{ background: T.blue }}>
-                                    <span className="text-white font-bold text-sm" style={{ fontFamily: 'Poppins, sans-serif' }}>Dashboard AgenciaSi</span>
-                                    <span className="text-[11px] px-3 py-1 rounded-full font-semibold" style={{ background: 'rgba(255,255,255,0.2)', color: '#fff' }}>En vivo</span>
+                                    <span className="text-white font-bold text-sm" style={{ fontFamily: 'Poppins, sans-serif' }}>AgenciaSi en cifras</span>
                                 </div>
                                 {/* Stats grid */}
                                 <div className="grid grid-cols-2 gap-px bg-gray-100">
                                     {[
                                         { label: 'Proyectos entregados', value: '60+',   sub: 'sitios, sistemas y apps', up: true },
-                                        { label: 'Presencia digital',    value: 'Chile',  sub: 'y clientes en LATAM',       up: true },
-                                        { label: 'Proyectos activos',    value: '60+',   sub: 'en Chile y LATAM',        up: null },
+                                        { label: 'Proveedor del Estado', value: 'ChileCompra', sub: 'licitaciones ganadas',       up: true },
+                                        { label: 'Proyectos activos',    value: '60+',   sub: 'sitios, sistemas y plataformas',        up: null },
                                         { label: 'Tecnologías',          value: '12+',   sub: 'React, Node, IA y más',   up: null },
                                     ].map(stat => (
                                         <div key={stat.label} className="bg-white p-6">
@@ -558,13 +405,49 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* ═══ PROYECTOS ══════════════════════════════════════════════════ */}
+            <section id="cases" className="py-24 md:py-32 px-5 md:px-10 bg-white">
+                <div className="max-w-7xl mx-auto">
+                    <div className="mb-14">
+                        <SectionLabel>Proyectos</SectionLabel>
+                        <H2 className="text-4xl md:text-5xl max-w-2xl">Proyectos reales, funcionando en Chile.</H2>
+                    </div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        {[
+                            { name: 'Espacio CEA', url: 'https://espaciocea.com', tag: 'Plataforma web', logo: '/clientes/espacio-cea.svg', desc: 'Plataforma de un centro de intervención virtual especializado en Análisis Aplicado de la Conducta, con capacitaciones y acceso para usuarios.' },
+                            { name: 'MOVERSER', url: 'https://moverserstudio.com', tag: 'Plataforma de membresía', desc: 'Biblioteca de clases online de Pilates, movilidad, flexibilidad y danza, con membresía de acceso ilimitado.' },
+                            { name: 'NowPOS', url: 'https://nowpos.cl', tag: 'Sistema de caja (POS)', logo: '/clientes/now-pos.png', desc: 'Sistema POS para almacenes y minimarkets: lector de código de barras, control de inventario, cierre de caja y modo offline.' },
+                            { name: 'Consonancia', url: 'https://consonancia.cl', tag: 'Software para psicólogos', desc: 'Solución digital para psicólogos, pensada para el manejo de historiales clínicos.' },
+                            { name: 'CFT Araucanía', url: 'https://cftaraucania.cl', tag: 'Sitio institucional', logo: '/clientes/cft-araucania.svg', desc: 'Sitio institucional de un centro de formación técnica: proyecto educativo, apoyo al estudiante y transparencia activa.' },
+                            { name: 'Publicidad Talca', url: 'https://publicidadtalca.cl', tag: 'Catálogo y sitio comercial', desc: 'Sitio de merchandising y publicidad para empresas de todo Chile, con catálogo de productos.' },
+                        ].map(c => (
+                            <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer"
+                                className="group p-6 rounded-2xl flex flex-col transition-all hover:shadow-lg hover:-translate-y-0.5"
+                                style={{ border: `1px solid ${T.border}` }}>
+                                <div className="h-12 mb-5 flex items-center">
+                                    {c.logo
+                                        ? <img src={c.logo} alt={c.name} className="max-h-10 max-w-[150px] object-contain" />
+                                        : <span className="text-xl font-bold" style={{ fontFamily: 'Playfair Display, serif', color: T.blue }}>{c.name}</span>}
+                                </div>
+                                <span className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: T.blue, fontFamily: 'Poppins, sans-serif' }}>{c.tag}</span>
+                                <h3 className="text-lg font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif', color: T.black }}>{c.name}</h3>
+                                <p className="text-[13px] leading-relaxed flex-grow mb-5" style={{ color: T.gray }}>{c.desc}</p>
+                                <span className="text-[12px] font-bold inline-flex items-center gap-1.5" style={{ color: T.blue }}>
+                                    Ver sitio <ExternalLink size={12} />
+                                </span>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* ═══ STATS BAR ══════════════════════════════════════════════════ */}
             <div className="border-y" style={{ borderColor: T.border, background: T.light }}>
                 <div className="max-w-7xl mx-auto px-5 md:px-10 py-8">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
                         {[
                             { value: '60+',    label: 'Proyectos entregados' },
-                            { value: 'LATAM',  label: 'Clientes en Chile y LATAM' },
+                            { value: 'ChileCompra',  label: 'Proveedor del Estado' },
                             { value: '60+',    label: 'Proyectos activos' },
                             { value: '100%',   label: 'Código propio, sin templates' },
                         ].map(s => (
@@ -613,15 +496,15 @@ export default function Home() {
                                 Tu negocio merece más que un template.
                             </H2>
                             <p className="text-base leading-relaxed mb-10" style={{ color: T.gray }}>
-                                La mayoría de agencias te vende un WordPress con un theme comprado. Nosotros construimos <strong style={{ color: T.black }}>desde cero</strong> — código limpio, arquitectura pensada para tu negocio y resultados medibles desde el primer mes.
+                                La mayoría de agencias te vende un WordPress con un theme comprado. Nosotros construimos <strong style={{ color: T.black }}>desde cero</strong>: código limpio y una arquitectura pensada para la operación de tu negocio.
                             </p>
 
                             <div className="space-y-5">
                                 {[
                                     { icon: Code2,      title: 'Desarrollo a medida',     desc: 'Cada proyecto es único. Diseñamos y construimos la solución exacta que tu negocio necesita.' },
-                                    { icon: Zap,        title: 'Entrega rápida y real',    desc: 'Plazos claros desde el primer día. Proyectos complejos entregados a tiempo, siempre.' },
+                                    { icon: Zap,        title: 'Plazos claros',            desc: 'Acordamos el plazo por escrito antes de comenzar y nos comprometemos a cumplirlo.' },
                                     { icon: BrainCircuit, title: 'Integración con IA',     desc: 'Automatizaciones, chatbots y flujos inteligentes que reducen tu carga operativa.' },
-                                    { icon: TrendingUp, title: 'Foco en conversión',       desc: 'No solo "se ve bien". Cada sitio y sistema está diseñado para generar clientes y ventas.' },
+                                    { icon: Shield,     title: 'Soporte post-lanzamiento', desc: 'Te acompañamos después de la entrega para que todo funcione desde el primer día.' },
                                 ].map(({ icon: Icon, title, desc }) => (
                                     <div key={title} className="flex gap-4 p-4 rounded-xl transition-all hover:bg-gray-50">
                                         <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
@@ -647,14 +530,14 @@ export default function Home() {
                                     Código propio. <em className="font-normal">Resultados reales.</em>
                                 </H2>
                                 <p className="text-sm leading-relaxed mb-7" style={{ color: 'rgba(255,255,255,0.65)' }}>
-                                    Diseñamos, construimos y lanzamos tu plataforma digital con foco en conversión. Sin templates, sin dependencias, sin humo.
+                                    Diseñamos, construimos y lanzamos tu plataforma digital, y te acompañamos después de la entrega.
                                 </p>
 
                                 {/* Mini stats */}
                                 <div className="grid grid-cols-3 gap-3 mb-7">
                                     {[
                                         { val: '60+',    lbl: 'Proyectos entregados' },
-                                        { val: 'LATAM',  lbl: 'Clientes en LATAM' },
+                                        { val: 'ChileCompra',  lbl: 'Proveedor del Estado' },
                                         { val: '60+',    lbl: 'Proyectos activos' },
                                     ].map(s => (
                                         <div key={s.lbl} className="rounded-xl p-4 text-center" style={{ background: 'rgba(0,0,0,0.2)' }}>
@@ -674,49 +557,13 @@ export default function Home() {
                                 </div>
                             </div>
                             <div className="px-8 md:px-10 py-5 flex items-center justify-between" style={{ background: 'rgba(0,0,0,0.25)' }}>
-                                <span className="text-sm font-semibold opacity-70 text-white">Diagnóstico gratuito</span>
+                                <span className="text-sm font-semibold opacity-70 text-white">¿Tienes un proyecto en mente?</span>
                                 <a href="#contact" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold"
                                     style={{ background: '#fff', color: T.blue }}>
-                                    Agendar <ArrowRight size={14} />
+                                    Conversemos <ArrowRight size={14} />
                                 </a>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ═══ PROYECTOS ══════════════════════════════════════════════════ */}
-            <section id="cases" className="py-24 md:py-32 px-5 md:px-10 bg-white">
-                <div className="max-w-7xl mx-auto">
-                    <div className="mb-14">
-                        <SectionLabel>Proyectos</SectionLabel>
-                        <H2 className="text-4xl md:text-5xl max-w-2xl">Proyectos reales, funcionando en Chile.</H2>
-                    </div>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-                        {[
-                            { name: 'Espacio CEA', url: 'https://espaciocea.com', tag: 'Plataforma web', logo: '/clientes/espacio-cea.svg', desc: 'Plataforma de un centro de intervención virtual especializado en Análisis Aplicado de la Conducta, con capacitaciones y acceso para usuarios.' },
-                            { name: 'MOVERSER', url: 'https://moverserstudio.com', tag: 'Plataforma de membresía', desc: 'Biblioteca de clases online de Pilates, movilidad, flexibilidad y danza, con membresía de acceso ilimitado.' },
-                            { name: 'NowPOS', url: 'https://nowpos.cl', tag: 'Sistema de caja (POS)', logo: '/clientes/now-pos.png', desc: 'Sistema POS para almacenes y minimarkets: lector de código de barras, control de inventario, cierre de caja y modo offline.' },
-                            { name: 'Consonancia', url: 'https://consonancia.cl', tag: 'Software para psicólogos', desc: 'Solución digital para psicólogos, pensada para el manejo de historiales clínicos.' },
-                            { name: 'CFT Araucanía', url: 'https://cftaraucania.cl', tag: 'Sitio institucional', logo: '/clientes/cft-araucania.svg', desc: 'Sitio institucional de un centro de formación técnica: proyecto educativo, apoyo al estudiante y transparencia activa.' },
-                            { name: 'Publicidad Talca', url: 'https://publicidadtalca.cl', tag: 'Catálogo y sitio comercial', desc: 'Sitio de merchandising y publicidad para empresas de todo Chile, con catálogo de productos.' },
-                        ].map(c => (
-                            <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer"
-                                className="group p-6 rounded-2xl flex flex-col transition-all hover:shadow-lg hover:-translate-y-0.5"
-                                style={{ border: `1px solid ${T.border}` }}>
-                                <div className="h-12 mb-5 flex items-center">
-                                    {c.logo
-                                        ? <img src={c.logo} alt={c.name} className="max-h-10 max-w-[150px] object-contain" />
-                                        : <span className="text-xl font-bold" style={{ fontFamily: 'Playfair Display, serif', color: T.blue }}>{c.name}</span>}
-                                </div>
-                                <span className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: T.blue, fontFamily: 'Poppins, sans-serif' }}>{c.tag}</span>
-                                <h3 className="text-lg font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif', color: T.black }}>{c.name}</h3>
-                                <p className="text-[13px] leading-relaxed flex-grow mb-5" style={{ color: T.gray }}>{c.desc}</p>
-                                <span className="text-[12px] font-bold inline-flex items-center gap-1.5" style={{ color: T.blue }}>
-                                    Ver sitio <ExternalLink size={12} />
-                                </span>
-                            </a>
-                        ))}
                     </div>
                 </div>
             </section>
@@ -787,12 +634,12 @@ export default function Home() {
                     {/* Service grid */}
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                         {[
-                            { icon: BrainCircuit, title: 'Plan de Crecimiento Digital', desc: 'Diagnóstico estratégico pagado: auditamos tu situación actual y entregamos un plan de acción con metas, canales y presupuesto en 5 días.', price: 'Desde $150.000', color: T.blue, highlight: true },
-                            { icon: Sparkles,     title: 'Ecosistemas IA',      desc: 'Automatizaciones, CRM y flujos con inteligencia artificial para vender más con menos fricción.',               price: 'Cotizar',   color: T.blue   },
-                            { icon: ShoppingCart, title: 'E-commerce',          desc: 'Tiendas que venden. Integración con Webpay y Mercado Pago, arquitectura pensada para maximizar conversión.',   price: 'Cotizar',   color: '#5DCAA5' },
-                            { icon: Globe,        title: 'WordPress & SEO',     desc: 'Posicionamiento orgánico real. SEO técnico avanzado, plugins a medida y optimización continua.',             price: 'Cotizar',   color: '#7F77DD' },
-                            { icon: TrendingUp,   title: 'Meta & Google Ads',   desc: 'Gestión de campañas pagas con foco en ROAS y rentabilidad, como complemento de tu sistema o sitio.',         price: 'Cotizar',   color: '#7F77DD' },
-                            { icon: Code2,        title: 'Web Express',         desc: 'Página web profesional lista para publicar: dominio .CL y hosting por 1 año incluidos. Ideal para partir.',    price: 'Desde $69.990 + IVA', color: '#7F77DD', href: '/sitio-web' },
+                            { icon: BarChart3,    title: 'Software de gestión',        desc: 'Sistemas internos y de caja a medida: inventario, historiales, reportes y control de tu operación, como NowPOS y Consonancia.', price: 'Cotizar', color: T.blue, highlight: true },
+                            { icon: Globe,        title: 'Plataformas y membresías',   desc: 'Plataformas con usuarios, cursos, clases o contenido de acceso restringido, como Espacio CEA y MOVERSER.',                      price: 'Cotizar', color: T.blue },
+                            { icon: Sparkles,     title: 'Ecosistemas IA',             desc: 'Automatizaciones, CRM y flujos con inteligencia artificial para vender más con menos fricción.',                                price: 'Cotizar', color: T.blue },
+                            { icon: ShoppingCart, title: 'E-commerce',                 desc: 'Tiendas que venden. Integración con Webpay y Mercado Pago, arquitectura pensada para maximizar conversión.',                    price: 'Cotizar', color: '#5DCAA5' },
+                            { icon: TrendingUp,   title: 'Meta & Google Ads',          desc: 'Gestión de campañas pagas con foco en ROAS y rentabilidad, como complemento de tu sistema o sitio.',                            price: 'Cotizar', color: '#7F77DD' },
+                            { icon: Code2,        title: 'Web Express',                desc: 'Página web profesional lista para publicar: dominio .CL y hosting por 1 año incluidos. Ideal para partir.',                     price: 'Desde $69.990 + IVA', color: '#7F77DD', href: '/sitio-web' },
                         ].map((s, i) => (
                             <div key={i}
                                 className="p-6 rounded-xl flex flex-col group transition-all duration-200 hover:shadow-md cursor-default relative"
@@ -802,7 +649,7 @@ export default function Home() {
                                 {s.highlight && (
                                     <span className="absolute top-4 right-4 text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-full"
                                         style={{ background: s.color + '15', color: s.color }}>
-                                        Punto de entrada recomendado
+                                        Más solicitado
                                     </span>
                                 )}
                                 <div className="flex items-start justify-between mb-5">
@@ -828,110 +675,23 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* ═══ SEO DIAGNÓSTICO CTA ════════════════════════════════════════ */}
-            <section style={{ background: T.blue }}>
-                <div className="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-28">
-                    <div className="grid lg:grid-cols-5 gap-12 items-center">
-                        <div className="lg:col-span-3">
-                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-7"
-                                style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)' }}>
-                                <Search size={13} color="#fff" />
-                                <span className="text-[11px] font-bold tracking-wide text-white">Diagnóstico SEO Gratuito</span>
-                            </div>
-                            <h2 className="font-bold leading-[1.1] mb-5"
-                                style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(2rem, 4vw, 3.2rem)', color: '#fff' }}>
-                                ¿Tu sitio aparece cuando tus clientes{' '}
-                                <em className="font-normal" style={{ color: YELLOW }}>te buscan en Google?</em>
-                            </h2>
-                            <p className="text-base leading-relaxed mb-8" style={{ color: 'rgba(255,255,255,0.75)' }}>
-                                Analizamos tu posicionamiento orgánico actual, identificamos lo que estás perdiendo y te entregamos un plan de acción concreto. Sin costo, sin compromiso.
-                            </p>
-                            <ul className="space-y-3.5 mb-10">
-                                {[
-                                    { icon: Search,    text: 'Análisis de posicionamiento orgánico actual' },
-                                    { icon: BarChart3, text: 'Palabras clave con mayor potencial para tu industria' },
-                                    { icon: Zap,       text: 'Plan de acción personalizado y accionable' },
-                                    { icon: Shield,    text: '100% gratuito, sin compromiso de contratación' },
-                                ].map(({ icon: Icon, text }) => (
-                                    <li key={text} className="flex items-center gap-3 text-sm" style={{ color: 'rgba(255,255,255,0.8)' }}>
-                                        <Icon size={15} color={YELLOW} style={{ flexShrink: 0 }} />
-                                        {text}
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center flex-wrap">
-                                <button type="button" onClick={() => setShowSeoModal(true)}
-                                    className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-[14px] font-bold tracking-wide transition-all hover:opacity-90 active:scale-[0.98]"
-                                    style={{ background: YELLOW, color: T.blue, fontFamily: 'Poppins, sans-serif' }}>
-                                    <Search size={15} /> Quiero mi diagnóstico gratuito
-                                </button>
-                                <Link to="/diagnostico-seo"
-                                    className="text-sm font-semibold transition-opacity hover:opacity-80"
-                                    style={{ color: 'rgba(255,255,255,0.6)' }}>
-                                    Ver página completa →
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* Reporte "bloqueado" */}
-                        <div className="hidden lg:block lg:col-span-2">
-                            <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.2)' }}>
-                                <div className="px-5 py-4 flex items-center justify-between" style={{ background: 'rgba(0,0,0,0.2)' }}>
-                                    <div className="flex items-center gap-2">
-                                        <Search size={13} color={YELLOW} />
-                                        <span className="text-xs font-semibold text-white opacity-70">Reporte SEO</span>
-                                    </div>
-                                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full"
-                                        style={{ background: YELLOW, color: T.blue }}>Gratuito</span>
-                                </div>
-                                <div className="p-5" style={{ background: 'rgba(0,0,0,0.15)' }}>
-                                    {[
-                                        'Posición promedio en Google',
-                                        'Palabras clave indexadas',
-                                        'Errores técnicos detectados',
-                                        'Oportunidades de crecimiento',
-                                        'Score de autoridad de dominio',
-                                        'Análisis vs. competidores',
-                                    ].map((item) => (
-                                        <div key={item} className="flex items-center justify-between py-2.5"
-                                            style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                                            <span className="text-xs text-white opacity-60">{item}</span>
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-14 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.15)' }} />
-                                                <span className="text-[11px] font-bold" style={{ color: 'rgba(255,255,255,0.25)' }}>—</span>
-                                            </div>
-                                        </div>
-                                    ))}
-                                    <button type="button" onClick={() => setShowSeoModal(true)}
-                                        className="w-full mt-4 py-3 rounded-xl text-sm font-bold transition-all hover:opacity-90"
-                                        style={{ background: YELLOW, color: T.blue, fontFamily: 'Poppins, sans-serif' }}>
-                                        Desbloquear mi reporte →
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             {/* ═══ PARA QUIÉN ═════════════════════════════════════════════════ */}
             <section className="py-24 md:py-32 px-5 md:px-10 bg-white">
                 <div className="max-w-7xl mx-auto">
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         <div>
                             <SectionLabel>Para quién trabajamos</SectionLabel>
-                            <H2 className="text-4xl md:text-5xl mb-6">Empresas listas para escalar.</H2>
+                            <H2 className="text-4xl md:text-5xl mb-6">Empresas que necesitan digitalizar su operación.</H2>
                             <p className="text-base leading-relaxed mb-10" style={{ color: T.gray }}>
-                                No somos para todos. Trabajamos con empresas que valoran la transparencia, exigen datos reales y tienen voluntad de crecer de forma sostenida.
+                                Trabajamos con empresas e instituciones que quieren dejar atrás las planillas y los procesos manuales, y contar con un sistema propio que se adapte a cómo trabajan.
                             </p>
                             <ul className="space-y-4">
                                 {[
-                                    'Ventas B2B y servicios de alto ticket',
-                                    'Inmobiliario e inversión',
-                                    'Salud y clínicas privadas',
-                                    'Consultoría y servicios profesionales',
-                                    'E-commerce con foco en rentabilidad',
-                                    'Cualquier empresa que quiera crecer con datos',
+                                    'Negocios que necesitan un sistema de caja, inventario o gestión',
+                                    'Salud, educación y servicios profesionales con plataforma propia',
+                                    'Instituciones y organismos que compran a través de ChileCompra',
+                                    'Emprendimientos con membresías, cursos o clases online',
+                                    'Empresas con procesos manuales que quieren automatizar',
                                 ].map(item => (
                                     <li key={item} className="flex items-center gap-3 text-[15px]" style={{ color: T.black }}>
                                         <CheckCircle2 size={17} style={{ color: T.blue, flexShrink: 0 }} />
@@ -939,20 +699,14 @@ export default function Home() {
                                     </li>
                                 ))}
                             </ul>
-                            <div className="mt-10 flex items-center gap-3 p-4 rounded-xl" style={{ background: T.light, border: `1px solid ${T.border}` }}>
-                                <MapPin size={17} style={{ color: T.blue, flexShrink: 0 }} />
-                                <p className="text-sm font-semibold" style={{ color: T.black }}>
-                                    Cobertura: <span style={{ color: T.blue }}>Chile · Latinoamérica · Mundo hispanohablante · English available</span>
-                                </p>
-                            </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             {[
-                                { value: '$500K',  label: 'Inversión mínima recomendada', sub: 'mensual en ads' },
-                                { value: '1:1',    label: 'Modelo de trabajo', sub: 'un estratega, una cuenta' },
-                                { value: '< 12h',  label: 'Tiempo de respuesta', sub: 'garantizado' },
-                                { value: '100%',   label: 'Transparencia', sub: 'acceso total a datos' },
-                            ].map(s => (
+                                { value: '60+',    label: 'Proyectos entregados', sub: 'sitios, sistemas y plataformas' },
+                            { value: 'ChileCompra', label: 'Proveedor del Estado', sub: 'licitaciones ganadas' },
+                            { value: '1:1',    label: 'Trato directo', sub: 'con el equipo que desarrolla' },
+                            { value: 'Chile',  label: 'Cobertura', sub: 'trabajo remoto en todo el país' },
+                        ].map(s => (
                                 <div key={s.label} className="p-6 rounded-2xl" style={{ background: T.light, border: `1px solid ${T.border}` }}>
                                     <p className="text-3xl font-black mb-1" style={{ fontFamily: 'Playfair Display, serif', color: T.blue }}>{s.value}</p>
                                     <p className="text-[12px] font-bold mb-0.5" style={{ color: T.black }}>{s.label}</p>
@@ -964,44 +718,6 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* ═══ EQUIPO ══════════════════════════════════════════════════════ */}
-            <section id="about" className="py-24 md:py-32 px-5 md:px-10" style={{ background: T.light }}>
-                <div className="max-w-7xl mx-auto">
-                    <SectionLabel>El equipo</SectionLabel>
-                    <H2 className="text-4xl md:text-5xl mb-4">Detrás de AgenciaSi.</H2>
-                    <p className="text-base mb-14 max-w-xl" style={{ color: T.gray }}>
-                        Especialistas en estrategia digital, creatividad y tecnología trabajando en conjunto por tus resultados.
-                    </p>
-
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {[
-                            { name: 'Martín Nicolás Valdés', role: 'Founder & Digital Growth Strategist', icon: TrendingUp, desc: 'Diseña la estrategia de crecimiento, integra tecnología y construye sistemas de adquisición predecibles para empresas que buscan escalar.' },
-                            { name: 'Laura Rodríguez', role: 'Creative Director & Ads Strategist', icon: Sparkles, desc: 'Dirige la narrativa visual y la optimización creativa para convertir campañas en motores sostenibles de generación de clientes.' },
-                            { name: 'Fabio Contreras', role: 'Head of Audiovisual & Content', icon: Video, desc: 'Produce activos audiovisuales de alto impacto diseñados para captar atención, fortalecer marca y acelerar la conversión.' },
-                        ].map((p, i) => (
-                            <div key={i} className="bg-white rounded-2xl p-8 group hover:shadow-md transition-all" style={{ border: `1px solid ${T.border}` }}>
-                                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-colors"
-                                    style={{ background: T.blue + '12' }}>
-                                    <p.icon size={22} style={{ color: T.blue }} />
-                                </div>
-                                <p className="text-[11px] font-bold uppercase tracking-widest mb-1.5" style={{ color: T.blue }}>{p.role}</p>
-                                <h4 className="text-xl font-bold mb-3" style={{ fontFamily: 'Playfair Display, serif', color: T.black }}>{p.name}</h4>
-                                <p className="text-sm leading-relaxed" style={{ color: T.gray }}>{p.desc}</p>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Vision quote */}
-                    <div className="mt-10 p-10 md:p-14 rounded-2xl text-center" style={{ background: T.blue }}>
-                        <p className="text-2xl md:text-3xl font-bold leading-relaxed text-white max-w-3xl mx-auto"
-                            style={{ fontFamily: 'Playfair Display, serif' }}>
-                            "Eliminar la fricción entre tecnología de vanguardia y resultados comerciales reales."
-                        </p>
-                        <p className="text-sm mt-4 opacity-60 text-white">— Visión AgenciaSi</p>
-                    </div>
-                </div>
-            </section>
-
             {/* ═══ CONTACTO ════════════════════════════════════════════════════ */}
             <section id="contact" className="py-24 md:py-32 px-5 md:px-10 bg-white">
                 <div className="max-w-7xl mx-auto">
@@ -1009,10 +725,10 @@ export default function Home() {
                         <div>
                             <SectionLabel>Hablemos</SectionLabel>
                             <H2 className="text-4xl md:text-6xl mb-6">
-                                Diagnóstico gratuito, sin compromiso.
+                                Cuéntanos tu proyecto.
                             </H2>
                             <p className="text-base leading-relaxed mb-10" style={{ color: T.gray }}>
-                                No es una reunión de ventas. Analizamos tu situación actual y te decimos honestamente si podemos ayudarte y cómo.
+                                Conversemos sobre lo que necesitas. Analizamos tu caso y te decimos honestamente si podemos ayudarte y cómo. Sin compromiso.
                             </p>
 
                             <div className="space-y-4 mb-10">
@@ -1039,7 +755,7 @@ export default function Home() {
                             <div className="p-5 rounded-xl flex items-center gap-3" style={{ background: T.light, border: `1px solid ${T.border}` }}>
                                 <MapPin size={16} style={{ color: T.blue, flexShrink: 0 }} />
                                 <p className="text-sm" style={{ color: T.gray }}>
-                                    San Clemente, Maule — Cobertura en <strong style={{ color: T.black }}>todo Chile y Latinoamérica</strong>
+                                    San Clemente, Maule — Trabajamos de forma remota en <strong style={{ color: T.black }}>todo Chile</strong>
                                 </p>
                             </div>
                         </div>
@@ -1047,9 +763,9 @@ export default function Home() {
                         {/* Form */}
                         <div className="rounded-2xl p-8 md:p-12 shadow-sm" style={{ border: `1.5px solid ${T.border}` }}>
                             <h3 className="text-2xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif', color: T.black }}>
-                                Solicitar cotización gratuita
+                                Cuéntanos qué necesitas
                             </h3>
-                            <p className="text-sm mb-8" style={{ color: T.gray }}>Respuesta garantizada en menos de 12 horas.</p>
+                            <p className="text-sm mb-8" style={{ color: T.gray }}>Te respondemos a la brevedad, por WhatsApp o correo.</p>
 
                             <form className="space-y-6" onSubmit={handleSubmit}>
                                 {[
@@ -1073,14 +789,28 @@ export default function Home() {
 
                                 <div>
                                     <label className="text-[11px] font-bold uppercase tracking-widest block mb-2" style={{ color: T.gray }}>
-                                        Inversión mensual estimada en Ads
+                                        ¿Qué necesitas?
+                                    </label>
+                                    <select className="w-full py-3 bg-transparent text-base focus:outline-none cursor-pointer"
+                                        style={{ borderBottom: `2px solid ${T.border}`, color: T.black }}
+                                        value={form.projectType} onChange={e => setForm({ ...form, projectType: e.target.value })}>
+                                        {PROJECT_TYPES.map(t => <option key={t}>{t}</option>)}
+                                    </select>
+                                    {form.projectType === 'Un sitio web simple' && (
+                                        <p className="text-[12px] mt-2" style={{ color: T.gray }}>
+                                            Para un sitio web simple tenemos <Link to="/sitio-web" className="font-bold underline" style={{ color: T.blue }}>Web Express desde $69.990 + IVA</Link>, que puedes contratar directamente.
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div>
+                                    <label className="text-[11px] font-bold uppercase tracking-widest block mb-2" style={{ color: T.gray }}>
+                                        Presupuesto estimado del proyecto
                                     </label>
                                     <select className="w-full py-3 bg-transparent text-base focus:outline-none cursor-pointer"
                                         style={{ borderBottom: `2px solid ${T.border}`, color: T.black }}
                                         value={form.budget} onChange={e => setForm({ ...form, budget: e.target.value })}>
-                                        <option>$500.000 - $1.500.000 CLP</option>
-                                        <option>$1.500.000 - $5.000.000 CLP</option>
-                                        <option>$5.000.000+ CLP</option>
+                                        {BUDGETS.map(b => <option key={b}>{b}</option>)}
                                     </select>
                                 </div>
 
@@ -1097,7 +827,7 @@ export default function Home() {
                                 </div>
 
                                 <PrimaryBtn onClick={handleSubmit} className="w-full py-4 text-base mt-2">
-                                    {status === 'sending' ? 'Enviando...' : 'Solicitar cotización gratuita'}
+                                    {status === 'sending' ? 'Enviando...' : 'Enviar y agendar conversación'}
                                 </PrimaryBtn>
 
                                 {status === 'success' && (

@@ -7,7 +7,6 @@ import Home from './components/Home'
 import AdminDashboard from './components/AdminDashboard'
 import ClientManagement from './components/admin/ClientManagement'
 import ResetAdminPassword from './components/admin/ResetAdminPassword'
-import DiagnosticoSEO from './components/DiagnosticoSEO'
 import Links from './components/Links'
 
 // Portal
@@ -80,7 +79,6 @@ function App() {
         <Routes>
           {/* Public */}
           <Route path="/" element={<Home />} />
-          <Route path="/diagnostico-seo" element={<DiagnosticoSEO />} />
           <Route path="/links" element={<Links />} />
           <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
           <Route path="/terminos-condiciones" element={<TerminosCondiciones />} />

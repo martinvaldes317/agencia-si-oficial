@@ -440,7 +440,7 @@ export default function LandingWebSistemas() {
           <div style={{ width: 1, height: 36, background: '#C0C8E0' }} className="lws-trust-divider" />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <CheckCircle2 size={18} color="#16A34A" />
-            <span style={{ fontSize: 13, fontWeight: 600, color: '#1A2A6C' }}>+50 proyectos entregados en Chile</span>
+            <span style={{ fontSize: 13, fontWeight: 600, color: '#1A2A6C' }}>+60 proyectos entregados en Chile</span>
           </div>
         </div>
       </div>
