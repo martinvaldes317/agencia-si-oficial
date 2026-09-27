@@ -3,11 +3,12 @@ import { Helmet } from 'react-helmet-async'
 import { ArrowLeft } from 'lucide-react'
 
 const C = {
-  blue: '#2D2BB5',
-  black: '#0A0A0A',
-  gray: '#5C5C6E',
-  light: '#F7F7FB',
-  border: '#E8E8F0',
+  blue: '#3d5afe',
+  black: '#f5f5fa',
+  gray: '#9a9ab0',
+  light: '#000000',
+  panel: '#0c0c14',
+  border: 'rgba(255,255,255,0.09)',
 }
 
 export default function LegalPage({ title, updated, children }) {
@@ -18,7 +19,7 @@ export default function LegalPage({ title, updated, children }) {
         <meta name="robots" content="index, follow" />
       </Helmet>
 
-      <nav style={{ background: C.black, padding: '16px 20px' }}>
+      <nav style={{ background: C.panel, padding: '16px 20px', borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 820, margin: '0 auto' }}>
           <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: '#fff', textDecoration: 'none', fontWeight: 700, fontSize: 14 }}>
             <ArrowLeft size={15} /> AgenciaSI
@@ -30,7 +31,7 @@ export default function LegalPage({ title, updated, children }) {
         <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 800, color: C.black, marginBottom: 8 }}>{title}</h1>
         <p style={{ fontSize: 12, color: C.gray, marginBottom: 40 }}>Última actualización: {updated}</p>
 
-        <div style={{ background: '#fff', border: `1px solid ${C.border}`, borderRadius: 16, padding: '36px 32px' }}>
+        <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 16, padding: '36px 32px' }}>
           {children}
         </div>
 
@@ -46,7 +47,7 @@ export function Section({ title, children }) {
   return (
     <section style={{ marginBottom: 28 }}>
       <h2 style={{ fontSize: 16, fontWeight: 800, color: C.black, marginBottom: 10 }}>{title}</h2>
-      <div style={{ fontSize: 14, color: '#333', lineHeight: 1.8 }}>{children}</div>
+      <div style={{ fontSize: 14, color: '#c4c4d6', lineHeight: 1.8 }}>{children}</div>
     </section>
   )
 }

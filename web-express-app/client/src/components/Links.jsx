@@ -6,7 +6,8 @@ import {
 } from 'lucide-react'
 
 const T = {
-    blue:   '#2D2BB5',
+    blue:   '#3d5afe',
+    violet: '#8b5cf6',
     yellow: '#FACC15',
     black:  '#0A0A0A',
     gray:   '#5C5C6E',
@@ -75,7 +76,7 @@ const BtnLink = ({ item }) => {
     }
 
     const styles = {
-        primary: { ...base, background: T.blue,   color: T.white, border: 'none' },
+        primary: { ...base, background: `linear-gradient(120deg, ${T.blue}, ${T.violet})`, color: T.white, border: 'none' },
         yellow:  { ...base, background: T.yellow,  color: T.blue,  border: 'none' },
         white:   { ...base, background: T.white,   color: T.black, border: 'none' },
         outline: { ...base, background: 'rgba(255,255,255,0.06)', color: T.white, border: '1px solid rgba(255,255,255,0.12)' },
@@ -116,7 +117,7 @@ const BtnLink = ({ item }) => {
 
 export default function Links() {
     return (
-        <div style={{ minHeight: '100vh', background: '#0f0f1a', fontFamily: 'Poppins, sans-serif', display: 'flex', justifyContent: 'center', padding: '40px 16px 60px' }}>
+        <div style={{ minHeight: '100vh', background: '#000', fontFamily: 'Poppins, sans-serif', display: 'flex', justifyContent: 'center', padding: '40px 16px 60px' }}>
             <Helmet>
                 <title>AgenciaSi | Links</title>
                 <meta name="robots" content="noindex" />
@@ -140,7 +141,7 @@ export default function Links() {
 
                 {/* CTA highlight */}
                 <div style={{
-                    background: `linear-gradient(135deg, ${T.blue}cc, #1a1880cc)`,
+                    background: `linear-gradient(135deg, ${T.blue}, ${T.violet})`,
                     border: `1px solid ${T.blue}50`,
                     borderRadius: '20px',
                     padding: '20px',
