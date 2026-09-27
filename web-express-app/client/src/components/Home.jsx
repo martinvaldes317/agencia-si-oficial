@@ -47,7 +47,6 @@ const SERVICES = [
     { icon: Sparkles, title: 'Ecosistemas IA', desc: 'Automatizaciones, CRM y flujos con inteligencia artificial para vender más con menos fricción.', foot: 'Cotizar' },
     { icon: ShoppingCart, title: 'E-commerce', desc: 'Tiendas que venden. Integración con Webpay y Mercado Pago, arquitectura pensada para maximizar conversión.', foot: 'Cotizar' },
     { icon: TrendingUp, title: 'Meta & Google Ads', desc: 'Gestión de campañas pagas con foco en ROAS y rentabilidad, como complemento de tu sistema o sitio.', foot: 'Cotizar' },
-    { icon: Code2, title: 'Web Express', desc: 'Página web profesional lista para publicar: dominio .CL y hosting por 1 año incluidos. Ideal para partir.', price: '$69.990', priceNote: '+ IVA · desde', to: '/sitio-web' },
 ]
 
 const AUDIENCE = [
@@ -364,16 +363,6 @@ export default function Home() {
                     <div className="hd-bento">
                         {SERVICES.map(s => {
                             const Icon = s.icon
-                            if (s.to) {
-                                return (
-                                    <div key={s.title} className="hd-card hd-web" onMouseMove={trackGlow}>
-                                        <div className="hd-card-ico"><Icon size={21} /></div>
-                                        <div className="hd-web-txt"><h3>{s.title}</h3><p>{s.desc}</p></div>
-                                        <div className="hd-web-price">{s.price}<small>{s.priceNote}</small></div>
-                                        <Link to={s.to} className="hd-btn hd-btn-ghost">Ver Web Express <ArrowRight size={16} /></Link>
-                                    </div>
-                                )
-                            }
                             return (
                                 <div key={s.title} className={`hd-card ${s.feat ? 'hd-feat' : ''}`} onMouseMove={trackGlow}>
                                     {s.feat && <span className="hd-badge">Servicio principal</span>}

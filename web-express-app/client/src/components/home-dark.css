@@ -196,7 +196,7 @@
 /* ── Servicios ───────────────────────────────────────── */
 .hd-bento { display: grid; gap: 16px; margin-top: 56px; }
 @media (min-width: 720px) { .hd-bento { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1000px) { .hd-bento { grid-template-columns: repeat(3, 1fr); } .hd-feat { grid-column: span 2; } .hd-web { grid-column: 1 / -1; } }
+@media (min-width: 1000px) { .hd-bento { grid-template-columns: repeat(3, 1fr); } .hd-feat { grid-column: span 2; } }
 .hd-card { --mx: 50%; --my: 50%; position: relative; border: 1px solid var(--line); border-radius: 22px; padding: 30px; background: linear-gradient(170deg, rgba(255,255,255,.035), rgba(255,255,255,.008)); overflow: hidden; display: flex; flex-direction: column; transition: border-color .3s ease, transform .3s ease; }
 .hd-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(360px circle at var(--mx) var(--my), rgba(110, 90, 255, .2), transparent 60%); opacity: 0; transition: opacity .35s ease; pointer-events: none; }
 .hd-card:hover { border-color: var(--line-strong); }
@@ -286,11 +286,3 @@
   .hd-win { transform: none !important; }
 }
 
-/* Web Express: franja de entrada, ancho completo */
-.hd-web { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 20px 28px; padding: 26px 30px; border-style: dashed; border-color: var(--line-strong); }
-.hd-web .hd-card-ico { margin: 0; }
-.hd-web .hd-web-txt { flex: 1 1 280px; }
-.hd-web h3 { margin: 0 0 6px; }
-.hd-web p { margin: 0; flex-grow: 0; }
-.hd-web .hd-web-price { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 600; white-space: nowrap; }
-.hd-web .hd-web-price small { display: block; font-family: 'Poppins', sans-serif; font-size: 11.5px; color: var(--mut); font-weight: 400; }
