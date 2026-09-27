@@ -62,6 +62,25 @@ const CITIES = {
   'valdivia':     { name: 'Valdivia',     slug: 'valdivia',     region: 'Región de Los Ríos',         context: 'pymes, turismo y profesionales de Valdivia' },
   'puerto-montt': { name: 'Puerto Montt', slug: 'puerto-montt', region: 'Región de Los Lagos',        context: 'empresas de servicios, turismo y comercio de Puerto Montt' },
   'iquique':      { name: 'Iquique',      slug: 'iquique',      region: 'Región de Tarapacá',         context: 'comercios y empresas de servicios de Iquique' },
+  // Santiago y comunas de la Región Metropolitana
+  'providencia':  { name: 'Providencia',  slug: 'providencia',  region: 'Región Metropolitana',      context: 'empresas, oficinas y profesionales de Providencia' },
+  'nunoa':        { name: 'Ñuñoa',        slug: 'nunoa',        region: 'Región Metropolitana',      context: 'comercios, clínicas y profesionales de Ñuñoa' },
+  'vitacura':     { name: 'Vitacura',     slug: 'vitacura',     region: 'Región Metropolitana',      context: 'empresas y negocios premium de Vitacura' },
+  'la-reina':     { name: 'La Reina',     slug: 'la-reina',     region: 'Región Metropolitana',      context: 'comercios y profesionales de La Reina' },
+  'maipu':        { name: 'Maipú',        slug: 'maipu',        region: 'Región Metropolitana',      context: 'pymes y comercios de Maipú' },
+  'la-florida':   { name: 'La Florida',   slug: 'la-florida',   region: 'Región Metropolitana',      context: 'pymes y comercios de La Florida' },
+  'puente-alto':  { name: 'Puente Alto',  slug: 'puente-alto',  region: 'Región Metropolitana',      context: 'pymes y comercios de Puente Alto' },
+  'san-miguel':   { name: 'San Miguel',   slug: 'san-miguel',   region: 'Región Metropolitana',      context: 'pymes y comercios de San Miguel' },
+  // Comunas de la Región de O'Higgins (además de Rancagua)
+  'san-fernando': { name: 'San Fernando', slug: 'san-fernando', region: "Región de O'Higgins",       context: 'pymes y comercios de San Fernando' },
+  'rengo':        { name: 'Rengo',        slug: 'rengo',        region: "Región de O'Higgins",       context: 'comercios y agroindustria de Rengo' },
+  'machali':      { name: 'Machalí',      slug: 'machali',      region: "Región de O'Higgins",       context: 'comercios y empresas de Machalí' },
+  // Sur de Chile
+  'chillan':      { name: 'Chillán',      slug: 'chillan',      region: 'Región de Ñuble',            context: 'pymes, comercios y profesionales de Chillán' },
+  'los-angeles':  { name: 'Los Ángeles',  slug: 'los-angeles',  region: 'Región del Biobío',          context: 'pymes y comercios agrícolas de Los Ángeles' },
+  'osorno':       { name: 'Osorno',       slug: 'osorno',       region: 'Región de Los Lagos',         context: 'pymes y comercios de Osorno' },
+  'coyhaique':    { name: 'Coyhaique',    slug: 'coyhaique',    region: 'Región de Aysén',             context: 'turismo y comercios de Coyhaique' },
+  'punta-arenas': { name: 'Punta Arenas', slug: 'punta-arenas', region: 'Región de Magallanes',        context: 'turismo, comercio y empresas de Punta Arenas' },
 }
 
 const ScrollToTop = () => {

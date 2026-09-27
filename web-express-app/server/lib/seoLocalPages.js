@@ -7,6 +7,11 @@ const CITIES = {
   'pucon': 'Pucón', 'temuco': 'Temuco', 'las-condes': 'Las Condes',
   'concepcion': 'Concepción', 'antofagasta': 'Antofagasta', 'la-serena': 'La Serena',
   'valdivia': 'Valdivia', 'puerto-montt': 'Puerto Montt', 'iquique': 'Iquique',
+  'providencia': 'Providencia', 'nunoa': 'Ñuñoa', 'vitacura': 'Vitacura', 'la-reina': 'La Reina',
+  'maipu': 'Maipú', 'la-florida': 'La Florida', 'puente-alto': 'Puente Alto', 'san-miguel': 'San Miguel',
+  'san-fernando': 'San Fernando', 'rengo': 'Rengo', 'machali': 'Machalí',
+  'chillan': 'Chillán', 'los-angeles': 'Los Ángeles', 'osorno': 'Osorno', 'coyhaique': 'Coyhaique',
+  'punta-arenas': 'Punta Arenas',
 }
 
 // slug -> { title, description } — debe calzar con SERVICIOS[slug].metaTitle/metaDescription
