@@ -825,15 +825,6 @@ export default function Home() {
                             </div>
                         ))}
                     </div>
-
-                    <div className="mt-8 p-5 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3" style={{ background: T.light, border: `1px solid ${T.border}` }}>
-                        <p className="text-[13px]" style={{ color: T.gray, fontFamily: 'Poppins, sans-serif' }}>
-                            <strong style={{ color: T.black }}>¿Buscas letreros, merchandising o publicidad impresa?</strong> Eso lo hacemos en nuestra otra marca.
-                        </p>
-                        <a href="https://publicidadtalca.cl" target="_blank" rel="noopener noreferrer" className="text-[13px] font-bold inline-flex items-center gap-1.5 shrink-0" style={{ color: T.blue }}>
-                            Ir a Publicidad Talca <ExternalLink size={13} />
-                        </a>
-                    </div>
                 </div>
             </section>
 
