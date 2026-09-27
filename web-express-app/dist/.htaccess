@@ -1,6 +1,10 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+  # Páginas de letreros y publicidad corporativa migradas a publicidadtalca.cl (2026-09)
+  RewriteRule ^(letreros|publicidad-corporativa)(/.*)?$ https://publicidadtalca.cl/ [R=301,L]
+  # Marketing digital por ciudad: ya no se ofrece como página local
+  RewriteRule ^marketing(/.*)?$ https://agenciasi.cl/ [R=301,L]
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
