@@ -236,7 +236,7 @@ export default function Home() {
                             </div>
                             <p className="hd-hero-note hd-rise d4">
                                 <strong>60+ proyectos entregados</strong> · Proveedor del Estado.<br />
-                                ¿Solo necesitas una página web simple? <Link to="/sitio-web">Web Express desde $69.990 + IVA</Link>
+                                ¿Solo necesitas una página web simple? <Link to="/sitio-web">Conoce Web Express</Link>
                             </p>
                         </div>
 
@@ -440,7 +440,7 @@ export default function Home() {
                                     <label htmlFor="f-type">¿Qué necesitas?</label>
                                     <select id="f-type" value={form.projectType} onChange={set('projectType')}>{PROJECT_TYPES.map(t => <option key={t}>{t}</option>)}</select>
                                     {form.projectType === 'Un sitio web simple' && (
-                                        <p className="hd-hint">Para un sitio web simple tenemos <Link to="/sitio-web">Web Express desde $69.990 + IVA</Link>, que puedes contratar directamente.</p>
+                                        <p className="hd-hint">Para un sitio web simple tenemos <Link to="/sitio-web">Web Express</Link>, que puedes contratar directamente.</p>
                                     )}
                                 </div>
                                 <div className="hd-field">
