@@ -16,11 +16,13 @@ export const T = {
   violetD:'#4B1D9E',
   cyan:   '#22F2D8',
   white:  '#FFFFFF',
-  black:  '#0A0A12',
-  gray:   '#6B7280',
-  grayLt: '#9CA3AF',
-  light:  '#F6F5FC',
-  border: '#E7E5F5',
+  black:  '#f5f5fa',
+  ink:    '#f5f5fa',
+  gray:   '#9a9ab0',
+  grayLt: '#75758c',
+  light:  '#000000',
+  panel:  '#0c0c14',
+  border: 'rgba(255,255,255,0.09)',
 }
 
 export const WA_BASE = 'https://wa.me/56932930812?text='
@@ -166,7 +168,7 @@ export default function SitioWebLanding() {
   }
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: FP.cream, color: FP.ink, overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: '#000', color: FP.text, overflowX: 'hidden' }}>
       <Helmet>
         <title>Tu Sitio Web Profesional por $69.990 + IVA | AgenciaSI</title>
         <meta name="description" content="Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online por $69.990 + IVA." />
@@ -214,7 +216,7 @@ export default function SitioWebLanding() {
 
         <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 22 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: FP.blueD, background: '#FFFFFF', border: `1px solid ${FP.border}`, padding: '6px 14px', borderRadius: 30 }}>Para Pymes y Profesionales</span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: FP.blueD, background: 'rgba(255,255,255,0.05)', border: `1px solid ${FP.border}`, padding: '6px 14px', borderRadius: 30 }}>Para Pymes y Profesionales</span>
             <span style={{ fontSize: 11, fontWeight: 700, color: '#FFFFFF', background: FP.blue, padding: '6px 14px', borderRadius: 30 }}>+60 proyectos web entregados</span>
           </div>
 
@@ -237,7 +239,7 @@ export default function SitioWebLanding() {
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 20 }}>
             {CHECKS_HERO.map(c => (
-              <span key={c} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#FFFFFF', border: `1px solid ${FP.border}`, borderRadius: 20, padding: '7px 13px', fontSize: 12.5, fontWeight: 600, color: FP.ink, whiteSpace: 'nowrap' }}>
+              <span key={c} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.05)', border: `1px solid ${FP.border}`, borderRadius: 20, padding: '7px 13px', fontSize: 12.5, fontWeight: 600, color: FP.text, whiteSpace: 'nowrap' }}>
                 <Check size={13} color={FP.blue} style={{ flexShrink: 0 }} /> {c}
               </span>
             ))}
@@ -245,7 +247,7 @@ export default function SitioWebLanding() {
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
             <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Hero CTA WhatsApp', true)}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, color: FP.ink, fontSize: 13, fontWeight: 700, textDecoration: 'none', border: `1px solid #25D36655`, padding: '10px 20px 10px 12px', borderRadius: 30, background: '#FFFFFF', whiteSpace: 'nowrap' }}>
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, color: FP.text, fontSize: 13, fontWeight: 700, textDecoration: 'none', border: `1px solid #25D36655`, padding: '10px 20px 10px 12px', borderRadius: 30, background: 'rgba(255,255,255,0.05)', whiteSpace: 'nowrap' }}>
               <span style={{ width: 24, height: 24, borderRadius: '50%', background: '#25D366', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <WaIcon size={13} />
               </span>
@@ -287,7 +289,7 @@ export default function SitioWebLanding() {
       </Section>
 
       {/* TODO LO QUE INCLUYE */}
-      <Section style={{ background: '#FFFFFF', position: 'relative' }}>
+      <Section style={{ background: FP.panel, position: 'relative' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
             <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD }}>
@@ -301,7 +303,7 @@ export default function SitioWebLanding() {
                   <Icon size={20} color={FP.blue} />
                 </div>
                 <div style={{ fontWeight: 700, fontSize: 13, color: FP.blueD }}>{title}</div>
-                {sub && <div style={{ fontSize: 11, color: '#1B8A4A', fontWeight: 600, marginTop: 3 }}>{sub}</div>}
+                {sub && <div style={{ fontSize: 11, color: '#22c55e', fontWeight: 600, marginTop: 3 }}>{sub}</div>}
               </div>
             ))}
             <div className="swl-card" style={{ background: FP.blue, borderRadius: 16, padding: '22px 18px', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -323,7 +325,7 @@ export default function SitioWebLanding() {
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 14, textAlign: 'left', maxWidth: 780, margin: '0 auto' }}>
             {PROBLEMA_BENEFICIOS.map(b => (
-              <div key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: '#FFFFFF', border: `1px solid ${FP.border}`, borderRadius: 12, padding: '14px 16px' }}>
+              <div key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: FP.panel, border: `1px solid ${FP.border}`, borderRadius: 12, padding: '14px 16px' }}>
                 <CheckCircle2 size={16} color={FP.blue} style={{ flexShrink: 0, marginTop: 1 }} />
                 <span style={{ fontSize: 13, color: FP.blueD, fontWeight: 500 }}>{b}</span>
               </div>
@@ -333,7 +335,7 @@ export default function SitioWebLanding() {
       </Section>
 
       {/* CÓMO FUNCIONA */}
-      <Section style={{ background: '#FFFFFF' }}>
+      <Section style={{ background: FP.panel }}>
         <div style={{ maxWidth: 940, margin: '0 auto' }}>
           <h2 style={{ textAlign: 'center', fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 16 }}>
             Tener tu página web es muy fácil
@@ -393,7 +395,7 @@ export default function SitioWebLanding() {
       </Section>
 
       {/* CONFIANZA */}
-      <Section style={{ background: '#FFFFFF', textAlign: 'center' }}>
+      <Section style={{ background: FP.panel, textAlign: 'center' }}>
         <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 10 }}>
           +60 proyectos web entregados
         </div>
@@ -410,7 +412,7 @@ export default function SitioWebLanding() {
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {FAQS.map((f, i) => (
-              <div key={f.q} style={{ background: '#FFFFFF', border: `1px solid ${FP.border}`, borderRadius: 14, overflow: 'hidden' }}>
+              <div key={f.q} style={{ background: FP.panel, border: `1px solid ${FP.border}`, borderRadius: 14, overflow: 'hidden' }}>
                 <div className="swl-faq-btn" onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', fontWeight: 700, fontSize: 14, color: FP.blueD }}>
                   {f.q}
@@ -465,7 +467,7 @@ export default function SitioWebLanding() {
       </footer>
 
       {/* STICKY MOBILE BAR */}
-      <div className="swl-sticky" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 90, background: FP.blueD, borderTop: '1px solid rgba(255,255,255,.15)', padding: '10px 14px', alignItems: 'center', justifyContent: 'space-between', gap: 10, boxShadow: '0 -4px 20px rgba(0,0,0,.3)' }}>
+      <div className="swl-sticky" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 90, background: '#17337A', borderTop: '1px solid rgba(255,255,255,.15)', padding: '10px 14px', alignItems: 'center', justifyContent: 'space-between', gap: 10, boxShadow: '0 -4px 20px rgba(0,0,0,.3)' }}>
         <span style={{ fontSize: 14, fontWeight: 800, color: '#FFFFFF', flexShrink: 0 }}>$69.990 + IVA</span>
         <Link to="/sitio-web/formulario" onClick={() => trackLead('Sticky Bar CTA')}
           style={{ flex: 1, textAlign: 'center', background: '#FFFFFF', color: FP.blue, fontWeight: 800, fontSize: 13, padding: '10px', borderRadius: 10, textDecoration: 'none' }}>

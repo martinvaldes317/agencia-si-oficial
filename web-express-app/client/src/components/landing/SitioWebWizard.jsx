@@ -86,7 +86,7 @@ function sanitizeDomain(value) {
 function Field({ label, sub, children }) {
   return (
     <div style={{ marginBottom: 20 }}>
-      <label style={{ display: 'block', fontWeight: 700, fontSize: 13, color: T.navy, marginBottom: 6 }}>{label}</label>
+      <label style={{ display: 'block', fontWeight: 700, fontSize: 13, color: T.ink, marginBottom: 6 }}>{label}</label>
       {sub && <div style={{ fontSize: 12, color: T.gray, marginBottom: 8 }}>{sub}</div>}
       {children}
     </div>
@@ -95,8 +95,8 @@ function Field({ label, sub, children }) {
 
 const inputStyle = {
   width: '100%', padding: '13px 16px', fontSize: 14, borderRadius: 12,
-  border: `1.5px solid ${T.border}`, fontFamily: 'inherit', color: T.navy,
-  outline: 'none', boxSizing: 'border-box', background: T.white,
+  border: `1.5px solid ${T.border}`, fontFamily: 'inherit', color: T.ink,
+  outline: 'none', boxSizing: 'border-box', background: T.panel,
 }
 
 function TextInput(props) {
@@ -150,7 +150,7 @@ function ErrorMsg({ children }) {
 }
 
 function StepTitle({ children }) {
-  return <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.4rem,3vw,1.9rem)', fontWeight: 800, color: T.navy, marginBottom: 26 }}>{children}</h2>
+  return <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.4rem,3vw,1.9rem)', fontWeight: 800, color: T.ink, marginBottom: 26 }}>{children}</h2>
 }
 
 // ── Main component ──────────────────────────────────────────────────────────
@@ -437,15 +437,15 @@ export default function SitioWebWizard() {
         </div>
       )}
       {draftError && (
-        <div style={{ background: '#FFF3E0', color: '#B98900', fontSize: 12, fontWeight: 600, textAlign: 'center', padding: '8px 12px' }}>
+        <div style={{ background: 'rgba(185,137,0,0.14)', color: '#e0a83a', fontSize: 12, fontWeight: 600, textAlign: 'center', padding: '8px 12px' }}>
           {draftError}
         </div>
       )}
 
       {resumeOpen && (
         <div onClick={() => setResumeOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.5)', zIndex: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <div onClick={e => e.stopPropagation()} style={{ background: T.white, borderRadius: 18, padding: '28px 26px', maxWidth: 400, width: '100%' }}>
-            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 19, fontWeight: 800, color: T.navy, marginBottom: 8 }}>Continúa en tu notebook o tablet</h3>
+          <div onClick={e => e.stopPropagation()} style={{ background: T.panel, borderRadius: 18, padding: '28px 26px', maxWidth: 400, width: '100%' }}>
+            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 19, fontWeight: 800, color: T.ink, marginBottom: 8 }}>Continúa en tu notebook o tablet</h3>
             <p style={{ fontSize: 13, color: T.gray, lineHeight: 1.6, marginBottom: 18 }}>
               Guardamos tu progreso. Envíate este enlace y sigue exactamente donde quedaste — el logo o fotos que
               hayas adjuntado deberás volver a subirlos.
@@ -468,7 +468,7 @@ export default function SitioWebWizard() {
                     <Mail size={15} /> Correo
                   </a>
                 </div>
-                <button onClick={copyResumeLink} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, background: T.light, color: T.navy, fontWeight: 700, fontSize: 13, padding: '11px', borderRadius: 10, border: `1px solid ${T.border}`, cursor: 'pointer' }}>
+                <button onClick={copyResumeLink} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, background: T.light, color: T.ink, fontWeight: 700, fontSize: 13, padding: '11px', borderRadius: 10, border: `1px solid ${T.border}`, cursor: 'pointer' }}>
                   {copied ? <><CheckCheck size={15} color="#0FA895" /> Copiado</> : <><Copy size={14} /> Copiar enlace</>}
                 </button>
               </>
@@ -482,7 +482,7 @@ export default function SitioWebWizard() {
 
       {/* PROGRESS BAR */}
       {step <= TOTAL_STEPS && (
-        <div style={{ background: T.white, borderBottom: `1px solid ${T.border}`, padding: '14px 20px' }}>
+        <div style={{ background: T.panel, borderBottom: `1px solid ${T.border}`, padding: '14px 20px' }}>
           <div style={{ maxWidth: 720, margin: '0 auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontWeight: 700, color: T.gray, marginBottom: 8 }}>
               <span>Paso {step} de {TOTAL_STEPS}</span>
@@ -524,7 +524,7 @@ export default function SitioWebWizard() {
               <ErrorMsg>{errors.companyName}</ErrorMsg>
             </Field>
 
-            <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 14, padding: '16px 18px', marginTop: 8 }}>
+            <div style={{ background: T.panel, border: `1px solid ${T.border}`, borderRadius: 14, padding: '16px 18px', marginTop: 8 }}>
               <div style={{ fontSize: 11, fontWeight: 800, color: T.violet, letterSpacing: .5, textTransform: 'uppercase', marginBottom: 12 }}>Datos para facturación (opcional)</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                 <Field label="RUT">
@@ -583,7 +583,7 @@ export default function SitioWebWizard() {
                   {photoFiles.length > 0 && (
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
                       {photoFiles.map((f, i) => (
-                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, background: T.white, border: `1px solid ${T.border}`, borderRadius: 20, padding: '6px 10px', fontSize: 11, color: T.navy }}>
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, background: T.panel, border: `1px solid ${T.border}`, borderRadius: 20, padding: '6px 10px', fontSize: 11, color: T.ink }}>
                           {f.name.length > 18 ? f.name.slice(0, 15) + '…' : f.name}
                           <X size={12} style={{ cursor: 'pointer' }} onClick={() => setPhotoFiles(fs => fs.filter((_, idx) => idx !== i))} />
                         </div>
@@ -663,7 +663,7 @@ export default function SitioWebWizard() {
               <ErrorMsg>{errors.wantsMaps}</ErrorMsg>
             </Field>
 
-            <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 14, padding: '16px 18px' }}>
+            <div style={{ background: T.panel, border: `1px solid ${T.border}`, borderRadius: 14, padding: '16px 18px' }}>
               <div style={{ fontSize: 11, fontWeight: 800, color: T.violet, letterSpacing: .5, textTransform: 'uppercase', marginBottom: 12 }}>Redes sociales (opcional)</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <TextInput value={data.instagram} onChange={e => set({ instagram: e.target.value })} placeholder="Instagram" />
@@ -717,7 +717,7 @@ export default function SitioWebWizard() {
                 cursor: 'pointer', border: `2px solid ${data.wantsStore === false ? T.violet : T.border}`,
                 background: data.wantsStore === false ? `${T.violet}0D` : T.white, borderRadius: 16, padding: '22px 18px',
               }}>
-                <div style={{ fontWeight: 800, fontSize: 14, color: T.navy, marginBottom: 6 }}>NO POR AHORA</div>
+                <div style={{ fontWeight: 800, fontSize: 14, color: T.ink, marginBottom: 6 }}>NO POR AHORA</div>
                 <div style={{ fontSize: 12, color: T.gray }}>Solo necesito mi página web.</div>
               </div>
               <div onClick={() => set({ wantsStore: true })} style={{
@@ -725,7 +725,7 @@ export default function SitioWebWizard() {
                 background: data.wantsStore === true ? `${T.violet}0D` : T.white, borderRadius: 16, padding: '22px 18px',
               }}>
                 <span style={{ position: 'absolute', top: -11, left: 16, background: T.violet, color: T.white, fontSize: 10, fontWeight: 800, padding: '3px 10px', borderRadius: 20 }}>OPCIONAL</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 800, fontSize: 14, color: T.navy, marginBottom: 6 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 800, fontSize: 14, color: T.ink, marginBottom: 6 }}>
                   <Store size={16} color={T.violet} /> AGREGAR TIENDA ONLINE
                 </div>
                 <div style={{ fontSize: 18, fontWeight: 800, color: T.violet, marginBottom: 6 }}>+$25.990 + IVA</div>
@@ -735,10 +735,10 @@ export default function SitioWebWizard() {
             <ErrorMsg>{errors.wantsStore}</ErrorMsg>
 
             {data.wantsStore === true && (
-              <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 14, padding: '18px 20px', marginTop: 18 }}>
+              <div style={{ background: T.panel, border: `1px solid ${T.border}`, borderRadius: 14, padding: '18px 20px', marginTop: 18 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 18 }}>
                   {['Carro de compras', 'Catálogo de productos', 'Carga inicial de hasta 25 productos', 'Página individual para cada producto', 'Proceso de compra online', 'Integración con Mercado Pago', 'Diseño del catálogo adaptado a celulares'].map(t => (
-                    <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: T.navy }}>
+                    <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: T.ink }}>
                       <Check size={14} color={T.violet} style={{ flexShrink: 0 }} /> {t}
                     </div>
                   ))}
@@ -796,12 +796,12 @@ export default function SitioWebWizard() {
               <div style={{ background: `${T.violet}0D`, border: `1px solid ${T.violet}40`, borderRadius: 16, padding: '20px 22px', marginBottom: 14 }}>
                 <div style={{ fontSize: 10, fontWeight: 800, color: T.violet, letterSpacing: 1, marginBottom: 6 }}>ADICIONAL</div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                  <span style={{ fontWeight: 800, fontSize: 14, color: T.navy }}>Tienda online</span>
+                  <span style={{ fontWeight: 800, fontSize: 14, color: T.ink }}>Tienda online</span>
                   <span style={{ fontWeight: 800, fontSize: 15, color: T.violet }}>+${fmt(PRICE_STORE)} + IVA</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
                   {['Carro de compras', 'Hasta 25 productos cargados inicialmente', 'Mercado Pago', 'Catálogo de productos', 'Compra online'].map(t => (
-                    <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: T.navy }}>
+                    <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: T.ink }}>
                       <Check size={12} color={T.violet} /> {t}
                     </div>
                   ))}
@@ -810,10 +810,10 @@ export default function SitioWebWizard() {
             )}
 
             {extraSecciones > 0 && (
-              <div style={{ background: '#FFF8E6', border: '1px solid #B9890040', borderRadius: 16, padding: '20px 22px', marginBottom: 14 }}>
+              <div style={{ background: 'rgba(185,137,0,0.10)', border: '1px solid #B9890040', borderRadius: 16, padding: '20px 22px', marginBottom: 14 }}>
                 <div style={{ fontSize: 10, fontWeight: 800, color: '#B98900', letterSpacing: 1, marginBottom: 6 }}>ADICIONAL</div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontWeight: 800, fontSize: 14, color: T.navy }}>
+                  <span style={{ fontWeight: 800, fontSize: 14, color: T.ink }}>
                     {extraSecciones} sección{extraSecciones > 1 ? 'es' : ''} adicional{extraSecciones > 1 ? 'es' : ''}
                   </span>
                   <span style={{ fontWeight: 800, fontSize: 15, color: '#B98900' }}>+${fmt(extraSecciones * PRICE_EXTRA_SECTION)} + IVA</span>
@@ -821,7 +821,7 @@ export default function SitioWebWizard() {
               </div>
             )}
 
-            <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 16, padding: '18px 22px', marginBottom: 14 }}>
+            <div style={{ background: T.panel, border: `1px solid ${T.border}`, borderRadius: 16, padding: '18px 22px', marginBottom: 14 }}>
               <Row label="Subtotal" value={`$${fmt(montoNeto)}`} />
               <Row label="IVA (19%)" value={`$${fmt(montoIva)}`} />
               <div style={{ borderTop: `1px solid ${T.border}`, marginTop: 8, paddingTop: 8 }}>
@@ -834,7 +834,7 @@ export default function SitioWebWizard() {
               </div>
             </div>
 
-            <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 16, padding: '18px 22px', marginBottom: 14, display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div style={{ background: T.panel, border: `1px solid ${T.border}`, borderRadius: 16, padding: '18px 22px', marginBottom: 14, display: 'flex', flexDirection: 'column', gap: 10 }}>
               <SummaryRow label="Nombre" value={`${data.firstName} ${data.lastName}`.trim()} onEdit={() => editStep(1)} />
               <SummaryRow label="Empresa" value={data.companyName} onEdit={() => editStep(1)} />
               <SummaryRow label="Correo" value={data.email} onEdit={() => editStep(1)} />
@@ -850,7 +850,7 @@ export default function SitioWebWizard() {
                 Ver condiciones del servicio <ChevronDown size={13} style={{ transform: showTerms ? 'rotate(180deg)' : 'none' }} />
               </div>
               {showTerms && (
-                <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 12, padding: '14px 16px', fontSize: 12, color: T.gray, lineHeight: 1.8, marginBottom: 12 }}>
+                <div style={{ background: T.panel, border: `1px solid ${T.border}`, borderRadius: 12, padding: '14px 16px', fontSize: 12, color: T.gray, lineHeight: 1.8, marginBottom: 12 }}>
                   · Dominio .CL incluido durante el primer año.<br />
                   · Hosting incluido durante el primer año.<br />
                   · Hasta 5 secciones.<br />
@@ -859,7 +859,7 @@ export default function SitioWebWizard() {
                   · Servicios o funcionalidades adicionales pueden cotizarse por separado.
                 </div>
               )}
-              <label style={{ display: 'flex', alignItems: 'flex-start', gap: 9, fontSize: 13, color: T.navy, cursor: 'pointer' }}>
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: 9, fontSize: 13, color: T.ink, cursor: 'pointer' }}>
                 <input type="checkbox" checked={data.aceptaCondiciones} onChange={e => set({ aceptaCondiciones: e.target.checked })} style={{ marginTop: 3 }} />
                 <span>
                   He revisado la información ingresada y acepto los{' '}
@@ -873,7 +873,7 @@ export default function SitioWebWizard() {
             <ErrorMsg>{submitError}</ErrorMsg>
 
             <button onClick={() => handleSubmit('online')} disabled={submitting} style={{
-              width: '100%', marginTop: 16, background: T.cyan, color: T.navy, fontWeight: 800, fontSize: 15,
+              width: '100%', marginTop: 16, background: T.cyan, color: T.ink, fontWeight: 800, fontSize: 15,
               padding: '17px', borderRadius: 14, border: 'none', cursor: submitting ? 'default' : 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: submitting ? .7 : 1,
             }}>
@@ -908,7 +908,7 @@ export default function SitioWebWizard() {
         {step <= TOTAL_STEPS && (
           <div style={{ display: 'flex', gap: 12, marginTop: 30 }}>
             {step > 1 && (
-              <button onClick={back} style={{ flex: '0 0 auto', background: T.white, border: `1.5px solid ${T.border}`, color: T.navy, fontWeight: 700, fontSize: 14, padding: '14px 20px', borderRadius: 12, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <button onClick={back} style={{ flex: '0 0 auto', background: T.panel, border: `1.5px solid ${T.border}`, color: T.ink, fontWeight: 700, fontSize: 14, padding: '14px 20px', borderRadius: 12, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
                 <ArrowLeft size={15} /> Atrás
               </button>
             )}
@@ -947,7 +947,7 @@ export default function SitioWebWizard() {
 
 function Row({ label, value, bold }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: bold ? 15 : 13, fontWeight: bold ? 800 : 500, color: T.navy, padding: '4px 0' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: bold ? 15 : 13, fontWeight: bold ? 800 : 500, color: T.ink, padding: '4px 0' }}>
       <span>{label}</span><span>{value}</span>
     </div>
   )
@@ -958,7 +958,7 @@ function SummaryRow({ label, value, onEdit }) {
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
       <div>
         <div style={{ fontSize: 10, fontWeight: 700, color: T.gray, textTransform: 'uppercase', letterSpacing: .5 }}>{label}</div>
-        <div style={{ fontSize: 13, color: T.navy, fontWeight: 600 }}>{value || '—'}</div>
+        <div style={{ fontSize: 13, color: T.ink, fontWeight: 600 }}>{value || '—'}</div>
       </div>
       <button onClick={onEdit} style={{ background: 'none', border: 'none', color: T.violet, fontWeight: 700, fontSize: 12, cursor: 'pointer' }}>Editar</button>
     </div>

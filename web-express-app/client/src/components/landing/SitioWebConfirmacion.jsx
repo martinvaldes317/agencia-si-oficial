@@ -102,7 +102,7 @@ export default function SitioWebConfirmacion() {
       </div>
 
       <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
-        <div style={{ maxWidth: 520, width: '100%', background: T.white, borderRadius: 20, padding: '40px 32px', textAlign: 'center', boxShadow: '0 20px 60px rgba(10,11,46,.10)' }}>
+        <div style={{ maxWidth: 520, width: '100%', background: T.panel, borderRadius: 20, padding: '40px 32px', textAlign: 'center', boxShadow: '0 20px 60px rgba(10,11,46,.10)' }}>
 
           {isApproved ? (
             <>
@@ -114,7 +114,7 @@ export default function SitioWebConfirmacion() {
                 opacity: animDone ? 1 : 0,
                 transition: 'max-height .5s cubic-bezier(.16,1,.3,1), opacity .4s ease .15s',
               }}>
-                <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 19, fontWeight: 800, color: T.navy, margin: '26px 0 6px' }}>
+                <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 19, fontWeight: 800, color: T.ink, margin: '26px 0 6px' }}>
                   {clientReady ? '¡Tu portal ya está listo!' : '¡Listo! Ya recibimos tu proyecto'}
                 </h1>
                 <p style={{ fontSize: 13, color: T.gray, lineHeight: 1.6, marginBottom: 20 }}>
@@ -129,20 +129,20 @@ export default function SitioWebConfirmacion() {
                     <label style={{ fontSize: 11, fontWeight: 700, color: T.gray, textTransform: 'uppercase', letterSpacing: .5, display: 'block', marginBottom: 5 }}>Correo</label>
                     <input type="email" required value={accessEmail} onChange={e => setAccessEmail(e.target.value)}
                       placeholder="tu@correo.com"
-                      style={{ width: '100%', border: `1px solid ${T.border}`, borderRadius: 10, padding: '11px 12px', fontSize: 13.5, marginBottom: 12, background: T.white, boxSizing: 'border-box' }} />
+                      style={{ width: '100%', border: `1px solid ${T.border}`, borderRadius: 10, padding: '11px 12px', fontSize: 13.5, marginBottom: 12, background: T.panel, boxSizing: 'border-box' }} />
                     <label style={{ fontSize: 11, fontWeight: 700, color: T.gray, textTransform: 'uppercase', letterSpacing: .5, display: 'block', marginBottom: 5 }}>Crea tu contraseña</label>
                     <div style={{ position: 'relative', marginBottom: 10 }}>
                       <Lock size={14} color={T.grayLt} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)' }} />
                       <input type={showPwd ? 'text' : 'password'} required minLength={6} value={pwd} onChange={e => setPwd(e.target.value)}
                         placeholder="Mínimo 6 caracteres" autoComplete="new-password"
-                        style={{ width: '100%', border: `1px solid ${T.border}`, borderRadius: 10, padding: '11px 38px', fontSize: 13.5, background: T.white, boxSizing: 'border-box' }} />
+                        style={{ width: '100%', border: `1px solid ${T.border}`, borderRadius: 10, padding: '11px 38px', fontSize: 13.5, background: T.panel, boxSizing: 'border-box' }} />
                       <button type="button" onClick={() => setShowPwd(s => !s)} style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: T.grayLt, padding: 4 }}>
                         {showPwd ? <EyeOff size={15} /> : <Eye size={15} />}
                       </button>
                     </div>
                     <input type="password" required value={pwdConfirm} onChange={e => setPwdConfirm(e.target.value)}
                       placeholder="Repite la contraseña" autoComplete="new-password"
-                      style={{ width: '100%', border: `1px solid ${T.border}`, borderRadius: 10, padding: '11px 12px', fontSize: 13.5, marginBottom: 14, background: T.white, boxSizing: 'border-box' }} />
+                      style={{ width: '100%', border: `1px solid ${T.border}`, borderRadius: 10, padding: '11px 12px', fontSize: 13.5, marginBottom: 14, background: T.panel, boxSizing: 'border-box' }} />
                     <button type="submit" disabled={creating}
                       style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: T.violet, color: T.white, fontWeight: 800, fontSize: 14, padding: '13px', borderRadius: 10, border: 'none', cursor: 'pointer', opacity: creating ? .7 : 1 }}>
                       {creating ? <Loader2 size={15} className="swl-conf-spin" /> : 'Crear contraseña y ver mi portal'}
@@ -172,7 +172,7 @@ export default function SitioWebConfirmacion() {
                 hasOrderContext ? (
                   <>
                     <ReceiptAnimation summary={summary} orderId={orderIdFromUrl || summary?.orderId} status="rejected" />
-                    <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, fontWeight: 800, color: T.navy, margin: '24px 0 8px' }}>Tu pago no se completó</h1>
+                    <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, fontWeight: 800, color: T.ink, margin: '24px 0 8px' }}>Tu pago no se completó</h1>
                     <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.7, marginBottom: 28 }}>
                       Tu proyecto quedó registrado, pero el pago fue rechazado o se canceló antes de completarse. Escríbenos por WhatsApp y te ayudamos a completar tu pedido.
                     </p>
@@ -180,7 +180,7 @@ export default function SitioWebConfirmacion() {
                 ) : (
                   <>
                     <XCircle size={54} color="#D9333F" style={{ marginBottom: 16 }} />
-                    <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 800, color: T.navy, marginBottom: 10 }}>No encontramos tu pedido</h1>
+                    <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 800, color: T.ink, marginBottom: 10 }}>No encontramos tu pedido</h1>
                     <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.7, marginBottom: 28 }}>
                       Este enlace no tiene la información de un pedido. Si acabas de completar el formulario, vuelve a intentarlo o escríbenos por WhatsApp.
                     </p>
@@ -189,7 +189,7 @@ export default function SitioWebConfirmacion() {
               ) : (
                 <>
                   <Clock size={54} color="#B98900" style={{ marginBottom: 16 }} />
-                  <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 800, color: T.navy, marginBottom: 10 }}>Tu pago está pendiente de confirmación</h1>
+                  <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 800, color: T.ink, marginBottom: 10 }}>Tu pago está pendiente de confirmación</h1>
                   <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.7, marginBottom: 28 }}>
                     Apenas se confirme, comenzaremos a trabajar en tu proyecto. Te avisaremos por correo y WhatsApp.
                   </p>
@@ -234,7 +234,7 @@ function SummaryLine({ label, value }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, padding: '5px 0', fontSize: 13 }}>
       <span style={{ color: T.gray, fontWeight: 600 }}>{label}</span>
-      <span style={{ color: T.navy, fontWeight: 700, textAlign: 'right' }}>{value}</span>
+      <span style={{ color: T.ink, fontWeight: 700, textAlign: 'right' }}>{value}</span>
     </div>
   )
 }

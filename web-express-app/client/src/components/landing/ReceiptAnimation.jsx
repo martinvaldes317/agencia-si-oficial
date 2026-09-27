@@ -13,6 +13,12 @@ function barcodeWidths(seed) {
 // desde otro dispositivo sin el resumen en localStorage) eso rompe la página.
 const safe = n => (typeof n === 'number' ? fmt(n) : '—')
 
+// El papel de la boleta se mantiene blanco (metáfora de impresora térmica real) —
+// estos dos tonos son independientes de T.ink/T.gray, que en el resto del embudo
+// ahora son claros (texto sobre fondo oscuro).
+const PAPER_INK = '#191A22'
+const PAPER_GRAY = '#5B5750'
+
 // Tiempos pensados para que se sienta una impresora real: una pausa procesando,
 // luego el papel avanza LENTO y a velocidad constante (no un fade rápido).
 const PROCESSING_MS = 1100
@@ -128,17 +134,17 @@ export default function ReceiptAnimation({ summary, orderId, status = 'approved'
             </div>
           )}
           <div style={{ textAlign: 'center', marginBottom: 14 }}>
-            <span style={{ fontWeight: 800, color: T.navy, fontSize: 13, letterSpacing: 1 }}>AGENCIA<span style={{ color: T.violet }}>SI</span></span>
+            <span style={{ fontWeight: 800, color: PAPER_INK, fontSize: 13, letterSpacing: 1 }}>AGENCIA<span style={{ color: T.violet }}>SI</span></span>
           </div>
-          <div style={{ borderTop: `1px dashed ${T.border}` }} />
-          <div style={{ fontFamily: "'Courier New', monospace", fontSize: 12.5, color: T.navy, padding: '14px 0' }}>
+          <div style={{ borderTop: '1px dashed rgba(10,11,46,.15)' }} />
+          <div style={{ fontFamily: "'Courier New', monospace", fontSize: 12.5, color: PAPER_INK, padding: '14px 0' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
               <span>SITIO WEB PROFESIONAL</span>
               <span>${safe(neto)}</span>
             </div>
           </div>
-          <div style={{ borderTop: `1px dashed ${T.border}` }} />
-          <div style={{ fontFamily: "'Courier New', monospace", fontSize: 12.5, color: T.gray, padding: '14px 0', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div style={{ borderTop: '1px dashed rgba(10,11,46,.15)' }} />
+          <div style={{ fontFamily: "'Courier New', monospace", fontSize: 12.5, color: PAPER_GRAY, padding: '14px 0', display: 'flex', flexDirection: 'column', gap: 4 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Subtotal</span><span>${safe(neto)}</span></div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>IVA</span><span>${safe(iva)}</span></div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Total proyecto</span><span>${safe(total)}</span></div>
@@ -147,10 +153,10 @@ export default function ReceiptAnimation({ summary, orderId, status = 'approved'
             </div>
             {!rejected && saldo != null && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Saldo restante</span><span>${safe(saldo)}</span></div>}
           </div>
-          <div style={{ borderTop: `1px dashed ${T.border}` }} />
-          <div style={{ fontFamily: "'Courier New', monospace", fontSize: 11, color: T.gray, padding: '14px 0 4px', display: 'flex', flexDirection: 'column', gap: 3 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Pedido</span><span style={{ color: T.navy }}>{orderId || '—'}</span></div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Fecha</span><span style={{ color: T.navy }}>{fecha}</span></div>
+          <div style={{ borderTop: '1px dashed rgba(10,11,46,.15)' }} />
+          <div style={{ fontFamily: "'Courier New', monospace", fontSize: 11, color: PAPER_GRAY, padding: '14px 0 4px', display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Pedido</span><span style={{ color: PAPER_INK }}>{orderId || '—'}</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Fecha</span><span style={{ color: PAPER_INK }}>{fecha}</span></div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Estado</span><span style={{ color: rejected ? '#D9333F' : '#1B8A4A', fontWeight: 700 }}>{rejected ? 'RECHAZADO' : 'APROBADO'}</span></div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: 2, marginTop: 14, height: 28 }}>
