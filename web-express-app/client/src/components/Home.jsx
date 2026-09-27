@@ -535,7 +535,7 @@ export default function Home() {
                                     {[
                                         { label: 'Proyectos entregados', value: '60+',   sub: 'sitios, sistemas y apps', up: true },
                                         { label: 'Presencia digital',    value: 'Chile',  sub: 'y clientes en LATAM',       up: true },
-                                        { label: 'Clientes activos',     value: '24+',   sub: 'en Chile y LATAM',        up: null },
+                                        { label: 'Proyectos activos',    value: '60+',   sub: 'en Chile y LATAM',        up: null },
                                         { label: 'Tecnologías',          value: '12+',   sub: 'React, Node, IA y más',   up: null },
                                     ].map(stat => (
                                         <div key={stat.label} className="bg-white p-6">
@@ -565,7 +565,7 @@ export default function Home() {
                         {[
                             { value: '60+',    label: 'Proyectos entregados' },
                             { value: 'LATAM',  label: 'Clientes en Chile y LATAM' },
-                            { value: '24+',    label: 'Clientes activos' },
+                            { value: '60+',    label: 'Proyectos activos' },
                             { value: '100%',   label: 'Código propio, sin templates' },
                         ].map(s => (
                             <div key={s.label} className="text-center">
@@ -655,7 +655,7 @@ export default function Home() {
                                     {[
                                         { val: '60+',    lbl: 'Proyectos entregados' },
                                         { val: 'LATAM',  lbl: 'Clientes en LATAM' },
-                                        { val: '24+',    lbl: 'Clientes activos' },
+                                        { val: '60+',    lbl: 'Proyectos activos' },
                                     ].map(s => (
                                         <div key={s.lbl} className="rounded-xl p-4 text-center" style={{ background: 'rgba(0,0,0,0.2)' }}>
                                             <p className="text-2xl font-black text-white mb-0.5" style={{ fontFamily: 'Playfair Display, serif' }}>{s.val}</p>

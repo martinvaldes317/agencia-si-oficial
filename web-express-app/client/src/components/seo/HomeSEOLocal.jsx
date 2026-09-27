@@ -169,7 +169,7 @@ export default function HomeSEOLocal({ city }) {
               {[
                 { label: 'Proyectos entregados', value: '50+',    sub: 'sitios, sistemas y apps', hi: true },
                 { label: 'Presencia',            value: 'LATAM',  sub: 'clientes en Chile y LATAM', hi: true },
-                { label: 'Clientes activos',     value: '24+',    sub: 'en Chile y LATAM',        hi: false },
+                { label: 'Proyectos activos',    value: '60+',    sub: 'en Chile y LATAM',        hi: false },
                 { label: 'Tecnologías',          value: '12+',    sub: 'React, Node, IA y más',   hi: false },
               ].map(s => (
                 <div key={s.label} style={{ background: T.white, padding: '24px' }}>
@@ -193,7 +193,7 @@ export default function HomeSEOLocal({ city }) {
           {[
             { value: '50+',    label: 'Proyectos entregados' },
             { value: 'LATAM',  label: 'Clientes en Chile y LATAM' },
-            { value: '24+',    label: 'Clientes activos' },
+            { value: '60+',    label: 'Proyectos activos' },
             { value: '100%',   label: 'Código propio' },
           ].map(s => (
             <div key={s.label}>
