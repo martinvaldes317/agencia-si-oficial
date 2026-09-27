@@ -29,6 +29,7 @@ import DemoIndex from './components/demos/DemoIndex'
 import LandingWebSistemas from './components/LandingWebSistemas'
 import LandingSEOLocal from './components/seo/LandingSEOLocal'
 import HomeSEOLocal from './components/seo/HomeSEOLocal'
+import ServicioSEOLocal, { SERVICIOS } from './components/seo/ServicioSEOLocal'
 import SitioWebLanding from './components/landing/SitioWebLanding'
 import SitioWebWizard from './components/landing/SitioWebWizard'
 import SitioWebConfirmacion from './components/landing/SitioWebConfirmacion'
@@ -55,6 +56,12 @@ const CITIES = {
   'pucon':        { name: 'Pucón',        slug: 'pucon',        region: 'Región de La Araucanía',    context: 'hostales, actividades turísticas y negocios de Pucón' },
   'temuco':       { name: 'Temuco',       slug: 'temuco',       region: 'Región de La Araucanía',    context: 'pymes, clínicas, comercios y profesionales de Temuco' },
   'las-condes':   { name: 'Las Condes',   slug: 'las-condes',   region: 'Región Metropolitana',      context: 'empresas, consultorios y negocios premium de Las Condes' },
+  'concepcion':   { name: 'Concepción',   slug: 'concepcion',   region: 'Región del Biobío',          context: 'pymes, comercios y empresas del Biobío' },
+  'antofagasta':  { name: 'Antofagasta',  slug: 'antofagasta',  region: 'Región de Antofagasta',      context: 'empresas de minería, servicios y comercio de Antofagasta' },
+  'la-serena':    { name: 'La Serena',    slug: 'la-serena',    region: 'Región de Coquimbo',         context: 'comercios, turismo y profesionales de La Serena y Coquimbo' },
+  'valdivia':     { name: 'Valdivia',     slug: 'valdivia',     region: 'Región de Los Ríos',         context: 'pymes, turismo y profesionales de Valdivia' },
+  'puerto-montt': { name: 'Puerto Montt', slug: 'puerto-montt', region: 'Región de Los Lagos',        context: 'empresas de servicios, turismo y comercio de Puerto Montt' },
+  'iquique':      { name: 'Iquique',      slug: 'iquique',      region: 'Región de Tarapacá',         context: 'comercios y empresas de servicios de Iquique' },
 }
 
 const ScrollToTop = () => {
@@ -98,6 +105,9 @@ function App() {
           ))}
           {Object.values(CITIES).map(city => (
             <Route key={`agencia-${city.slug}`} path={`/agencia/${city.slug}`} element={<HomeSEOLocal city={city} />} />
+          ))}
+          {Object.values(SERVICIOS).map(service => (
+            <Route key={`servicio-${service.slug}`} path={`/servicios/${service.slug}`} element={<ServicioSEOLocal service={service} />} />
           ))}
 
           {/* Admin */}

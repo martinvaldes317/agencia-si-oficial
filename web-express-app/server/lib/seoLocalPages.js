@@ -1,9 +1,32 @@
-// Mirrors the city data in client/src/App.jsx (CITIES).
-// Kept in sync manually — only slug -> display name is needed here.
+// Mirrors the city data in client/src/App.jsx (CITIES) and the service data in
+// client/src/components/seo/ServicioSEOLocal.jsx (SERVICIOS).
+// Kept in sync manually — only slug -> display data is needed here.
 
 const CITIES = {
   'talca': 'Talca', 'rancagua': 'Rancagua', 'santiago': 'Santiago', 'vina-del-mar': 'Viña del Mar',
   'pucon': 'Pucón', 'temuco': 'Temuco', 'las-condes': 'Las Condes',
+  'concepcion': 'Concepción', 'antofagasta': 'Antofagasta', 'la-serena': 'La Serena',
+  'valdivia': 'Valdivia', 'puerto-montt': 'Puerto Montt', 'iquique': 'Iquique',
+}
+
+// slug -> { title, description } — debe calzar con SERVICIOS[slug].metaTitle/metaDescription
+const SERVICES = {
+  'sistemas-de-gestion': {
+    title: 'Sistemas de Gestión a Medida Chile | AgenciaSI',
+    description: 'Desarrollamos sistemas de gestión, caja e inventario a medida para empresas en Chile. Código propio, panel administrador y reportes en tiempo real.',
+  },
+  'plataformas': {
+    title: 'Plataformas Web y Membresías a Medida Chile | AgenciaSI',
+    description: 'Desarrollamos plataformas web a medida con login de usuarios, cursos, clases o contenido restringido. Código propio, sin comisiones de terceros.',
+  },
+  'ecosistemas-ia': {
+    title: 'Automatización e IA para Empresas Chile | AgenciaSI',
+    description: 'Integramos IA y automatizaciones a medida en sistemas y plataformas: chatbots, flujos automáticos y CRM inteligente para empresas en Chile.',
+  },
+  'ecommerce': {
+    title: 'Tiendas Online / E-commerce a Medida Chile | AgenciaSI',
+    description: 'Desarrollamos tiendas online a medida con catálogo, carrito de compras y Mercado Pago integrado. Código propio, panel de pedidos y diseño responsive.',
+  },
 }
 
 const PAGE_TYPES = [
@@ -19,9 +42,12 @@ const PAGE_TYPES = [
     title: name => `Agencia Digital en ${name} | AgenciaSI Chile`,
     description: name => `AgenciaSI — agencia digital en ${name}. Desarrollo web, e-commerce, sistemas a medida e integración con IA para pymes y empresas de ${name}. Cotiza gratis.`,
   },
-
-
-
+  {
+    prefix: '/servicios/',
+    cities: SERVICES,
+    title: data => data.title,
+    description: data => data.description,
+  },
 ]
 
 // Returns { title, description, canonical } for a known SEO local page path, or null otherwise.

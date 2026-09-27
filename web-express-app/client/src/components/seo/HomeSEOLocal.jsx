@@ -158,7 +158,7 @@ export default function HomeSEOLocal({ city }) {
           <div className="hsl-card-hide" style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 24px 64px rgba(0,0,0,.10)', border: `1px solid ${T.border}` }}>
             <div style={{ background: T.blue, padding: '20px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <span style={{ color: T.white, fontWeight: 700, fontSize: 14 }}>AgenciaSI · {city.name}</span>
-              <span style={{ background: 'rgba(255,255,255,0.2)', color: T.white, fontSize: 11, fontWeight: 600, padding: '4px 12px', borderRadius: 20 }}>En vivo</span>
+              <span style={{ background: 'rgba(255,255,255,0.2)', color: T.white, fontSize: 11, fontWeight: 600, padding: '4px 12px', borderRadius: 20 }}>En cifras</span>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: T.border }}>
               {[
