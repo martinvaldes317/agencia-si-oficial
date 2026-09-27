@@ -104,7 +104,7 @@ const PASOS = [
 ]
 
 const FAQS = [
-  { q: '¿Cuál es el precio?', a: 'El sitio web profesional cuesta $69.990 + IVA, con dominio .CL y hosting por 1 año incluidos. Es un único valor, sin modalidades ni cobros ocultos.' },
+  { q: '¿Cuál es el precio?', a: 'El sitio web profesional cuesta $69.990 + IVA ($83.288 con IVA incluido), con dominio .CL y hosting por 1 año incluidos. Es un único valor, sin modalidades ni cobros ocultos.' },
   { q: '¿Cuánto debo pagar para comenzar?', a: 'Solo el 50% del valor total como abono para iniciar tu proyecto. El 50% restante se paga al finalizar el sitio web.' },
   { q: '¿El dominio está incluido?', a: 'Sí. Incluye un dominio .CL durante el primer año.' },
   { q: '¿El hosting está incluido?', a: 'Sí. El hosting está incluido durante el primer año.' },
@@ -293,6 +293,7 @@ export default function SitioWebLanding() {
           <div className="swl-card" style={{ background: FP.blue, borderRadius: 24, padding: '36px 32px', position: 'relative', border: `2px solid ${FP.red}` }}>
             <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.65)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Sitio web profesional</div>
             <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 20 }}>$69.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
+            <p style={{ fontSize: 13, color: 'rgba(255,255,255,.75)', margin: '-8px 0 20px' }}>Precio final con IVA: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19))}</strong> · Abono hoy: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19 / 2))}</strong></p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
               {['Solo pagas el 50% de abono para comenzar', 'Proceso simple y guiado', 'Puedes adjuntar logo y fotografías', 'No necesitas conocimientos técnicos', 'Revisas toda la información antes de contratar'].map(t => (
                 <div key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'rgba(255,255,255,.88)' }}>

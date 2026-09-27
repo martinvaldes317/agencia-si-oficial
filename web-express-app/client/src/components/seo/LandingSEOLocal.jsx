@@ -247,16 +247,12 @@ export default function LandingSEOLocal({ city }) {
       <section style={{ background: 'linear-gradient(135deg, #1A1AD4 0%, #2D2BB5 50%, #1565C0 100%)', padding: '60px 20px' }}>
         <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
           <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 30, padding: '5px 16px', marginBottom: 20 }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: '#A8FFEA', letterSpacing: 2, textTransform: 'uppercase' }}>🛒 Cyber Day · Oferta para {city.name}</span>
+            <span style={{ fontSize: 11, fontWeight: 800, color: '#A8FFEA', letterSpacing: 2, textTransform: 'uppercase' }}>Para pymes y profesionales de {city.name}</span>
           </div>
           <div style={{ fontSize: 'clamp(22px, 3vw, 30px)', fontStyle: 'italic', fontWeight: 900, color: T.white, marginBottom: 8 }}>Tu Sitio Web Profesional</div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 8 }}>
             <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}>por solo</span>
             <span style={{ fontSize: 'clamp(48px, 7vw, 68px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$69.990</span>
-            <span style={{ fontSize: 18, color: 'rgba(255,255,255,0.5)', textDecoration: 'line-through', fontWeight: 500 }}>$99.990</span>
-          </div>
-          <div style={{ display: 'inline-block', borderBottom: '2px solid #A8FFEA', paddingBottom: 2, marginBottom: 24 }}>
-            <span style={{ fontSize: 15, fontStyle: 'italic', fontWeight: 700, color: '#A8FFEA' }}>🛒 Precio Cyber Day por pocos días</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '8px 16px', marginBottom: 28, maxWidth: 560, margin: '0 auto 28px' }}>
             {['Dominio .cl 1 año gratis','Hosting 1 año gratis','Hasta 5 secciones','Formulario de contacto','Botón WhatsApp','Google Maps','3 correos corporativos','Indexado en Google'].map(f => (
@@ -266,9 +262,9 @@ export default function LandingSEOLocal({ city }) {
               </div>
             ))}
           </div>
-          <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `Precio Cyber Day ${city.name}` }); ga('generate_lead', { item_name: `Precio Cyber Day ${city.name}` }) }}
+          <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `Sitio web ${city.name}` }); ga('generate_lead', { item_name: `Sitio web ${city.name}` }) }}
             style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: T.white, color: T.blue, fontWeight: 800, fontSize: 16, padding: '16px 32px', borderRadius: 14, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
-            <WaIcon size={18} /> Quiero esta oferta en {city.name}
+            <WaIcon size={18} /> Quiero mi sitio web en {city.name}
           </a>
         </div>
       </section>
