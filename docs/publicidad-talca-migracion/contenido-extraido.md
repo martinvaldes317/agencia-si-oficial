@@ -1,0 +1,195 @@
+# Textos extraídos de las páginas actuales (para reutilizar como base de copy)
+
+Generado automáticamente de los componentes en `fuente/`. Los textos con `{city.name}` / `${city.name}` se personalizan por comuna. Revísalos y adáptalos a la marca Publicidad Talca antes de publicar.
+
+
+## Letreros volumétricos
+
+- El letrero que para a la gente
+- Letras volumétricas · Acrílico · Tu logo en 3D
+- Letreros LED · Backlit · Visible las 24h
+- Transforma cualquier superficie
+- Vinilos · Ploteo · Corte láser
+- Tótem · PVC · Foam · Señalización exterior
+- Transmite calidad en cada detalle
+- Guía a tus clientes adentro
+- Señalética · Directorio · Rotulación interna
+- Letras Volumétricas en Acrílico
+- Tu logo o nombre en 3D, visible desde 50 metros. El material preferido por los negocios que quieren transmitir calidad desde la calle. Dura más de 10 años sin decolorarse.
+- Tu negocio trabaja mientras tú duermes. Caja de luz backlit o frontlit — visible a cualquier hora, con un consumo eléctrico mínimo. Ideal si abres de noche o en locales cerrados.
+- Fachada Corporativa Completa
+- La primera impresión lo es todo. Diseñamos e instalamos toda tu identidad en fachada: letras, vinilos, señalética y más. Un solo proveedor, un solo precio, cero dolores de cabeza.
+- Letras de Alto Impacto (PVC)
+- La opción inteligente para quienes necesitan calidad sin pagar de más. PVC rígido de alta densidad — se ve profesional, aguanta la intemperie y no pesa nada en tu fachada.
+- ¿Tu local está en galería o no tiene fachada propia? El tótem te pone en el mapa. Estructura vertical independiente que se ubica donde más te convenga.
+- La forma más económica de transformar una vitrina, pared o vehículo en publicidad. Corte láser o impresión digital de alta resolución con laminado UV que no se despega.
+- Para los negocios que quieren transmitir calidez y exclusividad: restaurantes, hoteles, spas, clínicas. Pintadas, doradas o barnizadas según tu identidad de marca.
+- Un cliente que no sabe dónde ir dentro de tu local, se va. Señalética clara de directorio, numeración, emergencia y corporativa. Guía, no confundas.
+- Para ferias, eventos, aperturas y promociones. Impresión de alta resolución con bastidor o sin él. Se monta en minutos y genera impacto visual inmediato.
+- Tu letrero comunica profesionalismo antes de que el paciente cruce la puerta. Acrílico blanco, señalética limpia, tipografía seria. La primera impresión decide si confían en ti.
+- Letras acrílico blanco · Señalética interna · Ploteo de vitrina
+- Aquí sí puedes gritar en colores. Letreros que se roban la noche: LED de colores, cajas de luz llamativas y fachadas que se ven desde el otro lado de la calle.
+- LED RGB · Caja de luz · Letreros iluminados · Vinilos de impacto
+- Spas · Centros de belleza · Peluquerías · Salones · Dermatología estética
+- La clienta que entra a un spa ya está juzgando por la puerta. Letras en MDF doradas o en acrílico espejo, señalética elegante que dice "aquí se viene a mimar".
+- Letras MDF doradas · Acrílico espejo · Señalética premium
+- Gimnasios · CrossFit · Artes marciales · Natación · Spinning · Padel
+- Grande, bold y que se vea desde el estacionamiento. Tu letrero tiene que motivar antes de que el cliente entre. Sin timidez — este letrero tiene que competir con la calle.
+- Letras alto impacto oversized · Tótem exterior · Vinilos de pared
+- El letrero que hace parar al transeúnte hambriento. Cálido, apetitoso y visible de día y de noche. Tu nombre en la fachada es tu cartel de bienvenida permanente.
+- LED cálido · Letras MDF barnizadas · Tótem exterior · Carta luminosa
+- La seriedad de tu empresa empieza por la puerta. Señalética corporativa, directorio de oficinas y fachada institucional que proyectan trayectoria y confianza desde el exterior.
+- Letras PVC negro o blanco · Señalética directorio · Fachada corporativa
+- Nos mandas una foto de tu fachada
+- Por WhatsApp, gratis y sin compromiso. Con eso nos basta para darte un presupuesto real en menos de 24 horas.
+- Te enviamos cómo quedaría el letrero en TU local real. Apruebas cada detalle — solo entonces producimos.
+- Producción con garantía de calidad
+- Cada pieza sale revisada de nuestro taller. Sabes exactamente cuándo llega antes de que salga.
+- Lo instalamos donde necesitas
+- Coordinamos la instalación directamente contigo. Sin sorpresas, sin retrasos. En todo el Maule.
+- Letreros SEO ${city.name}
+- , { item_name: `Letreros SEO ${city.name}`, item_category:
+- AgenciaSI Gráficas y Letreros
+- Letreros volumétricos en ${city.name}: acrílico, PVC, LED, madera y foam. Fabricación e instalación en toda la Región del Maule. Cotización gratis.
+- Letreros volumétricos en ${city.name}: acrílico, PVC, LED, madera y foam. Fabricamos e instalamos en ${city.name} y toda la Región del Maule. Cotización gratis por WhatsApp.
+- Letreros Volumétricos en ${city.name} | AgenciaSI Gráficas
+- Fabricamos letreros de acrílico, PVC, LED y madera en ${city.name}. Fachadas corporativas, señalética y ploteos para negocios del Maule.
+- 'Playfair Display', serif
+- , { content_name: `Letreros Hero ${city.name}` }); ga(
+- Letreros Hero ${city.name}
+- Empresa formal · Facturamos
+- Negocios con más visibilidad
+- letreros fabricados en el Maule
+- desde que apruebas el diseño
+- acrílico y PVC de calidad garantizada
+- ¿No tienes logo? Lo diseñamos nosotros
+- Precio claro desde el primer mensaje
+- Instalación coordinada, sin que muevas un dedo
+- Facturamos — empresa registrada en ChileCompra
+- Sin letreros metálicos: más livianos, más duraderos
+- , { content_name: `Letreros Final ${city.name}` }); ga(
+- Letreros Final ${city.name}
+- Cotizar gratis
+- Lo que proyectas desde afuera
+- define lo que vendes adentro.
+- que no pasa desapercibido.
+- Pasa el cursor sobre cada pieza. Así se verá el tuyo.
+- ¿Tienes una foto de referencia o una idea en mente? Mándanosla — te respondemos con precio en menos de 24 horas.
+- Enviar referencia por WhatsApp
+- Cada industria pide
+- un lenguaje visual distinto.
+- No hacemos el mismo letrero para una clínica y para un bar. Conocemos lo que cada rubro necesita proyectar.
+- ¿No ves tu rubro? Igual podemos ayudarte.
+- Elige el letrero que necesita
+- No trabajamos con piezas metálicas — solo materiales que se ven premium, no pesan en la fachada y duran más de 10 años.
+- Así funciona con nosotros: transparente, rápido y sin letra chica.
+- No importa en qué rincón del Maule esté tu negocio.
+- Fabricamos en taller propio y coordinamos la instalación en las 30 comunas de la región — sin que tengas que preocuparte de nada. Tú apruebas el diseño, nosotros hacemos el resto.
+- Cotizar ahora
+- Más de 300 negocios ya decidieron ser vistos.
+- ¿Cuántos clientes estás perdiendo hoy
+- Mándanos una foto de tu fachada ahora. En menos de 24 horas tienes el diseño de tu letrero y el precio exacto — sin compromisos, sin letra chica.
+- Cotizar gratis ahora
+
+## Publicidad corporativa
+
+- Gigantografías, banners y fachadas en lona PVC de alta resolución, listas para exterior en {city}.
+- Acrílico, PVC y LED para fachadas que se ven desde la calle. Fabricación e instalación incluida.
+- Boletas, guías de despacho y recibos numerados, impresos y foliados según lo que necesite tu empresa.
+- Poleras, chalecos y uniformes bordados o estampados con tu logo, en la cantidad que tu equipo requiera.
+- Pendones y Roller Screens
+- Ideal para ferias, eventos y puntos de venta en {city}. Estructura y gráfica lista para armar en minutos.
+- Impresión offset o digital, con o sin barniz UV, para todo tu equipo comercial.
+- Para congresos, capacitaciones y acreditaciones de eventos corporativos.
+- Reconocimientos y premiaciones para aniversarios, metas de venta y eventos internos.
+- Nos cuentas qué necesitas
+- Cantidad, plazo y presupuesto. Cotizamos por WhatsApp en menos de 24 horas.
+- Ves la muestra antes de producir
+- Apruebas diseño y muestra antes de fabricar el volumen completo — sin sorpresas.
+- Producción con control de calidad
+- Cada pieza sale revisada de nuestro taller, bajo el mismo estándar en todo el pedido.
+- Entrega en la fecha comprometida
+- Despacho a tus oficinas, sucursales o directo al evento — cuando dijimos que llegaría.
+- entregamos cuando decimos que entregamos
+- Región del Maule y otras regiones
+- empresa formal, sin informalidad
+- Corporate SEO ${city.name}
+- , { item_name: `Corporate SEO ${city.name}`, item_category:
+- Publicidad e imprenta corporativa en ${city.name}: tela PVC, señalética, letreros, talonarios, ropa corporativa, pendones, tarjetas, lanyards, bolsas TNT, trofeos y galvanos. Producción a volumen para empresas.
+- Publicidad e Imprenta Corporativa en ${city.name}
+- Señalética, letreros, ropa corporativa, tarjetas, pendones, lanyards, bolsas TNT y trofeos en ${city.name}. Producción a volumen con cumplimiento de plazos y precios justos.
+- Publicidad Corporativa en ${city.name} | AgenciaSI
+- Imprenta y merchandising corporativo para empresas de ${city.name}: señalética, ropa, tarjetas, lanyards, trofeos y más — a volumen y con precios justos.
+- , { content_name: `Corporate CTA ${city.name}` }); ga(
+- Corporate CTA ${city.name}
+- Calidad consistente, sin variaciones
+- Precios justos y transparentes
+- Cumplimos los plazos que prometemos
+- Calidad consistente en cada entrega
+- Precios justos, sin letra chica
+- Plazos comprometidos por escrito, no de palabra
+- Facturación electrónica y contratos formales
+- Documentación lista para licitaciones públicas
+- Muestra de diseño antes de producir el volumen completo
+- Despacho coordinado a tus oficinas o sucursales
+- Precios claros desde la primera cotización, sin sorpresas
+- Imprenta y publicidad corporativa
+- Cotizar por WhatsApp
+- Lo que toda empresa busca en un proveedor:
+- cumplir, con calidad y a buen precio.
+- Imprenta y merchandising corporativo,
+- todo bajo un mismo proveedor.
+- ¿No ves lo que necesitas en la lista? Igual podemos ayudarte.
+- Cuéntanos qué necesitas
+- Lo que se busca al elegir proveedor en la zona
+- Cumplimiento, calidad y trato profesional — sin excusas.
+- Comprar señalética, ropa, tarjetas y merchandising a proveedores distintos termina en plazos que no calzan, calidad dispareja entre productos y precios que cambian pedido a pedido. Nosotros centralizamos la producción bajo un mismo estándar — y a un precio que se sostiene en el tiempo.
+- Listos para pedidos corporativos y licitaciones.
+- Operamos en las 30 comunas de la Región del Maule y despachamos también a empresas con presencia en otras regiones de Chile. Mismo estándar de calidad, sin importar cuántas oficinas, locales o sucursales tengas que abastecer.
+- Empresas que confían en nosotros
+- Desde pymes hasta operaciones multi-sucursal.
+- Cuéntanos qué necesitas producir — señalética, ropa, tarjetas, trofeos o cualquier otra pieza corporativa. Respondemos por WhatsApp o correo con plazos y precio claros desde el primer mensaje.
+- Ver todos los servicios →
+
+## Marketing digital (evaluar si se migra)
+
+- Campañas en Facebook e Instagram dirigidas exactamente a tu público objetivo en {city}. Máximo alcance, mínimo gasto.
+- SEO y Posicionamiento Google
+- Aparecer primero cuando buscan tu rubro en {city}. Tráfico orgánico que no depende de pauta.
+- Tu plataforma de conversión: diseño único, dominio gratis, WhatsApp y Google Maps integrados.
+- Anuncios en Google para captar clientes activos que ya están buscando lo que ofreces en {city}.
+- Chatbots, respuestas automáticas y flujos que trabajan 24/7 para captar y fidelizar clientes.
+- Estrategia Digital Integral
+- Plan de marketing digital completo: contenido, pauta, web y métricas. Todo coordinado para crecer.
+- automatizaciones y flujos inteligentes
+- métricas reales, sin humo
+- Marketing SEO ${city.name}
+- , { item_name: `Marketing SEO ${city.name}`, item_category:
+- Agencia de publicidad y marketing digital en ${city.name}. Meta Ads, SEO, Google Ads, sitios web y estrategia digital para pymes y empresas de ${city.region}.
+- Marketing Digital en ${city.name}
+- Campañas Meta Ads y Google Ads para negocios de ${city.name}.
+- Posicionamiento en Google para empresas de ${city.name}.
+- Marketing Digital ${city.name}
+- Estrategia digital integral para pymes de ${city.name}.
+- Agencia de publicidad y marketing digital en ${city.name}. Meta Ads, SEO, Google Ads y sitios web para pymes de ${city.name}. Cotiza gratis — resultados reales.
+- Agencia de Marketing Digital en ${city.name} | AgenciaSI
+- Publicidad en Facebook, Instagram y Google para negocios de ${city.name}. Resultados medibles y estrategia digital integral.
+- , { content_name: `Marketing CTA ${city.name}` }); ga(
+- Marketing CTA ${city.name}
+- Empresa formal · Facturamos
+- Reportes claros con métricas reales cada mes
+- Segmentación precisa de audiencias en {city}
+- Web + publicidad integrados en una sola estrategia
+- Empresa formal registrada en ChileCompra
+- ✔ Reportes mensuales detallados
+- ✔ Facturamos — somos empresa formal
+- Diseño y desarrollo integral.
+- Cotización gratuita
+- Agendar reunión
+- Publicidad y marketing que convierte.
+- Marketing sin humo.
+- Resultados sin excusas.
+- Cotizar ahora
+- Empresas que ya trabajan con nosotros.
+- Cotiza gratis. Te respondemos en menos de 2 horas con una propuesta personalizada.
+- Ver todos los servicios →
