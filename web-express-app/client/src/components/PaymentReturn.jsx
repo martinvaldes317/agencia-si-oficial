@@ -27,7 +27,7 @@ export default function PaymentReturn() {
                         <li className="flex gap-2"><span className="font-bold text-black shrink-0">1.</span> Revisaremos tu información y empezamos el diseño.</li>
                         <li className="flex gap-2"><span className="font-bold text-black shrink-0">2.</span> Te enviamos por correo el acceso a tu panel de cliente.</li>
                         <li className="flex gap-2 text-green-700 font-semibold text-xs uppercase tracking-widest pt-2 border-t border-gray-200">
-                            <span className="shrink-0">3.</span> Entrega estimada: 3 a 5 días hábiles.
+                            <span className="shrink-0">3.</span> Te confirmaremos por escrito el plazo de entrega de tu proyecto.
                         </li>
                     </ul>
                 </div>

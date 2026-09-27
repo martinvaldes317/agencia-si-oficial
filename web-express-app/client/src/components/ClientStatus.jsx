@@ -157,7 +157,7 @@ export default function ClientStatus() {
                                 <div>
                                     <dt className="text-[9px] font-bold uppercase tracking-[0.3em] text-zinc-700 mb-1">Tiempo Estimado</dt>
                                     <dd className="text-sm text-white flex items-center gap-2">
-                                        <Clock className="w-3.5 h-3.5 text-zinc-500" /> 3-5 días hábiles
+                                        <Clock className="w-3.5 h-3.5 text-zinc-500" /> Según lo acordado
                                     </dd>
                                 </div>
                                 <div>

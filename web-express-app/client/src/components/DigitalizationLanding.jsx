@@ -59,7 +59,7 @@ export default function DigitalizationLanding() {
 
                     <p className="text-xl md:text-2xl text-zinc-400 max-w-2xl mx-auto mb-16 leading-relaxed font-light animate-fade-in delay-100">
                         Creamos tu <strong>página web profesional</strong> lista para recibir clientes desde el primer día.
-                        Diseño a medida, entregada en solo <span className="text-white border-b border-white/20">5 días hábiles</span>.
+                        Diseño a medida, con <span className="text-white border-b border-white/20">plazos claros acordados por escrito</span>.
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-6 animate-fade-in delay-200">
@@ -183,7 +183,7 @@ export default function DigitalizationLanding() {
                                     <ShieldCheck className="w-4 h-4 text-zinc-600" /> Pago único, sin mensualidades
                                 </li>
                                 <li className="flex items-center gap-3 text-xs text-zinc-400 font-light uppercase tracking-widest">
-                                    <Clock className="w-4 h-4 text-zinc-600" /> Entrega en 5 días hábiles
+                                    <Clock className="w-4 h-4 text-zinc-600" /> Plazos acordados por escrito
                                 </li>
                                 <li className="flex items-center gap-3 text-xs text-zinc-400 font-light uppercase tracking-widest">
                                     <Sparkles className="w-4 h-4 text-zinc-600" /> Soporte post-entrega (7 días)

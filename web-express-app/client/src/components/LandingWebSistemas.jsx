@@ -160,7 +160,7 @@ export default function LandingWebSistemas() {
     <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.white, color: T.dark, overflowX: 'hidden' }}>
       <Helmet>
         <title>Páginas Web y Sistemas a Medida desde $69.990 | AgenciaSI Chile</title>
-        <meta name="description" content="Creamos páginas web y sistemas a medida para tu negocio en Chile desde $69.990. Entrega en 5 días, dominio incluido, soporte post-entrega. Cotiza por WhatsApp." />
+        <meta name="description" content="Creamos páginas web y sistemas a medida para tu negocio en Chile desde $69.990. Plazos acordados por escrito, dominio incluido, soporte post-entrega. Cotiza por WhatsApp." />
         <link rel="canonical" href="https://agenciasi.cl/web" />
         <meta name="robots" content="index, follow" />
       </Helmet>
@@ -206,7 +206,7 @@ export default function LandingWebSistemas() {
               <span style={{ fontSize: 'clamp(36px, 5vw, 52px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$69.990</span>
             </div>
             <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.8)', lineHeight: 1.65, marginBottom: 28, maxWidth: 460 }}>
-              Diseño único a medida, dominio + hosting gratis, WhatsApp integrado e indexación en Google. <strong style={{ color: T.white }}>Entrega en 5 días hábiles.</strong>
+              Diseño único a medida, dominio + hosting gratis, WhatsApp integrado e indexación en Google. <strong style={{ color: T.white }}>Plazos claros, acordados por escrito y cumplidos.</strong>
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
               <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa el sitio web de $69.990')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Web')}
@@ -221,8 +221,7 @@ export default function LandingWebSistemas() {
             {/* Social proof */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
               {[
-                { n: '+50', label: 'proyectos entregados' },
-                { n: '5 días', label: 'entrega Web Express' },
+                { n: '+60', label: 'proyectos web entregados' },
                 { n: '100%', label: 'código propio' },
               ].map(({ n, label }) => (
                 <div key={label} style={{ display: 'flex', flexDirection: 'column' }}>

@@ -533,7 +533,7 @@ export default function Home() {
                                 {/* Stats grid */}
                                 <div className="grid grid-cols-2 gap-px bg-gray-100">
                                     {[
-                                        { label: 'Proyectos entregados', value: '40+',   sub: 'sitios, sistemas y apps', up: true },
+                                        { label: 'Proyectos entregados', value: '60+',   sub: 'sitios, sistemas y apps', up: true },
                                         { label: 'Presencia digital',    value: 'Chile',  sub: 'y clientes en LATAM',       up: true },
                                         { label: 'Clientes activos',     value: '24+',   sub: 'en Chile y LATAM',        up: null },
                                         { label: 'Tecnologías',          value: '12+',   sub: 'React, Node, IA y más',   up: null },
@@ -563,7 +563,7 @@ export default function Home() {
                 <div className="max-w-7xl mx-auto px-5 md:px-10 py-8">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
                         {[
-                            { value: '40+',    label: 'Proyectos entregados' },
+                            { value: '60+',    label: 'Proyectos entregados' },
                             { value: 'LATAM',  label: 'Clientes en Chile y LATAM' },
                             { value: '24+',    label: 'Clientes activos' },
                             { value: '100%',   label: 'Código propio, sin templates' },
@@ -653,7 +653,7 @@ export default function Home() {
                                 {/* Mini stats */}
                                 <div className="grid grid-cols-3 gap-3 mb-7">
                                     {[
-                                        { val: '40+',    lbl: 'Proyectos entregados' },
+                                        { val: '60+',    lbl: 'Proyectos entregados' },
                                         { val: 'LATAM',  lbl: 'Clientes en LATAM' },
                                         { val: '24+',    lbl: 'Clientes activos' },
                                     ].map(s => (

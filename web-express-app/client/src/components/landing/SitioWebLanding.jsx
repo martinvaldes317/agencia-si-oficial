@@ -7,7 +7,7 @@ import {
   ShoppingCart, Store, ExternalLink,
 } from 'lucide-react'
 import { trackEvent } from '../../lib/analytics'
-import { FP, IMG, fpStyles, Copihue, FiestasPatriasCountdown } from './FiestasPatriasDecor'
+import { FP } from './palette'
 
 export const T = {
   navy:   '#0A0B2E',
@@ -106,6 +106,7 @@ const PASOS = [
 const FAQS = [
   { q: '¿Cuál es el precio?', a: 'El sitio web profesional cuesta $69.990 + IVA ($83.288 con IVA incluido), con dominio .CL y hosting por 1 año incluidos. Es un único valor, sin modalidades ni cobros ocultos.' },
   { q: '¿Cuánto debo pagar para comenzar?', a: 'Solo el 50% del valor total como abono para iniciar tu proyecto. El 50% restante se paga al finalizar el sitio web.' },
+  { q: '¿Cuánto demora mi sitio web?', a: 'El plazo depende de cada proyecto y de la rapidez con que nos entregues tu información. Antes de comenzar te confirmamos un plazo estimado por escrito, y nos comprometemos a cumplirlo.' },
   { q: '¿El dominio está incluido?', a: 'Sí. Incluye un dominio .CL durante el primer año.' },
   { q: '¿El hosting está incluido?', a: 'Sí. El hosting está incluido durante el primer año.' },
   { q: '¿Cuántas secciones puede tener mi sitio?', a: 'El servicio incluye hasta 5 secciones.' },
@@ -190,17 +191,7 @@ export default function SitioWebLanding() {
           .swl-sticky { display:flex!important; }
           body { padding-bottom: 68px; }
         }
-        ${fpStyles}
       `}</style>
-
-      {/* Franja tricolor de firma */}
-      <div style={{ height: 5, display: 'flex' }}>
-        <div style={{ flex: 1, background: FP.red }} />
-        <div style={{ flex: 1, background: '#FFFFFF' }} />
-        <div style={{ flex: 1, background: FP.blue }} />
-      </div>
-
-      <FiestasPatriasCountdown />
 
       {/* NAV */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(255,255,255,.95)', backdropFilter: 'blur(12px)' }}>
@@ -216,23 +207,12 @@ export default function SitioWebLanding() {
             $69.990 + IVA <ArrowRight size={13} />
           </a>
         </div>
-        <img src={IMG.divider} alt="" style={{ width: '100%', height: 6, objectFit: 'cover', display: 'block' }} />
       </nav>
 
       {/* HERO */}
       <section style={{ background: FP.cream, padding: '46px 20px 40px', position: 'relative', overflow: 'hidden' }}>
-        <img src={IMG.map} alt="" className="fp-corner-decor" style={{ position: 'absolute', left: -16, bottom: -20, width: 120, opacity: .32, pointerEvents: 'none' }} />
-        <img src={IMG.sunburst} alt="" className="fp-bob fp-corner-decor" style={{ position: 'absolute', right: 18, top: 18, width: 64, opacity: .9, pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
-          <span style={{ display: 'inline-block', background: FP.red, color: '#FFFFFF', fontWeight: 800, fontSize: 11, letterSpacing: 1.2, textTransform: 'uppercase', padding: '8px 20px', borderRadius: 30, marginBottom: 16 }}>
-            Edición Fiestas Patrias
-          </span>
-
-          <p style={{ fontSize: 13, fontWeight: 700, color: FP.red, letterSpacing: .3, margin: '0 0 18px' }}>
-            Este Dieciocho, dale a tu negocio la cara que se merece 🇨🇱
-          </p>
-
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 22 }}>
             <span style={{ fontSize: 11, fontWeight: 700, color: FP.blueD, background: '#FFFFFF', border: `1px solid ${FP.border}`, padding: '6px 14px', borderRadius: 30 }}>Para Pymes y Profesionales</span>
             <span style={{ fontSize: 11, fontWeight: 700, color: '#FFFFFF', background: FP.blue, padding: '6px 14px', borderRadius: 30 }}>+60 proyectos web entregados</span>
@@ -277,8 +257,6 @@ export default function SitioWebLanding() {
 
       {/* PRECIO ÚNICO */}
       <Section style={{ background: FP.cream, position: 'relative', paddingTop: 36 }}>
-        <Copihue size={32} className="fp-corner-decor" style={{ position: 'absolute', top: 14, right: '7%', opacity: .8 }} />
-        <img src={IMG.starsV} alt="" className="fp-corner-decor" style={{ position: 'absolute', top: 10, left: '5%', width: 26, opacity: .7 }} />
         <div style={{ maxWidth: 560, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 36 }}>
             <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 12 }}>
@@ -287,7 +265,6 @@ export default function SitioWebLanding() {
             <p style={{ fontSize: 15, color: FP.grayTx, maxWidth: 480, margin: '0 auto 18px' }}>
               Completa nuestro formulario guiado con la información de tu negocio y nosotros nos encargamos del resto.
             </p>
-            <img src={IMG.divider} alt="" style={{ width: 180, height: 5, objectFit: 'cover', margin: '0 auto', display: 'block', opacity: .85, borderRadius: 3 }} />
           </div>
 
           <div className="swl-card" style={{ background: FP.blue, borderRadius: 24, padding: '36px 32px', position: 'relative', border: `2px solid ${FP.red}` }}>
@@ -311,7 +288,6 @@ export default function SitioWebLanding() {
 
       {/* TODO LO QUE INCLUYE */}
       <Section style={{ background: '#FFFFFF', position: 'relative' }}>
-        <img src={IMG.sunburst} alt="" className="fp-corner-decor" style={{ position: 'absolute', top: 24, right: '6%', width: 46, opacity: .85 }} />
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
             <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD }}>
@@ -338,7 +314,6 @@ export default function SitioWebLanding() {
 
       {/* PROBLEMA / SOLUCIÓN */}
       <Section style={{ background: FP.cream, position: 'relative', overflow: 'hidden' }}>
-        <img src={IMG.map} alt="" className="fp-corner-decor" style={{ position: 'absolute', right: -30, top: '50%', transform: 'translateY(-50%) scaleX(-1)', width: 140, opacity: .18, pointerEvents: 'none' }} />
         <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
           <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.6rem,3vw,2.3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 20, lineHeight: 1.2 }}>
             Tu negocio merece algo mejor que depender solamente de Instagram
@@ -363,7 +338,6 @@ export default function SitioWebLanding() {
           <h2 style={{ textAlign: 'center', fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 16 }}>
             Tener tu página web es muy fácil
           </h2>
-          <img src={IMG.divider} alt="" style={{ width: 180, height: 5, objectFit: 'cover', margin: '0 auto 48px', display: 'block', opacity: .85, borderRadius: 3 }} />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 28, marginBottom: 44 }}>
             {PASOS.map(p => (
               <div key={p.n} style={{ textAlign: 'center' }}>
@@ -402,7 +376,6 @@ export default function SitioWebLanding() {
             </a>
           </div>
           <div style={{ background: 'rgba(255,255,255,.1)', border: '1px solid rgba(255,255,255,.25)', borderRadius: 20, padding: '30px 26px', position: 'relative', overflow: 'hidden' }}>
-            <img src={IMG.sunburst} alt="" className="fp-corner-decor" style={{ position: 'absolute', top: -18, right: -18, width: 60, opacity: .5 }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
               <Store size={20} color="#FFFFFF" />
               <span style={{ fontWeight: 800, fontSize: 15, color: '#FFFFFF' }}>Tienda Online</span>
@@ -421,7 +394,6 @@ export default function SitioWebLanding() {
 
       {/* CONFIANZA */}
       <Section style={{ background: '#FFFFFF', textAlign: 'center' }}>
-        <img src={IMG.starsH} alt="" style={{ width: 110, margin: '0 auto 14px', display: 'block' }} />
         <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 10 }}>
           +60 proyectos web entregados
         </div>
@@ -436,7 +408,6 @@ export default function SitioWebLanding() {
           <h2 style={{ textAlign: 'center', fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.6rem,3vw,2.2rem)', fontWeight: 800, color: FP.blueD, marginBottom: 14 }}>
             Preguntas frecuentes
           </h2>
-          <img src={IMG.divider} alt="" style={{ width: 180, height: 5, objectFit: 'cover', margin: '0 auto 36px', display: 'block', opacity: .85, borderRadius: 3 }} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {FAQS.map((f, i) => (
               <div key={f.q} style={{ background: '#FFFFFF', border: `1px solid ${FP.border}`, borderRadius: 14, overflow: 'hidden' }}>
@@ -456,9 +427,6 @@ export default function SitioWebLanding() {
 
       {/* CTA FINAL */}
       <Section style={{ background: `linear-gradient(150deg, ${FP.blueD} 0%, ${FP.blue} 100%)`, textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <img src={IMG.sunburst} alt="" className="fp-corner-decor" style={{ position: 'absolute', top: 10, left: '8%', width: 56, opacity: .35 }} />
-        <img src={IMG.sunburst} alt="" className="fp-corner-decor" style={{ position: 'absolute', bottom: 20, right: '8%', width: 44, opacity: .3 }} />
-        <img src={IMG.starsH} alt="" style={{ width: 130, margin: '0 auto 18px', display: 'block', opacity: .95, position: 'relative' }} />
         <div style={{ maxWidth: 560, margin: '0 auto' }}>
           <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 14 }}>
             Tu negocio puede tener su propia página web
@@ -495,11 +463,6 @@ export default function SitioWebLanding() {
           </div>
         </div>
       </footer>
-      <div style={{ height: 5, display: 'flex' }}>
-        <div style={{ flex: 1, background: FP.blue }} />
-        <div style={{ flex: 1, background: '#FFFFFF' }} />
-        <div style={{ flex: 1, background: FP.red }} />
-      </div>
 
       {/* STICKY MOBILE BAR */}
       <div className="swl-sticky" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 90, background: FP.blueD, borderTop: '1px solid rgba(255,255,255,.15)', padding: '10px 14px', alignItems: 'center', justifyContent: 'space-between', gap: 10, boxShadow: '0 -4px 20px rgba(0,0,0,.3)' }}>

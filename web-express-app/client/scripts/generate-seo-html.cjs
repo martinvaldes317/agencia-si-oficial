@@ -94,6 +94,7 @@ const SITIO_WEB_JSON_LD = [
     mainEntity: [
       ['¿Cuál es el precio?', 'El sitio web profesional cuesta $69.990 + IVA ($83.288 con IVA incluido), con dominio .CL y hosting por 1 año incluidos. Es un único valor, sin modalidades ni cobros ocultos.'],
       ['¿Cuánto debo pagar para comenzar?', 'Solo el 50% del valor total como abono para iniciar tu proyecto. El 50% restante se paga al finalizar el sitio web.'],
+      ['¿Cuánto demora mi sitio web?', 'El plazo depende de cada proyecto y de la rapidez con que nos entregues tu información. Antes de comenzar te confirmamos un plazo estimado por escrito, y nos comprometemos a cumplirlo.'],
       ['¿El dominio está incluido?', 'Sí. Incluye un dominio .CL durante el primer año.'],
       ['¿El hosting está incluido?', 'Sí. El hosting está incluido durante el primer año.'],
       ['¿Cuántas secciones puede tener mi sitio?', 'El servicio incluye hasta 5 secciones.'],
@@ -174,7 +175,7 @@ const STANDALONE_PARENT_PAGES = [
   {
     pathname: '/web',
     title: 'Páginas Web y Sistemas a Medida desde $69.990 | AgenciaSI Chile',
-    description: 'Creamos páginas web y sistemas a medida para tu negocio en Chile desde $69.990. Entrega en 5 días, dominio incluido, soporte post-entrega. Cotiza por WhatsApp.',
+    description: 'Creamos páginas web y sistemas a medida para tu negocio en Chile desde $69.990. Plazos acordados por escrito, dominio incluido, soporte post-entrega. Cotiza por WhatsApp.',
     robots: 'index, follow',
   },
 ];

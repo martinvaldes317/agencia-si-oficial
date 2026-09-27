@@ -97,7 +97,7 @@ export default function LandingSEOLocal({ city }) {
         <link rel="canonical" href={`https://agenciasi.cl/web/${city.slug}`} />
         <meta name="robots" content="index, follow" />
         <meta property="og:title" content={`Desarrollo Web en ${city.name} | AgenciaSI`} />
-        <meta property="og:description" content={`Sitios web profesionales para negocios de ${city.name}. Diseño único, dominio gratis, entrega en 5 días.`} />
+        <meta property="og:description" content={`Sitios web profesionales para negocios de ${city.name}. Diseño único, dominio gratis y plazos claros acordados por escrito.`} />
         <meta property="og:url" content={`https://agenciasi.cl/web/${city.slug}`} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
@@ -134,7 +134,7 @@ export default function LandingSEOLocal({ city }) {
             <span style={{ fontStyle: 'normal' }}>{city.name}</span>
           </h1>
           <p style={{ fontSize: 'clamp(15px, 2vw, 18px)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.7, marginBottom: 32, maxWidth: 580, margin: '0 auto 32px' }}>
-            Creamos sitios web profesionales para {city.context}. Diseño único, dominio .cl gratis y entrega en <strong style={{ color: T.white }}>5 días hábiles.</strong>
+            Creamos sitios web profesionales para {city.context}. Diseño único, dominio .cl gratis y <strong style={{ color: T.white }}>plazos claros, acordados por escrito y cumplidos.</strong>
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 36 }}>
             <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `SEO Local ${city.name}` }); ga('generate_lead', { item_name: `SEO Local ${city.name}` }) }}
@@ -197,7 +197,7 @@ export default function LandingSEOLocal({ city }) {
               { icon: Search,     title: `No aparecer en Google ${city.name}`, desc: 'Tus clientes buscan servicios locales en Google. Sin web, no existes.' },
               { icon: Smartphone, title: 'Sin presencia móvil',                desc: 'El 70% del tráfico es móvil. Un sitio profesional convierte visitas en clientes.' },
               { icon: Star,       title: 'Credibilidad y confianza',           desc: `En ${city.name}, los negocios con web profesional generan más confianza y ventas.` },
-              { icon: Zap,        title: 'Entrega en 5 días hábiles',          desc: 'No esperes meses. En 5 días tu negocio en ' + city.name + ' ya está online.' },
+              { icon: Zap,        title: 'Plazos claros y cumplidos',          desc: 'Acordamos el plazo por escrito antes de comenzar y nos comprometemos a cumplirlo. Tu negocio en ' + city.name + ' online, sin sorpresas.' },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 14, padding: '22px 24px', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
                 <div style={{ width: 38, height: 38, borderRadius: 10, background: T.blueL, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
