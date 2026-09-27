@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import { trackEvent } from '../../lib/analytics'
 import { FP } from './palette'
+import './sitio-web-dark.css'
 
 export const T = {
   navy:   '#0A0B2E',
@@ -127,6 +128,57 @@ function Section({ children, style }) {
   return <section style={{ padding: '80px 20px', ...style }}>{children}</section>
 }
 
+function useReveal() {
+  const ref = useRef(null)
+  const [seen, setSeen] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (typeof IntersectionObserver === 'undefined') { setSeen(true); return }
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setSeen(true); io.disconnect() } }, { threshold: 0.25 })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+  return [ref, seen]
+}
+
+function Reveal({ children, style }) {
+  const [ref, seen] = useReveal()
+  return <div ref={ref} className={`swl-reveal ${seen ? 'in' : ''}`} style={style}>{children}</div>
+}
+
+function CountUp({ to, suffix = '', active }) {
+  const [v, setV] = useState(0)
+  useEffect(() => {
+    if (!active) return
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) { setV(to); return }
+    let raf; const t0 = performance.now(), dur = 1400
+    const tick = t => {
+      const p = Math.min((t - t0) / dur, 1)
+      setV(Math.round(to * (1 - Math.pow(1 - p, 3))))
+      if (p < 1) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [active, to])
+  return <span className="swl-count">{v}{suffix}</span>
+}
+
+const trackGlow = e => {
+  const r = e.currentTarget.getBoundingClientRect()
+  e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`)
+  e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`)
+}
+
+function ConfianzaStat() {
+  const [ref, seen] = useReveal()
+  return (
+    <div ref={ref} style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 10 }}>
+      +<CountUp to={60} active={seen} /> proyectos web entregados
+    </div>
+  )
+}
+
 export default function SitioWebLanding() {
   const [openFaq, setOpenFaq] = useState(null)
 
@@ -168,7 +220,7 @@ export default function SitioWebLanding() {
   }
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: '#000', color: FP.text, overflowX: 'hidden' }}>
+    <div className="swl" style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: '#000', color: FP.text, overflowX: 'hidden' }}>
       <Helmet>
         <title>Tu Sitio Web Profesional por $69.990 + IVA | AgenciaSI</title>
         <meta name="description" content="Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online por $69.990 + IVA." />
@@ -196,7 +248,7 @@ export default function SitioWebLanding() {
       `}</style>
 
       {/* NAV */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(255,255,255,.95)', backdropFilter: 'blur(12px)' }}>
+      <nav className="swl-nav" style={{ position: 'sticky', top: 0, zIndex: 50 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 9 }}>
             <div style={{ background: FP.blue, borderRadius: 8, width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -212,32 +264,35 @@ export default function SitioWebLanding() {
       </nav>
 
       {/* HERO */}
-      <section style={{ background: FP.cream, padding: '46px 20px 40px', position: 'relative', overflow: 'hidden' }}>
+      <section className="swl-aurora-wrap" style={{ background: FP.cream, padding: '46px 20px 40px', position: 'relative', overflow: 'hidden' }}>
+        <div className="swl-grid-bg" aria-hidden="true" />
+        <div className="swl-aurora a1" aria-hidden="true" />
+        <div className="swl-aurora a2" aria-hidden="true" />
 
         <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
-          <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 22 }}>
+          <div className="swl-rise d1" style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 22 }}>
             <span style={{ fontSize: 11, fontWeight: 700, color: FP.blueD, background: 'rgba(255,255,255,0.05)', border: `1px solid ${FP.border}`, padding: '6px 14px', borderRadius: 30 }}>Para Pymes y Profesionales</span>
             <span style={{ fontSize: 11, fontWeight: 700, color: '#FFFFFF', background: FP.blue, padding: '6px 14px', borderRadius: 30 }}>+60 proyectos web entregados</span>
           </div>
 
-          <h1 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 700, color: FP.blueD, lineHeight: 1.12, marginBottom: 18 }}>
+          <h1 className="swl-rise d2" style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 700, color: FP.blueD, lineHeight: 1.12, marginBottom: 18 }}>
             Tu Sitio Web Profesional por{' '}
             <span style={{ color: FP.red }}>$69.990 + IVA</span>
           </h1>
 
-          <p style={{ fontSize: 'clamp(15px,2vw,18px)', color: FP.grayTx, lineHeight: 1.7, maxWidth: 560, margin: '0 auto 28px' }}>
+          <p className="swl-rise d3" style={{ fontSize: 'clamp(15px,2vw,18px)', color: FP.grayTx, lineHeight: 1.7, maxWidth: 560, margin: '0 auto 28px' }}>
             Obtén una página web profesional, diseñada para tu negocio y lista para comenzar a recibir clientes.
           </p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, marginBottom: 28 }}>
-            <Link to="/sitio-web/formulario" onClick={() => trackLead('Hero CTA Online')}
+          <div className="swl-rise d4" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, marginBottom: 28 }}>
+            <Link to="/sitio-web/formulario" onClick={() => trackLead('Hero CTA Online')} className="swl-cta-primary"
               style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: FP.blue, color: '#FFFFFF', fontWeight: 800, fontSize: 17, padding: '18px 38px', borderRadius: 14, textDecoration: 'none', boxShadow: `0 12px 30px ${FP.blue}45` }}>
               Crear mi sitio por $69.990 + IVA <ArrowRight size={18} />
             </Link>
             <span style={{ fontSize: 12, color: FP.grayTx }}>Solo pagas el 50% de abono para comenzar.</span>
           </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 20 }}>
+          <div className="swl-rise d5" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 20 }}>
             {CHECKS_HERO.map(c => (
               <span key={c} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.05)', border: `1px solid ${FP.border}`, borderRadius: 20, padding: '7px 13px', fontSize: 12.5, fontWeight: 600, color: FP.text, whiteSpace: 'nowrap' }}>
                 <Check size={13} color={FP.blue} style={{ flexShrink: 0 }} /> {c}
@@ -245,7 +300,7 @@ export default function SitioWebLanding() {
             ))}
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+          <div className="swl-rise d6" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
             <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Hero CTA WhatsApp', true)}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 9, color: FP.text, fontSize: 13, fontWeight: 700, textDecoration: 'none', border: `1px solid #25D36655`, padding: '10px 20px 10px 12px', borderRadius: 30, background: 'rgba(255,255,255,0.05)', whiteSpace: 'nowrap' }}>
               <span style={{ width: 24, height: 24, borderRadius: '50%', background: '#25D366', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -269,7 +324,7 @@ export default function SitioWebLanding() {
             </p>
           </div>
 
-          <div className="swl-card" style={{ background: FP.blue, borderRadius: 24, padding: '36px 32px', position: 'relative', border: `2px solid ${FP.red}` }}>
+          <div className="swl-card swl-price-card" style={{ background: FP.blue, borderRadius: 24, padding: '36px 32px', position: 'relative', border: `2px solid ${FP.red}` }}>
             <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.65)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Sitio web profesional</div>
             <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 20 }}>$69.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
             <p style={{ fontSize: 13, color: 'rgba(255,255,255,.75)', margin: '-8px 0 20px' }}>Precio final con IVA: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19))}</strong> · Abono hoy: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19 / 2))}</strong></p>
@@ -290,7 +345,7 @@ export default function SitioWebLanding() {
 
       {/* TODO LO QUE INCLUYE */}
       <Section style={{ background: FP.panel, position: 'relative' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <Reveal style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
             <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD }}>
               Todo lo que incluye tu sitio web
@@ -298,7 +353,7 @@ export default function SitioWebLanding() {
           </div>
           <div className="swl-incluye-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14 }}>
             {INCLUYE.map(({ icon: Icon, title, sub }) => (
-              <div key={title} className="swl-card" style={{ border: `1px solid ${FP.border}`, borderRadius: 16, padding: '22px 18px', textAlign: 'center' }}>
+              <div key={title} className="swl-card swl-glowcard" onMouseMove={trackGlow} style={{ border: `1px solid ${FP.border}`, borderRadius: 16, padding: '22px 18px', textAlign: 'center' }}>
                 <div style={{ width: 42, height: 42, borderRadius: 12, background: `${FP.blue}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
                   <Icon size={20} color={FP.blue} />
                 </div>
@@ -311,7 +366,7 @@ export default function SitioWebLanding() {
               <div style={{ fontSize: 12, color: 'rgba(255,255,255,.85)', fontWeight: 700, marginTop: 3 }}>Móviles · Tablets · PC</div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </Section>
 
       {/* PROBLEMA / SOLUCIÓN */}
@@ -325,7 +380,7 @@ export default function SitioWebLanding() {
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 14, textAlign: 'left', maxWidth: 780, margin: '0 auto' }}>
             {PROBLEMA_BENEFICIOS.map(b => (
-              <div key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: FP.panel, border: `1px solid ${FP.border}`, borderRadius: 12, padding: '14px 16px' }}>
+              <div key={b} className="swl-glowcard" onMouseMove={trackGlow} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: FP.panel, border: `1px solid ${FP.border}`, borderRadius: 12, padding: '14px 16px' }}>
                 <CheckCircle2 size={16} color={FP.blue} style={{ flexShrink: 0, marginTop: 1 }} />
                 <span style={{ fontSize: 13, color: FP.blueD, fontWeight: 500 }}>{b}</span>
               </div>
@@ -396,9 +451,7 @@ export default function SitioWebLanding() {
 
       {/* CONFIANZA */}
       <Section style={{ background: FP.panel, textAlign: 'center' }}>
-        <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 10 }}>
-          +60 proyectos web entregados
-        </div>
+        <ConfianzaStat />
         <p style={{ fontSize: 15, color: FP.grayTx, maxWidth: 480, margin: '0 auto' }}>
           Trabajamos con Pymes, emprendedores y profesionales de diferentes rubros.
         </p>
@@ -412,15 +465,15 @@ export default function SitioWebLanding() {
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {FAQS.map((f, i) => (
-              <div key={f.q} style={{ background: FP.panel, border: `1px solid ${FP.border}`, borderRadius: 14, overflow: 'hidden' }}>
+              <div key={f.q} className="swl-glowcard" onMouseMove={trackGlow} style={{ background: FP.panel, border: `1px solid ${FP.border}`, borderRadius: 14, overflow: 'hidden' }}>
                 <div className="swl-faq-btn" onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', fontWeight: 700, fontSize: 14, color: FP.blueD }}>
                   {f.q}
                   <ChevronDown size={16} color={FP.grayTx} style={{ transform: openFaq === i ? 'rotate(180deg)' : 'none', transition: 'transform .2s', flexShrink: 0, marginLeft: 12 }} />
                 </div>
-                {openFaq === i && (
-                  <div style={{ padding: '0 20px 18px', fontSize: 13, color: FP.grayTx, lineHeight: 1.7 }}>{f.a}</div>
-                )}
+                <div className={`swl-faq-ans ${openFaq === i ? 'open' : ''}`}>
+                  <div style={{ padding: openFaq === i ? '0 20px 18px' : '0 20px', fontSize: 13, color: FP.grayTx, lineHeight: 1.7 }}>{f.a}</div>
+                </div>
               </div>
             ))}
           </div>
@@ -473,7 +526,7 @@ export default function SitioWebLanding() {
           style={{ flex: 1, textAlign: 'center', background: '#FFFFFF', color: FP.blue, fontWeight: 800, fontSize: 13, padding: '10px', borderRadius: 10, textDecoration: 'none' }}>
           Crear mi web
         </Link>
-        <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Sticky Bar WhatsApp', true)}
+        <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Sticky Bar WhatsApp', true)} className="swl-wa-pulse"
           style={{ width: 38, height: 38, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <WaIcon size={17} />
         </a>

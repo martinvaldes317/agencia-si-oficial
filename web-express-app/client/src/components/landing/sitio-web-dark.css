@@ -1,0 +1,58 @@
+/* /sitio-web — capa de animación y pulido sobre el reskin oscuro ya aplicado.
+   Reutiliza los mismos tokens de marca que home-dark.css (azul #3d5afe / violeta #8b5cf6). */
+.swl {
+  --grad: linear-gradient(120deg, #3d5afe 0%, #8b5cf6 100%);
+}
+
+/* ── Nav: reemplaza el blanco heredado por un vidrio oscuro ─────────────── */
+.swl-nav { background: rgba(0,0,0,.6) !important; backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); border-bottom: 1px solid rgba(255,255,255,.08); transition: background .3s ease; }
+
+/* ── Fondo con aurora animada detrás del hero y del CTA final ───────────── */
+.swl-aurora-wrap { position: relative; isolation: isolate; }
+.swl-aurora { position: absolute; z-index: -1; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+.swl-aurora.a1 { width: 520px; height: 520px; background: #3d5afe; opacity: .28; top: -220px; right: -120px; animation: swl-drift1 24s ease-in-out infinite alternate; }
+.swl-aurora.a2 { width: 420px; height: 420px; background: #8b5cf6; opacity: .22; top: 40px; left: -140px; animation: swl-drift2 28s ease-in-out infinite alternate; }
+@keyframes swl-drift1 { to { transform: translate(-60px, 50px) scale(1.1); } }
+@keyframes swl-drift2 { to { transform: translate(50px, -40px) scale(.94); } }
+.swl-grid-bg { position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(ellipse 65% 55% at 50% 30%, #000 20%, transparent 75%); -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 30%, #000 20%, transparent 75%); opacity: .6; }
+
+/* ── Entrada escalonada del hero ─────────────────────────────────────────── */
+.swl-rise { opacity: 0; transform: translateY(16px); animation: swl-rise .8s cubic-bezier(.16,1,.3,1) forwards; }
+.swl-rise.d1 { animation-delay: .05s; } .swl-rise.d2 { animation-delay: .15s; } .swl-rise.d3 { animation-delay: .28s; }
+.swl-rise.d4 { animation-delay: .40s; } .swl-rise.d5 { animation-delay: .52s; } .swl-rise.d6 { animation-delay: .64s; }
+@keyframes swl-rise { to { opacity: 1; transform: none; } }
+
+/* ── Precio: respiración sutil del borde rojo + sheen del CTA ───────────── */
+.swl-price-card { animation: swl-glow 3.6s ease-in-out infinite; }
+@keyframes swl-glow { 0%,100% { box-shadow: 0 0 0 0 rgba(200,48,42,.35); } 50% { box-shadow: 0 0 0 8px rgba(200,48,42,0); } }
+.swl-cta-primary { position: relative; overflow: hidden; }
+.swl-cta-primary::after { content:''; position:absolute; inset:0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%); transform: translateX(-120%); animation: swl-sheen 5s ease-in-out infinite 1.4s; }
+@keyframes swl-sheen { 0%,60% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+
+/* ── Reveal on scroll para secciones ─────────────────────────────────────── */
+.swl-reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+.swl-reveal.in { opacity: 1; transform: none; }
+
+/* ── Contador de proyectos ───────────────────────────────────────────────── */
+.swl-count { font-variant-numeric: tabular-nums; }
+
+/* ── Tarjetas: brillo que sigue al cursor ─────────────────────────────────── */
+.swl-glowcard { --mx: 50%; --my: 50%; position: relative; overflow: hidden; }
+.swl-glowcard::before { content:''; position:absolute; inset:0; background: radial-gradient(280px circle at var(--mx) var(--my), rgba(61,90,254,.16), transparent 60%); opacity:0; transition: opacity .35s ease; pointer-events:none; }
+.swl-glowcard:hover::before { opacity: 1; }
+
+/* ── FAQ: apertura suave (altura + fade) ─────────────────────────────────── */
+.swl-faq-ans { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s cubic-bezier(.16,1,.3,1); }
+.swl-faq-ans.open { grid-template-rows: 1fr; }
+.swl-faq-ans > div { overflow: hidden; }
+
+/* ── WhatsApp flotante / sticky bar: pulso suave ─────────────────────────── */
+.swl-wa-pulse { position: relative; }
+.swl-wa-pulse::before, .swl-wa-pulse::after { content:''; position:absolute; inset:0; border-radius:50%; background:#25D366; opacity:.25; animation: swl-wa-pulse 2.5s ease-out infinite; z-index:-1; }
+.swl-wa-pulse::after { animation-delay: .6s; opacity: .15; }
+@keyframes swl-wa-pulse { to { transform: scale(1.7); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .swl *, .swl *::before, .swl *::after { animation: none !important; transition: none !important; }
+  .swl-rise, .swl-reveal { opacity: 1 !important; transform: none !important; }
+}
