@@ -499,6 +499,7 @@ export default function SitioWebWizard() {
         {step === 1 && (
           <div>
             <StepTitle>Primero, cuéntanos quién eres</StepTitle>
+            <p style={{ fontSize: 12.5, color: T.gray, margin: '-8px 0 18px' }}>Son 6 pasos cortos — unos 5 minutos. Puedes pausar y seguir después desde otro dispositivo.</p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
               <Field label="Nombre">
                 <TextInput value={data.firstName} onChange={e => set({ firstName: e.target.value })} placeholder="Tu nombre" />

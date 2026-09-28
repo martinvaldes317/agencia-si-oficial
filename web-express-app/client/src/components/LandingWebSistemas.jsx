@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
-  Star, Globe, Settings, ShoppingCart,
+  Globe, Settings, ShoppingCart,
   LayoutDashboard, Users, Search, Clock, Shield, Smartphone,
   MessageCircle, MapPin, Zap, Package, HeartHandshake,
   AlertCircle, CheckCircle2,
@@ -123,32 +123,6 @@ const INCLUDES = [
   { icon: Calendar,       text: 'Capacitación incluida' },
 ]
 
-const TESTIMONIALS = [
-  {
-    name: 'Rodrigo Muñoz',
-    biz:  'Ferretería El Clavo — Talca',
-    text: 'Antes nadie me encontraba en Google. Ahora llaman cada semana por el sitio. Vale cada peso.',
-    stars: 5,
-    initial: 'R',
-    color: '#EEF0FF',
-  },
-  {
-    name: 'Camila Soto',
-    biz:  'Centro Kinesiología Soto — Curicó',
-    text: 'El sistema de reservas me cambió la vida. Mis pacientes agendan solos y yo solo confirmo.',
-    stars: 5,
-    initial: 'C',
-    color: '#F0FDF4',
-  },
-  {
-    name: 'Felipe Arenas',
-    biz:  'Distribuidora Arenas — Santiago',
-    text: 'Profesionales, rápidos y honestos. Me explicaron todo sin tecnicismos. Muy recomendados.',
-    stars: 5,
-    initial: 'F',
-    color: '#FFF7ED',
-  },
-]
 
 /* ── COMPONENT ─────────────────────────────────────────── */
 export default function LandingWebSistemas() {
@@ -202,12 +176,14 @@ export default function LandingWebSistemas() {
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 8 }}>
               <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>por solo</span>
               <span style={{ fontSize: 'clamp(36px, 5vw, 52px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$69.990</span>
+              <span style={{ fontSize: 16, color: 'rgba(255,255,255,0.65)', fontWeight: 600 }}>+ IVA</span>
             </div>
+            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', marginTop: -4, marginBottom: 8 }}>Precio final con IVA: $83.288 · Abono hoy: $41.644</p>
             <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.8)', lineHeight: 1.65, marginBottom: 28, maxWidth: 460 }}>
               Diseño único a medida, dominio + hosting gratis, WhatsApp integrado e indexación en Google. <strong style={{ color: T.white }}>Plazos claros, acordados por escrito y cumplidos.</strong>
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
-              <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa el sitio web de $69.990')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Web')}
+              <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa el sitio web de $69.990 + IVA')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Web')}
                 style={{ background: '#FFFFFF', color: T.blue, fontWeight: 800, fontSize: 15, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }} className="wa-btn">
                 <WaIcon size={18} /> Quiero este sitio web
               </a>
@@ -329,7 +305,7 @@ export default function LandingWebSistemas() {
                 </div>
                 <div>
                   <div style={{ fontSize: 18, fontWeight: 800, color: T.black }}>Páginas Web</div>
-                  <div style={{ fontSize: 12, color: T.blue, fontWeight: 600 }}>Desde $69.990</div>
+                  <div style={{ fontSize: 12, color: T.blue, fontWeight: 600 }}>Desde $69.990 + IVA</div>
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -451,7 +427,7 @@ export default function LandingWebSistemas() {
             <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 900, color: T.black, marginTop: 10, letterSpacing: -.5 }}>
               Sin sorpresas. Sin letras chicas.
             </h2>
-            <p style={{ fontSize: 15, color: T.gray, marginTop: 10 }}>Precios en pesos chilenos (CLP) · IVA incluido</p>
+            <p style={{ fontSize: 15, color: T.gray, marginTop: 10 }}>Precios en pesos chilenos (CLP), + IVA salvo que se indique lo contrario</p>
           </div>
 
           {/* ── PROMO HERO CARD ── */}
@@ -467,7 +443,9 @@ export default function LandingWebSistemas() {
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 10 }}>
                   <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}>por solo</span>
                   <span style={{ fontSize: 'clamp(42px, 6vw, 64px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$69.990</span>
+                  <span style={{ fontSize: 16, color: 'rgba(255,255,255,0.6)', fontWeight: 600 }}>+ IVA</span>
                 </div>
+                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginTop: -4, marginBottom: 4 }}>Precio final con IVA: $83.288 · Abono hoy: $41.644</p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: '8px 16px' }}>
                   {['Dominio .cl 1 año gratis','Hosting 1 año gratis','Hasta 5 secciones','Formulario de contacto','Botón WhatsApp','Google Maps','3 correos corporativos','Facturable','Desarrollado por profesionales','Sitio web indexado en Google'].map(f => (
                     <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
@@ -478,7 +456,7 @@ export default function LandingWebSistemas() {
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 200 }} className="lws-promo-cta">
-                <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa el sitio web de $69.990')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Web')}
+                <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa el sitio web de $69.990 + IVA')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Web')}
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '16px 28px', borderRadius: 14, background: '#FFFFFF', color: T.blue, fontWeight: 800, fontSize: 15, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.2)', whiteSpace: 'nowrap' }} className="wa-btn">
                   <WaIcon size={17} /> Quiero este sitio web
                 </a>
@@ -497,7 +475,7 @@ export default function LandingWebSistemas() {
                 style={{ borderRadius: 20, padding: '28px 24px', border: plan.popular ? `2px solid ${T.blue}` : `1px solid ${T.border}`, background: T.panel, position: 'relative', boxShadow: plan.popular ? `0 12px 40px ${T.blue}20` : '0 2px 12px rgba(0,0,0,.04)' }}>
                 {plan.popular && (
                   <div style={{ position: 'absolute', top: -13, left: '50%', transform: 'translateX(-50%)', background: T.blue, color: T.white, fontSize: 11, fontWeight: 800, padding: '4px 16px', borderRadius: 20, letterSpacing: 1, whiteSpace: 'nowrap' }}>
-                    ⭐ MÁS ELEGIDO
+                    RECOMENDADO
                   </div>
                 )}
                 <div style={{ fontSize: 17, fontWeight: 800, color: T.black, marginBottom: 6 }}>{plan.name}</div>
@@ -583,39 +561,6 @@ export default function LandingWebSistemas() {
                   <Icon size={20} color={T.blue} />
                 </div>
                 <span style={{ fontSize: 13, fontWeight: 600, color: T.dark, textAlign: 'center', lineHeight: 1.4 }}>{text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIOS ── */}
-      <section style={{ background: T.light, padding: '80px 20px' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Lo que dicen</span>
-            <h2 style={{ fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 900, color: T.black, marginTop: 10, letterSpacing: -.5 }}>
-              Clientes que confiaron en nosotros
-            </h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
-            {TESTIMONIALS.map(t => (
-              <div key={t.name} style={{ background: T.panel, border: `1px solid ${T.border}`, borderRadius: 16, padding: '28px 24px' }}>
-                <div style={{ display: 'flex', gap: 2, marginBottom: 16 }}>
-                  {Array(t.stars).fill(0).map((_, i) => <Star key={i} size={14} fill={T.gold} color={T.gold} />)}
-                </div>
-                <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.7, fontStyle: 'italic', marginBottom: 20 }}>
-                  "{t.text}"
-                </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ width: 38, height: 38, borderRadius: '50%', background: t.color, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: `1px solid ${T.border}` }}>
-                    <span style={{ fontSize: 15, fontWeight: 800, color: T.blue }}>{t.initial}</span>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: T.black }}>{t.name}</div>
-                    <div style={{ fontSize: 11, color: T.muted }}>{t.biz}</div>
-                  </div>
-                </div>
               </div>
             ))}
           </div>
@@ -750,7 +695,7 @@ export default function LandingWebSistemas() {
 
       {/* ── FLOATING WA BUTTON ── */}
       <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
-        style={{ position: 'fixed', bottom: 24, right: 24, background: '#25D366', color: T.white, width: 58, height: 58, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(37,211,102,.55)', zIndex: 100, textDecoration: 'none' }} className="wa-btn">
+        style={{ position: 'fixed', bottom: 24, left: 24, background: '#25D366', color: T.white, width: 58, height: 58, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(37,211,102,.55)', zIndex: 100, textDecoration: 'none' }} className="wa-btn">
         <WaIcon size={28} />
       </a>
 

@@ -133,7 +133,7 @@ const Navbar = () => {
                     </div>
                     <div className="hd-nav-cta">
                         <Link to="/portal" className="hd-portal"><LogIn size={14} /> Portal</Link>
-                        <a href="#contact" className="hd-btn hd-btn-primary hd-btn-sm">Agenda una conversación</a>
+                        <a href="#contact" className="hd-btn hd-btn-primary hd-btn-sm">Solicita una conversación</a>
                     </div>
                     <button className="hd-burger" onClick={() => setOpen(o => !o)} aria-label={open ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={open}>
                         {open ? <X size={24} /> : <Menu size={24} />}
@@ -146,7 +146,7 @@ const Navbar = () => {
                         <a key={l.id} href={`#${l.id}`} className="hd-m-link" onClick={() => setOpen(false)}>{l.label} <ArrowRight size={18} /></a>
                     ))}
                     <Link to="/portal" className="hd-btn hd-btn-ghost" style={{ marginTop: 28 }} onClick={() => setOpen(false)}><LogIn size={15} /> Portal clientes</Link>
-                    <a href="#contact" className="hd-btn hd-btn-primary" style={{ marginTop: 12 }} onClick={() => setOpen(false)}>Agenda una conversación</a>
+                    <a href="#contact" className="hd-btn hd-btn-primary" style={{ marginTop: 12 }} onClick={() => setOpen(false)}>Solicita una conversación</a>
                 </div>
             )}
         </header>
@@ -231,7 +231,7 @@ export default function Home() {
                                 Diseñamos y construimos software de gestión, plataformas y automatizaciones a medida para empresas chilenas que ya superaron el papel y el Excel.
                             </p>
                             <div className="hd-cta-row hd-rise d3">
-                                <a href="#contact" className="hd-btn hd-btn-primary">Agenda una conversación <ArrowRight size={17} /></a>
+                                <a href="#contact" className="hd-btn hd-btn-primary">Solicita una conversación <ArrowRight size={17} /></a>
                                 <a href="#cases" className="hd-btn hd-btn-ghost">Ver proyectos</a>
                             </div>
                             <p className="hd-hero-note hd-rise d4">
@@ -370,7 +370,7 @@ export default function Home() {
                                     <h3>{s.title}</h3>
                                     <p>{s.desc}</p>
                                     {s.feat
-                                        ? <a href="#contact" className="hd-btn hd-btn-primary">Agenda una conversación <ArrowRight size={16} /></a>
+                                        ? <a href="#contact" className="hd-btn hd-btn-primary">Solicita una conversación <ArrowRight size={16} /></a>
                                         : (
                                             <div className="hd-card-foot">
                                                 <span>{s.foot}</span>
@@ -489,7 +489,7 @@ export default function Home() {
                                 <li><a href="mailto:contacto@agenciasi.cl">contacto@agenciasi.cl</a></li>
                                 <li>www.agenciasi.cl</li>
                             </ul>
-                            <div style={{ marginTop: 22 }}><a href="#contact" className="hd-btn hd-btn-primary hd-btn-sm">Agenda una conversación</a></div>
+                            <div style={{ marginTop: 22 }}><a href="#contact" className="hd-btn hd-btn-primary hd-btn-sm">Solicita una conversación</a></div>
                         </div>
                     </div>
                     <div className="hd-foot-bottom">
