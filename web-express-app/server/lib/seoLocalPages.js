@@ -21,16 +21,12 @@ const SERVICES = {
     description: 'Desarrollamos sistemas de gestión, caja e inventario a medida para empresas en Chile. Código propio, panel administrador y reportes en tiempo real.',
   },
   'plataformas': {
-    title: 'Plataformas Web y Membresías a Medida Chile | AgenciaSI',
-    description: 'Desarrollamos plataformas web a medida con login de usuarios, cursos, clases o contenido restringido. Código propio, sin comisiones de terceros.',
+    title: 'Plataformas y E-commerce a Medida Chile | AgenciaSI',
+    description: 'Desarrollamos plataformas web y tiendas online a medida: login de usuarios, cursos, catálogo, carrito y Mercado Pago integrado. Código propio.',
   },
-  'ecosistemas-ia': {
-    title: 'Automatización e IA para Empresas Chile | AgenciaSI',
-    description: 'Integramos IA y automatizaciones a medida en sistemas y plataformas: chatbots, flujos automáticos y CRM inteligente para empresas en Chile.',
-  },
-  'ecommerce': {
-    title: 'Tiendas Online / E-commerce a Medida Chile | AgenciaSI',
-    description: 'Desarrollamos tiendas online a medida con catálogo, carrito de compras y Mercado Pago integrado. Código propio, panel de pedidos y diseño responsive.',
+  'automatizacion-de-procesos': {
+    title: 'Automatización de Procesos para Empresas Chile | AgenciaSI',
+    description: 'Automatizamos procesos repetitivos y conectamos tus herramientas: seguimiento de consultas, confirmaciones, actualización de pedidos y reportes. IA cuando aporta valor.',
   },
 }
 

@@ -55,62 +55,55 @@ export const SERVICIOS = {
   },
   'plataformas': {
     slug: 'plataformas',
-    kicker: 'Plataformas y membresías',
-    name: 'Plataformas y Membresías',
-    h1: 'Plataformas web a medida con acceso por usuarios',
-    sub: 'Plataformas con login, cursos, clases o contenido restringido — para vender acceso, no solo productos.',
-    metaTitle: 'Plataformas Web y Membresías a Medida Chile | AgenciaSI',
-    metaDescription: 'Desarrollamos plataformas web a medida con login de usuarios, cursos, clases o contenido restringido. Código propio, sin comisiones de terceros.',
+    kicker: 'Plataformas y e-commerce',
+    name: 'Plataformas y E-commerce',
+    h1: 'Plataformas y tiendas online a medida',
+    sub: 'Vende productos, entrega contenido o atiende usuarios online — con login, catálogo o membresía, según lo que tu negocio necesite.',
+    metaTitle: 'Plataformas y E-commerce a Medida Chile | AgenciaSI',
+    metaDescription: 'Desarrollamos plataformas web y tiendas online a medida: login de usuarios, cursos, catálogo, carrito y Mercado Pago integrado. Código propio.',
     problems: [
-      { title: 'Dependes de plataformas de terceros', desc: 'Comisiones altas y sin control real sobre tu propio contenido o tus alumnos/clientes.' },
-      { title: 'Sin un espacio propio para tus usuarios', desc: 'Compartes clases o contenido por link suelto, sin login ni organización.' },
-      { title: 'No puedes crecer a tu forma', desc: 'Las plantillas genéricas no se adaptan a cómo funciona tu programa o servicio.' },
+      { title: 'Dependes de plataformas de terceros', desc: 'Comisiones altas y sin control real sobre tu contenido, tus alumnos o tu catálogo.' },
+      { title: 'Vendes o compartes contenido a mano', desc: 'Cada pedido o acceso se coordina uno por uno, por WhatsApp o Instagram, sin checkout ni login propio.' },
+      { title: 'Las plantillas genéricas no calzan', desc: 'Constructores armados para "cualquier negocio" que no se adaptan a cómo vendes o cómo funciona tu programa.' },
     ],
     includes: [
-      'Login y panel de usuarios', 'Gestión de contenido o clases', 'Panel de administración', 'Diseño a medida',
-      'Acceso restringido por membresía', 'Preparado para pagos recurrentes',
+      'Login y panel de usuarios', 'Catálogo de productos o cursos', 'Carro de compras y Mercado Pago integrado',
+      'Contenido o clases restringidas por membresía', 'Panel de administración', 'Diseño a medida',
+      'Gestión de stock', 'Preparado para pagos recurrentes',
     ],
     cases: [
       { name: 'Espacio CEA', url: 'https://espaciocea.com', tag: 'Plataforma web', desc: 'Plataforma de un centro de intervención virtual especializado en Análisis Aplicado de la Conducta, con capacitaciones y acceso para usuarios.' },
       { name: 'MOVERSER', url: 'https://moverserstudio.com', tag: 'Plataforma de membresía', desc: 'Biblioteca de clases online de Pilates, movilidad, flexibilidad y danza, con membresía de acceso ilimitado.' },
     ],
   },
-  'ecosistemas-ia': {
-    slug: 'ecosistemas-ia',
-    kicker: 'Automatización e IA',
-    name: 'Ecosistemas con IA',
-    h1: 'Automatizaciones e IA aplicada a tu negocio',
-    sub: 'Chatbots, flujos automáticos y CRM inteligente que reducen el trabajo manual y responden más rápido a tus clientes.',
-    metaTitle: 'Automatización e IA para Empresas Chile | AgenciaSI',
-    metaDescription: 'Integramos IA y automatizaciones a medida en sistemas y plataformas: chatbots, flujos automáticos y CRM inteligente para empresas en Chile.',
+  'automatizacion-de-procesos': {
+    slug: 'automatizacion-de-procesos',
+    kicker: 'Automatización de procesos',
+    name: 'Automatización de Procesos',
+    h1: 'Automatización de procesos para reducir el trabajo manual',
+    sub: 'Conectamos tus herramientas y automatizamos tareas repetitivas — con IA cuando aporta valor, no porque sí.',
+    metaTitle: 'Automatización de Procesos para Empresas Chile | AgenciaSI',
+    metaDescription: 'Automatizamos procesos repetitivos y conectamos tus herramientas: seguimiento de consultas, confirmaciones, actualización de pedidos y reportes. IA cuando aporta valor.',
     problems: [
-      { title: 'Respondes lo mismo todo el día', desc: 'Preguntas repetidas por WhatsApp que podrías automatizar sin perder el trato cercano.' },
-      { title: 'Tareas repetitivas manuales', desc: 'Cobros, notificaciones y reportes que alguien de tu equipo hace a mano cada vez.' },
-      { title: 'Cero seguimiento de clientes', desc: 'No hay registro ordenado de quién te contactó, en qué quedaron o qué necesita después.' },
+      { title: 'Todo se coordina a mano', desc: 'Consultas, pedidos y seguimientos que alguien de tu equipo pasa manualmente de una herramienta a otra.' },
+      { title: 'Respondes lo mismo todo el día', desc: 'Preguntas y confirmaciones repetidas por WhatsApp o correo que podrías automatizar sin perder el trato cercano.' },
+      { title: 'La información queda repartida', desc: 'Planillas, WhatsApp, correo y sistemas que no se hablan entre sí — armar un reporte toma horas.' },
     ],
     includes: [
-      'Chatbot de WhatsApp', 'Automatización de tareas repetitivas', 'CRM con seguimiento inteligente',
-      'Integración con tus sistemas actuales', 'Flujos de notificaciones automáticas',
+      'Automatización de un proceso concreto', 'Conexión entre tus herramientas actuales', 'Notificaciones y recordatorios automáticos',
+      'Reportes consolidados', 'Clasificación y preparación de datos', 'IA aplicada cuando suma valor real',
     ],
-    cases: [],
-  },
-  'ecommerce': {
-    slug: 'ecommerce',
-    kicker: 'Tiendas online',
-    name: 'E-commerce',
-    h1: 'Tiendas online a medida, integradas con Mercado Pago',
-    sub: 'Catálogo, carrito y pagos integrados, con el diseño y la lógica que tu negocio necesita — no una plantilla genérica.',
-    metaTitle: 'Tiendas Online / E-commerce a Medida Chile | AgenciaSI',
-    metaDescription: 'Desarrollamos tiendas online a medida con catálogo, carrito de compras y Mercado Pago integrado. Código propio, panel de pedidos y diseño responsive.',
-    problems: [
-      { title: 'Vendes solo por Instagram o WhatsApp', desc: 'Sin catálogo ordenado, cada pedido se coordina a mano, uno por uno.' },
-      { title: 'Sin checkout propio', desc: 'Dependes de que el cliente te transfiera y tú confirmes el pago manualmente.' },
-      { title: 'Plantillas que no calzan', desc: 'Constructores genéricos que no se adaptan a cómo vendes ni a tu catálogo real.' },
+    scenarios: [
+      'Una consulta entra desde tu web y queda registrada, asignada y lista para seguimiento.',
+      'Una reserva activa confirmaciones y recordatorios automáticos.',
+      'Un pedido actualiza su estado y avisa al equipo responsable.',
+      'La información de distintas herramientas se reúne sola en un reporte.',
+      'Un documento se clasifica y sus datos quedan listos para revisión.',
     ],
-    includes: [
-      'Catálogo de productos', 'Carro de compras', 'Mercado Pago integrado', 'Panel de pedidos',
-      'Diseño responsive', 'Gestión de stock',
-    ],
+    approach: {
+      title: 'Partimos por un proceso concreto, no por "automatizar todo"',
+      desc: 'Diagnosticamos el proceso, definimos alcance y precio antes de partir. Desde ahí puede crecer hacia más integraciones o un sistema completo. No cotizamos sin conocer tus accesos, herramientas y excepciones reales.',
+    },
     cases: [],
   },
 }
@@ -253,6 +246,42 @@ export default function ServicioSEOLocal({ service }) {
           </div>
         </div>
       </section>
+
+      {/* ESCENARIOS CONCRETOS (solo servicios que definen `scenarios`) */}
+      {service.scenarios && (
+        <section style={{ background: T.light, padding: '72px 20px' }}>
+          <div style={{ maxWidth: 800, margin: '0 auto' }}>
+            <div style={{ textAlign: 'center', marginBottom: 40 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Ejemplos concretos</span>
+              <h2 style={{ fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 900, color: T.black, marginTop: 10, letterSpacing: -.5 }}>
+                Esto es lo que podemos automatizar
+              </h2>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {service.scenarios.map(s => (
+                <div key={s} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, background: T.panel, border: `1px solid ${T.border}`, borderRadius: 12, padding: '16px 20px' }}>
+                  <CheckCircle2 size={17} color={T.green} style={{ flexShrink: 0, marginTop: 2 }} />
+                  <span style={{ fontSize: 14, color: T.black, lineHeight: 1.6 }}>{s}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CÓMO TRABAJAMOS (solo servicios que definen `approach`) */}
+      {service.approach && (
+        <section style={{ background: T.panel, padding: '56px 20px' }}>
+          <div style={{ maxWidth: 720, margin: '0 auto', textAlign: 'center' }}>
+            <h2 style={{ fontSize: 'clamp(19px, 2.6vw, 26px)', fontWeight: 800, color: T.black, marginBottom: 12, letterSpacing: -.3 }}>
+              {service.approach.title}
+            </h2>
+            <p style={{ fontSize: 14.5, color: T.gray, lineHeight: 1.75, margin: 0 }}>
+              {service.approach.desc}
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* CASOS RELACIONADOS */}
       {service.cases.length > 0 && (

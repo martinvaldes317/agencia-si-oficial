@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async'
 import {
     Menu, X, BrainCircuit, Code2, Globe,
     TrendingUp, Sparkles, MapPin, MessageSquare, Mail,
-    ArrowRight, ArrowUpRight, LogIn, ShoppingCart, CheckCircle2,
+    ArrowRight, ArrowUpRight, LogIn, CheckCircle2,
     BarChart3, Zap, Shield,
 } from 'lucide-react'
 import './home-dark.css'
@@ -42,10 +42,9 @@ const STEPS = [
 ]
 
 const SERVICES = [
-    { icon: BarChart3, title: 'Software de gestión', desc: 'Sistemas internos y de caja a medida: inventario, historiales, reportes y control de tu operación, como NowPOS y Consonancia.', foot: 'Cotizar', feat: true },
-    { icon: Globe, title: 'Plataformas y membresías', desc: 'Plataformas con usuarios, cursos, clases o contenido de acceso restringido, como Espacio CEA y MOVERSER.', foot: 'Cotizar' },
-    { icon: Sparkles, title: 'Ecosistemas IA', desc: 'Automatizaciones, CRM y flujos con inteligencia artificial para vender más con menos fricción.', foot: 'Cotizar' },
-    { icon: ShoppingCart, title: 'E-commerce', desc: 'Tiendas que venden. Integración con Webpay y Mercado Pago, arquitectura pensada para maximizar conversión.', foot: 'Cotizar' },
+    { icon: BarChart3, title: 'Software de gestión', desc: 'Sistemas internos y de caja a medida: inventario, historiales, reportes y control de tu operación, como NowPOS y Consonancia.', foot: 'Cotizar', feat: true, to: '/servicios/sistemas-de-gestion' },
+    { icon: Sparkles, title: 'Automatización de procesos', desc: 'Reduce tareas repetitivas y conecta tus herramientas: seguimiento de consultas, confirmaciones, pedidos y reportes.', foot: 'Cotizar', to: '/servicios/automatizacion-de-procesos' },
+    { icon: Globe, title: 'Plataformas y e-commerce', desc: 'Vende, entrega contenido o atiende usuarios online, con login, catálogo o membresía, como Espacio CEA y MOVERSER.', foot: 'Cotizar', to: '/servicios/plataformas' },
     { icon: TrendingUp, title: 'Meta & Google Ads', desc: 'Gestión de campañas pagas con foco en ROAS y rentabilidad, como complemento de tu sistema o sitio.', foot: 'Cotizar' },
 ]
 
@@ -59,9 +58,8 @@ const AUDIENCE = [
 
 const PROJECT_TYPES = [
     'Un sistema de gestión a medida',
-    'Una plataforma web (usuarios, cursos, membresías)',
-    'Una tienda online (e-commerce)',
-    'Automatización o integración con IA',
+    'Automatización de procesos',
+    'Una plataforma web o tienda online',
     'Un sitio web simple',
     'Otro / aún no lo tengo claro',
 ]
@@ -197,8 +195,8 @@ export default function Home() {
         <div className="hd">
             <Helmet>
                 <title>AgenciaSI | Desarrollo Web, Apps y Sistemas a Medida en Chile</title>
-                <meta name="description" content="Desarrollamos sitios web, aplicaciones y sistemas a medida en Chile. React, Node.js, e-commerce, integraciones con IA y automatizaciones. Plazos claros y resultados medibles." />
-                <meta name="keywords" content="desarrollo web chile, aplicaciones web chile, sistemas a medida chile, empresa desarrollo software chile, desarrollo react chile, tienda online chile, automatizacion IA chile, agencia digital chile, web express, diseño web profesional" />
+                <meta name="description" content="Construimos sistemas a medida y automatizamos procesos en Chile. Software de gestión, plataformas, e-commerce e integración con IA. Plazos claros y resultados medibles." />
+                <meta name="keywords" content="desarrollo web chile, sistemas a medida chile, automatizacion de procesos chile, empresa desarrollo software chile, desarrollo react chile, tienda online chile, automatizacion IA chile, agencia digital chile, web express, diseño web profesional" />
                 <link rel="canonical" href="https://agenciasi.cl/" />
             </Helmet>
 
@@ -228,7 +226,7 @@ export default function Home() {
                         <div>
                             <h1 className="hd-h1 hd-rise d1">Deja las planillas.<br />Ten un sistema propio.</h1>
                             <p className="hd-hero-sub hd-rise d2">
-                                Diseñamos y construimos software de gestión, plataformas y automatizaciones a medida para empresas chilenas que ya superaron el papel y el Excel.
+                                Construimos sistemas a medida y automatizamos procesos repetitivos, para que tu empresa opere con menos trabajo manual — con IA cuando aporta valor, no porque sí.
                             </p>
                             <div className="hd-cta-row hd-rise d3">
                                 <a href="#contact" className="hd-btn hd-btn-primary">Solicita una conversación <ArrowRight size={17} /></a>
@@ -474,9 +472,9 @@ export default function Home() {
                         <div>
                             <h4>Servicios</h4>
                             <ul>
-                                <li><a href="#services">Sistemas a medida</a></li>
-                                <li><a href="#services">Ecosistemas IA</a></li>
-                                <li><a href="#services">E-commerce</a></li>
+                                <li><Link to="/servicios/sistemas-de-gestion">Sistemas a medida</Link></li>
+                                <li><Link to="/servicios/automatizacion-de-procesos">Automatización de procesos</Link></li>
+                                <li><Link to="/servicios/plataformas">Plataformas y e-commerce</Link></li>
                                 <li><Link to="/sitio-web">Web Express</Link></li>
                                 <li><a href="#services">Meta & Google Ads</a></li>
                                 <li><a href="https://publicidadtalca.cl" target="_blank" rel="noopener noreferrer">Publicidad Talca ↗</a></li>

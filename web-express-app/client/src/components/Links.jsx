@@ -32,9 +32,9 @@ const services = [
     },
     {
         icon: BrainCircuit,
-        label: 'Ecosistemas con IA',
-        sub: 'Automatizaciones y CRM inteligente',
-        href: '/#contact',
+        label: 'Automatización de procesos',
+        sub: 'Reduce tareas repetitivas y conecta tus herramientas',
+        to: '/servicios/automatizacion-de-procesos',
         variant: 'outline',
     },
     {
