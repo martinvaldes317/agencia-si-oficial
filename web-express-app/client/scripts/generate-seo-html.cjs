@@ -197,3 +197,33 @@ for (const page of STANDALONE_PARENT_PAGES) {
 }
 
 console.log(`[generate-seo-html] Generated ${STANDALONE_PARENT_PAGES.length} standalone parent page(s) (dist/web/ etc.) that were shadowed by their own sub-routes.`);
+
+// ── Auto-redirect any OTHER bare prefix shadowed by its own sub-routes ──────
+// Same root cause as STANDALONE_PARENT_PAGES above, but derived automatically
+// instead of hand-maintained: any prefix in getAllSeoRoutes() (e.g. /agencia,
+// /servicios) that does NOT have its own STANDALONE_PARENT_PAGES entry has no
+// dist/<prefix>/index.html, so Apache 403s a bare request instead of falling
+// back to the SPA. This bit AgenciaSI in production twice (/agencia/, then
+// /servicios/) before we automated it — do not remove this block, and do not
+// hand-add one-off .htaccess rules for new prefixes instead: add the new
+// PAGE_TYPES prefix in seoLocalPages.js and this handles the rest.
+const htaccessPath = path.join(distDir, '.htaccess');
+if (fs.existsSync(htaccessPath)) {
+  const standaloneSlugs = new Set(STANDALONE_PARENT_PAGES.map(p => p.pathname.replace(/^\//, '')));
+  const shadowedPrefixes = [...new Set(routes.map(r => r.pathname.split('/')[1]))]
+    .filter(prefix => !standaloneSlugs.has(prefix));
+
+  let htaccess = fs.readFileSync(htaccessPath, 'utf-8');
+  let added = 0;
+  for (const prefix of shadowedPrefixes) {
+    const marker = `RewriteRule ^${prefix}/?$ `;
+    if (htaccess.includes(marker)) continue; // already present (hand-written or from a previous build)
+    const rule = `  # Auto: /${prefix} sin sub-ruta quedaría 403 (carpeta real con subcarpetas) — generate-seo-html.cjs\n  ${marker}https://agenciasi.cl/ [R=301,L]\n`;
+    htaccess = htaccess.replace('  RewriteRule ^index\\.html$ - [L]', `${rule}  RewriteRule ^index\\.html$ - [L]`);
+    added++;
+  }
+  if (added > 0) {
+    fs.writeFileSync(htaccessPath, htaccess);
+    console.log(`[generate-seo-html] Added ${added} auto-redirect rule(s) to dist/.htaccess for shadowed bare prefixes.`);
+  }
+}

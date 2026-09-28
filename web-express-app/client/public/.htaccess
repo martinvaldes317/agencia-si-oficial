@@ -7,10 +7,9 @@
   RewriteRule ^marketing(/.*)?$ https://agenciasi.cl/ [R=301,L]
   # Diagnóstico SEO gratuito: ya no se ofrece
   RewriteRule ^diagnostico-seo/?$ https://agenciasi.cl/ [R=301,L]
-  # /agencia sin ciudad: dist/agencia es una carpeta real (subcarpetas por
-  # ciudad), así que Apache no cae al fallback del SPA y devuelve 403.
-  # (/web sin ciudad no tiene este problema: ya tiene su propio index.html.)
-  RewriteRule ^agencia/?$ https://agenciasi.cl/ [R=301,L]
+  # Las reglas para prefijos "atrapados" por sus propias subpáginas (/agencia,
+  # /servicios, etc. — ver el bloque "Auto-redirect" en generate-seo-html.cjs)
+  # se agregan solas en cada build, justo debajo de esta línea.
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d

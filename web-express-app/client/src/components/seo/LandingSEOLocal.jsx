@@ -251,7 +251,9 @@ export default function LandingSEOLocal({ city }) {
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 8 }}>
             <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}>por solo</span>
             <span style={{ fontSize: 'clamp(48px, 7vw, 68px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$69.990</span>
+            <span style={{ fontSize: 18, color: 'rgba(255,255,255,0.6)', fontWeight: 600 }}>+ IVA</span>
           </div>
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginBottom: 20 }}>Precio final con IVA: $83.288 · Abono hoy: $41.644</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '8px 16px', marginBottom: 28, maxWidth: 560, margin: '0 auto 28px' }}>
             {['Dominio .cl 1 año gratis','Hosting 1 año gratis','Hasta 5 secciones','Formulario de contacto','Botón WhatsApp','Google Maps','3 correos corporativos','Indexado en Google'].map(f => (
               <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
