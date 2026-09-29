@@ -343,9 +343,9 @@ export default function ServicioSEOLocal({ service }) {
               style={{ background: '#25D366', color: T.white, fontWeight: 800, fontSize: 16, padding: '16px 32px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 32px rgba(37,211,102,.45)' }}>
               <WaIcon size={20} /> Cotizar por WhatsApp
             </a>
-            <Link to="/#contact"
+            <Link to={`/?servicio=${service.slug}#contact`}
               style={{ background: 'transparent', color: T.white, fontWeight: 700, fontSize: 15, padding: '16px 24px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.3)' }}>
-              Escribir por el formulario <ArrowRight size={16} />
+              Solicitar un diagnóstico <ArrowRight size={16} />
             </Link>
           </div>
           <p style={{ fontSize: 12, color: '#6060A0' }}>

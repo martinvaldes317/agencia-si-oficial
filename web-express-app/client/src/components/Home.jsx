@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import {
     Menu, X, BrainCircuit, Code2, Globe,
@@ -9,6 +9,7 @@ import {
     BarChart3, Zap, Shield,
 } from 'lucide-react'
 import './home-dark.css'
+import { trackEvent } from '../lib/analytics'
 import { useTheme } from '../theme/ThemeContext'
 import ThemeToggle from '../theme/ThemeToggle'
 import ThemeLogo from '../theme/ThemeLogo'
@@ -45,7 +46,7 @@ const STEPS = [
 ]
 
 const SERVICES = [
-    { icon: BarChart3, title: 'Software de gestión', desc: 'Sistemas internos y de caja a medida: inventario, historiales, reportes y control de tu operación, como NowPOS y Consonancia.', foot: 'Cotizar', feat: true, to: '/servicios/sistemas-de-gestion' },
+    { icon: BarChart3, title: 'Software de gestión', desc: 'Sistemas internos y de caja a medida: inventario, historiales, reportes y control de tu operación, como NowPOS y Consonancia.', foot: 'Cotizar', to: '/servicios/sistemas-de-gestion' },
     { icon: Sparkles, title: 'Automatización de procesos', desc: 'Reduce tareas repetitivas y conecta tus herramientas: seguimiento de consultas, confirmaciones, pedidos y reportes.', foot: 'Cotizar', to: '/servicios/automatizacion-de-procesos' },
     { icon: Globe, title: 'Plataformas y e-commerce', desc: 'Vende, entrega contenido o atiende usuarios online, con login, catálogo o membresía, como Espacio CEA y MOVERSER.', foot: 'Cotizar', to: '/servicios/plataformas' },
     { icon: TrendingUp, title: 'Meta & Google Ads', desc: 'Gestión de campañas pagas con foco en ROAS y rentabilidad, como complemento de tu sistema o sitio.', foot: 'Cotizar' },
@@ -74,6 +75,14 @@ const BUDGETS = [
     'Más de $7.000.000 CLP',
 ]
 const FORM_INITIAL = { name: '', company: '', phone: '', email: '', message: '', projectType: PROJECT_TYPES[0], budget: BUDGETS[0] }
+
+// Mapea el slug de la página de origen (?servicio=...) al valor exacto que ya
+// existe en PROJECT_TYPES, para preseleccionar el servicio en el formulario.
+const SERVICE_PARAM_TO_PROJECT_TYPE = {
+    'sistemas-de-gestion': 'Un sistema de gestión a medida',
+    'automatizacion-de-procesos': 'Automatización de procesos',
+    'plataformas': 'Una plataforma web o tienda online',
+}
 
 // ── Utilidades de animación ───────────────────────────────────────────────────
 function useInView(threshold = 0.35) {
@@ -168,6 +177,23 @@ export default function Home() {
     const [tlRef, tlSeen] = useInView(0.3)
     const { executeRecaptcha } = useGoogleReCaptcha()
     const { theme } = useTheme()
+    const [searchParams] = useSearchParams()
+    // Origen de la visita (?servicio=slug) — se usa para preseleccionar el
+    // desplegable y para que el correo que recibe el equipo diga de dónde
+    // vino la consulta, no solo qué escribió la persona.
+    const servicioParam = searchParams.get('servicio')
+    // document.referrer solo sirve para una carga de página real (ej. alguien
+    // llega desde Google) — una navegación interna con <Link> no lo actualiza,
+    // por eso si venimos de una página de servicio la reconstruimos desde el
+    // propio parámetro en vez de confiar en el referrer.
+    const origenRef = useRef(
+        SERVICE_PARAM_TO_PROJECT_TYPE[servicioParam] ? `agenciasi.cl/servicios/${servicioParam}` : (document.referrer || '')
+    )
+
+    useEffect(() => {
+        const preselected = SERVICE_PARAM_TO_PROJECT_TYPE[servicioParam]
+        if (preselected) setForm(f => ({ ...f, projectType: preselected }))
+    }, [servicioParam])
 
     useEffect(() => {
         const show = setTimeout(() => setShowWaTooltip(true), 5000)
@@ -187,14 +213,26 @@ export default function Home() {
         if (!executeRecaptcha) return
         const token = await executeRecaptcha('contact_form')
         setStatus('sending')
+        // El equipo revisa esto en un correo compartido, no en un CRM con
+        // ruteo automático — por eso el servicio y el origen van primero y
+        // en mayúsculas, para que quien lo lea derive rápido sin tener que
+        // leer todo el mensaje.
+        const origenLinea = origenRef.current ? `\nPágina de origen: ${origenRef.current}` : ''
+        const structuredMessage = `SERVICIO DE INTERÉS: ${form.projectType}${origenLinea}\n\n${form.message || '(sin mensaje adicional)'}`
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/contact`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...form, message: `Tipo de proyecto: ${form.projectType}${form.message ? `\n\n${form.message}` : ''}`, recaptchaToken: token })
+                body: JSON.stringify({ ...form, message: structuredMessage, recaptchaToken: token })
             })
             setStatus(res.ok ? 'success' : 'error')
-            if (res.ok) setForm(FORM_INITIAL)
+            if (res.ok) {
+                // Distinto del "form_submit" genérico (que se dispara con el evento
+                // submit del navegador, sin importar si el fetch después falla) —
+                // este solo se registra cuando la consulta realmente llegó.
+                trackEvent('contact_form_success', { label: form.projectType })
+                setForm(FORM_INITIAL)
+            }
         } catch { setStatus('error') }
     }, [executeRecaptcha, form])
 
@@ -233,17 +271,16 @@ export default function Home() {
                 <div className="hd-wrap" style={{ width: '100%' }}>
                     <div className="hd-hero-grid">
                         <div>
-                            <h1 className="hd-h1 hd-rise d1">Deja las planillas.<br />Ten un sistema propio.</h1>
+                            <h1 className="hd-h1 hd-rise d1">Sistemas y automatización<br />para operar con menos trabajo manual.</h1>
                             <p className="hd-hero-sub hd-rise d2">
-                                Construimos sistemas a medida y automatizamos procesos repetitivos, para que tu empresa opere con menos trabajo manual — con IA cuando aporta valor, no porque sí.
+                                Desarrollamos software a medida y conectamos tus herramientas para ordenar la operación, reducir tareas repetitivas y acompañar el crecimiento de tu empresa.
                             </p>
                             <div className="hd-cta-row hd-rise d3">
                                 <a href="#contact" className="hd-btn hd-btn-primary">Solicita una conversación <ArrowRight size={17} /></a>
                                 <a href="#cases" className="hd-btn hd-btn-ghost">Ver proyectos</a>
                             </div>
                             <p className="hd-hero-note hd-rise d4">
-                                <strong>60+ proyectos entregados</strong> · Proveedor del Estado.<br />
-                                ¿Solo necesitas una página web simple? <Link to="/sitio-web">Conoce Web Express</Link>
+                                <strong>60+ proyectos entregados</strong> · Proveedor del Estado.
                             </p>
                         </div>
 
@@ -437,7 +474,7 @@ export default function Home() {
 
                         <form className="hd-form" onSubmit={handleSubmit}>
                             <h3>Cuéntanos qué necesitas</h3>
-                            <p>Te respondemos a la brevedad, por WhatsApp o correo.</p>
+                            <p>Te respondemos en menos de 24 horas hábiles, por WhatsApp o correo.</p>
                             <div className="hd-fields">
                                 <div className="hd-field"><label htmlFor="f-name">Nombre completo *</label><input id="f-name" type="text" required placeholder="Juan Pérez" value={form.name} onChange={set('name')} autoComplete="name" /></div>
                                 <div className="hd-field"><label htmlFor="f-email">Correo electrónico *</label><input id="f-email" type="email" required placeholder="juan@tuempresa.cl" value={form.email} onChange={set('email')} autoComplete="email" /></div>
@@ -456,9 +493,9 @@ export default function Home() {
                                 </div>
                                 <div className="hd-field"><label htmlFor="f-msg">Detalles adicionales</label><textarea id="f-msg" rows={3} placeholder="Cuéntanos más sobre tu negocio o qué necesitas..." value={form.message} onChange={set('message')} /></div>
                                 <button type="submit" className="hd-btn hd-btn-primary hd-submit" disabled={status === 'sending'}>
-                                    {status === 'sending' ? 'Enviando...' : <>Enviar y agendar conversación <ArrowRight size={16} /></>}
+                                    {status === 'sending' ? 'Enviando...' : <>Solicitar conversación <ArrowRight size={16} /></>}
                                 </button>
-                                {status === 'success' && <div className="hd-ok" role="status"><CheckCircle2 size={16} /> ¡Mensaje enviado! Te contactamos pronto.</div>}
+                                {status === 'success' && <div className="hd-ok" role="status"><CheckCircle2 size={16} /> ¡Listo! Recibimos tu solicitud — te respondemos en menos de 24 horas hábiles por WhatsApp o correo.</div>}
                                 {status === 'error' && <div className="hd-err" role="alert">Error al enviar. Escríbenos directamente al WhatsApp.</div>}
                                 <p className="hd-fine">Sin spam · www.agenciasi.cl</p>
                             </div>
@@ -474,7 +511,7 @@ export default function Home() {
                         <div>
                             <ThemeLogo style={{ height: 40, width: 'auto', marginBottom: 20 }} />
                             <p style={{ color: 'var(--mut)', fontSize: 14, lineHeight: 1.75, maxWidth: '22rem', margin: '0 0 18px' }}>
-                                Sistemas a medida, plataformas web e IA aplicada para empresas que quieren crecer. Web Express y campañas de Meta y Google Ads como complemento.
+                                Sistemas a medida, automatización de procesos y plataformas web para empresas que quieren crecer. Campañas de Meta y Google Ads como complemento.
                             </p>
                             <p style={{ color: '#6e6e85', fontSize: 12.5, lineHeight: 1.8, margin: 0 }}>San Clemente, Región del Maule — Chile<br />Cobertura: todo Chile, de forma remota</p>
                         </div>
@@ -484,7 +521,6 @@ export default function Home() {
                                 <li><Link to="/servicios/sistemas-de-gestion">Sistemas a medida</Link></li>
                                 <li><Link to="/servicios/automatizacion-de-procesos">Automatización de procesos</Link></li>
                                 <li><Link to="/servicios/plataformas">Plataformas y e-commerce</Link></li>
-                                <li><Link to="/sitio-web">Web Express</Link></li>
                                 <li><a href="#services">Meta & Google Ads</a></li>
                                 <li><a href="https://publicidadtalca.cl" target="_blank" rel="noopener noreferrer">Publicidad Talca ↗</a></li>
                             </ul>

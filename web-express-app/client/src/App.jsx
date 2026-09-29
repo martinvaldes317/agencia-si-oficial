@@ -85,16 +85,32 @@ const CITIES = {
 }
 
 const ScrollToTop = () => {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   useEffect(() => {
-    window.scrollTo(0, 0)
     if (typeof gtag !== 'undefined') {
       gtag('event', 'page_view', { page_path: pathname, page_title: document.title })
     }
     if (!pathname.startsWith('/admin') && !pathname.startsWith('/portal')) {
       trackPageView(pathname)
     }
-  }, [pathname])
+    if (hash) {
+      // Un <Link to="/otra-ruta#seccion"> no dispara el scroll nativo del
+      // navegador (eso solo pasa en una carga de página completa) — hay que
+      // hacerlo a mano. Reintenta porque el destino puede tardar un instante
+      // en montarse (viene de otra ruta). Si nunca aparece, cae al scroll-top
+      // de siempre en vez de dejar la página a mitad de camino.
+      const id = hash.slice(1)
+      const tryScroll = (attemptsLeft) => {
+        const el = document.getElementById(id)
+        if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return }
+        if (attemptsLeft > 0) setTimeout(() => tryScroll(attemptsLeft - 1), 60)
+        else window.scrollTo(0, 0)
+      }
+      tryScroll(8)
+    } else {
+      window.scrollTo(0, 0)
+    }
+  }, [pathname, hash])
   return null
 }
 

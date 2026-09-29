@@ -7,7 +7,7 @@ import {
   MessageCircle, MapPin, Zap, Package, HeartHandshake,
   AlertCircle, CheckCircle2,
   ExternalLink, Calendar, Wrench, BarChart3,
-  Building2, Newspaper
+  Building2, Newspaper, Code2, BookOpenCheck, ArrowRight
 } from 'lucide-react'
 import { useTheme } from '../theme/ThemeContext'
 import ThemeToggle from '../theme/ThemeToggle'
@@ -84,65 +84,46 @@ const PROBLEMS = [
   { icon: Smartphone,     title: 'Tu sitio no funciona en el celular', desc: 'El 70% del tráfico web hoy es móvil. Si no es responsive, perdiste.' },
 ]
 
-const WEBS = [
+// Tres formas de resolver un proyecto — no es "web barata vs. sistema caro",
+// es qué necesita tu negocio: presencia, un espacio con usuarios, o vender.
+const INSTITUCIONAL = [
   { icon: Zap,            name: 'Landing Page',          desc: 'Para captar clientes rápido. Una página clara con foco total en conversión.' },
   { icon: Building2,      name: 'Web Corporativa',       desc: 'Imagen profesional de tu empresa, servicios, equipo y contacto.' },
-  { icon: ShoppingCart,   name: 'E-commerce',            desc: 'Tienda online con catálogo, carrito, Webpay y Mercado Pago.' },
-  { icon: Calendar,       name: 'Reservas y Agendas',    desc: 'Sistema de citas online para clínicas, servicios y profesionales.' },
   { icon: Newspaper,      name: 'Blog y Contenido',      desc: 'Posicionamiento SEO a través de artículos y contenido de valor.' },
   { icon: Globe,          name: 'Catálogo Digital',      desc: 'Muestra tus productos o servicios sin necesidad de carrito de compras.' },
 ]
 
-const SISTEMAS = [
+const PLATAFORMA = [
   { icon: LayoutDashboard, name: 'Panel Administrativo',  desc: 'Controla tu negocio desde un dashboard con datos en tiempo real.' },
-  { icon: Package,         name: 'Gestión de Inventario', desc: 'Stock, alertas, entradas y salidas con reporte automático.' },
+  { icon: Users,           name: 'Portal de Clientes',    desc: 'Tus clientes acceden a su info, documentos y métricas en línea, con login propio.' },
+  { icon: Calendar,        name: 'Reservas y Agendas',    desc: 'Sistema de citas online para clínicas, servicios y profesionales.' },
   { icon: BarChart3,       name: 'CRM de Clientes',       desc: 'Historial, seguimiento y gestión de tu cartera de clientes.' },
-  { icon: Settings,        name: 'Automatizaciones',      desc: 'Flujos que trabajan solos: cobros, notificaciones, reportes.' },
-  { icon: Wrench,          name: 'Sistema de Órdenes',    desc: 'Para servicios técnicos, talleres o producción a pedido.' },
-  { icon: Users,           name: 'Portal de Clientes',    desc: 'Tus clientes acceden a su info, documentos y métricas en línea.' },
 ]
 
-const PLANS = [
-  {
-    name: 'Web Corporativa',
-    price: 149990,
-    popular: true,
-    desc: 'Imagen profesional completa. Ideal para empresas, comercios y servicios.',
-    features: ['Diseño único a medida', 'Hasta 10 páginas/secciones', 'Dominio .cl 1 año gratis', 'Hosting 1 año gratis', 'Google Maps integrado', '3 correos corporativos', 'Botón WhatsApp', 'Indexado en Google', 'Facturable', 'Soporte 2 meses'],
-  },
-  {
-    name: 'E-commerce',
-    price: 99990,
-    popular: false,
-    desc: 'Tienda online con carga inicial de 25 productos, pagos en línea y despacho integrado.',
-    features: ['Diseño único a medida', 'Carga inicial 25 productos', 'Carrito de compras', 'MercadoPago integrado', 'BlueExpress como método de envío', 'Panel de productos', 'Gestión de pedidos', 'Dominio + Hosting 1 año gratis'],
-  },
-  {
-    name: 'Sistema a Medida',
-    price: null,
-    popular: false,
-    desc: 'Automatizaciones, sistemas internos, portales o cualquier lógica de negocio específica.',
-    features: ['Diagnóstico sin costo', 'Cotización personalizada', 'CRM / gestión de clientes', 'Panel administrador', 'Base de datos incluida', 'Integraciones a medida', 'Capacitación del equipo', 'Soporte extendido'],
-  },
+const ECOMMERCE = [
+  { icon: ShoppingCart,   name: 'Tienda Online',          desc: 'Catálogo, carrito, Webpay y Mercado Pago integrados.' },
+  { icon: Package,        name: 'Gestión de Inventario',  desc: 'Stock, alertas, entradas y salidas con reporte automático.' },
+  { icon: Settings,       name: 'Automatizaciones',       desc: 'Flujos que trabajan solos: cobros, notificaciones, reportes.' },
+  { icon: Wrench,         name: 'Sistema de Órdenes',     desc: 'Para servicios técnicos, talleres o producción a pedido, conectado con tus otras herramientas.' },
 ]
 
 const STEPS = [
-  { n: '01', title: 'Reunión inicial',      desc: 'Hablamos de tu negocio, objetivos y qué necesitas. Sin costo ni compromiso.' },
-  { n: '02', title: 'Diseño y propuesta',   desc: 'Preparamos un prototipo visual para que veas cómo quedaría tu sitio.' },
-  { n: '03', title: 'Desarrollo',           desc: 'Construimos tu sitio o sistema con código propio y a tu medida.' },
-  { n: '04', title: 'Revisión contigo',     desc: 'Revisas, propones cambios y apruebas antes de publicar.' },
-  { n: '05', title: 'Publicación',          desc: 'Lanzamos y dejamos todo funcionando. Más soporte post-entrega incluido.' },
+  { n: '01', title: 'Diagnóstico',          desc: 'Hablamos de tu negocio, objetivos y qué necesitas. Sin costo ni compromiso.' },
+  { n: '02', title: 'Diseño y propuesta',   desc: 'Preparamos un prototipo visual y el alcance del proyecto para que lo apruebes antes de construir nada.' },
+  { n: '03', title: 'Desarrollo',           desc: 'Construimos tu sitio, plataforma o sistema con código propio y a tu medida.' },
+  { n: '04', title: 'Pruebas y correcciones', desc: 'Probamos cada flujo principal, corregimos lo que no funciona y revisas el resultado antes de aprobar el lanzamiento.' },
+  { n: '05', title: 'Publicación',          desc: 'Lanzamos y dejamos todo funcionando. Soporte post-entrega incluido.' },
 ]
 
 const INCLUDES = [
-  { icon: Globe,          text: 'Dominio .cl incluido' },
-  { icon: Shield,         text: 'Hosting seguro (SSL)' },
-  { icon: Smartphone,     text: '100% responsive' },
-  { icon: Search,         text: 'Indexación en Google' },
-  { icon: MessageCircle,  text: 'WhatsApp integrado' },
-  { icon: HeartHandshake, text: 'Soporte post-entrega' },
+  { icon: Code2,          text: 'Código propio, sin plantillas' },
   { icon: LayoutDashboard,text: 'Panel de administración' },
-  { icon: Calendar,       text: 'Capacitación incluida' },
+  { icon: Settings,       text: 'Integraciones con tus herramientas actuales' },
+  { icon: Smartphone,     text: 'Diseño responsive' },
+  { icon: Search,         text: 'Indexación en Google' },
+  { icon: BookOpenCheck,  text: 'Documentación y capacitación de uso' },
+  { icon: HeartHandshake, text: 'Soporte post-entrega' },
+  { icon: Globe,          text: 'Dominio y hosting cuando corresponde' },
 ]
 
 
@@ -159,8 +140,8 @@ export default function LandingWebSistemas() {
   return (
     <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.light, color: T.dark, overflowX: 'hidden' }}>
       <Helmet>
-        <title>Páginas Web y Sistemas a Medida desde $69.990 | AgenciaSI Chile</title>
-        <meta name="description" content="Creamos páginas web y sistemas a medida para tu negocio en Chile desde $69.990. Plazos acordados por escrito, dominio incluido, soporte post-entrega. Cotiza por WhatsApp." />
+        <title>Sitios, Plataformas y E-commerce a Medida | AgenciaSI Chile</title>
+        <meta name="description" content="Desarrollamos sitios institucionales, plataformas con usuarios y tiendas online a medida para empresas en Chile. Código propio, plazos acordados por escrito, soporte post-entrega." />
         <link rel="canonical" href="https://agenciasi.cl/web" />
         <meta name="robots" content="index, follow" />
       </Helmet>
@@ -173,11 +154,11 @@ export default function LandingWebSistemas() {
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <ThemeToggle style={{ color: T.gray }} />
-            <a href="#precios" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }} className="lws-link">Ver precios</a>
-            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
+            <a href="#soluciones" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }} className="lws-link">Qué hacemos</a>
+            <Link to="/#contact"
               style={{ background: '#25D366', color: T.white, fontWeight: 700, fontSize: 13, padding: '9px 18px', borderRadius: 30, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none', boxShadow: '0 4px 12px rgba(37,211,102,.35)' }} className="wa-btn">
-              <WaIcon size={15} /> Cotizar ahora
-            </a>
+              <WaIcon size={15} /> Conversemos
+            </Link>
           </div>
         </div>
       </header>
@@ -194,25 +175,17 @@ export default function LandingWebSistemas() {
               <MapPin size={13} color="#A8FFEA" />
               <span style={{ fontSize: 12, fontWeight: 700, color: '#A8FFEA', letterSpacing: .5 }}>Para Pymes y Profesionales · Chile</span>
             </div>
-            <h1 style={{ fontSize: 'clamp(32px, 4.5vw, 58px)', fontWeight: 900, color: T.white, lineHeight: 1.08, marginBottom: 16, letterSpacing: -1.5, fontStyle: 'italic' }}>
-              Tu Sitio Web<br />
-              <span style={{ fontStyle: 'normal', fontSize: '0.72em', fontWeight: 900, letterSpacing: -.5 }}>Profesional</span>
+            <h1 style={{ fontSize: 'clamp(32px, 4.5vw, 54px)', fontWeight: 900, color: T.white, lineHeight: 1.12, marginBottom: 16, letterSpacing: -1.2 }}>
+              Sitios, plataformas y e-commerce a medida
             </h1>
-            {/* Promo price */}
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 8 }}>
-              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>por solo</span>
-              <span style={{ fontSize: 'clamp(36px, 5vw, 52px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$69.990</span>
-              <span style={{ fontSize: 16, color: 'rgba(255,255,255,0.65)', fontWeight: 600 }}>+ IVA</span>
-            </div>
-            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', marginTop: -4, marginBottom: 8 }}>Precio final con IVA: $83.288 · Abono hoy: $41.644</p>
             <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.8)', lineHeight: 1.65, marginBottom: 28, maxWidth: 460 }}>
-              Diseño único a medida, dominio + hosting gratis, WhatsApp integrado e indexación en Google. <strong style={{ color: T.white }}>Plazos claros, acordados por escrito y cumplidos.</strong>
+              Construimos la presencia digital que tu negocio necesita: desde un sitio institucional hasta una plataforma con usuarios o una tienda online conectada a tus otras herramientas. <strong style={{ color: T.white }}>Código propio, plazos claros, acordados por escrito y cumplidos.</strong>
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
-              <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa el sitio web de $69.990 + IVA')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Web')}
-                style={{ background: '#FFFFFF', color: T.blue, fontWeight: 800, fontSize: 15, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }} className="wa-btn">
-                <WaIcon size={18} /> Quiero este sitio web
-              </a>
+              <Link to="/#contact"
+                style={{ background: '#FFFFFF', color: T.blue, fontWeight: 800, fontSize: 15, padding: '14px 28px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
+                Conversemos sobre tu proyecto <ArrowRight size={18} />
+              </Link>
               <a href="#trabajos"
                 style={{ background: 'transparent', color: T.white, fontWeight: 600, fontSize: 14, padding: '14px 22px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.35)' }}>
                 Ver trabajos <ExternalLink size={15} />
@@ -311,68 +284,48 @@ export default function LandingWebSistemas() {
       </section>
 
       {/* ── SERVICIOS ── */}
-      <section style={{ background: T.panel, padding: '80px 20px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <section id="soluciones" style={{ background: T.panel, padding: '80px 20px' }}>
+        <div style={{ maxWidth: 1160, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Lo que hacemos</span>
             <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 900, color: T.black, marginTop: 10, letterSpacing: -.5 }}>
-              Dos grandes áreas, un solo equipo
+              Tres formas de resolver tu proyecto
             </h2>
-            <p style={{ fontSize: 16, color: T.gray, marginTop: 12, maxWidth: 560, margin: '12px auto 0' }}>
-              No somos "el cabro que hace páginas". Somos un equipo que construye soluciones digitales completas.
+            <p style={{ fontSize: 16, color: T.gray, marginTop: 12, maxWidth: 640, margin: '12px auto 0' }}>
+              No todos los proyectos necesitan lo mismo. Por eso partimos por entender qué necesita tu negocio, no por venderte un paquete cerrado.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }} className="lws-services-grid">
-            {/* Webs */}
-            <div style={{ background: T.blueL, borderRadius: 20, padding: '36px 32px', border: `1px solid ${T.blue}25` }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
-                <div style={{ width: 46, height: 46, borderRadius: 12, background: T.blue, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Globe size={22} color="#fff" />
-                </div>
-                <div>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: T.black }}>Páginas Web</div>
-                  <div style={{ fontSize: 12, color: T.blue, fontWeight: 600 }}>Desde $69.990 + IVA</div>
-                </div>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                {WEBS.map(({ icon: Icon, name, desc }) => (
-                  <div key={name} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                    <div style={{ width: 32, height: 32, borderRadius: 8, background: `${T.blue}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
-                      <Icon size={15} color={T.blue} />
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: T.black }}>{name}</div>
-                      <div style={{ fontSize: 12, color: T.gray, lineHeight: 1.5 }}>{desc}</div>
-                    </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }} className="lws-services-grid">
+            {[
+              { icon: Building2, title: 'Sitio institucional', sub: 'Para mostrar quién eres y que te encuentren', items: INSTITUCIONAL },
+              { icon: Users,     title: 'Plataforma con usuarios', sub: 'Para que tus clientes o equipo accedan con su cuenta', items: PLATAFORMA },
+              { icon: ShoppingCart, title: 'E-commerce con integraciones', sub: 'Para vender online conectado a tus otras herramientas', items: ECOMMERCE },
+            ].map(cat => (
+              <div key={cat.title} style={{ background: T.light, borderRadius: 20, padding: '32px 26px', border: `1px solid ${T.border}` }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 22 }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 12, background: T.blue, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <cat.icon size={20} color="#fff" />
                   </div>
-                ))}
-              </div>
-            </div>
-            {/* Sistemas */}
-            <div style={{ background: '#0A0A14', borderRadius: 20, padding: '36px 32px', border: `1px solid ${T.blue}30` }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
-                <div style={{ width: 46, height: 46, borderRadius: 12, background: `${T.blue}30`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Settings size={22} color="#A0A0FF" />
-                </div>
-                <div>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: T.white }}>Sistemas y Automatización</div>
-                  <div style={{ fontSize: 12, color: '#A0A0FF', fontWeight: 600 }}>Cotización personalizada</div>
-                </div>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                {SISTEMAS.map(({ icon: Icon, name, desc }) => (
-                  <div key={name} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                    <div style={{ width: 32, height: 32, borderRadius: 8, background: `${T.blue}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
-                      <Icon size={15} color="#A0A0FF" />
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: T.white }}>{name}</div>
-                      <div style={{ fontSize: 12, color: '#7070A0', lineHeight: 1.5 }}>{desc}</div>
-                    </div>
+                  <div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: T.black }}>{cat.title}</div>
+                    <div style={{ fontSize: 11.5, color: T.gray, fontWeight: 500 }}>{cat.sub}</div>
                   </div>
-                ))}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  {cat.items.map(({ icon: Icon, name, desc }) => (
+                    <div key={name} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                      <div style={{ width: 30, height: 30, borderRadius: 8, background: T.blueL, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+                        <Icon size={14} color={T.blue} />
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: T.black }}>{name}</div>
+                        <div style={{ fontSize: 12, color: T.gray, lineHeight: 1.5 }}>{desc}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -445,96 +398,38 @@ export default function LandingWebSistemas() {
         </div>
       </div>
 
-      {/* ── PRECIOS ── */}
-      <section id="precios" style={{ background: T.light, padding: '80px 20px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Precios transparentes</span>
-            <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 900, color: T.black, marginTop: 10, letterSpacing: -.5 }}>
-              Sin sorpresas. Sin letras chicas.
-            </h2>
-            <p style={{ fontSize: 15, color: T.gray, marginTop: 10 }}>Precios en pesos chilenos (CLP), + IVA salvo que se indique lo contrario</p>
-          </div>
-
-          {/* ── PROMO HERO CARD ── */}
-          <div style={{ background: 'linear-gradient(135deg, #1a2680 0%, #3d5afe 55%, #6a4bf5 100%)', borderRadius: 24, padding: '48px 40px', marginBottom: 28, position: 'relative', overflow: 'hidden', boxShadow: '0 20px 60px rgba(45,43,181,.45)' }}>
-            <div style={{ position: 'absolute', top: -60, right: -60, width: 280, height: 280, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', bottom: -40, left: -40, width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 32, alignItems: 'center' }} className="lws-promo-grid">
-              <div>
-                <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 30, padding: '5px 16px', marginBottom: 16 }}>
-                  <span style={{ fontSize: 11, fontWeight: 800, color: '#A8FFEA', letterSpacing: 2, textTransform: 'uppercase' }}>Para pymes y profesionales</span>
-                </div>
-                <div style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontStyle: 'italic', fontWeight: 900, color: T.white, marginBottom: 8, letterSpacing: -.5 }}>Tu Sitio Web Profesional</div>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 10 }}>
-                  <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}>por solo</span>
-                  <span style={{ fontSize: 'clamp(42px, 6vw, 64px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$69.990</span>
-                  <span style={{ fontSize: 16, color: 'rgba(255,255,255,0.6)', fontWeight: 600 }}>+ IVA</span>
-                </div>
-                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginTop: -4, marginBottom: 4 }}>Precio final con IVA: $83.288 · Abono hoy: $41.644</p>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: '8px 16px' }}>
-                  {['Dominio .cl 1 año gratis','Hosting 1 año gratis','Hasta 5 secciones','Formulario de contacto','Botón WhatsApp','Google Maps','3 correos corporativos','Facturable','Desarrollado por profesionales','Sitio web indexado en Google'].map(f => (
-                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                      <CheckCircle2 size={13} color="#A8FFEA" style={{ flexShrink: 0 }} />
-                      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>{f}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 200 }} className="lws-promo-cta">
-                <a href={`${WA}&text=${encodeURIComponent('Hola, me interesa el sitio web de $69.990 + IVA')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Landing Page Web')}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '16px 28px', borderRadius: 14, background: '#FFFFFF', color: T.blue, fontWeight: 800, fontSize: 15, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.2)', whiteSpace: 'nowrap' }} className="wa-btn">
-                  <WaIcon size={17} /> Quiero este sitio web
-                </a>
-                <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={trackSchedule}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '13px 24px', borderRadius: 14, background: 'transparent', color: T.white, fontWeight: 700, fontSize: 13, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.4)', whiteSpace: 'nowrap' }}>
-                  <Calendar size={15} /> Agendar reunión
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* ── OTROS PLANES ── */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
-            {PLANS.map(plan => (
-              <div key={plan.name}
-                style={{ borderRadius: 20, padding: '28px 24px', border: plan.popular ? `2px solid ${T.blue}` : `1px solid ${T.border}`, background: T.panel, position: 'relative', boxShadow: plan.popular ? `0 12px 40px ${T.blue}20` : '0 2px 12px rgba(0,0,0,.04)' }}>
-                {plan.popular && (
-                  <div style={{ position: 'absolute', top: -13, left: '50%', transform: 'translateX(-50%)', background: T.blue, color: T.white, fontSize: 11, fontWeight: 800, padding: '4px 16px', borderRadius: 20, letterSpacing: 1, whiteSpace: 'nowrap' }}>
-                    RECOMENDADO
-                  </div>
-                )}
-                <div style={{ fontSize: 17, fontWeight: 800, color: T.black, marginBottom: 6 }}>{plan.name}</div>
-                <div style={{ marginBottom: 12 }}>
-                  {plan.price ? (
-                    <div>
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                        <span style={{ fontSize: 12, color: T.gray, fontWeight: 600 }}>desde</span>
-                        <span style={{ fontSize: 30, fontWeight: 900, color: T.blue, letterSpacing: -1 }}>${fmt(plan.price)}</span>
-                      </div>
-                    </div>
-                  ) : (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontSize: 26, fontWeight: 900, color: T.blue }}>A cotizar</span>
-                      <span style={{ fontSize: 11, background: T.blueL, color: T.blue, fontWeight: 700, padding: '3px 8px', borderRadius: 10 }}>Gratis</span>
-                    </div>
-                  )}
-                </div>
-                <p style={{ fontSize: 12, color: T.gray, lineHeight: 1.6, marginBottom: 20 }}>{plan.desc}</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
-                  {plan.features.map(f => (
-                    <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-                      <CheckCircle2 size={13} color={T.green} style={{ flexShrink: 0, marginTop: 2 }} />
-                      <span style={{ fontSize: 12, color: T.gray }}>{f}</span>
-                    </div>
-                  ))}
-                </div>
-                <a href={`${WA}&text=${encodeURIComponent(`Hola, me interesa cotizar: ${plan.name}`)}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead(plan.name)}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '12px', borderRadius: 12, background: plan.popular ? T.blue : T.blueL, color: plan.popular ? T.white : T.blue, fontWeight: 700, fontSize: 13, textDecoration: 'none', boxSizing: 'border-box' }} className="wa-btn">
-                  <WaIcon size={14} /> {plan.price ? 'Cotizar este plan' : 'Solicitar diagnóstico gratis'}
-                </a>
+      {/* ── CÓMO COTIZAMOS ── */}
+      <section style={{ background: T.light, padding: '80px 20px' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
+          <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Cómo cotizamos</span>
+          <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 900, color: T.black, marginTop: 10, marginBottom: 20, letterSpacing: -.5 }}>
+            Cada proyecto es distinto, por eso no hay un precio único
+          </h2>
+          <p style={{ fontSize: 16, color: T.gray, lineHeight: 1.75, maxWidth: 640, margin: '0 auto 40px' }}>
+            Un sitio institucional, una plataforma con usuarios y un e-commerce con integraciones tienen alcances muy diferentes. Por eso partimos con un diagnóstico sin costo: entendemos qué necesitas y te enviamos una propuesta clara, con alcance, plazos y valor definidos antes de empezar a construir nada.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 36, textAlign: 'left' }}>
+            {[
+              { icon: MessageCircle, title: 'Cuéntanos qué necesitas', desc: 'Por WhatsApp o el formulario.' },
+              { icon: Search, title: 'Diagnóstico sin costo', desc: 'Revisamos tu caso y qué tiene sentido construir.' },
+              { icon: CheckCircle2, title: 'Propuesta clara', desc: 'Alcance, plazos y valor, por escrito, antes de partir.' },
+            ].map(({ icon: Icon, title, desc }) => (
+              <div key={title} style={{ background: T.panel, border: `1px solid ${T.border}`, borderRadius: 14, padding: '20px 18px' }}>
+                <Icon size={18} color={T.blue} style={{ marginBottom: 10 }} />
+                <div style={{ fontSize: 14, fontWeight: 700, color: T.black, marginBottom: 4 }}>{title}</div>
+                <div style={{ fontSize: 12.5, color: T.gray, lineHeight: 1.55 }}>{desc}</div>
               </div>
             ))}
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
+            <Link to="/#contact"
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '15px 30px', borderRadius: 12, background: T.blue, color: T.white, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+              Solicitar un diagnóstico <ArrowRight size={16} />
+            </Link>
+            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '14px 24px', borderRadius: 12, background: T.blueL, color: T.blue, fontWeight: 700, fontSize: 14, textDecoration: 'none' }} className="wa-btn">
+              <WaIcon size={15} /> Prefiero WhatsApp
+            </a>
           </div>
         </div>
       </section>
@@ -573,12 +468,12 @@ export default function LandingWebSistemas() {
       {/* ── QUÉ INCLUYE ── */}
       <section style={{ background: T.panel, padding: '80px 20px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
-          <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Todo incluido</span>
+          <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Entregables</span>
           <h2 style={{ fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 900, color: T.black, marginTop: 10, marginBottom: 8, letterSpacing: -.5 }}>
-            ¿Qué incluye tu proyecto?
+            Qué recibes en tu proyecto
           </h2>
           <p style={{ fontSize: 15, color: T.gray, marginBottom: 44 }}>
-            Nada queda suelto. Entregamos todo listo para funcionar.
+            Más allá del código: documentación, capacitación y soporte para que tu equipo pueda operarlo.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16 }}>
             {INCLUDES.map(({ icon: Icon, text }) => (
@@ -675,7 +570,7 @@ export default function LandingWebSistemas() {
             style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: T.blue, color: T.white, fontWeight: 700, fontSize: 16, padding: '14px 32px', borderRadius: 12, textDecoration: 'none', boxShadow: `0 8px 24px ${T.blue}40` }}>
             <Calendar size={18} /> Agendar una reunión gratis
           </a>
-          <p style={{ fontSize: 12, color: T.muted, marginTop: 12 }}>Sin costo · Sin compromiso · Respondemos en menos de 2 horas</p>
+          <p style={{ fontSize: 12, color: T.muted, marginTop: 12 }}>Sin costo · Sin compromiso · Respondemos en menos de 24 horas hábiles</p>
         </div>
       </section>
 
@@ -685,18 +580,18 @@ export default function LandingWebSistemas() {
         <div style={{ position: 'relative', maxWidth: 600, margin: '0 auto' }}>
           <div style={{ fontSize: 42, marginBottom: 16 }}>🚀</div>
           <h2 style={{ fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900, color: T.white, letterSpacing: -1, marginBottom: 16, lineHeight: 1.2 }}>
-            ¿Listo para tener la<br />web que tu negocio merece?
+            ¿Conversamos sobre tu proyecto?
           </h2>
           <p style={{ fontSize: 17, color: '#B0B0D0', marginBottom: 36, lineHeight: 1.7 }}>
-            Escríbenos ahora. Te respondemos en menos de 2 horas en horario laboral. Sin compromiso.
+            Escríbenos ahora. Te respondemos en menos de 24 horas hábiles. Sin compromiso.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', marginBottom: 24 }}>
+            <Link to="/#contact"
+              style={{ background: T.blue, color: T.white, fontWeight: 800, fontSize: 17, padding: '16px 36px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: `0 8px 32px ${T.blue}45` }}>
+              Solicitar un diagnóstico <ArrowRight size={18} />
+            </Link>
             <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
-              style={{ background: '#25D366', color: T.white, fontWeight: 800, fontSize: 17, padding: '16px 36px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', boxShadow: '0 8px 32px rgba(37,211,102,.45)' }} className="wa-btn">
-              <WaIcon size={20} /> Cotizar por WhatsApp
-            </a>
-            <a href={WA_REU} target="_blank" rel="noopener noreferrer" onClick={trackSchedule}
-              style={{ background: 'transparent', color: T.white, fontWeight: 700, fontSize: 16, padding: '16px 28px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.3)' }}>
+              style={{ background: 'transparent', color: T.white, fontWeight: 700, fontSize: 16, padding: '16px 28px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.3)' }} className="wa-btn">
               <Calendar size={17} /> Agendar reunión
             </a>
           </div>

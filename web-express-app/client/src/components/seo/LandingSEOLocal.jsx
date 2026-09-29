@@ -337,7 +337,7 @@ export default function LandingSEOLocal({ city }) {
             ¿Listo para tener tu web<br />en {city.name}?
           </h2>
           <p style={{ fontSize: 16, color: '#B0B0D0', marginBottom: 32, lineHeight: 1.7 }}>
-            Escríbenos ahora. Te respondemos en menos de 2 horas.
+            Escríbenos ahora. Te respondemos en menos de 24 horas hábiles.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 20 }}>
             <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}

@@ -251,7 +251,7 @@ export default function HomeSEOLocal({ city }) {
               Tu negocio merece más que un template.
             </h2>
             <p style={{ fontSize: 15, lineHeight: 1.75, color: T.gray, marginBottom: 32 }}>
-              La mayoría de agencias en {city.name} te vende un WordPress con un theme comprado. Nosotros construimos <strong style={{ color: T.black }}>desde cero</strong> — código limpio, arquitectura pensada para tu negocio y resultados medibles.
+              Construimos <strong style={{ color: T.black }}>a medida, desde cero</strong> — sin plantillas ni constructores genéricos. Código propio, pensado para cómo funciona tu negocio en {city.name}, con resultados medibles.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {WHY.map(({ icon: Icon, title, desc }) => (
@@ -360,7 +360,7 @@ export default function HomeSEOLocal({ city }) {
             ¿Listo para llevar tu negocio en {city.name} al siguiente nivel?
           </h2>
           <p style={{ fontSize: 16, color: '#B0B0D0', marginBottom: 36, lineHeight: 1.7 }}>
-            Escríbenos ahora. Te respondemos en menos de 2 horas en horario laboral.
+            Escríbenos ahora. Te respondemos en menos de 24 horas hábiles.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 20 }}>
             <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}

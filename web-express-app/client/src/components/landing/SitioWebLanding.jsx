@@ -303,7 +303,7 @@ export default function SitioWebLanding() {
 
           <h1 className="swl-rise d2" style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 700, color: FP.blueD, lineHeight: 1.12, marginBottom: 18 }}>
             Tu Sitio Web Profesional por{' '}
-            <span style={{ color: FP.blue }}>$69.990 + IVA</span>
+            <span style={{ color: FP.text }}>$69.990 + IVA</span>
           </h1>
 
           <p className="swl-rise d3" style={{ fontSize: 'clamp(15px,2vw,18px)', color: FP.grayTx, lineHeight: 1.7, maxWidth: 560, margin: '0 auto 28px' }}>
@@ -353,7 +353,7 @@ export default function SitioWebLanding() {
           <div className="swl-card swl-price-card" style={{ background: FP.blue, borderRadius: 24, padding: '36px 32px', position: 'relative', border: '2px solid rgba(255,255,255,.35)' }}>
             <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.65)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Sitio web profesional</div>
             <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 20 }}>$69.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,.75)', margin: '-8px 0 20px' }}>Precio final con IVA: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19))}</strong> · Abono hoy: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19 / 2))}</strong></p>
+            <p style={{ fontSize: 13, color: 'rgba(255,255,255,.75)', margin: '-8px 0 20px', lineHeight: 1.7 }}>Precio final con IVA: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19))}</strong> · Abono hoy: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19 / 2))}</strong> · Saldo al entregar: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19 / 2))}</strong></p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
               {['Solo pagas el 50% de abono para comenzar', 'Proceso simple y guiado', 'Puedes adjuntar logo y fotografías', 'No necesitas conocimientos técnicos', 'Revisas toda la información antes de contratar'].map(t => (
                 <div key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'rgba(255,255,255,.88)' }}>
