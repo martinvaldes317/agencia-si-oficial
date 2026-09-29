@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import {
-  Accessibility, Minus, Plus, AlignJustify, Contrast, Droplet,
+  Accessibility, Minus, Plus, AlignJustify, Contrast, Droplet, Droplets,
   Link2, MousePointer2, BookOpen, Eye, Volume2, VolumeX, RotateCcw, X,
+  Type, AlignLeft, List, ImageOff,
 } from 'lucide-react'
 import { useAccessibility } from './AccessibilityContext'
 
@@ -27,6 +28,46 @@ function Toggle({ icon: Icon, label, active, onClick }) {
       <Icon size={20} />
       <span style={{ fontSize: 12, fontWeight: 600, textAlign: 'center', lineHeight: 1.25 }}>{label}</span>
     </button>
+  )
+}
+
+function HeadingList() {
+  const [headings, setHeadings] = useState([])
+
+  useEffect(() => {
+    const nodes = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6'))
+      .filter(el => !el.closest('#agenciasi-a11y-widget'))
+      .map((el, i) => ({ id: i, level: Number(el.tagName[1]), text: el.innerText.trim(), el }))
+      .filter(h => h.text)
+    setHeadings(nodes)
+  }, [])
+
+  const goTo = (h) => {
+    h.el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    const prevOutline = h.el.style.outline
+    h.el.style.outline = `3px solid ${PANEL.blue}`
+    h.el.style.outlineOffset = '3px'
+    setTimeout(() => { h.el.style.outline = prevOutline }, 1600)
+  }
+
+  if (headings.length === 0) {
+    return <p style={{ fontSize: 12, color: PANEL.mut, padding: '4px 2px 0' }}>No encontramos encabezados (h1–h6) en esta página.</p>
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 2, maxHeight: 220, overflowY: 'auto', border: `1px solid ${PANEL.border}`, borderRadius: 12, padding: 6 }}>
+      {headings.map(h => (
+        <button key={h.id} type="button" onClick={() => goTo(h)} style={{
+          textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer',
+          padding: '6px 8px', borderRadius: 8, fontSize: 12.5,
+          paddingLeft: 8 + (h.level - 1) * 12,
+          color: PANEL.ink, fontWeight: h.level <= 2 ? 700 : 500,
+        }}>
+          <span style={{ color: PANEL.mut, fontWeight: 600, marginRight: 6 }}>H{h.level}</span>
+          {h.text.length > 60 ? h.text.slice(0, 60) + '…' : h.text}
+        </button>
+      ))}
+    </div>
   )
 }
 
@@ -109,16 +150,22 @@ export default function AccessibilityWidget() {
               <Toggle icon={Contrast} label="Alto contraste" active={settings.highContrast} onClick={() => update({ highContrast: !settings.highContrast })} />
               <Toggle icon={Droplet} label="Escala de grises" active={settings.grayscale} onClick={() => update({ grayscale: !settings.grayscale })} />
               <Toggle icon={Eye} label="Ayuda daltonismo" active={settings.colorBoost} onClick={() => update({ colorBoost: !settings.colorBoost })} />
+              <Toggle icon={Droplets} label="Reducir saturación" active={settings.reduceSaturation} onClick={() => update({ reduceSaturation: !settings.reduceSaturation })} />
               <Toggle icon={AlignJustify} label="Espaciado de texto" active={settings.spacing} onClick={() => update({ spacing: !settings.spacing })} />
-              <Toggle icon={BookOpen} label="Fuente para dislexia" active={settings.dyslexiaFont} onClick={() => update({ dyslexiaFont: !settings.dyslexiaFont })} />
+              <Toggle icon={AlignLeft} label="Alinear a la izquierda" active={settings.textAlignLeft} onClick={() => update({ textAlignLeft: !settings.textAlignLeft })} />
               <Toggle icon={Link2} label="Resaltar enlaces" active={settings.highlightLinks} onClick={() => update({ highlightLinks: !settings.highlightLinks })} />
+              <Toggle icon={BookOpen} label="Fuente para dislexia" active={settings.dyslexiaFont} onClick={() => update({ dyslexiaFont: !settings.dyslexiaFont })} />
+              <Toggle icon={Type} label="Fuente legible" active={settings.legibleFont} onClick={() => update({ legibleFont: !settings.legibleFont })} />
+              <Toggle icon={ImageOff} label="Ocultar imágenes" active={settings.hideImages} onClick={() => update({ hideImages: !settings.hideImages })} />
             </div>
 
             <div style={{ fontSize: 11, fontWeight: 700, color: PANEL.mut, textTransform: 'uppercase', letterSpacing: .6, marginBottom: 8 }}>Motriz y navegación</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 18 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: settings.pageStructure ? 10 : 18 }}>
               <Toggle icon={MousePointer2} label="Cursor grande" active={settings.bigCursor} onClick={() => update({ bigCursor: !settings.bigCursor })} />
               <Toggle icon={speaking ? VolumeX : Volume2} label={speaking ? 'Detener lectura' : 'Leer en voz alta'} active={speaking} onClick={toggleReadAloud} />
+              <Toggle icon={List} label="Estructura de página" active={settings.pageStructure} onClick={() => update({ pageStructure: !settings.pageStructure })} />
             </div>
+            {settings.pageStructure && <div style={{ marginBottom: 18 }}><HeadingList /></div>}
 
             <button type="button" onClick={reset} style={{
               width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,

@@ -20,6 +20,21 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Atkinson Hyperlegible';
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/atkinson-hyperlegible@5.0.5/files/atkinson-hyperlegible-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Atkinson Hyperlegible';
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/atkinson-hyperlegible@5.0.5/files/atkinson-hyperlegible-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 html.a11y-spacing * {
   letter-spacing: 0.03em !important;
   word-spacing: 0.12em !important;
@@ -38,19 +53,40 @@ html.a11y-dyslexia-font * {
   font-family: 'OpenDyslexic', sans-serif !important;
 }
 
+html.a11y-legible-font * {
+  font-family: 'Atkinson Hyperlegible', system-ui, sans-serif !important;
+}
+
+html.a11y-hide-images img,
+html.a11y-hide-images svg image {
+  visibility: hidden !important;
+}
+
+html.a11y-text-align-left * {
+  text-align: left !important;
+}
+
 html.a11y-big-cursor,
 html.a11y-big-cursor * {
   cursor: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'%3E%3Cpath d='M3 2l7.07 18.28 2.51-7.39 7.39-2.51z' fill='%23000' stroke='%23fff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E") 4 4, auto !important;
 }
 
-/* El propio widget nunca debe heredar la fuente de dislexia ni el
-   espaciado forzado — sus controles necesitan verse siempre predecibles.
-   Necesita !important porque las reglas de arriba también lo tienen, y
-   entre dos reglas !important gana la especificidad, no el orden. */
+/* El propio widget nunca debe heredar la fuente de dislexia/legible, el
+   espaciado forzado, la alineación forzada, ni ocultar sus propios íconos
+   (son <svg>, no <img>, así que hide-images no los toca) — sus controles
+   necesitan verse siempre predecibles. Necesita !important porque las
+   reglas de arriba también lo tienen, y entre dos reglas !important gana
+   la especificidad, no el orden. */
 #agenciasi-a11y-widget,
 #agenciasi-a11y-widget * {
   font-family: 'Poppins', system-ui, sans-serif !important;
   letter-spacing: normal !important;
   word-spacing: normal !important;
   line-height: normal !important;
+}
+/* Cubre los textAlign:'center' inline del widget (los labels bajo cada
+   ícono) — sin esto, "Alinear texto a la izquierda" desalinea justo las
+   etiquetas de dos líneas del propio panel que lo activa. */
+#agenciasi-a11y-widget [style*="center"] {
+  text-align: center !important;
 }
