@@ -9,9 +9,15 @@ import {
   ExternalLink, Calendar, Wrench, BarChart3,
   Building2, Newspaper
 } from 'lucide-react'
+import { useTheme } from '../theme/ThemeContext'
+import ThemeToggle from '../theme/ThemeToggle'
+import ThemeLogo from '../theme/ThemeLogo'
 
 /* ── BRAND ─────────────────────────────────────────────── */
-const T = {
+// T.white/T.green/T.gold se mantienen iguales en ambos temas: siempre están
+// sobre una superficie de color fijo (botones, franjas con gradiente azul
+// permanente) que no cambia con el tema — nunca sobre el fondo de la página.
+const DARK_T = {
   blue:   '#3d5afe',
   blueD:  '#2a3cc4',
   blueL:  'rgba(61,90,254,0.14)',
@@ -26,6 +32,22 @@ const T = {
   green:  '#22c55e',
   greenL: 'rgba(34,197,94,0.12)',
   gold:   '#F59E0B',
+}
+const LIGHT_T = {
+  blue:   '#2451c4',
+  blueD:  '#1a3a8f',
+  blueL:  'rgba(36,81,196,0.08)',
+  black:  '#14141f',
+  dark:   '#3a3a4a',
+  gray:   '#5c5c72',
+  muted:  '#6b6b80',
+  light:  '#ffffff',
+  panel:  '#f7f8fb',
+  border: 'rgba(15,23,42,0.10)',
+  white:  '#FFFFFF',
+  green:  '#16a34a',
+  greenL: 'rgba(22,163,74,0.10)',
+  gold:   '#B45309',
 }
 
 const WA      = 'https://wa.me/56932930812?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20me%20interesa%20cotizar%20una%20web%20para%20mi%20negocio.'
@@ -126,13 +148,16 @@ const INCLUDES = [
 
 /* ── COMPONENT ─────────────────────────────────────────── */
 export default function LandingWebSistemas() {
+  const { theme } = useTheme()
+  const T = theme === 'light' ? LIGHT_T : DARK_T
+
   useEffect(() => {
     px('ViewContent', { content_name: 'Landing Web y Sistemas' })
     ga('view_item', { item_name: 'Landing Web y Sistemas', item_category: 'web' })
   }, [])
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: '#000', color: T.dark, overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.light, color: T.dark, overflowX: 'hidden' }}>
       <Helmet>
         <title>Páginas Web y Sistemas a Medida desde $69.990 | AgenciaSI Chile</title>
         <meta name="description" content="Creamos páginas web y sistemas a medida para tu negocio en Chile desde $69.990. Plazos acordados por escrito, dominio incluido, soporte post-entrega. Cotiza por WhatsApp." />
@@ -144,9 +169,10 @@ export default function LandingWebSistemas() {
       <header style={{ position: 'sticky', top: 0, zIndex: 50, background: T.panel, borderBottom: `1px solid ${T.border}`, boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 30, width: 'auto' }} />
+            <ThemeLogo style={{ height: 30, width: 'auto' }} />
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <ThemeToggle style={{ color: T.gray }} />
             <a href="#precios" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }} className="lws-link">Ver precios</a>
             <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
               style={{ background: '#25D366', color: T.white, fontWeight: 700, fontSize: 13, padding: '9px 18px', borderRadius: 30, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none', boxShadow: '0 4px 12px rgba(37,211,102,.35)' }} className="wa-btn">
@@ -397,24 +423,24 @@ export default function LandingWebSistemas() {
       </section>
 
       {/* ── TRUST BAR ── */}
-      <div style={{ background: 'rgba(61,90,254,0.07)', borderTop: '1px solid rgba(139,122,255,0.25)', borderBottom: '1px solid rgba(139,122,255,0.25)', padding: '18px 20px' }}>
+      <div style={{ background: T.blueL, borderTop: '1px solid rgba(139,122,255,0.25)', borderBottom: '1px solid rgba(139,122,255,0.25)', padding: '18px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <img src="/proveedor-del-estado.png" alt="ChileCompra MercadoPúblico" style={{ height: 40, objectFit: 'contain' }} />
             <div>
-              <div style={{ fontSize: 13, fontWeight: 800, color: '#c7cdff' }}>Proveedor del Estado</div>
-              <div style={{ fontSize: 11, color: '#9aa0c8', fontWeight: 500 }}>Empresa registrada en ChileCompra · MercadoPúblico</div>
+              <div style={{ fontSize: 13, fontWeight: 800, color: T.black }}>Proveedor del Estado</div>
+              <div style={{ fontSize: 11, color: T.gray, fontWeight: 500 }}>Empresa registrada en ChileCompra · MercadoPúblico</div>
             </div>
           </div>
-          <div style={{ width: 1, height: 36, background: 'rgba(255,255,255,0.14)' }} className="lws-trust-divider" />
+          <div style={{ width: 1, height: 36, background: T.border }} className="lws-trust-divider" />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Shield size={18} color="#3d5afe" />
-            <span style={{ fontSize: 13, fontWeight: 600, color: '#c7cdff' }}>Empresa formal · Emitimos facturas</span>
+            <Shield size={18} color={T.blue} />
+            <span style={{ fontSize: 13, fontWeight: 600, color: T.black }}>Empresa formal · Emitimos facturas</span>
           </div>
-          <div style={{ width: 1, height: 36, background: 'rgba(255,255,255,0.14)' }} className="lws-trust-divider" />
+          <div style={{ width: 1, height: 36, background: T.border }} className="lws-trust-divider" />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <CheckCircle2 size={18} color="#16A34A" />
-            <span style={{ fontSize: 13, fontWeight: 600, color: '#c7cdff' }}>+60 proyectos entregados en Chile</span>
+            <CheckCircle2 size={18} color={T.green} />
+            <span style={{ fontSize: 13, fontWeight: 600, color: T.black }}>+60 proyectos entregados en Chile</span>
           </div>
         </div>
       </div>
@@ -504,7 +530,7 @@ export default function LandingWebSistemas() {
                   ))}
                 </div>
                 <a href={`${WA}&text=${encodeURIComponent(`Hola, me interesa cotizar: ${plan.name}`)}`} target="_blank" rel="noopener noreferrer" onClick={() => trackLead(plan.name)}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '12px', borderRadius: 12, background: plan.popular ? T.blue : 'rgba(255,255,255,0.08)', color: T.white, fontWeight: 700, fontSize: 13, textDecoration: 'none', boxSizing: 'border-box' }} className="wa-btn">
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '12px', borderRadius: 12, background: plan.popular ? T.blue : T.blueL, color: plan.popular ? T.white : T.blue, fontWeight: 700, fontSize: 13, textDecoration: 'none', boxSizing: 'border-box' }} className="wa-btn">
                   <WaIcon size={14} /> {plan.price ? 'Cotizar este plan' : 'Solicitar diagnóstico gratis'}
                 </a>
               </div>
@@ -589,10 +615,10 @@ export default function LandingWebSistemas() {
             align-items: center;
             justify-content: center;
             background: #fdfdff;
-            border: 1px solid rgba(255,255,255,0.10);
+            border: 1px solid rgba(15,23,42,0.12);
             border-radius: 12px;
             padding: 12px 16px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.2);
             filter: grayscale(100%) opacity(0.6);
             transition: filter 0.3s, box-shadow 0.3s;
           }
@@ -681,13 +707,13 @@ export default function LandingWebSistemas() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{ background: '#000', padding: '28px 20px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+      <footer style={{ background: T.light, padding: '28px 20px', borderTop: `1px solid ${T.border}` }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-            <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 24, width: 'auto' }} />
+            <ThemeLogo style={{ height: 24, width: 'auto' }} />
           </Link>
-          <span style={{ fontSize: 12, color: '#6e6e85' }}>© 2026 AgenciaSI · Desarrollo web y sistemas · Chile</span>
-          <Link to="/demos" style={{ fontSize: 12, color: '#6e6e85', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
+          <span style={{ fontSize: 12, color: T.muted }}>© 2026 AgenciaSI · Desarrollo web y sistemas · Chile</span>
+          <Link to="/demos" style={{ fontSize: 12, color: T.muted, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
             Ver todas las demos <ExternalLink size={11} />
           </Link>
         </div>

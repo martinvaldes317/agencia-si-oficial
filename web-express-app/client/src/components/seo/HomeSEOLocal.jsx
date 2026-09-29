@@ -6,8 +6,11 @@ import {
   Zap, Shield, Search, CheckCircle2, BarChart3, TrendingUp,
   MapPin, Settings, Calendar, Building2, Star, ExternalLink
 } from 'lucide-react'
+import { useTheme } from '../../theme/ThemeContext'
+import ThemeToggle from '../../theme/ThemeToggle'
+import ThemeLogo from '../../theme/ThemeLogo'
 
-const T = {
+const DARK_T = {
   blue:  '#3d5afe',
   black: '#f5f5fa',
   gray:  '#9a9ab0',
@@ -15,6 +18,15 @@ const T = {
   panel: '#0c0c14',
   white: '#FFFFFF',
   border:'rgba(255,255,255,0.09)',
+}
+const LIGHT_T = {
+  blue:  '#2451c4',
+  black: '#14141f',
+  gray:  '#5c5c72',
+  light: '#ffffff',
+  panel: '#f7f8fb',
+  white: '#FFFFFF',
+  border:'rgba(15,23,42,0.10)',
 }
 
 const WA_BASE = 'https://wa.me/56932930812?text='
@@ -55,6 +67,8 @@ const WHY = [
 ]
 
 export default function HomeSEOLocal({ city }) {
+  const { theme } = useTheme()
+  const T = theme === 'light' ? LIGHT_T : DARK_T
   const WA = `${WA_BASE}${encodeURIComponent(`Hola, vi su página de agencia digital en ${city.name} y me interesa cotizar un proyecto para mi negocio.`)}`
   const WA_FAST = `${WA_BASE}${encodeURIComponent(`Hola, me interesa cotizar un sitio web para mi negocio en ${city.name}.`)}`
 
@@ -85,7 +99,7 @@ export default function HomeSEOLocal({ city }) {
   }
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: '#000', color: T.black, overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.light, color: T.black, overflowX: 'hidden' }}>
       <Helmet>
         <title>Agencia Digital en {city.name} | AgenciaSI Chile</title>
         <meta name="description" content={`AgenciaSI — agencia digital en ${city.name}. Desarrollo web, e-commerce, sistemas a medida e integración con IA para pymes y empresas de ${city.name}. Cotiza gratis.`} />
@@ -101,9 +115,10 @@ export default function HomeSEOLocal({ city }) {
       <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: T.panel, borderBottom: `1px solid ${T.border}`, boxShadow: '0 1px 8px rgba(0,0,0,.05)' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 32, width: 'auto' }} />
+            <ThemeLogo style={{ height: 32, width: 'auto' }} />
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <ThemeToggle style={{ color: T.gray }} />
             <Link to="/" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }}>Inicio</Link>
             <Link to="/web" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }}>Precios</Link>
             <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
@@ -170,7 +185,7 @@ export default function HomeSEOLocal({ city }) {
                 <div key={s.label} style={{ background: T.panel, padding: '24px' }}>
                   <div style={{ fontSize: 11, fontWeight: 600, color: T.gray, textTransform: 'uppercase', letterSpacing: .8, marginBottom: 8 }}>{s.label}</div>
                   <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 32, fontWeight: 700, color: s.hi ? T.blue : T.black, lineHeight: 1, marginBottom: 4 }}>{s.value}</div>
-                  <div style={{ fontSize: 11, color: '#aaa' }}>{s.sub}</div>
+                  <div style={{ fontSize: 11, color: T.gray }}>{s.sub}</div>
                 </div>
               ))}
             </div>
@@ -362,13 +377,13 @@ export default function HomeSEOLocal({ city }) {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ background: '#050508', padding: '24px', borderTop: '1px solid #1A1A2E' }}>
+      <footer style={{ background: T.light, padding: '24px', borderTop: `1px solid ${T.border}` }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-            <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 24, width: 'auto' }} />
+            <ThemeLogo style={{ height: 24, width: 'auto' }} />
           </Link>
-          <span style={{ fontSize: 12, color: '#404060' }}>© 2026 AgenciaSI · Agencia digital en {city.name} · Chile</span>
-          <Link to="/web" style={{ fontSize: 12, color: '#404060', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
+          <span style={{ fontSize: 12, color: T.gray }}>© 2026 AgenciaSI · Agencia digital en {city.name} · Chile</span>
+          <Link to="/web" style={{ fontSize: 12, color: T.gray, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
             Ver precios <ExternalLink size={11} />
           </Link>
         </div>

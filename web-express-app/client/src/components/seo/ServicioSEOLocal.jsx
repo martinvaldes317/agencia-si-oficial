@@ -4,8 +4,11 @@ import { Helmet } from 'react-helmet-async'
 import {
   CheckCircle2, Shield, Calendar, ExternalLink, ArrowRight,
 } from 'lucide-react'
+import { useTheme } from '../../theme/ThemeContext'
+import ThemeToggle from '../../theme/ThemeToggle'
+import ThemeLogo from '../../theme/ThemeLogo'
 
-const T = {
+const DARK_T = {
   blue:  '#3d5afe',
   blueD: '#2a3cc4',
   blueL: 'rgba(61,90,254,0.14)',
@@ -17,6 +20,19 @@ const T = {
   white: '#FFFFFF',
   border:'rgba(255,255,255,0.09)',
   green: '#22c55e',
+}
+const LIGHT_T = {
+  blue:  '#2451c4',
+  blueD: '#1a3a8f',
+  blueL: 'rgba(36,81,196,0.08)',
+  black: '#14141f',
+  gray:  '#5c5c72',
+  muted: '#6b6b80',
+  light: '#ffffff',
+  panel: '#f7f8fb',
+  white: '#FFFFFF',
+  border:'rgba(15,23,42,0.10)',
+  green: '#16a34a',
 }
 
 const WA_BASE = 'https://wa.me/56932930812?text='
@@ -109,6 +125,8 @@ export const SERVICIOS = {
 }
 
 export default function ServicioSEOLocal({ service }) {
+  const { theme } = useTheme()
+  const T = theme === 'light' ? LIGHT_T : DARK_T
   const WA = `${WA_BASE}${encodeURIComponent(`Hola, vi la página de ${service.name} y me interesa cotizar un proyecto para mi negocio.`)}`
   const WA_REU = `${WA_BASE}${encodeURIComponent(`Hola, me interesa agendar una reunión para hablar de un proyecto de ${service.name.toLowerCase()}.`)}`
 
@@ -129,7 +147,7 @@ export default function ServicioSEOLocal({ service }) {
   }
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: '#000', color: T.black, overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.light, color: T.black, overflowX: 'hidden' }}>
       <Helmet>
         <title>{service.metaTitle}</title>
         <meta name="description" content={service.metaDescription} />
@@ -145,9 +163,10 @@ export default function ServicioSEOLocal({ service }) {
       <header style={{ position: 'sticky', top: 0, zIndex: 50, background: T.panel, borderBottom: `1px solid ${T.border}`, boxShadow: '0 2px 12px rgba(0,0,0,.06)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 28, width: 'auto' }} />
+            <ThemeLogo style={{ height: 28, width: 'auto' }} />
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <ThemeToggle style={{ color: T.gray }} />
             <Link to="/#services" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }}>Ver servicios</Link>
             <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
               style={{ background: '#25D366', color: T.white, fontWeight: 700, fontSize: 13, padding: '9px 18px', borderRadius: 30, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none', boxShadow: '0 4px 12px rgba(37,211,102,.35)' }}>
@@ -192,19 +211,19 @@ export default function ServicioSEOLocal({ service }) {
       </section>
 
       {/* TRUST BAR */}
-      <div style={{ background: 'rgba(61,90,254,0.07)', borderBottom: '1px solid rgba(139,122,255,0.25)', padding: '16px 20px' }}>
+      <div style={{ background: T.blueL, borderBottom: '1px solid rgba(139,122,255,0.25)', padding: '16px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 28, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <img src="/proveedor-del-estado.png" alt="ChileCompra MercadoPúblico" style={{ height: 36, objectFit: 'contain' }} />
             <div>
-              <div style={{ fontSize: 12, fontWeight: 800, color: '#c7cdff' }}>Proveedor del Estado</div>
-              <div style={{ fontSize: 10, color: '#9aa0c8' }}>Registrados en ChileCompra · MercadoPúblico</div>
+              <div style={{ fontSize: 12, fontWeight: 800, color: T.black }}>Proveedor del Estado</div>
+              <div style={{ fontSize: 10, color: T.gray }}>Registrados en ChileCompra · MercadoPúblico</div>
             </div>
           </div>
-          <div style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.14)' }} />
+          <div style={{ width: 1, height: 32, background: T.border }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <Shield size={16} color={T.blue} />
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#c7cdff' }}>Empresa formal · Emitimos facturas</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: T.black }}>Empresa formal · Emitimos facturas</span>
           </div>
         </div>
       </div>
@@ -336,13 +355,13 @@ export default function ServicioSEOLocal({ service }) {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ background: '#050508', padding: '24px 20px', borderTop: '1px solid #1A1A2E' }}>
+      <footer style={{ background: T.light, padding: '24px 20px', borderTop: `1px solid ${T.border}` }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-            <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 24, width: 'auto' }} />
+            <ThemeLogo style={{ height: 24, width: 'auto' }} />
           </Link>
-          <span style={{ fontSize: 12, color: '#404060' }}>© 2026 AgenciaSI · {service.name} · Chile</span>
-          <Link to="/" style={{ fontSize: 12, color: '#404060', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
+          <span style={{ fontSize: 12, color: T.muted }}>© 2026 AgenciaSI · {service.name} · Chile</span>
+          <Link to="/" style={{ fontSize: 12, color: T.muted, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
             Ver todos los servicios <ExternalLink size={11} />
           </Link>
         </div>

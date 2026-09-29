@@ -2,10 +2,18 @@ import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Clock, XCircle, ArrowRight, Lock, Eye, EyeOff, Loader2 } from 'lucide-react'
-import { T, WA_BASE, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
+import { DARK_T, LIGHT_T, WA_BASE, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
 import ReceiptAnimation from './ReceiptAnimation'
+import { useTheme } from '../../theme/ThemeContext'
+import ThemeToggle from '../../theme/ThemeToggle'
+
+const useT = () => {
+  const { theme } = useTheme()
+  return theme === 'light' ? LIGHT_T : DARK_T
+}
 
 export default function SitioWebConfirmacion() {
+  const T = useT()
   const [params] = useSearchParams()
   const [summary, setSummary] = useState(null)
   const [animDone, setAnimDone] = useState(false)
@@ -92,10 +100,11 @@ export default function SitioWebConfirmacion() {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <div style={{ background: T.navy, padding: '16px 20px' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', maxWidth: 720, margin: '0 auto' }}>
+      <div style={{ background: T.navy, padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', maxWidth: 720 }}>
           <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 22, width: 'auto' }} />
         </Link>
+        <div style={{ position: 'absolute', right: 20 }}><ThemeToggle size={14} style={{ color: 'rgba(255,255,255,.65)' }} /></div>
       </div>
 
       <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
@@ -228,6 +237,7 @@ export default function SitioWebConfirmacion() {
 }
 
 function SummaryLine({ label, value }) {
+  const T = useT()
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, padding: '5px 0', fontSize: 13 }}>
       <span style={{ color: T.gray, fontWeight: 600 }}>{label}</span>

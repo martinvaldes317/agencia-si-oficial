@@ -4,14 +4,47 @@ import {
     TrendingUp, Code2, Search, Globe, BrainCircuit,
     MessageSquare, Mail, LogIn, ArrowRight, Sparkles,
 } from 'lucide-react'
+import { useTheme } from '../theme/ThemeContext'
+import ThemeToggle from '../theme/ThemeToggle'
+import ThemeLogo from '../theme/ThemeLogo'
 
-const T = {
+// blue/violet/yellow/black/white son literales: siempre sobre una superficie
+// de color fijo (botones, chips, el pill blanco), nunca sobre el fondo de la
+// página — no cambian con el tema. `ink`/`mut*`/`pageBg`/`card*` sí cambian:
+// son el texto y las superficies que viven directamente sobre el fondo.
+const DARK_T = {
     blue:   '#3d5afe',
     violet: '#8b5cf6',
     yellow: '#FACC15',
     black:  '#0A0A0A',
-    gray:   '#5C5C6E',
     white:  '#FFFFFF',
+    ink:        '#FFFFFF',
+    mut1:       'rgba(255,255,255,0.45)',
+    mut2:       'rgba(255,255,255,0.3)',
+    mut3:       'rgba(255,255,255,0.2)',
+    pageBg:     '#000000',
+    cardBg:     'rgba(255,255,255,0.05)',
+    cardBorder: 'rgba(255,255,255,0.08)',
+    outlineBg:     'rgba(255,255,255,0.06)',
+    outlineBorder: 'rgba(255,255,255,0.12)',
+    iconBgOutline: 'rgba(255,255,255,0.1)',
+}
+const LIGHT_T = {
+    blue:   '#2451c4',
+    violet: '#7c3aed',
+    yellow: '#B45309',
+    black:  '#0A0A0A',
+    white:  '#FFFFFF',
+    ink:        '#14141f',
+    mut1:       'rgba(15,15,30,0.55)',
+    mut2:       'rgba(15,15,30,0.4)',
+    mut3:       'rgba(15,15,30,0.32)',
+    pageBg:     '#ffffff',
+    cardBg:     'rgba(15,15,30,0.035)',
+    cardBorder: 'rgba(15,15,30,0.1)',
+    outlineBg:     'rgba(15,15,30,0.035)',
+    outlineBorder: 'rgba(15,15,30,0.12)',
+    iconBgOutline: 'rgba(15,15,30,0.06)',
 }
 
 const services = [
@@ -57,11 +90,13 @@ const contacts = [
         icon: Mail,
         label: 'contacto@agenciasi.cl',
         href: 'mailto:contacto@agenciasi.cl',
-        color: T.blue,
+        color: '#3d5afe',
     },
 ]
 
 const BtnLink = ({ item }) => {
+    const { theme } = useTheme()
+    const T = theme === 'light' ? LIGHT_T : DARK_T
     const base = {
         display: 'flex',
         alignItems: 'center',
@@ -79,7 +114,7 @@ const BtnLink = ({ item }) => {
         primary: { ...base, background: `linear-gradient(120deg, ${T.blue}, ${T.violet})`, color: T.white, border: 'none' },
         yellow:  { ...base, background: T.yellow,  color: T.blue,  border: 'none' },
         white:   { ...base, background: T.white,   color: T.black, border: 'none' },
-        outline: { ...base, background: 'rgba(255,255,255,0.06)', color: T.white, border: '1px solid rgba(255,255,255,0.12)' },
+        outline: { ...base, background: T.outlineBg, color: T.ink, border: `1px solid ${T.outlineBorder}` },
     }
 
     const s = styles[item.variant]
@@ -92,9 +127,9 @@ const BtnLink = ({ item }) => {
                 background: item.variant === 'primary' ? 'rgba(255,255,255,0.15)'
                           : item.variant === 'yellow'  ? 'rgba(45,43,181,0.15)'
                           : item.variant === 'white'   ? 'rgba(0,0,0,0.08)'
-                          : 'rgba(255,255,255,0.1)',
+                          : T.iconBgOutline,
             }}>
-                <item.icon size={18} color={item.variant === 'yellow' || item.variant === 'white' ? T.blue : T.white} />
+                <item.icon size={18} color={item.variant === 'yellow' || item.variant === 'white' ? T.blue : item.variant === 'outline' ? T.ink : T.white} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{ margin: 0, fontWeight: 700, fontSize: '14px', lineHeight: 1.2 }}>{item.label}</p>
@@ -116,8 +151,10 @@ const BtnLink = ({ item }) => {
 }
 
 export default function Links() {
+    const { theme } = useTheme()
+    const T = theme === 'light' ? LIGHT_T : DARK_T
     return (
-        <div style={{ minHeight: '100vh', background: '#000', fontFamily: 'Poppins, sans-serif', display: 'flex', justifyContent: 'center', padding: '40px 16px 60px' }}>
+        <div style={{ minHeight: '100vh', background: T.pageBg, fontFamily: 'Poppins, sans-serif', display: 'flex', justifyContent: 'center', padding: '40px 16px 60px' }}>
             <Helmet>
                 <title>AgenciaSi | Links</title>
                 <meta name="robots" content="noindex" />
@@ -125,16 +162,21 @@ export default function Links() {
 
             <div style={{ width: '100%', maxWidth: '480px' }}>
 
+                {/* Theme toggle */}
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8px' }}>
+                    <ThemeToggle style={{ color: T.mut1 }} />
+                </div>
+
                 {/* Profile */}
                 <div style={{ textAlign: 'center', marginBottom: '32px' }}>
                     <div style={{ margin: '0 auto 16px', display: 'flex', justifyContent: 'center' }}>
-                        <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: '48px', width: 'auto' }} />
+                        <ThemeLogo style={{ height: '48px', width: 'auto' }} />
                     </div>
-                    <h1 style={{ color: T.white, fontWeight: 800, fontSize: '20px', margin: '0 0 4px', letterSpacing: '-0.01em' }}>AgenciaSi</h1>
-                    <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '13px', margin: '0 0 6px' }}>
+                    <h1 style={{ color: T.ink, fontWeight: 800, fontSize: '20px', margin: '0 0 4px', letterSpacing: '-0.01em' }}>AgenciaSi</h1>
+                    <p style={{ color: T.mut1, fontSize: '13px', margin: '0 0 6px' }}>
                         Marketing digital · IA · Desarrollo web
                     </p>
-                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '11px', margin: 0 }}>
+                    <p style={{ color: T.mut2, fontSize: '11px', margin: 0 }}>
                         San Clemente · Chile · Latinoamérica
                     </p>
                 </div>
@@ -162,24 +204,24 @@ export default function Links() {
                 </div>
 
                 {/* Services */}
-                <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', margin: '0 0 12px 4px' }}>Servicios</p>
+                <p style={{ color: T.mut2, fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', margin: '0 0 12px 4px' }}>Servicios</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '28px' }}>
                     {services.map(item => <BtnLink key={item.label} item={item} />)}
                 </div>
 
                 {/* Contact */}
-                <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', margin: '0 0 12px 4px' }}>Contacto directo</p>
+                <p style={{ color: T.mut2, fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', margin: '0 0 12px 4px' }}>Contacto directo</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '28px' }}>
                     {contacts.map(c => (
                         <a key={c.href} href={c.href} target="_blank" rel="noopener noreferrer"
-                            style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '14px 20px', borderRadius: '16px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', textDecoration: 'none', transition: 'opacity 0.15s' }}
+                            style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '14px 20px', borderRadius: '16px', background: T.cardBg, border: `1px solid ${T.cardBorder}`, textDecoration: 'none', transition: 'opacity 0.15s' }}
                             onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
                             onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
                             <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: c.color + '20', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                 <c.icon size={18} color={c.color} />
                             </div>
-                            <span style={{ color: T.white, fontWeight: 600, fontSize: '13px' }}>{c.label}</span>
-                            <ArrowRight size={15} style={{ marginLeft: 'auto', color: 'rgba(255,255,255,0.25)' }} />
+                            <span style={{ color: T.ink, fontWeight: 600, fontSize: '13px' }}>{c.label}</span>
+                            <ArrowRight size={15} style={{ marginLeft: 'auto', color: T.mut2 }} />
                         </a>
                     ))}
                 </div>
@@ -188,7 +230,7 @@ export default function Links() {
                 <Link to="/portal" style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                     padding: '13px', borderRadius: '16px', width: '100%',
-                    border: `1px solid ${T.blue}40`, color: 'rgba(255,255,255,0.4)',
+                    border: `1px solid ${T.blue}40`, color: T.mut1,
                     fontSize: '12px', fontWeight: 600, textDecoration: 'none',
                     background: 'transparent', marginBottom: '32px',
                 }}>
@@ -196,7 +238,7 @@ export default function Links() {
                 </Link>
 
                 {/* Footer */}
-                <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.2)', fontSize: '11px' }}>
+                <p style={{ textAlign: 'center', color: T.mut3, fontSize: '11px' }}>
                     © 2026 AgenciaSi · agenciasi.cl
                 </p>
             </div>

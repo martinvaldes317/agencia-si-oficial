@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { CheckCircle2, XCircle, Loader2, Sparkle } from 'lucide-react'
-import { T, fmt } from './SitioWebLanding'
+import { DARK_T, LIGHT_T, fmt } from './SitioWebLanding'
+import { useTheme } from '../../theme/ThemeContext'
 
 // Genera un patrón de barras determinístico (mismo pedido → mismo "código de
 // barras") solo decorativo, sin librerías — a partir de los caracteres del orderId.
@@ -25,6 +26,8 @@ const PROCESSING_MS = 1100
 const FEED_MS = 2600
 
 export default function ReceiptAnimation({ summary, orderId, status = 'approved', onDone }) {
+  const { theme } = useTheme()
+  const T = theme === 'light' ? LIGHT_T : DARK_T
   const [stage, setStage] = useState('processing') // processing → printing → complete
 
   const rejected = status === 'rejected'

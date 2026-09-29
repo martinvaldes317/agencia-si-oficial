@@ -7,10 +7,17 @@ import {
   ShoppingCart, Store, ExternalLink,
 } from 'lucide-react'
 import { trackEvent } from '../../lib/analytics'
-import { FP } from './palette'
+import { DARK_FP, LIGHT_FP } from './palette'
+import { useTheme } from '../../theme/ThemeContext'
+import ThemeToggle from '../../theme/ThemeToggle'
+import ThemeLogo from '../../theme/ThemeLogo'
 import './sitio-web-dark.css'
 
-export const T = {
+// navy/navy2/violet/violetD/cyan/white/border son literales: viven dentro de
+// componentes autocontenidos (tarjetas, botones) que nunca cambian de fondo
+// según el tema. ink/black/gray/grayLt/light/panel SÍ cambian — son texto y
+// superficies que están directamente sobre el fondo de la página.
+export const DARK_T = {
   navy:   '#0A0B2E',
   navy2:  '#141650',
   violet: '#6C2BD9',
@@ -24,6 +31,21 @@ export const T = {
   light:  '#000000',
   panel:  '#0c0c14',
   border: 'rgba(255,255,255,0.09)',
+}
+export const LIGHT_T = {
+  navy:   '#0A0B2E',
+  navy2:  '#141650',
+  violet: '#6C2BD9',
+  violetD:'#4B1D9E',
+  cyan:   '#22F2D8',
+  white:  '#FFFFFF',
+  black:  '#14141f',
+  ink:    '#14141f',
+  gray:   '#5c5c72',
+  grayLt: '#6b6b80',
+  light:  '#ffffff',
+  panel:  '#f7f8fb',
+  border: 'rgba(15,23,42,0.10)',
 }
 
 export const WA_BASE = 'https://wa.me/56932930812?text='
@@ -172,6 +194,8 @@ const trackGlow = e => {
 
 function ConfianzaStat() {
   const [ref, seen] = useReveal()
+  const { theme } = useTheme()
+  const FP = theme === 'light' ? LIGHT_FP : DARK_FP
   return (
     <div ref={ref} style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 10 }}>
       +<CountUp to={60} active={seen} /> proyectos web entregados
@@ -181,6 +205,8 @@ function ConfianzaStat() {
 
 export default function SitioWebLanding() {
   const [openFaq, setOpenFaq] = useState(null)
+  const { theme } = useTheme()
+  const FP = theme === 'light' ? LIGHT_FP : DARK_FP
 
   useEffect(() => { pxPageView() }, [])
 
@@ -220,7 +246,7 @@ export default function SitioWebLanding() {
   }
 
   return (
-    <div className="swl" style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: '#000', color: FP.text, overflowX: 'hidden' }}>
+    <div className="swl" data-theme={theme} style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: FP.cream, color: FP.text, overflowX: 'hidden' }}>
       <Helmet>
         <title>Tu Sitio Web Profesional por $69.990 + IVA | AgenciaSI</title>
         <meta name="description" content="Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online por $69.990 + IVA." />
@@ -251,12 +277,15 @@ export default function SitioWebLanding() {
       <nav className="swl-nav" style={{ position: 'sticky', top: 0, zIndex: 50 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 28, width: 'auto' }} />
+            <ThemeLogo style={{ height: 28, width: 'auto' }} />
           </Link>
-          <a href={WA_ONLINE} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Nav CTA', true)}
-            style={{ background: FP.blue, color: '#FFFFFF', fontWeight: 800, fontSize: 13, padding: '9px 18px', borderRadius: 30, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
-            $69.990 + IVA <ArrowRight size={13} />
-          </a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <ThemeToggle style={{ color: FP.grayTx }} />
+            <a href={WA_ONLINE} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Nav CTA', true)}
+              style={{ background: FP.blue, color: '#FFFFFF', fontWeight: 800, fontSize: 13, padding: '9px 18px', borderRadius: 30, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
+              $69.990 + IVA <ArrowRight size={13} />
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -268,13 +297,13 @@ export default function SitioWebLanding() {
 
         <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
           <div className="swl-rise d1" style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 22 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: FP.blueD, background: 'rgba(255,255,255,0.05)', border: `1px solid ${FP.border}`, padding: '6px 14px', borderRadius: 30 }}>Para Pymes y Profesionales</span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: FP.blueD, background: FP.tint, border: `1px solid ${FP.border}`, padding: '6px 14px', borderRadius: 30 }}>Para Pymes y Profesionales</span>
             <span style={{ fontSize: 11, fontWeight: 700, color: '#FFFFFF', background: FP.blue, padding: '6px 14px', borderRadius: 30 }}>+60 proyectos web entregados</span>
           </div>
 
           <h1 className="swl-rise d2" style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 700, color: FP.blueD, lineHeight: 1.12, marginBottom: 18 }}>
             Tu Sitio Web Profesional por{' '}
-            <span style={{ color: '#FFFFFF' }}>$69.990 + IVA</span>
+            <span style={{ color: FP.blue }}>$69.990 + IVA</span>
           </h1>
 
           <p className="swl-rise d3" style={{ fontSize: 'clamp(15px,2vw,18px)', color: FP.grayTx, lineHeight: 1.7, maxWidth: 560, margin: '0 auto 28px' }}>
@@ -291,7 +320,7 @@ export default function SitioWebLanding() {
 
           <div className="swl-rise d5" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 20 }}>
             {CHECKS_HERO.map(c => (
-              <span key={c} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.05)', border: `1px solid ${FP.border}`, borderRadius: 20, padding: '7px 13px', fontSize: 12.5, fontWeight: 600, color: FP.text, whiteSpace: 'nowrap' }}>
+              <span key={c} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: FP.tint, border: `1px solid ${FP.border}`, borderRadius: 20, padding: '7px 13px', fontSize: 12.5, fontWeight: 600, color: FP.text, whiteSpace: 'nowrap' }}>
                 <Check size={13} color={FP.blue} style={{ flexShrink: 0 }} /> {c}
               </span>
             ))}
@@ -299,7 +328,7 @@ export default function SitioWebLanding() {
 
           <div className="swl-rise d6" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
             <a href={WA_ASISTIDA} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Hero CTA WhatsApp', true)}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, color: FP.text, fontSize: 13, fontWeight: 700, textDecoration: 'none', border: `1px solid #25D36655`, padding: '10px 20px 10px 12px', borderRadius: 30, background: 'rgba(255,255,255,0.05)', whiteSpace: 'nowrap' }}>
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, color: FP.text, fontSize: 13, fontWeight: 700, textDecoration: 'none', border: `1px solid #25D36655`, padding: '10px 20px 10px 12px', borderRadius: 30, background: FP.tint, whiteSpace: 'nowrap' }}>
               <span style={{ width: 24, height: 24, borderRadius: '50%', background: '#25D366', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <WaIcon size={13} />
               </span>
@@ -505,11 +534,11 @@ export default function SitioWebLanding() {
       {/* FOOTER */}
       <footer style={{ background: FP.ink, padding: '22px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14 }}>
-          <span style={{ fontSize: 12, color: 'rgba(255,255,255,.4)' }}>© 2026 AgenciaSI · Diseño y desarrollo integral</span>
+          <span style={{ fontSize: 12, color: FP.grayTx }}>© 2026 AgenciaSI · Diseño y desarrollo integral</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
-            <Link to="/terminos-condiciones" style={{ fontSize: 12, color: 'rgba(255,255,255,.4)', textDecoration: 'none' }}>Términos y Condiciones</Link>
-            <Link to="/politica-privacidad" style={{ fontSize: 12, color: 'rgba(255,255,255,.4)', textDecoration: 'none' }}>Privacidad</Link>
-            <Link to="/" style={{ fontSize: 12, color: 'rgba(255,255,255,.4)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
+            <Link to="/terminos-condiciones" style={{ fontSize: 12, color: FP.grayTx, textDecoration: 'none' }}>Términos y Condiciones</Link>
+            <Link to="/politica-privacidad" style={{ fontSize: 12, color: FP.grayTx, textDecoration: 'none' }}>Privacidad</Link>
+            <Link to="/" style={{ fontSize: 12, color: FP.grayTx, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
               Inicio <ExternalLink size={11} />
             </Link>
           </div>

@@ -5,9 +5,16 @@ import {
   ArrowLeft, ArrowRight, Check, Upload, X, Loader2, Store,
   ShieldCheck, ChevronDown, Smartphone, Copy, CheckCheck, Mail,
 } from 'lucide-react'
-import { T, WA_BASE, PRICE_SITE, PRICE_STORE, SECTIONS_INCLUDED, PRICE_EXTRA_SECTION, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
+import { DARK_T, LIGHT_T, WA_BASE, PRICE_SITE, PRICE_STORE, SECTIONS_INCLUDED, PRICE_EXTRA_SECTION, WaIcon, fmt, px, ga, pxPageView } from './SitioWebLanding'
 import { trackEvent } from '../../lib/analytics'
 import { CHILE_REGIONES, comunasDeRegion } from '../../data/chileRegiones'
+import { useTheme } from '../../theme/ThemeContext'
+import ThemeToggle from '../../theme/ThemeToggle'
+
+const useT = () => {
+  const { theme } = useTheme()
+  return theme === 'light' ? LIGHT_T : DARK_T
+}
 
 const TOTAL_STEPS = 6
 const DRAFT_KEY = 'agenciasi_sitio_web_draft'
@@ -84,6 +91,7 @@ function sanitizeDomain(value) {
 
 // ── UI primitives ──────────────────────────────────────────────────────────
 function Field({ label, sub, children }) {
+  const T = useT()
   return (
     <div style={{ marginBottom: 20 }}>
       <label style={{ display: 'block', fontWeight: 700, fontSize: 13, color: T.ink, marginBottom: 6 }}>{label}</label>
@@ -93,23 +101,26 @@ function Field({ label, sub, children }) {
   )
 }
 
-const inputStyle = {
+const inputStyle = (T) => ({
   width: '100%', padding: '13px 16px', fontSize: 14, borderRadius: 12,
   border: `1.5px solid ${T.border}`, fontFamily: 'inherit', color: T.ink,
   outline: 'none', boxSizing: 'border-box', background: T.panel,
-}
+})
 
 function TextInput(props) {
-  return <input {...props} style={{ ...inputStyle, ...(props.style || {}) }} onFocus={e => e.target.style.borderColor = T.violet} onBlur={e => e.target.style.borderColor = T.border} />
+  const T = useT()
+  return <input {...props} style={{ ...inputStyle(T), ...(props.style || {}) }} onFocus={e => e.target.style.borderColor = T.violet} onBlur={e => e.target.style.borderColor = T.border} />
 }
 
 function TextArea(props) {
-  return <textarea {...props} rows={props.rows || 3} style={{ ...inputStyle, resize: 'vertical', ...(props.style || {}) }} onFocus={e => e.target.style.borderColor = T.violet} onBlur={e => e.target.style.borderColor = T.border} />
+  const T = useT()
+  return <textarea {...props} rows={props.rows || 3} style={{ ...inputStyle(T), resize: 'vertical', ...(props.style || {}) }} onFocus={e => e.target.style.borderColor = T.violet} onBlur={e => e.target.style.borderColor = T.border} />
 }
 
 function SelectInput({ children, ...props }) {
+  const T = useT()
   return (
-    <select {...props} style={{ ...inputStyle, appearance: 'auto', cursor: 'pointer' }}
+    <select {...props} style={{ ...inputStyle(T), appearance: 'auto', cursor: 'pointer' }}
       onFocus={e => e.target.style.borderColor = T.violet} onBlur={e => e.target.style.borderColor = T.border}>
       {children}
     </select>
@@ -117,6 +128,7 @@ function SelectInput({ children, ...props }) {
 }
 
 function ChoiceCard({ selected, onClick, children, style }) {
+  const T = useT()
   return (
     <div onClick={onClick} style={{
       cursor: 'pointer', flex: 1, textAlign: 'center', padding: '18px 16px', borderRadius: 14,
@@ -129,6 +141,7 @@ function ChoiceCard({ selected, onClick, children, style }) {
 }
 
 function SeccionChip({ selected, extra, onClick, children }) {
+  const T = useT()
   const showExtraBadge = extra && !selected
   return (
     <div onClick={onClick} style={{
@@ -150,11 +163,13 @@ function ErrorMsg({ children }) {
 }
 
 function StepTitle({ children }) {
+  const T = useT()
   return <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.4rem,3vw,1.9rem)', fontWeight: 800, color: T.ink, marginBottom: 26 }}>{children}</h2>
 }
 
 // ── Main component ──────────────────────────────────────────────────────────
 export default function SitioWebWizard() {
+  const T = useT()
   const [step, setStep] = useState(1)
   const [data, setData] = useState(loadDraft)
   const [errors, setErrors] = useState({})
@@ -415,6 +430,7 @@ export default function SitioWebWizard() {
             <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 22, width: 'auto' }} />
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <ThemeToggle size={14} style={{ color: 'rgba(255,255,255,.65)' }} />
             {step <= TOTAL_STEPS && (
               <button onClick={openResumePanel} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,.65)', fontSize: 11, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: 0 }}>
                 <Smartphone size={13} /> <span className="swl-hide-mobile">Continúa en tu notebook o tablet</span>
@@ -871,7 +887,7 @@ export default function SitioWebWizard() {
             <ErrorMsg>{submitError}</ErrorMsg>
 
             <button onClick={() => handleSubmit('online')} disabled={submitting} style={{
-              width: '100%', marginTop: 16, background: T.cyan, color: T.ink, fontWeight: 800, fontSize: 15,
+              width: '100%', marginTop: 16, background: T.cyan, color: T.navy, fontWeight: 800, fontSize: 15,
               padding: '17px', borderRadius: 14, border: 'none', cursor: submitting ? 'default' : 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: submitting ? .7 : 1,
             }}>
@@ -944,6 +960,7 @@ export default function SitioWebWizard() {
 }
 
 function Row({ label, value, bold }) {
+  const T = useT()
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: bold ? 15 : 13, fontWeight: bold ? 800 : 500, color: T.ink, padding: '4px 0' }}>
       <span>{label}</span><span>{value}</span>
@@ -952,6 +969,7 @@ function Row({ label, value, bold }) {
 }
 
 function SummaryRow({ label, value, onEdit }) {
+  const T = useT()
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
       <div>

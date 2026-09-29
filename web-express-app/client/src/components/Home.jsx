@@ -9,6 +9,9 @@ import {
     BarChart3, Zap, Shield,
 } from 'lucide-react'
 import './home-dark.css'
+import { useTheme } from '../theme/ThemeContext'
+import ThemeToggle from '../theme/ThemeToggle'
+import ThemeLogo from '../theme/ThemeLogo'
 
 // ── Datos ─────────────────────────────────────────────────────────────────────
 const NAV_LINKS = [
@@ -125,11 +128,12 @@ const Navbar = () => {
         <header>
             <nav className={`hd-nav ${scrolled ? 'is-scrolled' : ''}`} aria-label="Principal">
                 <div className="hd-wrap hd-nav-in">
-                    <a href="#home" aria-label="AgenciaSi, inicio"><img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 36, width: 'auto', display: 'block' }} /></a>
+                    <a href="#home" aria-label="AgenciaSi, inicio"><ThemeLogo style={{ height: 36, width: 'auto', display: 'block' }} /></a>
                     <div className="hd-nav-links">
                         {NAV_LINKS.map(l => <a key={l.id} href={`#${l.id}`}>{l.label}</a>)}
                     </div>
                     <div className="hd-nav-cta">
+                        <ThemeToggle />
                         <Link to="/portal" className="hd-portal"><LogIn size={14} /> Portal</Link>
                         <a href="#contact" className="hd-btn hd-btn-primary hd-btn-sm">Solicita una conversación</a>
                     </div>
@@ -145,6 +149,10 @@ const Navbar = () => {
                     ))}
                     <Link to="/portal" className="hd-btn hd-btn-ghost" style={{ marginTop: 28 }} onClick={() => setOpen(false)}><LogIn size={15} /> Portal clientes</Link>
                     <a href="#contact" className="hd-btn hd-btn-primary" style={{ marginTop: 12 }} onClick={() => setOpen(false)}>Solicita una conversación</a>
+                    <div style={{ marginTop: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <ThemeToggle />
+                        <span style={{ fontSize: 13, color: 'var(--mut)' }}>Modo día / noche</span>
+                    </div>
                 </div>
             )}
         </header>
@@ -159,6 +167,7 @@ export default function Home() {
     const [statsRef, statsSeen] = useInView(0.4)
     const [tlRef, tlSeen] = useInView(0.3)
     const { executeRecaptcha } = useGoogleReCaptcha()
+    const { theme } = useTheme()
 
     useEffect(() => {
         const show = setTimeout(() => setShowWaTooltip(true), 5000)
@@ -166,12 +175,12 @@ export default function Home() {
         return () => { clearTimeout(show); clearTimeout(hide) }
     }, [])
 
-    // Evita destellos blancos al hacer overscroll mientras la home está abierta
+    // Evita destellos del color equivocado al hacer overscroll mientras la home está abierta
     useEffect(() => {
         const prev = document.body.style.background
-        document.body.style.background = '#000'
+        document.body.style.background = theme === 'light' ? '#ffffff' : '#000'
         return () => { document.body.style.background = prev }
-    }, [])
+    }, [theme])
 
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault()
@@ -463,7 +472,7 @@ export default function Home() {
                 <div className="hd-wrap">
                     <div className="hd-foot-grid">
                         <div>
-                            <img src="/logo-dark.png" alt="AgenciaSi" style={{ height: 40, width: 'auto', marginBottom: 20 }} />
+                            <ThemeLogo style={{ height: 40, width: 'auto', marginBottom: 20 }} />
                             <p style={{ color: 'var(--mut)', fontSize: 14, lineHeight: 1.75, maxWidth: '22rem', margin: '0 0 18px' }}>
                                 Sistemas a medida, plataformas web e IA aplicada para empresas que quieren crecer. Web Express y campañas de Meta y Google Ads como complemento.
                             </p>
