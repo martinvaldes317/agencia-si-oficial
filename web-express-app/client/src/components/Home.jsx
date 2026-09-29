@@ -40,9 +40,10 @@ const POINTS = [
 
 const STEPS = [
     { n: '1', title: 'Diagnóstico', desc: 'Entendemos tu negocio, tus clientes y qué necesita tu plataforma digital para generar resultados.' },
-    { n: '2', title: 'Diseño', desc: 'Wireframes, arquitectura de información y diseño UI pensado para tu operación. Tú apruebas cada paso.' },
+    { n: '2', title: 'Diseño', desc: 'Nuestra diseñadora arma wireframes, arquitectura de información y UI pensada para tu operación. Tú apruebas cada paso.' },
     { n: '3', title: 'Desarrollo', desc: 'Construimos con código propio: React, Node.js e integraciones con IA, Webpay y sistemas externos.' },
-    { n: '4', title: 'Lanzamiento', desc: 'Deploy, pruebas y entrega. Soporte post-lanzamiento incluido para que todo funcione desde día uno.' },
+    { n: '4', title: 'Pruebas y correcciones', desc: 'Probamos las tareas principales, revisamos la experiencia de uso con nuestra diseñadora y corregimos lo que no funciona antes de que apruebes el lanzamiento.' },
+    { n: '5', title: 'Lanzamiento', desc: 'Deploy y entrega. Soporte post-lanzamiento incluido para que todo funcione desde día uno.' },
 ]
 
 const SERVICES = [
@@ -195,11 +196,10 @@ export default function Home() {
         if (preselected) setForm(f => ({ ...f, projectType: preselected }))
     }, [servicioParam])
 
-    useEffect(() => {
-        const show = setTimeout(() => setShowWaTooltip(true), 5000)
-        const hide = setTimeout(() => setShowWaTooltip(false), 15000)
-        return () => { clearTimeout(show); clearTimeout(hide) }
-    }, [])
+    // Antes aparecía sola a los 5s y se quedaba 10s — en pantallas de
+    // notebook (~800px de alto) tapaba el texto de "+60 proyectos
+    // entregados" justo debajo de los botones del hero. Ahora es solo al
+    // pasar el mouse: más discreto y no compite con nada.
 
     // Evita destellos del color equivocado al hacer overscroll mientras la home está abierta
     useEffect(() => {
@@ -249,14 +249,16 @@ export default function Home() {
 
             {/* WhatsApp flotante */}
             <div className="hd-wa">
-                <a className="hd-wa-btn" href="https://wa.me/56932930812?text=Hola%2C%20me%20interesa%20saber%20m%C3%A1s%20sobre%20sus%20servicios" target="_blank" rel="noopener noreferrer" aria-label="Escribir por WhatsApp">
+                <a className="hd-wa-btn" href="https://wa.me/56932930812?text=Hola%2C%20me%20interesa%20saber%20m%C3%A1s%20sobre%20sus%20servicios" target="_blank" rel="noopener noreferrer" aria-label="Escribir por WhatsApp"
+                    onMouseEnter={() => setShowWaTooltip(true)} onMouseLeave={() => setShowWaTooltip(false)}
+                    onFocus={() => setShowWaTooltip(true)} onBlur={() => setShowWaTooltip(false)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
                         <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.856L.057 23.215a.75.75 0 0 0 .916.916l5.36-1.477A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.502-5.241-1.381l-.375-.217-3.884 1.07 1.07-3.884-.217-.375A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
                     </svg>
                 </a>
                 <div className="hd-wa-tip" style={{ opacity: showWaTooltip ? 1 : 0, transform: showWaTooltip ? 'none' : 'translateX(-8px) scale(.96)' }} aria-hidden={!showWaTooltip}>
-                    <b>¿Hablamos?</b><small>Respuesta inmediata</small>
+                    <b>¿Hablamos?</b><small>Respondemos en 24h hábiles</small>
                 </div>
             </div>
 
@@ -354,7 +356,7 @@ export default function Home() {
                         <div>
                             <h2 className="hd-h2">Tu negocio merece más que un template.</h2>
                             <p className="hd-lead">
-                                La mayoría de agencias te vende un WordPress con un theme comprado. Nosotros construimos desde cero: código limpio y una arquitectura pensada para la operación de tu negocio.
+                                Construimos <strong>a medida, desde cero</strong> — sin plantillas ni constructores genéricos. Código propio, arquitectura pensada para cómo funciona tu negocio y resultados medibles.
                             </p>
                             <div className="hd-points">
                                 {POINTS.map(({ icon: Icon, title, desc }) => (
@@ -385,7 +387,7 @@ export default function Home() {
             {/* ═══ METODOLOGÍA ═══ */}
             <section id="methodology" className="hd-sec hd-method">
                 <div className="hd-wrap">
-                    <h2 className="hd-h2">Del brief al lanzamiento<br />en 4 pasos.</h2>
+                    <h2 className="hd-h2">Del brief al lanzamiento<br />en 5 pasos.</h2>
                     <div className={`hd-tl ${tlSeen ? 'in' : ''}`} ref={tlRef}>
                         <div className="hd-tl-line" aria-hidden="true" />
                         {STEPS.map(s => (

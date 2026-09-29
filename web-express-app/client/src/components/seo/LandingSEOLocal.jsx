@@ -129,7 +129,7 @@ export default function LandingSEOLocal({ city }) {
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <ThemeToggle style={{ color: T.gray }} />
-            <Link to="/web" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }}>Ver precios</Link>
+            <a href="#servicios" style={{ fontSize: 13, fontWeight: 600, color: T.gray, textDecoration: 'none', padding: '6px 14px' }}>Qué hacemos</a>
             <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
               style={{ background: '#25D366', color: T.white, fontWeight: 700, fontSize: 13, padding: '9px 18px', borderRadius: 30, display: 'flex', alignItems: 'center', gap: 7, textDecoration: 'none', boxShadow: '0 4px 12px rgba(37,211,102,.35)' }}>
               <WaIcon size={15} /> Cotizar en {city.name}
@@ -231,7 +231,7 @@ export default function LandingSEOLocal({ city }) {
       </section>
 
       {/* SERVICIOS */}
-      <section style={{ background: T.panel, padding: '72px 20px' }}>
+      <section id="servicios" style={{ background: T.panel, padding: '72px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Qué hacemos</span>
@@ -253,38 +253,33 @@ export default function LandingSEOLocal({ city }) {
             ))}
           </div>
           <div style={{ textAlign: 'center', marginTop: 36 }}>
-            <Link to="/web#precios" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.blue, color: T.white, fontWeight: 700, fontSize: 14, padding: '12px 28px', borderRadius: 30, textDecoration: 'none' }}>
-              Ver todos los precios <ExternalLink size={14} />
+            <Link to="/#contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.blue, color: T.white, fontWeight: 700, fontSize: 14, padding: '12px 28px', borderRadius: 30, textDecoration: 'none' }}>
+              Conversemos sobre tu proyecto <ExternalLink size={14} />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* PRECIO DESTACADO */}
-      <section style={{ background: 'linear-gradient(135deg, #1A1AD4 0%, #2D2BB5 50%, #1565C0 100%)', padding: '60px 20px' }}>
-        <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 30, padding: '5px 16px', marginBottom: 20 }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: '#A8FFEA', letterSpacing: 2, textTransform: 'uppercase' }}>Para pymes y profesionales de {city.name}</span>
+      {/* CÓMO COTIZAMOS */}
+      <section style={{ background: T.light, padding: '64px 20px' }}>
+        <div style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center' }}>
+          <span style={{ fontSize: 12, fontWeight: 700, color: T.blue, letterSpacing: 2, textTransform: 'uppercase' }}>Cómo cotizamos</span>
+          <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 900, color: T.black, marginTop: 10, marginBottom: 16, letterSpacing: -.5 }}>
+            Cada proyecto en {city.name} es distinto
+          </h2>
+          <p style={{ fontSize: 15, color: T.gray, lineHeight: 1.75, marginBottom: 28 }}>
+            Landing page, web corporativa, tienda online o un sistema a medida no cuestan ni se construyen igual. Por eso partimos con un diagnóstico sin costo: entendemos qué necesita tu negocio en {city.name} y te enviamos una propuesta clara, con alcance y plazos definidos, antes de empezar a construir nada.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
+            <Link to="/#contact"
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '15px 30px', borderRadius: 12, background: T.blue, color: T.white, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+              Solicitar un diagnóstico
+            </Link>
+            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `Sitio web ${city.name}` }); ga('generate_lead', { item_name: `Sitio web ${city.name}` }) }}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '14px 24px', borderRadius: 12, background: T.blueL, color: T.blue, fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
+              <WaIcon size={15} /> Prefiero WhatsApp
+            </a>
           </div>
-          <div style={{ fontSize: 'clamp(22px, 3vw, 30px)', fontStyle: 'italic', fontWeight: 900, color: T.white, marginBottom: 8 }}>Tu Sitio Web Profesional</div>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 8 }}>
-            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}>por solo</span>
-            <span style={{ fontSize: 'clamp(48px, 7vw, 68px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1 }}>$69.990</span>
-            <span style={{ fontSize: 18, color: 'rgba(255,255,255,0.6)', fontWeight: 600 }}>+ IVA</span>
-          </div>
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginBottom: 20 }}>Precio final con IVA: $83.288 · Abono hoy: $41.644</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '8px 16px', marginBottom: 28, maxWidth: 560, margin: '0 auto 28px' }}>
-            {['Dominio .cl 1 año gratis','Hosting 1 año gratis','Hasta 5 secciones','Formulario de contacto','Botón WhatsApp','Google Maps','3 correos corporativos','Indexado en Google'].map(f => (
-              <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                <CheckCircle2 size={13} color="#A8FFEA" style={{ flexShrink: 0 }} />
-                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)' }}>{f}</span>
-              </div>
-            ))}
-          </div>
-          <a href={WA} target="_blank" rel="noopener noreferrer" onClick={() => { px('Lead', { content_name: `Sitio web ${city.name}` }); ga('generate_lead', { item_name: `Sitio web ${city.name}` }) }}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#FFFFFF', color: T.blue, fontWeight: 800, fontSize: 16, padding: '16px 32px', borderRadius: 14, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
-            <WaIcon size={18} /> Quiero mi sitio web en {city.name}
-          </a>
         </div>
       </section>
 
@@ -362,8 +357,8 @@ export default function LandingSEOLocal({ city }) {
             <ThemeLogo style={{ height: 24, width: 'auto' }} />
           </Link>
           <span style={{ fontSize: 12, color: T.muted }}>© 2026 AgenciaSI · Desarrollo web en {city.name} · Chile</span>
-          <Link to="/web" style={{ fontSize: 12, color: T.muted, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
-            Ver precios <ExternalLink size={11} />
+          <Link to="/#contact" style={{ fontSize: 12, color: T.muted, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
+            Conversemos <ExternalLink size={11} />
           </Link>
         </div>
       </footer>

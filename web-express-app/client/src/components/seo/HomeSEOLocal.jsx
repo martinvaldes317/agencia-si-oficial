@@ -311,9 +311,9 @@ export default function HomeSEOLocal({ city }) {
             ))}
           </div>
           <div style={{ textAlign: 'center', marginTop: 36 }}>
-            <Link to="/web#precios"
+            <Link to="/#contact"
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.blue, color: T.white, fontWeight: 700, fontSize: 14, padding: '12px 28px', borderRadius: 30, textDecoration: 'none' }}>
-              Ver precios <ExternalLink size={14} />
+              Conversemos sobre tu proyecto <ExternalLink size={14} />
             </Link>
           </div>
         </div>
@@ -369,7 +369,7 @@ export default function HomeSEOLocal({ city }) {
             </a>
             <Link to="/web"
               style={{ background: 'transparent', color: T.white, fontWeight: 700, fontSize: 15, padding: '16px 24px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', border: '1.5px solid rgba(255,255,255,.3)' }}>
-              Ver precios →
+              Ver más servicios →
             </Link>
           </div>
           <p style={{ fontSize: 12, color: '#6060A0' }}>+56 9 3293 0812 · contacto@agenciasi.cl</p>
@@ -384,7 +384,7 @@ export default function HomeSEOLocal({ city }) {
           </Link>
           <span style={{ fontSize: 12, color: T.gray }}>© 2026 AgenciaSI · Agencia digital en {city.name} · Chile</span>
           <Link to="/web" style={{ fontSize: 12, color: T.gray, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5 }}>
-            Ver precios <ExternalLink size={11} />
+            Ver servicios <ExternalLink size={11} />
           </Link>
         </div>
       </footer>
