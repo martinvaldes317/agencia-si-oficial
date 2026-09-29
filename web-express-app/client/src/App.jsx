@@ -36,6 +36,7 @@ import SitioWebConfirmacion from './components/landing/SitioWebConfirmacion'
 import PoliticaPrivacidad from './components/legal/PoliticaPrivacidad'
 import TerminosCondiciones from './components/legal/TerminosCondiciones'
 import CookieConsent from './components/legal/CookieConsent'
+import AccessibilityWidget from './a11y/AccessibilityWidget'
 
 const AnalyticsDashboard = lazy(() => import('./components/AnalyticsDashboard'))
 const AdminSettings = lazy(() => import('./components/AdminSettings'))
@@ -175,6 +176,7 @@ function App() {
           </Route>
         </Routes>
         <CookieConsent />
+        <AccessibilityWidget />
       </BrowserRouter>
     </AuthProvider>
   )
