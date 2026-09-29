@@ -32,12 +32,17 @@ function Toggle({ icon: Icon, label, active, onClick }) {
 
 export default function AccessibilityWidget() {
   const [open, setOpen] = useState(false)
-  const panelRef = useRef(null)
+  const containerRef = useRef(null)
   const a11y = useAccessibility()
 
   useEffect(() => {
     if (!open) return
-    const onClick = e => { if (panelRef.current && !panelRef.current.contains(e.target)) setOpen(false) }
+    // El contenedor incluye el botón que abre/cierra el panel — si el "click
+    // afuera" solo miraba el panel, un click en el botón mientras estaba
+    // abierto disparaba primero este cierre y después el toggle del botón
+    // lo volvía a abrir (mousedown cierra, click alterna), y visualmente
+    // nunca se cerraba.
+    const onClick = e => { if (containerRef.current && !containerRef.current.contains(e.target)) setOpen(false) }
     const onKey = e => { if (e.key === 'Escape') setOpen(false) }
     document.addEventListener('mousedown', onClick)
     document.addEventListener('keydown', onKey)
@@ -48,7 +53,7 @@ export default function AccessibilityWidget() {
   const { settings, update, changeFontStep, reset, speaking, toggleReadAloud } = a11y
 
   return createPortal(
-    <div id="agenciasi-a11y-widget" style={{ position: 'fixed', top: '50%', right: 18, transform: 'translateY(-50%)', zIndex: 998 }}>
+    <div id="agenciasi-a11y-widget" ref={containerRef} style={{ position: 'fixed', top: '50%', right: 18, transform: 'translateY(-50%)', zIndex: 998 }}>
       <button
         type="button"
         onClick={() => setOpen(o => !o)}
@@ -66,7 +71,6 @@ export default function AccessibilityWidget() {
 
       {open && (
         <div
-          ref={panelRef}
           role="dialog"
           aria-label="Menú de accesibilidad"
           style={{
