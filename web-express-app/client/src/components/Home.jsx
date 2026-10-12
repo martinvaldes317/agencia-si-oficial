@@ -117,13 +117,6 @@ function CountUp({ to, suffix = '', active }) {
     return <>{v}{suffix}</>
 }
 
-// Brillo que sigue al cursor (filas y tarjetas)
-const trackGlow = e => {
-    const r = e.currentTarget.getBoundingClientRect()
-    e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`)
-    e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`)
-}
-
 // ── Navbar ────────────────────────────────────────────────────────────────────
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false)
@@ -319,7 +312,7 @@ export default function Home() {
                     </div>
                     <div className="hd-proj-list">
                         {PROJECTS.map(p => (
-                            <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="hd-row" onMouseMove={trackGlow} aria-label={`${p.name}, abrir sitio`}>
+                            <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="hd-row" aria-label={`${p.name}, abrir sitio`}>
                                 <div className="hd-row-name">{p.name}<span className="hd-row-tag">{p.tag}</span></div>
                                 <p className="hd-row-desc">{p.desc}</p>
                                 <div className="hd-row-foot">
@@ -412,7 +405,7 @@ export default function Home() {
                         {SERVICES.map(s => {
                             const Icon = s.icon
                             return (
-                                <div key={s.title} className={`hd-card ${s.feat ? 'hd-feat' : ''}`} onMouseMove={trackGlow}>
+                                <div key={s.title} className={`hd-card ${s.feat ? 'hd-feat' : ''}`}>
                                     {s.feat && <span className="hd-badge">Servicio principal</span>}
                                     <div className="hd-card-ico"><Icon size={21} /></div>
                                     <h3>{s.title}</h3>
