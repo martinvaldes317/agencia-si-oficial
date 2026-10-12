@@ -7,22 +7,23 @@ import {
 import { useTheme } from '../theme/ThemeContext'
 import ThemeToggle from '../theme/ThemeToggle'
 import ThemeLogo from '../theme/ThemeLogo'
+import { CARBON, BLANCO_CALIDO, AZUL_CONEXION } from '../theme/brand'
 
 // blue/violet/yellow/black/white son literales: siempre sobre una superficie
 // de color fijo (botones, chips, el pill blanco), nunca sobre el fondo de la
 // página — no cambian con el tema. `ink`/`mut*`/`pageBg`/`card*` sí cambian:
 // son el texto y las superficies que viven directamente sobre el fondo.
 const DARK_T = {
-    blue:   '#3d5afe',
-    violet: '#8b5cf6',
-    yellow: '#FACC15',
+    blue:   AZUL_CONEXION,
+    violet: AZUL_CONEXION,
+    yellow: '#FFFFFF',
     black:  '#0A0A0A',
     white:  '#FFFFFF',
     ink:        '#FFFFFF',
     mut1:       'rgba(255,255,255,0.45)',
     mut2:       'rgba(255,255,255,0.3)',
     mut3:       'rgba(255,255,255,0.2)',
-    pageBg:     '#000000',
+    pageBg:     CARBON,
     cardBg:     'rgba(255,255,255,0.05)',
     cardBorder: 'rgba(255,255,255,0.08)',
     outlineBg:     'rgba(255,255,255,0.06)',
@@ -30,16 +31,16 @@ const DARK_T = {
     iconBgOutline: 'rgba(255,255,255,0.1)',
 }
 const LIGHT_T = {
-    blue:   '#2451c4',
-    violet: '#7c3aed',
-    yellow: '#B45309',
+    blue:   AZUL_CONEXION,
+    violet: AZUL_CONEXION,
+    yellow: '#FFFFFF',
     black:  '#0A0A0A',
     white:  '#FFFFFF',
     ink:        '#14141f',
     mut1:       'rgba(15,15,30,0.55)',
     mut2:       'rgba(15,15,30,0.4)',
     mut3:       'rgba(15,15,30,0.32)',
-    pageBg:     '#ffffff',
+    pageBg:     BLANCO_CALIDO,
     cardBg:     'rgba(15,15,30,0.035)',
     cardBorder: 'rgba(15,15,30,0.1)',
     outlineBg:     'rgba(15,15,30,0.035)',
@@ -90,7 +91,7 @@ const contacts = [
         icon: Mail,
         label: 'contacto@agenciasi.cl',
         href: 'mailto:contacto@agenciasi.cl',
-        color: '#3d5afe',
+        color: AZUL_CONEXION,
     },
 ]
 
@@ -107,11 +108,11 @@ const BtnLink = ({ item }) => {
         textDecoration: 'none',
         transition: 'transform 0.15s, opacity 0.15s',
         cursor: 'pointer',
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-heading)',
     }
 
     const styles = {
-        primary: { ...base, background: `linear-gradient(120deg, ${T.blue}, ${T.violet})`, color: T.white, border: 'none' },
+        primary: { ...base, background: T.blue, color: T.white, border: 'none' },
         yellow:  { ...base, background: T.yellow,  color: T.blue,  border: 'none' },
         white:   { ...base, background: T.white,   color: T.black, border: 'none' },
         outline: { ...base, background: T.outlineBg, color: T.ink, border: `1px solid ${T.outlineBorder}` },
@@ -154,7 +155,7 @@ export default function Links() {
     const { theme } = useTheme()
     const T = theme === 'light' ? LIGHT_T : DARK_T
     return (
-        <div style={{ minHeight: '100vh', background: T.pageBg, fontFamily: 'Poppins, sans-serif', display: 'flex', justifyContent: 'center', padding: '40px 16px 60px' }}>
+        <div style={{ minHeight: '100vh', background: T.pageBg, fontFamily: 'var(--font-heading)', display: 'flex', justifyContent: 'center', padding: '40px 16px 60px' }}>
             <Helmet>
                 <title>AgenciaSi | Links</title>
                 <meta name="robots" content="noindex" />
@@ -183,7 +184,7 @@ export default function Links() {
 
                 {/* CTA highlight */}
                 <div style={{
-                    background: `linear-gradient(135deg, ${T.blue}, ${T.violet})`,
+                    background: T.blue,
                     border: `1px solid ${T.blue}50`,
                     borderRadius: '20px',
                     padding: '20px',

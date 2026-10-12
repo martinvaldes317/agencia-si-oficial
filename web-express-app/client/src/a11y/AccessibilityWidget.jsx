@@ -6,14 +6,15 @@ import {
   Type, AlignLeft, List, ImageOff,
 } from 'lucide-react'
 import { useAccessibility } from './AccessibilityContext'
+import { BLANCO_CALIDO, AZUL_CONEXION } from '../theme/brand'
 
 const PANEL = {
-  bg: '#ffffff',
+  bg: BLANCO_CALIDO,
   ink: '#14141f',
   mut: '#6b6b80',
   border: '#e4e5ec',
-  blue: '#2451c4',
-  blueL: 'rgba(36,81,196,0.08)',
+  blue: AZUL_CONEXION,
+  blueL: 'rgba(52,89,237,0.08)',
 }
 
 function Toggle({ icon: Icon, label, active, onClick }) {
@@ -102,7 +103,7 @@ export default function AccessibilityWidget() {
         aria-expanded={open}
         style={{
           width: 52, height: 52, borderRadius: '50%', border: 'none', cursor: 'pointer',
-          background: 'linear-gradient(135deg, #3d5afe, #2451c4)', color: '#fff',
+          background: AZUL_CONEXION, color: '#fff',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           boxShadow: '0 6px 22px rgba(36,81,196,.45)',
         }}
@@ -121,7 +122,7 @@ export default function AccessibilityWidget() {
             boxShadow: '0 24px 60px rgba(15,15,30,.28)', border: `1px solid ${PANEL.border}`,
           }}
         >
-          <div style={{ background: 'linear-gradient(135deg, #3d5afe, #2451c4)', padding: '16px 20px', borderRadius: '20px 20px 0 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ background: AZUL_CONEXION, padding: '16px 20px', borderRadius: '20px 20px 0 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: '#fff' }}>
               <Accessibility size={20} />
               <span style={{ fontWeight: 700, fontSize: 15 }}>Accesibilidad</span>

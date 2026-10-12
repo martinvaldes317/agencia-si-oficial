@@ -79,7 +79,7 @@ html.a11y-big-cursor * {
    la especificidad, no el orden. */
 #agenciasi-a11y-widget,
 #agenciasi-a11y-widget * {
-  font-family: 'Poppins', system-ui, sans-serif !important;
+  font-family: var(--font-heading) !important;
   letter-spacing: normal !important;
   word-spacing: normal !important;
   line-height: normal !important;

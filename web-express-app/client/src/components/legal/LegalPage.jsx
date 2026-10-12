@@ -1,19 +1,20 @@
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { ArrowLeft } from 'lucide-react'
+import { CARBON, CARBON_PANEL, AZUL_CONEXION } from '../../theme/brand'
 
 const C = {
-  blue: '#3d5afe',
+  blue: AZUL_CONEXION,
   black: '#f5f5fa',
   gray: '#9a9ab0',
-  light: '#000000',
-  panel: '#0c0c14',
+  light: CARBON,
+  panel: CARBON_PANEL,
   border: 'rgba(255,255,255,0.09)',
 }
 
 export default function LegalPage({ title, updated, children }) {
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: C.light, minHeight: '100vh', color: C.black }}>
+    <div style={{ fontFamily: 'var(--font-heading)', background: C.light, minHeight: '100vh', color: C.black }}>
       <Helmet>
         <title>{title} — AgenciaSI</title>
         <meta name="robots" content="index, follow" />
@@ -28,7 +29,7 @@ export default function LegalPage({ title, updated, children }) {
       </nav>
 
       <div style={{ maxWidth: 820, margin: '0 auto', padding: '48px 20px 80px' }}>
-        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 800, color: C.black, marginBottom: 8 }}>{title}</h1>
+        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 800, color: C.black, marginBottom: 8 }}>{title}</h1>
         <p style={{ fontSize: 12, color: C.gray, marginBottom: 40 }}>Última actualización: {updated}</p>
 
         <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 16, padding: '36px 32px' }}>
