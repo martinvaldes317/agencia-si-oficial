@@ -322,8 +322,10 @@ export default function Home() {
                             <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" className="hd-row" onMouseMove={trackGlow} aria-label={`${p.name}, abrir sitio`}>
                                 <div className="hd-row-name">{p.name}<span className="hd-row-tag">{p.tag}</span></div>
                                 <p className="hd-row-desc">{p.desc}</p>
-                                <div className={`hd-row-logo ${p.logo ? '' : 'empty'}`}>{p.logo && <img src={p.logo} alt="" loading="lazy" />}</div>
-                                <ArrowUpRight className="hd-row-go" size={22} aria-hidden="true" />
+                                <div className="hd-row-foot">
+                                    <div className={`hd-row-logo ${p.logo ? '' : 'empty'}`}>{p.logo && <img src={p.logo} alt="" loading="lazy" />}</div>
+                                    <ArrowUpRight className="hd-row-go" size={22} aria-hidden="true" />
+                                </div>
                             </a>
                         ))}
                     </div>
