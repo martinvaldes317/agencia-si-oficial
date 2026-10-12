@@ -94,7 +94,7 @@ export default function SitioWebConfirmacion() {
   }
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.light, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ fontFamily: 'var(--font-heading)', background: T.light, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Helmet>
         <title>Confirmación de tu pedido — AgenciaSI</title>
         <meta name="robots" content="noindex, nofollow" />
@@ -120,7 +120,7 @@ export default function SitioWebConfirmacion() {
                 opacity: animDone ? 1 : 0,
                 transition: 'max-height .5s cubic-bezier(.16,1,.3,1), opacity .4s ease .15s',
               }}>
-                <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 19, fontWeight: 800, color: T.ink, margin: '26px 0 6px' }}>
+                <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 19, fontWeight: 800, color: T.ink, margin: '26px 0 6px' }}>
                   {clientReady ? '¡Tu portal ya está listo!' : '¡Listo! Ya recibimos tu proyecto'}
                 </h1>
                 <p style={{ fontSize: 13, color: T.gray, lineHeight: 1.6, marginBottom: 20 }}>
@@ -178,7 +178,7 @@ export default function SitioWebConfirmacion() {
                 hasOrderContext ? (
                   <>
                     <ReceiptAnimation summary={summary} orderId={orderIdFromUrl || summary?.orderId} status="rejected" />
-                    <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, fontWeight: 800, color: T.ink, margin: '24px 0 8px' }}>Tu pago no se completó</h1>
+                    <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 20, fontWeight: 800, color: T.ink, margin: '24px 0 8px' }}>Tu pago no se completó</h1>
                     <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.7, marginBottom: 28 }}>
                       Tu proyecto quedó registrado, pero el pago fue rechazado o se canceló antes de completarse. Escríbenos por WhatsApp y te ayudamos a completar tu pedido.
                     </p>
@@ -186,7 +186,7 @@ export default function SitioWebConfirmacion() {
                 ) : (
                   <>
                     <XCircle size={54} color="#D9333F" style={{ marginBottom: 16 }} />
-                    <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 800, color: T.ink, marginBottom: 10 }}>No encontramos tu pedido</h1>
+                    <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 24, fontWeight: 800, color: T.ink, marginBottom: 10 }}>No encontramos tu pedido</h1>
                     <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.7, marginBottom: 28 }}>
                       Este enlace no tiene la información de un pedido. Si acabas de completar el formulario, vuelve a intentarlo o escríbenos por WhatsApp.
                     </p>
@@ -195,7 +195,7 @@ export default function SitioWebConfirmacion() {
               ) : (
                 <>
                   <Clock size={54} color="#B98900" style={{ marginBottom: 16 }} />
-                  <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 800, color: T.ink, marginBottom: 10 }}>Tu pago está pendiente de confirmación</h1>
+                  <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 24, fontWeight: 800, color: T.ink, marginBottom: 10 }}>Tu pago está pendiente de confirmación</h1>
                   <p style={{ fontSize: 14, color: T.gray, lineHeight: 1.7, marginBottom: 28 }}>
                     Apenas se confirme, comenzaremos a trabajar en tu proyecto. Te avisaremos por correo y WhatsApp.
                   </p>

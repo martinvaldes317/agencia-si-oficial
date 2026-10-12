@@ -1,7 +1,7 @@
 /* /sitio-web — capa de animación y pulido sobre el reskin oscuro ya aplicado.
-   Reutiliza los mismos tokens de marca que home-dark.css (azul #3d5afe / violeta #8b5cf6). */
+   Reutiliza los mismos tokens de marca que home-dark.css (Azul conexión #3459ED). */
 .swl {
-  --grad: linear-gradient(120deg, #3d5afe 0%, #8b5cf6 100%);
+  --grad: #3459ED;
 }
 
 /* ── Nav: vidrio oscuro en modo noche, vidrio claro en modo día ─────────── */
@@ -11,8 +11,8 @@
 /* ── Fondo con aurora animada detrás del hero y del CTA final ───────────── */
 .swl-aurora-wrap { position: relative; isolation: isolate; }
 .swl-aurora { position: absolute; z-index: -1; border-radius: 50%; filter: blur(80px); pointer-events: none; }
-.swl-aurora.a1 { width: 520px; height: 520px; background: #3d5afe; opacity: .28; top: -220px; right: -120px; animation: swl-drift1 24s ease-in-out infinite alternate; }
-.swl-aurora.a2 { width: 420px; height: 420px; background: #8b5cf6; opacity: .22; top: 40px; left: -140px; animation: swl-drift2 28s ease-in-out infinite alternate; }
+.swl-aurora.a1 { width: 520px; height: 520px; background: #3459ED; opacity: .28; top: -220px; right: -120px; animation: swl-drift1 24s ease-in-out infinite alternate; }
+.swl-aurora.a2 { width: 420px; height: 420px; background: #3459ED; opacity: .22; top: 40px; left: -140px; animation: swl-drift2 28s ease-in-out infinite alternate; }
 @keyframes swl-drift1 { to { transform: translate(-60px, 50px) scale(1.1); } }
 @keyframes swl-drift2 { to { transform: translate(50px, -40px) scale(.94); } }
 .swl-grid-bg { position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(ellipse 65% 55% at 50% 30%, #000 20%, transparent 75%); -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 30%, #000 20%, transparent 75%); opacity: .6; }
@@ -41,7 +41,7 @@
 
 /* ── Tarjetas: brillo que sigue al cursor ─────────────────────────────────── */
 .swl-glowcard { --mx: 50%; --my: 50%; position: relative; overflow: hidden; }
-.swl-glowcard::before { content:''; position:absolute; inset:0; background: radial-gradient(280px circle at var(--mx) var(--my), rgba(61,90,254,.16), transparent 60%); opacity:0; transition: opacity .35s ease; pointer-events:none; }
+.swl-glowcard::before { content:''; position:absolute; inset:0; background: radial-gradient(280px circle at var(--mx) var(--my), rgba(52,89,237,.16), transparent 60%); opacity:0; transition: opacity .35s ease; pointer-events:none; }
 .swl-glowcard:hover::before { opacity: 1; }
 
 /* ── FAQ: apertura suave (altura + fade) ─────────────────────────────────── */

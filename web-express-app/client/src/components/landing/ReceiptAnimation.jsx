@@ -62,7 +62,7 @@ export default function ReceiptAnimation({ summary, orderId, status = 'approved'
       <div style={{ maxWidth: 300, margin: '0 auto' }}>
       {/* Cuerpo de la impresora */}
       <div style={{
-        position: 'relative', zIndex: 2, background: `linear-gradient(180deg, ${T.navy2 || '#12134A'} 0%, ${T.navy} 100%)`,
+        position: 'relative', zIndex: 2, background: T.navy,
         borderRadius: '20px 20px 10px 10px', padding: '18px 20px 16px',
         boxShadow: '0 22px 34px -12px rgba(10,11,46,.45), 0 8px 14px -6px rgba(10,11,46,.25), inset 0 1px 0 rgba(255,255,255,.06)',
       }}>

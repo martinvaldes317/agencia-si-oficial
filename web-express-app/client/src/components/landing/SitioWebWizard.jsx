@@ -164,7 +164,7 @@ function ErrorMsg({ children }) {
 
 function StepTitle({ children }) {
   const T = useT()
-  return <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.4rem,3vw,1.9rem)', fontWeight: 800, color: T.ink, marginBottom: 26 }}>{children}</h2>
+  return <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.4rem,3vw,1.9rem)', fontWeight: 800, color: T.ink, marginBottom: 26 }}>{children}</h2>
 }
 
 // ── Main component ──────────────────────────────────────────────────────────
@@ -417,7 +417,7 @@ export default function SitioWebWizard() {
   }
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.light, minHeight: '100vh', color: T.black }}>
+    <div style={{ fontFamily: 'var(--font-heading)', background: T.light, minHeight: '100vh', color: T.black }}>
       <Helmet>
         <title>Configura tu página web — AgenciaSI</title>
         <meta name="robots" content="noindex, nofollow" />
@@ -458,7 +458,7 @@ export default function SitioWebWizard() {
       {resumeOpen && (
         <div onClick={() => setResumeOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.5)', zIndex: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
           <div onClick={e => e.stopPropagation()} style={{ background: T.panel, borderRadius: 18, padding: '28px 26px', maxWidth: 400, width: '100%' }}>
-            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 19, fontWeight: 800, color: T.ink, marginBottom: 8 }}>Continúa en tu notebook o tablet</h3>
+            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 19, fontWeight: 800, color: T.ink, marginBottom: 8 }}>Continúa en tu notebook o tablet</h3>
             <p style={{ fontSize: 13, color: T.gray, lineHeight: 1.6, marginBottom: 18 }}>
               Guardamos tu progreso. Envíate este enlace y sigue exactamente donde quedaste — el logo o fotos que
               hayas adjuntado deberás volver a subirlos.

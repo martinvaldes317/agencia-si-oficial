@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import { trackEvent } from '../../lib/analytics'
 import { DARK_FP, LIGHT_FP } from './palette'
+import { CARBON, CARBON_PANEL, BLANCO_CALIDO, BLANCO_CALIDO_PANEL, AZUL_CONEXION } from '../../theme/brand'
 import { useTheme } from '../../theme/ThemeContext'
 import ThemeToggle from '../../theme/ThemeToggle'
 import ThemeLogo from '../../theme/ThemeLogo'
@@ -18,33 +19,33 @@ import './sitio-web-dark.css'
 // según el tema. ink/black/gray/grayLt/light/panel SÍ cambian — son texto y
 // superficies que están directamente sobre el fondo de la página.
 export const DARK_T = {
-  navy:   '#0A0B2E',
-  navy2:  '#141650',
-  violet: '#6C2BD9',
-  violetD:'#4B1D9E',
-  cyan:   '#22F2D8',
+  navy:   CARBON,
+  navy2:  CARBON,
+  violet: AZUL_CONEXION,
+  violetD:AZUL_CONEXION,
+  cyan:   AZUL_CONEXION,
   white:  '#FFFFFF',
   black:  '#f5f5fa',
   ink:    '#f5f5fa',
   gray:   '#9a9ab0',
   grayLt: '#75758c',
-  light:  '#000000',
-  panel:  '#0c0c14',
+  light:  CARBON,
+  panel:  CARBON_PANEL,
   border: 'rgba(255,255,255,0.09)',
 }
 export const LIGHT_T = {
-  navy:   '#0A0B2E',
-  navy2:  '#141650',
-  violet: '#6C2BD9',
-  violetD:'#4B1D9E',
-  cyan:   '#22F2D8',
+  navy:   CARBON,
+  navy2:  CARBON,
+  violet: AZUL_CONEXION,
+  violetD:AZUL_CONEXION,
+  cyan:   AZUL_CONEXION,
   white:  '#FFFFFF',
   black:  '#14141f',
   ink:    '#14141f',
   gray:   '#5c5c72',
   grayLt: '#6b6b80',
-  light:  '#ffffff',
-  panel:  '#f7f8fb',
+  light:  BLANCO_CALIDO,
+  panel:  BLANCO_CALIDO_PANEL,
   border: 'rgba(15,23,42,0.10)',
 }
 
@@ -197,7 +198,7 @@ function ConfianzaStat() {
   const { theme } = useTheme()
   const FP = theme === 'light' ? LIGHT_FP : DARK_FP
   return (
-    <div ref={ref} style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 10 }}>
+    <div ref={ref} style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 10 }}>
       +<CountUp to={60} active={seen} /> proyectos web entregados
     </div>
   )
@@ -246,7 +247,7 @@ export default function SitioWebLanding() {
   }
 
   return (
-    <div className="swl" data-theme={theme} style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: FP.cream, color: FP.text, overflowX: 'hidden' }}>
+    <div className="swl" data-theme={theme} style={{ fontFamily: 'var(--font-heading)', background: FP.cream, color: FP.text, overflowX: 'hidden' }}>
       <Helmet>
         <title>Tu Sitio Web Profesional por $69.990 + IVA | AgenciaSI</title>
         <meta name="description" content="Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online por $69.990 + IVA." />
@@ -301,7 +302,7 @@ export default function SitioWebLanding() {
             <span style={{ fontSize: 11, fontWeight: 700, color: '#FFFFFF', background: FP.blue, padding: '6px 14px', borderRadius: 30 }}>+60 proyectos web entregados</span>
           </div>
 
-          <h1 className="swl-rise d2" style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 700, color: FP.blueD, lineHeight: 1.12, marginBottom: 18 }}>
+          <h1 className="swl-rise d2" style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 700, color: FP.blueD, lineHeight: 1.12, marginBottom: 18 }}>
             Tu Sitio Web Profesional por{' '}
             <span style={{ color: FP.text }}>$69.990 + IVA</span>
           </h1>
@@ -342,7 +343,7 @@ export default function SitioWebLanding() {
       <Section style={{ background: FP.cream, position: 'relative', paddingTop: 36 }}>
         <div style={{ maxWidth: 560, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 36 }}>
-            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 12 }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 12 }}>
               Un solo precio, todo incluido
             </h2>
             <p style={{ fontSize: 15, color: FP.grayTx, maxWidth: 480, margin: '0 auto 18px' }}>
@@ -352,7 +353,7 @@ export default function SitioWebLanding() {
 
           <div className="swl-card swl-price-card" style={{ background: FP.blue, borderRadius: 24, padding: '36px 32px', position: 'relative', border: '2px solid rgba(255,255,255,.35)' }}>
             <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.65)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Sitio web profesional</div>
-            <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 20 }}>$69.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 20 }}>$69.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
             <p style={{ fontSize: 13, color: 'rgba(255,255,255,.75)', margin: '-8px 0 20px', lineHeight: 1.7 }}>Precio final con IVA: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19))}</strong> · Abono hoy: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19 / 2))}</strong> · Saldo al entregar: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19 / 2))}</strong></p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
               {['Solo pagas el 50% de abono para comenzar', 'Proceso simple y guiado', 'Puedes adjuntar logo y fotografías', 'No necesitas conocimientos técnicos', 'Revisas toda la información antes de contratar'].map(t => (
@@ -373,7 +374,7 @@ export default function SitioWebLanding() {
       <Section style={{ background: FP.panel, position: 'relative' }}>
         <Reveal style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
-            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD }}>
               Todo lo que incluye tu sitio web
             </h2>
           </div>
@@ -398,7 +399,7 @@ export default function SitioWebLanding() {
       {/* PROBLEMA / SOLUCIÓN */}
       <Section style={{ background: FP.cream, position: 'relative', overflow: 'hidden' }}>
         <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
-          <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.6rem,3vw,2.3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 20, lineHeight: 1.2 }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.6rem,3vw,2.3rem)', fontWeight: 800, color: FP.blueD, marginBottom: 20, lineHeight: 1.2 }}>
             Tu negocio merece algo mejor que depender solamente de Instagram
           </h2>
           <p style={{ fontSize: 15, color: FP.grayTx, lineHeight: 1.8, maxWidth: 640, margin: '0 auto 36px' }}>
@@ -418,7 +419,7 @@ export default function SitioWebLanding() {
       {/* CÓMO FUNCIONA */}
       <Section style={{ background: FP.panel }}>
         <div style={{ maxWidth: 940, margin: '0 auto' }}>
-          <h2 style={{ textAlign: 'center', fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 16 }}>
+          <h2 style={{ textAlign: 'center', fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.7rem,3vw,2.4rem)', fontWeight: 800, color: FP.blueD, marginBottom: 16 }}>
             Tener tu página web es muy fácil
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 28, marginBottom: 44 }}>
@@ -440,14 +441,14 @@ export default function SitioWebLanding() {
       </Section>
 
       {/* UPSELL TIENDA ONLINE */}
-      <Section style={{ background: `linear-gradient(135deg, ${FP.blueD} 0%, ${FP.blue} 100%)` }}>
+      <Section style={{ background: FP.blue }}>
         <div style={{ maxWidth: 880, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center' }} className="swl-two-cards">
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,.15)', padding: '6px 14px', borderRadius: 30, marginBottom: 18 }}>
               <ShoppingCart size={13} color="#FFFFFF" />
               <span style={{ fontSize: 11, fontWeight: 700, color: '#FFFFFF', letterSpacing: 1 }}>OPCIONAL</span>
             </div>
-            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.6rem,3vw,2.3rem)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 14 }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.6rem,3vw,2.3rem)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 14 }}>
               ¿También quieres vender por internet?
             </h2>
             <p style={{ fontSize: 15, color: 'rgba(255,255,255,.85)', lineHeight: 1.7, marginBottom: 22 }}>
@@ -463,7 +464,7 @@ export default function SitioWebLanding() {
               <Store size={20} color="#FFFFFF" />
               <span style={{ fontWeight: 800, fontSize: 15, color: '#FFFFFF' }}>Tienda Online</span>
             </div>
-            <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 30, fontWeight: 800, color: '#FFFFFF', marginBottom: 16 }}>+$25.990 <span style={{ fontSize: 14, color: 'rgba(255,255,255,.65)', fontWeight: 500 }}>+ IVA</span></div>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: 30, fontWeight: 800, color: '#FFFFFF', marginBottom: 16 }}>+$25.990 <span style={{ fontSize: 14, color: 'rgba(255,255,255,.65)', fontWeight: 500 }}>+ IVA</span></div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
               {['Carro de compras', 'Carga inicial de hasta 25 productos', 'Catálogo online', 'Mercado Pago integrado', 'Proceso de compra', 'Adaptado a celulares'].map(t => (
                 <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'rgba(255,255,255,.88)' }}>
@@ -486,7 +487,7 @@ export default function SitioWebLanding() {
       {/* FAQ */}
       <Section style={{ background: FP.cream }}>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <h2 style={{ textAlign: 'center', fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.6rem,3vw,2.2rem)', fontWeight: 800, color: FP.blueD, marginBottom: 14 }}>
+          <h2 style={{ textAlign: 'center', fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.6rem,3vw,2.2rem)', fontWeight: 800, color: FP.blueD, marginBottom: 14 }}>
             Preguntas frecuentes
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -507,15 +508,15 @@ export default function SitioWebLanding() {
       </Section>
 
       {/* CTA FINAL */}
-      <Section style={{ background: `linear-gradient(150deg, ${FP.blueD} 0%, ${FP.blue} 100%)`, textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <Section style={{ background: FP.blue, textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ maxWidth: 560, margin: '0 auto' }}>
-          <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 14 }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 14 }}>
             Tu negocio puede tener su propia página web
           </h2>
           <p style={{ fontSize: 15, color: 'rgba(255,255,255,.8)', marginBottom: 26 }}>
             Comienza hoy completando nuestro formulario y obtén el precio especial de contratación online.
           </p>
-          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 6 }}>$69.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
+          <div style={{ fontFamily: 'var(--font-heading)', fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 6 }}>$69.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
           <p style={{ fontSize: 12, color: 'rgba(255,255,255,.6)', marginBottom: 30 }}>Dominio + Hosting por 1 año incluidos</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 18 }}>
             <Link to="/sitio-web/formulario" onClick={() => trackLead('CTA Final Online')}

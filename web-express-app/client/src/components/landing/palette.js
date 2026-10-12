@@ -1,3 +1,5 @@
+import { CARBON, CARBON_PANEL, CARBON_PANEL_2, BLANCO_CALIDO, BLANCO_CALIDO_PANEL, BLANCO_CALIDO_PANEL_2, AZUL_CONEXION, AZUL_NIEBLA } from '../../theme/brand'
+
 // Paleta de la landing /sitio-web (azul = acción, rojo = acento puntual).
 // red/redD/blue son literales: acentos que se usan igual en ambos temas.
 // blueD/text/grayTx/grayLt/cream/panel/ink SÍ cambian con el tema — son texto
@@ -5,11 +7,11 @@
 export const DARK_FP = {
   red:    '#C8302A',
   redD:   '#9E241F',
-  blue:   '#2451C4',
-  blueD:  '#7d93ff',
-  cream:  '#000000',
-  panel:  '#0c0c14',
-  ink:    '#191A22',
+  blue:   AZUL_CONEXION,
+  blueD:  AZUL_NIEBLA,
+  cream:  CARBON,
+  panel:  CARBON_PANEL,
+  ink:    CARBON_PANEL_2,
   text:   '#f5f5fa',
   grayTx: '#9a9ab0',
   grayLt: '#6e6e85',
@@ -20,11 +22,11 @@ export const DARK_FP = {
 export const LIGHT_FP = {
   red:    '#C8302A',
   redD:   '#9E241F',
-  blue:   '#2451C4',
-  blueD:  '#1a3a8f',
-  cream:  '#ffffff',
-  panel:  '#f7f8fb',
-  ink:    '#eef0f6',
+  blue:   AZUL_CONEXION,
+  blueD:  AZUL_CONEXION,
+  cream:  BLANCO_CALIDO,
+  panel:  BLANCO_CALIDO_PANEL,
+  ink:    BLANCO_CALIDO_PANEL_2,
   text:   '#14141f',
   grayTx: '#5c5c72',
   grayLt: '#6b6b80',
