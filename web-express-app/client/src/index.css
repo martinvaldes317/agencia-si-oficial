@@ -44,6 +44,11 @@
     }
 }
 
+:root {
+    --font-heading: 'Rubik', sans-serif;
+    --font-mono: 'Source Code Pro', monospace;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
