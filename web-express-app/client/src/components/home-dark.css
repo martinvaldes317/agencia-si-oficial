@@ -199,19 +199,15 @@
 .hd-point h3 { font-size: 15.5px; font-weight: 600; margin: 0 0 6px; }
 .hd-point p { color: var(--mut); font-size: 14px; line-height: 1.7; margin: 0; }
 .hd-glow { position: relative; border-radius: 26px; padding: 1px; background: #3459ED; }
-/* .hd-glow-in es siempre oscura (mockup de "código propio"), independiente
-   del tema — igual que .hd-win y .hd-chip. Todo el texto de adentro usa
-   colores literales, nunca var(--text)/var(--mut)/var(--line), que en modo
-   día se vuelven oscuros e invisibles sobre este fondo que nunca cambia. */
-.hd-glow-in { border-radius: 25px; background: radial-gradient(120% 90% at 0% 0%, #1C2129 0%, #171B20 60%); padding: 40px; color: #f5f5fa; }
-.hd-glow h3 { font-family: var(--font-heading); font-weight: 600; font-size: clamp(1.7rem, 3vw, 2.4rem); line-height: 1.12; margin: 0 0 16px; color: #f5f5fa; }
-.hd-glow p { color: #9a9ab0; font-size: 14.5px; line-height: 1.75; margin: 0 0 26px; }
+.hd-glow-in { border-radius: 25px; background: var(--panel-2); padding: 40px; color: var(--text); }
+.hd-glow h3 { font-family: var(--font-heading); font-weight: 600; font-size: clamp(1.7rem, 3vw, 2.4rem); line-height: 1.12; margin: 0 0 16px; color: var(--text); }
+.hd-glow p { color: var(--mut); font-size: 14.5px; line-height: 1.75; margin: 0 0 26px; }
 .hd-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
-.hd-mini div { border: 1px solid rgba(255,255,255,.09); border-radius: 14px; padding: 16px 10px; text-align: center; background: rgba(255,255,255,.025); }
-.hd-mini b { display: block; font-family: var(--font-heading); font-size: 1.35rem; font-weight: 600; color: #f5f5fa; }
-.hd-mini small { color: #9a9ab0; font-size: 11px; line-height: 1.3; display: block; margin-top: 4px; }
+.hd-mini div { border: 1px solid var(--line); border-radius: 14px; padding: 16px 10px; text-align: center; background: var(--tint); }
+.hd-mini b { display: block; font-family: var(--font-heading); font-size: 1.35rem; font-weight: 600; color: var(--text); }
+.hd-mini small { color: var(--mut); font-size: 11px; line-height: 1.3; display: block; margin-top: 4px; }
 .hd-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
-.hd-tags span { font-size: 12px; padding: 6px 13px; border-radius: 999px; border: 1px solid rgba(255,255,255,.16); color: #9a9ab0; }
+.hd-tags span { font-size: 12px; padding: 6px 13px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--mut); }
 
 /* ── Metodología ─────────────────────────────────────── */
 .hd-method { background: var(--panel); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -245,7 +241,7 @@
 .hd-card-foot span { color: var(--mut); }
 .hd-card-foot a { font-weight: 600; color: var(--text); }
 .hd-card-foot a:hover { color: var(--accent-tx); }
-.hd-feat { background: radial-gradient(120% 120% at 0% 0%, rgba(52, 89, 237, .32), rgba(52, 89, 237, .08) 45%, rgba(255,255,255,.01)); border-color: rgba(52, 89, 237, .35); }
+.hd-feat { background: var(--tint-strong); border-color: #3459ED; }
 .hd-feat h3 { font-family: var(--font-heading); font-size: clamp(1.6rem, 2.6vw, 2.1rem); font-weight: 600; line-height: 1.12; }
 .hd-feat p { font-size: 15px; max-width: 34rem; }
 .hd-feat .hd-btn { align-self: flex-start; }
@@ -308,10 +304,9 @@
 .hd-wa-btn:hover { transform: scale(1.1); box-shadow: 0 8px 34px rgba(37, 211, 102, .6); }
 .hd-wa-btn::before, .hd-wa-btn::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: #25d366; opacity: .25; animation: waPulse 2.5s ease-out infinite; z-index: -1; }
 .hd-wa-btn::after { animation-delay: .6s; opacity: .15; }
-/* Chip siempre oscuro (como un tooltip nativo) independiente del tema de la página */
-.hd-wa-tip { background: rgba(23,27,32,.95); border: 1px solid rgba(255,255,255,.16); border-radius: 14px; padding: 10px 16px; white-space: nowrap; box-shadow: 0 16px 40px rgba(0,0,0,.6); transition: opacity .45s cubic-bezier(.16,1,.3,1), transform .45s cubic-bezier(.16,1,.3,1); color: #f5f5fa; }
+.hd-wa-tip { background: var(--panel-2); border: 1px solid var(--line-strong); border-radius: 14px; padding: 10px 16px; white-space: nowrap; box-shadow: 0 16px 40px rgba(0,0,0,.25); transition: opacity .45s cubic-bezier(.16,1,.3,1), transform .45s cubic-bezier(.16,1,.3,1); color: var(--text); }
 .hd-wa-tip b { display: block; font-size: 13px; }
-.hd-wa-tip small { color: #9a9ab0; font-size: 12px; }
+.hd-wa-tip small { color: var(--mut); font-size: 12px; }
 
 /* ── Accesibilidad de movimiento ─────────────────────── */
 @media (prefers-reduced-motion: reduce) {
