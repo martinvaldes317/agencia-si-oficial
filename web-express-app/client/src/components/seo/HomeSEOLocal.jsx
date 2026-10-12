@@ -9,22 +9,23 @@ import {
 import { useTheme } from '../../theme/ThemeContext'
 import ThemeToggle from '../../theme/ThemeToggle'
 import ThemeLogo from '../../theme/ThemeLogo'
+import { CARBON, CARBON_PANEL, BLANCO_CALIDO, BLANCO_CALIDO_PANEL, AZUL_CONEXION } from '../../theme/brand'
 
 const DARK_T = {
-  blue:  '#3d5afe',
+  blue:  AZUL_CONEXION,
   black: '#f5f5fa',
   gray:  '#9a9ab0',
-  light: '#07070c',
-  panel: '#0c0c14',
+  light: CARBON,
+  panel: CARBON_PANEL,
   white: '#FFFFFF',
   border:'rgba(255,255,255,0.09)',
 }
 const LIGHT_T = {
-  blue:  '#2451c4',
+  blue:  AZUL_CONEXION,
   black: '#14141f',
   gray:  '#5c5c72',
-  light: '#ffffff',
-  panel: '#f7f8fb',
+  light: BLANCO_CALIDO,
+  panel: BLANCO_CALIDO_PANEL,
   white: '#FFFFFF',
   border:'rgba(15,23,42,0.10)',
 }
@@ -99,7 +100,7 @@ export default function HomeSEOLocal({ city }) {
   }
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.light, color: T.black, overflowX: 'hidden' }}>
+    <div style={{ fontFamily: 'var(--font-heading)', background: T.light, color: T.black, overflowX: 'hidden' }}>
       <Helmet>
         <title>Agencia Digital en {city.name} | AgenciaSI Chile</title>
         <meta name="description" content={`AgenciaSI — agencia digital en ${city.name}. Desarrollo web, e-commerce, sistemas a medida e integración con IA para pymes y empresas de ${city.name}. Cotiza gratis.`} />
@@ -139,7 +140,7 @@ export default function HomeSEOLocal({ city }) {
                 <span key={tag} style={{ background: T.blue + '18', color: T.blue, fontSize: 11, fontWeight: 600, letterSpacing: .4, padding: '5px 14px', borderRadius: 30 }}>{tag}</span>
               ))}
             </div>
-            <h1 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: 'clamp(2.4rem, 5vw, 4.2rem)', lineHeight: 1.05, color: T.black, marginBottom: 20, letterSpacing: -.5 }}>
+            <h1 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 'clamp(2.4rem, 5vw, 4.2rem)', lineHeight: 1.05, color: T.black, marginBottom: 20, letterSpacing: -.5 }}>
               Agencia Digital en{' '}
               <em style={{ fontWeight: 400, color: T.blue }}>{city.name}.</em>
             </h1>
@@ -184,7 +185,7 @@ export default function HomeSEOLocal({ city }) {
               ].map(s => (
                 <div key={s.label} style={{ background: T.panel, padding: '24px' }}>
                   <div style={{ fontSize: 11, fontWeight: 600, color: T.gray, textTransform: 'uppercase', letterSpacing: .8, marginBottom: 8 }}>{s.label}</div>
-                  <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 32, fontWeight: 700, color: s.hi ? T.blue : T.black, lineHeight: 1, marginBottom: 4 }}>{s.value}</div>
+                  <div style={{ fontFamily: 'var(--font-heading)', fontSize: 32, fontWeight: 700, color: s.hi ? T.blue : T.black, lineHeight: 1, marginBottom: 4 }}>{s.value}</div>
                   <div style={{ fontSize: 11, color: T.gray }}>{s.sub}</div>
                 </div>
               ))}
@@ -207,7 +208,7 @@ export default function HomeSEOLocal({ city }) {
             { value: '100%',   label: 'Código propio' },
           ].map(s => (
             <div key={s.label}>
-              <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 32, fontWeight: 700, color: T.blue, lineHeight: 1, marginBottom: 4 }}>{s.value}</div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontSize: 32, fontWeight: 700, color: T.blue, lineHeight: 1, marginBottom: 4 }}>{s.value}</div>
               <div style={{ fontSize: 11, fontWeight: 500, color: T.gray }}>{s.label}</div>
             </div>
           ))}
@@ -215,7 +216,7 @@ export default function HomeSEOLocal({ city }) {
       </div>
 
       {/* #DigitalizandoChile + Proveedor Estado */}
-      <section style={{ background: 'linear-gradient(135deg, #1212CC 0%, #2D2BB5 50%, #1A4FC4 100%)', padding: '60px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: AZUL_CONEXION, padding: '60px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -80, left: '10%', width: 300, height: 300, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', pointerEvents: 'none' }} />
         <div style={{ position: 'relative', maxWidth: 760, margin: '0 auto' }}>
           <div style={{ fontSize: 'clamp(36px, 6vw, 68px)', fontWeight: 900, color: T.white, letterSpacing: -2, lineHeight: 1, marginBottom: 12 }}>
@@ -233,7 +234,7 @@ export default function HomeSEOLocal({ city }) {
           </div>
           <br />
           <a href={WA_FAST} target="_blank" rel="noopener noreferrer" onClick={() => { px('Contact'); ga('contact', { method: 'whatsapp' }) }}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#A8FFEA', color: '#1212CC', fontWeight: 800, fontSize: 15, padding: '14px 32px', borderRadius: 40, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#FFFFFF', color: AZUL_CONEXION, fontWeight: 800, fontSize: 15, padding: '14px 32px', borderRadius: 40, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }}>
             <WaIcon size={17} /> Digitaliza tu negocio en {city.name}
           </a>
         </div>
@@ -247,7 +248,7 @@ export default function HomeSEOLocal({ city }) {
               <span style={{ width: 20, height: 2, background: T.blue, display: 'inline-block', borderRadius: 2 }} />
               Por qué AgenciaSI en {city.name}
             </p>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 700, color: T.black, lineHeight: 1.1, marginBottom: 20 }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 700, color: T.black, lineHeight: 1.1, marginBottom: 20 }}>
               Tu negocio merece más que un template.
             </h2>
             <p style={{ fontSize: 15, lineHeight: 1.75, color: T.gray, marginBottom: 32 }}>
@@ -269,7 +270,7 @@ export default function HomeSEOLocal({ city }) {
           </div>
           <div style={{ background: T.blue, borderRadius: 24, padding: '40px 36px' }}>
             <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: 3, textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', marginBottom: 16 }}>Metodología SI</p>
-            <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 700, color: T.white, lineHeight: 1.15, marginBottom: 28 }}>
+            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 700, color: T.white, lineHeight: 1.15, marginBottom: 28 }}>
               Código propio. <em style={{ fontWeight: 400 }}>Resultados reales.</em>
             </h3>
             {[
@@ -279,7 +280,7 @@ export default function HomeSEOLocal({ city }) {
               { n: '04', t: 'Lanzamiento + soporte',   d: 'Deploy, pruebas y soporte post-lanzamiento incluido.' },
             ].map(step => (
               <div key={step.n} style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
-                <span style={{ fontFamily: 'Playfair Display, serif', fontSize: 28, fontWeight: 700, color: 'rgba(255,255,255,0.2)', lineHeight: 1, flexShrink: 0 }}>{step.n}</span>
+                <span style={{ fontFamily: 'var(--font-heading)', fontSize: 28, fontWeight: 700, color: 'rgba(255,255,255,0.2)', lineHeight: 1, flexShrink: 0 }}>{step.n}</span>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 13, color: T.white, marginBottom: 3 }}>{step.t}</div>
                   <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', lineHeight: 1.55 }}>{step.d}</div>
@@ -295,7 +296,7 @@ export default function HomeSEOLocal({ city }) {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.blue, marginBottom: 12 }}>Qué hacemos</p>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', fontWeight: 700, color: T.black, lineHeight: 1.1 }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', fontWeight: 700, color: T.black, lineHeight: 1.1 }}>
               Servicios digitales para {city.name}
             </h2>
           </div>
@@ -323,7 +324,7 @@ export default function HomeSEOLocal({ city }) {
       <section style={{ background: T.panel, padding: '72px 0', overflow: 'hidden' }}>
         <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', padding: '0 24px', marginBottom: 40 }}>
           <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: T.blue, marginBottom: 12 }}>Nuestros clientes</p>
-          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.6rem, 2.5vw, 2.4rem)', fontWeight: 700, color: T.black, marginBottom: 10 }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.6rem, 2.5vw, 2.4rem)', fontWeight: 700, color: T.black, marginBottom: 10 }}>
             Empresas que ya confían en nosotros.
           </h2>
           <p style={{ fontSize: 14, color: T.gray, maxWidth: 440, margin: '0 auto' }}>
@@ -352,11 +353,11 @@ export default function HomeSEOLocal({ city }) {
       </section>
 
       {/* CTA FINAL */}
-      <section style={{ background: '#07070c', padding: '88px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: CARBON, padding: '88px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 600, borderRadius: '50%', background: `${T.blue}12`, pointerEvents: 'none' }} />
         <div style={{ position: 'relative', maxWidth: 580, margin: '0 auto' }}>
           <div style={{ fontSize: 44, marginBottom: 16 }}>🚀</div>
-          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 700, color: T.white, lineHeight: 1.15, marginBottom: 16 }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 700, color: T.white, lineHeight: 1.15, marginBottom: 16 }}>
             ¿Listo para llevar tu negocio en {city.name} al siguiente nivel?
           </h2>
           <p style={{ fontSize: 16, color: '#B0B0D0', marginBottom: 36, lineHeight: 1.7 }}>

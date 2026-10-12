@@ -7,29 +7,30 @@ import {
 import { useTheme } from '../../theme/ThemeContext'
 import ThemeToggle from '../../theme/ThemeToggle'
 import ThemeLogo from '../../theme/ThemeLogo'
+import { CARBON, CARBON_PANEL, BLANCO_CALIDO, BLANCO_CALIDO_PANEL, AZUL_CONEXION, AZUL_NIEBLA } from '../../theme/brand'
 
 const DARK_T = {
-  blue:  '#3d5afe',
-  blueD: '#2a3cc4',
-  blueL: 'rgba(61,90,254,0.14)',
+  blue:  AZUL_CONEXION,
+  blueD: AZUL_CONEXION,
+  blueL: 'rgba(52,89,237,0.14)',
   black: '#f5f5fa',
   gray:  '#9a9ab0',
   muted: '#75758c',
-  light: '#07070c',
-  panel: '#0c0c14',
+  light: CARBON,
+  panel: CARBON_PANEL,
   white: '#FFFFFF',
   border:'rgba(255,255,255,0.09)',
   green: '#22c55e',
 }
 const LIGHT_T = {
-  blue:  '#2451c4',
-  blueD: '#1a3a8f',
-  blueL: 'rgba(36,81,196,0.08)',
+  blue:  AZUL_CONEXION,
+  blueD: AZUL_CONEXION,
+  blueL: 'rgba(52,89,237,0.08)',
   black: '#14141f',
   gray:  '#5c5c72',
   muted: '#6b6b80',
-  light: '#ffffff',
-  panel: '#f7f8fb',
+  light: BLANCO_CALIDO,
+  panel: BLANCO_CALIDO_PANEL,
   white: '#FFFFFF',
   border:'rgba(15,23,42,0.10)',
   green: '#16a34a',
@@ -147,7 +148,7 @@ export default function ServicioSEOLocal({ service }) {
   }
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.light, color: T.black, overflowX: 'hidden' }}>
+    <div style={{ fontFamily: 'var(--font-heading)', background: T.light, color: T.black, overflowX: 'hidden' }}>
       <Helmet>
         <title>{service.metaTitle}</title>
         <meta name="description" content={service.metaDescription} />
@@ -177,11 +178,11 @@ export default function ServicioSEOLocal({ service }) {
       </header>
 
       {/* HERO */}
-      <section style={{ background: 'linear-gradient(135deg, #1212CC 0%, #2D2BB5 45%, #1A4FC4 100%)', padding: '72px 20px 88px', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: AZUL_CONEXION, padding: '72px 20px 88px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -80, right: -80, width: 420, height: 420, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 30, padding: '6px 16px', marginBottom: 24 }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: '#A8FFEA', letterSpacing: .5 }}>{service.kicker} · Empresas en todo Chile</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: AZUL_NIEBLA, letterSpacing: .5 }}>{service.kicker} · Empresas en todo Chile</span>
           </div>
           <h1 style={{ fontSize: 'clamp(28px, 4.4vw, 50px)', fontWeight: 900, color: T.white, lineHeight: 1.15, marginBottom: 20, letterSpacing: -1.2, maxWidth: 720, marginLeft: 'auto', marginRight: 'auto' }}>
             {service.h1}
@@ -330,7 +331,7 @@ export default function ServicioSEOLocal({ service }) {
       )}
 
       {/* CTA FINAL */}
-      <section style={{ background: `linear-gradient(135deg, #0A0A14 0%, #0F0F30 100%)`, padding: '80px 20px', textAlign: 'center' }}>
+      <section style={{ background: CARBON, padding: '80px 20px', textAlign: 'center' }}>
         <div style={{ maxWidth: 560, margin: '0 auto' }}>
           <h2 style={{ fontSize: 'clamp(24px, 4vw, 38px)', fontWeight: 900, color: T.white, letterSpacing: -1, marginBottom: 14, lineHeight: 1.2 }}>
             ¿Conversamos sobre tu proyecto?
