@@ -12,21 +12,22 @@ import {
 import { useTheme } from '../theme/ThemeContext'
 import ThemeToggle from '../theme/ThemeToggle'
 import ThemeLogo from '../theme/ThemeLogo'
+import { CARBON, CARBON_PANEL, BLANCO_CALIDO, BLANCO_CALIDO_PANEL, AZUL_CONEXION, AZUL_NIEBLA } from '../theme/brand'
 
 /* ── BRAND ─────────────────────────────────────────────── */
 // T.white/T.green/T.gold se mantienen iguales en ambos temas: siempre están
 // sobre una superficie de color fijo (botones, franjas con gradiente azul
 // permanente) que no cambia con el tema — nunca sobre el fondo de la página.
 const DARK_T = {
-  blue:   '#3d5afe',
-  blueD:  '#2a3cc4',
-  blueL:  'rgba(61,90,254,0.14)',
+  blue:   AZUL_CONEXION,
+  blueD:  AZUL_CONEXION,
+  blueL:  'rgba(52,89,237,0.14)',
   black:  '#f5f5fa',
   dark:   '#d8d8e6',
   gray:   '#9a9ab0',
   muted:  '#75758c',
-  light:  '#07070c',
-  panel:  '#0c0c14',
+  light:  CARBON,
+  panel:  CARBON_PANEL,
   border: 'rgba(255,255,255,0.09)',
   white:  '#FFFFFF',
   green:  '#22c55e',
@@ -34,15 +35,15 @@ const DARK_T = {
   gold:   '#F59E0B',
 }
 const LIGHT_T = {
-  blue:   '#2451c4',
-  blueD:  '#1a3a8f',
-  blueL:  'rgba(36,81,196,0.08)',
+  blue:   AZUL_CONEXION,
+  blueD:  AZUL_CONEXION,
+  blueL:  'rgba(52,89,237,0.08)',
   black:  '#14141f',
   dark:   '#3a3a4a',
   gray:   '#5c5c72',
   muted:  '#6b6b80',
-  light:  '#ffffff',
-  panel:  '#f7f8fb',
+  light:  BLANCO_CALIDO,
+  panel:  BLANCO_CALIDO_PANEL,
   border: 'rgba(15,23,42,0.10)',
   white:  '#FFFFFF',
   green:  '#16a34a',
@@ -138,7 +139,7 @@ export default function LandingWebSistemas() {
   }, [])
 
   return (
-    <div style={{ fontFamily: "'Poppins', system-ui, sans-serif", background: T.light, color: T.dark, overflowX: 'hidden' }}>
+    <div style={{ fontFamily: 'var(--font-heading)', background: T.light, color: T.dark, overflowX: 'hidden' }}>
       <Helmet>
         <title>Sitios, Plataformas y E-commerce a Medida | AgenciaSI Chile</title>
         <meta name="description" content="Desarrollamos sitios institucionales, plataformas con usuarios y tiendas online a medida para empresas en Chile. Código propio, plazos acordados por escrito, soporte post-entrega." />
@@ -164,7 +165,7 @@ export default function LandingWebSistemas() {
       </header>
 
       {/* ── HERO ── */}
-      <section style={{ background: 'linear-gradient(135deg, #1a2680 0%, #3d5afe 55%, #6a4bf5 100%)', padding: '68px 20px 80px', overflow: 'hidden', position: 'relative' }}>
+      <section style={{ background: AZUL_CONEXION, padding: '68px 20px 80px', overflow: 'hidden', position: 'relative' }}>
         <div style={{ position: 'absolute', top: -80, right: -80, width: 420, height: 420, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: -60, left: -40, width: 260, height: 260, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
 
@@ -172,8 +173,8 @@ export default function LandingWebSistemas() {
           {/* Left */}
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 30, padding: '6px 14px', marginBottom: 20 }}>
-              <MapPin size={13} color="#A8FFEA" />
-              <span style={{ fontSize: 12, fontWeight: 700, color: '#A8FFEA', letterSpacing: .5 }}>Para Pymes y Profesionales · Chile</span>
+              <MapPin size={13} color={AZUL_NIEBLA} />
+              <span style={{ fontSize: 12, fontWeight: 700, color: AZUL_NIEBLA, letterSpacing: .5 }}>Para Pymes y Profesionales · Chile</span>
             </div>
             <h1 style={{ fontSize: 'clamp(32px, 4.5vw, 54px)', fontWeight: 900, color: T.white, lineHeight: 1.12, marginBottom: 16, letterSpacing: -1.2 }}>
               Sitios, plataformas y e-commerce a medida
@@ -266,7 +267,7 @@ export default function LandingWebSistemas() {
       </section>
 
       {/* ── DIGITALIZANDO CHILE ── */}
-      <section style={{ background: 'linear-gradient(135deg, #1a2680 0%, #3d5afe 55%, #6a4bf5 100%)', padding: '64px 20px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: AZUL_CONEXION, padding: '64px 20px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -80, left: '10%', width: 300, height: 300, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: -60, right: '8%', width: 220, height: 220, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
         <div style={{ position: 'relative', maxWidth: 800, margin: '0 auto' }}>
@@ -277,7 +278,7 @@ export default function LandingWebSistemas() {
             Llevamos negocios chilenos al mundo digital. Con tecnología real, diseño a medida y resultados concretos.
           </p>
           <a href={WA} target="_blank" rel="noopener noreferrer" onClick={trackWA}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#A8FFEA', color: '#2a3cc4', fontWeight: 800, fontSize: 15, padding: '14px 32px', borderRadius: 40, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }} className="wa-btn">
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#FFFFFF', color: AZUL_CONEXION, fontWeight: 800, fontSize: 15, padding: '14px 32px', borderRadius: 40, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,.25)' }} className="wa-btn">
             <WaIcon size={18} /> Digitaliza tu negocio ahora
           </a>
         </div>
@@ -575,7 +576,7 @@ export default function LandingWebSistemas() {
       </section>
 
       {/* ── CTA FINAL ── */}
-      <section style={{ background: 'linear-gradient(135deg, #07070c 0%, #14142a 100%)', padding: '88px 20px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: CARBON, padding: '88px 20px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 600, borderRadius: '50%', background: `${T.blue}10`, pointerEvents: 'none' }} />
         <div style={{ position: 'relative', maxWidth: 600, margin: '0 auto' }}>
           <div style={{ fontSize: 42, marginBottom: 16 }}>🚀</div>
