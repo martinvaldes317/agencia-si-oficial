@@ -50,7 +50,7 @@ export const LIGHT_T = {
 }
 
 export const WA_BASE = 'https://wa.me/56932930812?text='
-export const PRICE_SITE     = 69990
+export const PRICE_SITE     = 74990
 export const PRICE_STORE    = 25990
 export const SECTIONS_INCLUDED    = 5
 export const PRICE_EXTRA_SECTION  = 9990
@@ -130,7 +130,7 @@ const PASOS = [
 ]
 
 const FAQS = [
-  { q: '¿Cuál es el precio?', a: 'El sitio web profesional cuesta $69.990 + IVA ($83.288 con IVA incluido), con dominio .CL y hosting por 1 año incluidos. Es un único valor, sin modalidades ni cobros ocultos.' },
+  { q: '¿Cuál es el precio?', a: 'El sitio web profesional cuesta $74.990 + IVA ($89.238 con IVA incluido), con dominio .CL y hosting por 1 año incluidos. Es un único valor, sin modalidades ni cobros ocultos.' },
   { q: '¿Cuánto debo pagar para comenzar?', a: 'Solo el 50% del valor total como abono para iniciar tu proyecto. El 50% restante se paga al finalizar el sitio web.' },
   { q: '¿Cuánto demora mi sitio web?', a: 'El plazo depende de cada proyecto y de la rapidez con que nos entregues tu información. Antes de comenzar te confirmamos un plazo estimado por escrito, y nos comprometemos a cumplirlo.' },
   { q: '¿El dominio está incluido?', a: 'Sí. Incluye un dominio .CL durante el primer año.' },
@@ -211,8 +211,8 @@ export default function SitioWebLanding() {
 
   useEffect(() => { pxPageView() }, [])
 
-  const WA_ONLINE   = `${WA_BASE}${encodeURIComponent('Hola, quiero crear mi sitio web. Vi la oferta de $69.990 + IVA.')}`
-  const WA_ASISTIDA = `${WA_BASE}${encodeURIComponent('Hola, tengo dudas sobre el sitio web de $69.990 + IVA.')}`
+  const WA_ONLINE   = `${WA_BASE}${encodeURIComponent('Hola, quiero crear mi sitio web. Vi la oferta de $74.990 + IVA.')}`
+  const WA_ASISTIDA = `${WA_BASE}${encodeURIComponent('Hola, tengo dudas sobre el sitio web de $74.990 + IVA.')}`
   const WA_TIENDA   = `${WA_BASE}${encodeURIComponent('Hola, me interesa mi sitio web con tienda online (+$25.990 + IVA).')}`
 
   const trackLead = (name, wa = false) => {
@@ -249,11 +249,11 @@ export default function SitioWebLanding() {
   return (
     <div className="swl" data-theme={theme} style={{ fontFamily: 'var(--font-heading)', background: FP.cream, color: FP.text, overflowX: 'hidden' }}>
       <Helmet>
-        <title>Tu Sitio Web Profesional por $69.990 + IVA | AgenciaSI</title>
-        <meta name="description" content="Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online por $69.990 + IVA." />
+        <title>Tu Sitio Web Profesional por $74.990 + IVA | AgenciaSI</title>
+        <meta name="description" content="Página web profesional, diseñada para tu negocio: dominio .CL y hosting por 1 año, hasta 5 secciones, WhatsApp, Google Maps e indexación en Google. Contrata online por $74.990 + IVA." />
         <link rel="canonical" href="https://agenciasi.cl/sitio-web" />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Tu Sitio Web Profesional por $69.990 + IVA | AgenciaSI" />
+        <meta property="og:title" content="Tu Sitio Web Profesional por $74.990 + IVA | AgenciaSI" />
         <meta property="og:description" content="Dominio + hosting por 1 año, hasta 5 secciones, WhatsApp y Google Maps incluidos. Contrata tu página web online." />
         <meta property="og:url" content="https://agenciasi.cl/sitio-web" />
         <script type="application/ld+json">{JSON.stringify(serviceJsonLd)}</script>
@@ -284,7 +284,7 @@ export default function SitioWebLanding() {
             <ThemeToggle style={{ color: FP.grayTx }} />
             <a href={WA_ONLINE} target="_blank" rel="noopener noreferrer" onClick={() => trackLead('Nav CTA', true)}
               style={{ background: FP.blue, color: '#FFFFFF', fontWeight: 800, fontSize: 13, padding: '9px 18px', borderRadius: 30, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
-              $69.990 + IVA <ArrowRight size={13} />
+              $74.990 + IVA <ArrowRight size={13} />
             </a>
           </div>
         </div>
@@ -304,7 +304,7 @@ export default function SitioWebLanding() {
 
           <h1 className="swl-rise d2" style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 700, color: FP.blueD, lineHeight: 1.12, marginBottom: 18 }}>
             Tu Sitio Web Profesional por{' '}
-            <span style={{ color: FP.text }}>$69.990 + IVA</span>
+            <span style={{ color: FP.text }}>$74.990 + IVA</span>
           </h1>
 
           <p className="swl-rise d3" style={{ fontSize: 'clamp(15px,2vw,18px)', color: FP.grayTx, lineHeight: 1.7, maxWidth: 560, margin: '0 auto 28px' }}>
@@ -314,7 +314,7 @@ export default function SitioWebLanding() {
           <div className="swl-rise d4" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, marginBottom: 28 }}>
             <Link to="/sitio-web/formulario" onClick={() => trackLead('Hero CTA Online')} className="swl-cta-primary"
               style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: FP.blue, color: '#FFFFFF', fontWeight: 800, fontSize: 17, padding: '18px 38px', borderRadius: 14, textDecoration: 'none', boxShadow: `0 12px 30px ${FP.blue}45` }}>
-              Crear mi sitio por $69.990 + IVA <ArrowRight size={18} />
+              Crear mi sitio por $74.990 + IVA <ArrowRight size={18} />
             </Link>
             <span style={{ fontSize: 12, color: FP.grayTx }}>Solo pagas el 50% de abono para comenzar.</span>
           </div>
@@ -353,7 +353,7 @@ export default function SitioWebLanding() {
 
           <div className="swl-card swl-price-card" style={{ background: FP.blue, borderRadius: 24, padding: '36px 32px', position: 'relative', border: '2px solid rgba(255,255,255,.35)' }}>
             <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.65)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 10 }}>Sitio web profesional</div>
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 20 }}>$69.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 20 }}>$74.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
             <p style={{ fontSize: 13, color: 'rgba(255,255,255,.75)', margin: '-8px 0 20px', lineHeight: 1.7 }}>Precio final con IVA: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19))}</strong> · Abono hoy: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19 / 2))}</strong> · Saldo al entregar: <strong style={{ color: '#FFFFFF' }}>${fmt(Math.round(PRICE_SITE * 1.19 / 2))}</strong></p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
               {['Solo pagas el 50% de abono para comenzar', 'Proceso simple y guiado', 'Puedes adjuntar logo y fotografías', 'No necesitas conocimientos técnicos', 'Revisas toda la información antes de contratar'].map(t => (
@@ -434,7 +434,7 @@ export default function SitioWebLanding() {
           <div style={{ textAlign: 'center' }}>
             <Link to="/sitio-web/formulario" onClick={() => trackLead('Como Funciona CTA')}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: FP.blue, color: '#FFFFFF', fontWeight: 800, fontSize: 15, padding: '15px 30px', borderRadius: 12, textDecoration: 'none' }}>
-              Quiero comenzar por $69.990 + IVA <ArrowRight size={16} />
+              Quiero comenzar por $74.990 + IVA <ArrowRight size={16} />
             </Link>
           </div>
         </div>
@@ -516,7 +516,7 @@ export default function SitioWebLanding() {
           <p style={{ fontSize: 15, color: 'rgba(255,255,255,.8)', marginBottom: 26 }}>
             Comienza hoy completando nuestro formulario y obtén el precio especial de contratación online.
           </p>
-          <div style={{ fontFamily: 'var(--font-heading)', fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 6 }}>$69.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
+          <div style={{ fontFamily: 'var(--font-heading)', fontSize: 44, fontWeight: 800, color: '#FFFFFF', marginBottom: 6 }}>$74.990 <span style={{ fontSize: 18, color: 'rgba(255,255,255,.55)', fontWeight: 500 }}>+ IVA</span></div>
           <p style={{ fontSize: 12, color: 'rgba(255,255,255,.6)', marginBottom: 30 }}>Dominio + Hosting por 1 año incluidos</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 18 }}>
             <Link to="/sitio-web/formulario" onClick={() => trackLead('CTA Final Online')}
@@ -548,7 +548,7 @@ export default function SitioWebLanding() {
 
       {/* STICKY MOBILE BAR */}
       <div className="swl-sticky" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 90, background: '#17337A', borderTop: '1px solid rgba(255,255,255,.15)', padding: '10px 14px', alignItems: 'center', justifyContent: 'space-between', gap: 10, boxShadow: '0 -4px 20px rgba(0,0,0,.3)' }}>
-        <span style={{ fontSize: 14, fontWeight: 800, color: '#FFFFFF', flexShrink: 0 }}>$69.990 + IVA</span>
+        <span style={{ fontSize: 14, fontWeight: 800, color: '#FFFFFF', flexShrink: 0 }}>$74.990 + IVA</span>
         <Link to="/sitio-web/formulario" onClick={() => trackLead('Sticky Bar CTA')}
           style={{ flex: 1, textAlign: 'center', background: '#FFFFFF', color: FP.blue, fontWeight: 800, fontSize: 13, padding: '10px', borderRadius: 10, textDecoration: 'none' }}>
           Crear mi web

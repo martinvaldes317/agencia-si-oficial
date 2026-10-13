@@ -59,7 +59,7 @@ const services = [
     },
     {
         icon: Globe,
-        label: 'Web Express desde $69.990 + IVA',
+        label: 'Web Express desde $74.990 + IVA',
         sub: 'Tu página web profesional, dominio y hosting incluidos',
         to: '/sitio-web',
         variant: 'white',
@@ -192,7 +192,7 @@ export default function Links() {
                     textAlign: 'center',
                 }}>
                     <p style={{ color: T.yellow, fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', margin: '0 0 6px' }}>Web Express</p>
-                    <p style={{ color: T.white, fontWeight: 700, fontSize: '16px', margin: '0 0 4px' }}>Tu sitio web profesional desde $69.990 + IVA</p>
+                    <p style={{ color: T.white, fontWeight: 700, fontSize: '16px', margin: '0 0 4px' }}>Tu sitio web profesional desde $74.990 + IVA</p>
                     <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '12px', margin: '0 0 16px' }}>Dominio .CL y hosting por 1 año incluidos</p>
                     <Link to="/sitio-web" style={{
                         display: 'inline-flex', alignItems: 'center', gap: '8px',
